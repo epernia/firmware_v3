@@ -1,4 +1,4 @@
-# Plantillas de proyectos con EDU-CIAA-NXP para la la CESE, UBA
+# Plantillas de proyectos con EDU-CIAA-NXP para la CESE, UBA
 
 Este repositorio contiene las sigueintes plantillas de proyecto:
    - blinky_c, un programa en lenguaje C que parpadea el LEDB.
