@@ -1,0 +1,58 @@
+GPIO
+====
+
+Digital Inputs
+--------------
+
+DI0   BORN_24
+DI1   BORN_25
+DI2   BORN_26
+DI3   BORN_27
+DI4   BORN_28
+DI5   BORN_29
+DI6   BORN_30
+DI7   BORN_31
+
+Digital Outputs
+---------------
+
+DO0   BORN_04
+DO1   BORN_06
+DO2   BORN_08
+DO3   BORN_10
+DO4   BORN_14
+DO5   BORN_15
+DO6   BORN_16
+DO7   BORN_17
+
+
+UART
+====
+
+UART_USB   USB_DEBUG
+UART_232   CON_DB9_RS232
+UART_485   RS485_A         BORN_21  (sin implementar)
+           RS485_B         BORN_22
+           RS485_GND       BORN_23
+
+
+ADC
+===
+
+Analog Inputs
+-------------
+
+AI0   BORN_33
+AI1   BORN_34
+AI2   BORN_35
+AI3   BORN_36
+
+
+DAC
+===
+
+Analog Output
+-------------
+
+AO   BORN_01
+
