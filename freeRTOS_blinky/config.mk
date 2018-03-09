@@ -1,6 +1,0 @@
-APP=freeRTOS_blinky
-VERBOSE=n
-OPT=g
-USE_NANO=y
-SEMIHOST=n
-USE_FPU=y

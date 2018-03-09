@@ -1,2 +1,0 @@
-sAPI version: 0.5.0
-Release on 23 Jul 2017

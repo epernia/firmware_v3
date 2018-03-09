@@ -2,13 +2,10 @@
 
 CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 
-Este repositorio contiene las sigueintes plantillas de proyecto:
-   - blinky_c, un programa en lenguaje C que parpadea el LEDB.
-   - blinky_asm, un programa en lenguaje Assembler del ARM Cortex M4 LPC4337 que parpadea el LED2.
-   - freeRTOS_blinky, un programa en lenguaje C, con FreeRTOS, que parpadea el LEDB.
+Para usar algún ejemplo pisar el contenido de la carpeta del ejemplo elegido examples en la raiz.
 
 Los proyectos incluyen las bibliotecas:
-   - LPCOpen v2.16.
+   - LPCOpen v3.01
    - sAPI r0.5.0.
-   - freeRTOS v8.0.1 (freeRTOS_blinky). No compila, falta revisar (incompatibilidad con sAPI).
+   - FreeRTOS Kernel V10.0.1
    
