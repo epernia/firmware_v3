@@ -1,6 +1,3 @@
-# Application name
-APP=program
-
 # Compile options
 VERBOSE=n
 OPT=g

@@ -1,26 +1,33 @@
-include config.mk
+include project.mk
+ifeq ($(PROJECT_PATH),)
+PROJECT_PATH_AND_NAME=$(PROJECT_NAME)
+else
+PROJECT_PATH_AND_NAME=$(PROJECT_PATH)/$(PROJECT_NAME)
+endif
+
+include $(PROJECT_PATH_AND_NAME)/config.mk
 
 MODULES=$(sort $(dir $(wildcard libs/*/)))
-SRC=$(wildcard app/src/*.c)
+SRC=$(wildcard $(PROJECT_PATH_AND_NAME)/src/*.c)
 SRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.c))
 
-ASRC=$(wildcard app/src/*.s)
+ASRC=$(wildcard $(PROJECT_PATH_AND_NAME)/src/*.s)
 ASCR+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.s))
 
-OUT=out
+OUT=$(PROJECT_PATH_AND_NAME)/out
 OBJECTS=$(ASRC:%.s=$(OUT)/%.o) $(SRC:%.c=$(OUT)/%.o)
 DEPS=$(OBJECTS:%.o=%.d)
 
 OOCD_SCRIPT=scripts/openocd.cfg
 
-TARGET=$(OUT)/$(APP).elf
+TARGET=$(OUT)/$(PROJECT_NAME).elf
 TARGET_BIN=$(basename $(TARGET)).bin
 TARGET_LST=$(basename $(TARGET)).lst
 TARGET_MAP=$(basename $(TARGET)).map
 TARGET_NM=$(basename $(TARGET)).names.csv
 
 CFLAGS=$(ARCH_FLAGS)
-CFLAGS+=$(foreach m, $(MODULES), -I$(m)/inc) -Iapp/inc $(INCLUDES)
+CFLAGS+=$(foreach m, $(MODULES), -I$(m)/inc) -I$(PROJECT_PATH_AND_NAME)/inc $(INCLUDES)
 CFLAGS+=$(foreach m, $(DEFINES), -D$(m))
 CFLAGS+=-ggdb3 -O$(OPT)
 CLFAGS+=-ffunction-sections -fdata-sections

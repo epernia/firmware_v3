@@ -12,6 +12,7 @@
 
 /*==================[definiciones de datos internos]=========================*/
 
+DEBUG_PRINT_ENABLE
 CONSOLE_PRINT_ENABLE
 
 /*==================[definiciones de datos externos]=========================*/
@@ -30,9 +31,13 @@ int main( void ){
    // Inicializar y configurar la plataforma
    boardConfig();
 
-   // Inicializar UART_USB como salida de consola
-   consolePrintConfigUart( UART_USB, 115200 );
-   consolePrintlnString( "UART_USB configurada." );
+   // Inicializar UART_USB como salida Serial de debug
+   debugPrintConfigUart( UART_USB, 115200 );
+   debugPrintlnString( "DEBUG: UART_USB configurada." );
+   
+   // Inicializar UART_232 como salida Serial de consola
+   consolePrintConfigUart( UART_232, 115200 );
+   consolePrintlnString( "UART_232 configurada." );
 
    // Crear varias variables del tipo booleano
    bool_t tec1Value = OFF;
@@ -100,16 +105,20 @@ int main( void ){
       // Chequear si el valor leido es encedido
       if( ledbValue == ON ){
          // Si esta encendido mostrar por UART_USB "LEDB encendido."
+         debugPrintlnString( "DEBUG: LEDB encendido." );
          consolePrintlnString( "LEDB encendido." );
+         consolePrintEnter();
       } else{
          // Si esta apagado mostrar por UART_USB "LEDB apagado."
+         debugPrintlnString( "DEBUG: LEDB apagado." );
          consolePrintlnString( "LEDB apagado." );
+         consolePrintEnter();
       }
 
 
       /* Retardo bloqueante durante 250ms */
 
-      delay( 250 );
+      delay( 100 );
    }
 
    // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa se ejecuta
