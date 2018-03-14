@@ -6,7 +6,7 @@
 PROJECT_NAME=myProject
 
 # Project path 
-# (relative to this folder, leave void if the project is in root folder)
+# (relative to this folder, leave void if the project is in this folder)
 PROJECT_PATH=
 
 #------------------------------------------------------------------------------
