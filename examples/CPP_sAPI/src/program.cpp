@@ -6,7 +6,7 @@
 
 /*==================[inlcusiones]============================================*/
 
-#include <programa.h>
+#include <program.h>
 
 /*==================[definiciones y macros]==================================*/
 
@@ -19,8 +19,15 @@ CONSOLE_PRINT_ENABLE
 
 /*==================[definiciones de datos externos]=========================*/
 
-DigitalIn buttons[] = { { TEC2 }, { TEC3 }, { TEC4 }, { TEC1 } };
-DigitalOut leds[] =   { { LED1 }, { LED2 }, { LED3 }, { LEDR } };
+struct {
+   GpioIn button;
+   GpioOut led;
+} io[] = {
+   { { TEC2 }, { LED1 } },
+   { { TEC3 }, { LED2 } },
+   { { TEC4 }, { LED3 } },
+   { { TEC1 }, { LEDR } },
+};
 
 /*==================[declaraciones de funciones internas]====================*/
 
@@ -31,23 +38,17 @@ DigitalOut leds[] =   { { LED1 }, { LED2 }, { LED3 }, { LEDR } };
 // FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
 int main( void )
 {
-   DigitalOut blinkLed(LEDB);
-
-   // Inicializar UART_USB como salida de consola
-   debugPrintlnString( "UART_USB configurada." );
-   consolePrintlnString( "UART_232 configurada." );
+   GpioOut blinkLed(LEDB);
 
    // ---------- REPETIR POR SIEMPRE --------------------------
    while( true ) {
       // Pasar el estado de los botones a los leds
       // (invertidos porque al cerrar conectan a masa)
-      for (int i=0; i<arraySize(buttons); i++)
-         leds[i] = !buttons[i];
-
+      for( auto& e: io )
+         e.led = not e.button;
+      
       /* Intercambiar el valor del pin conectado a LED blinking */
-      blinkLed = !blinkLed;
-
-      if( blinkLed == ON ) {
+      if( blinkLed.toggle().isOn() ) {
          // Si esta encendido mostrar por UART_USB "LEDB encendido."
          debugPrintlnString( "Blinking led encendido." );
          consolePrintlnString( "Blinking led encendido." );

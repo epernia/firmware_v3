@@ -6,16 +6,16 @@
 namespace sapi
 {
 
-class DigitalOut
+class GpioOut
 {
 private:
    gpioMap_t _pin;
 public:
-   DigitalOut(gpioMap_t pin): _pin(pin)
+   GpioOut(gpioMap_t pin): _pin(pin)
    {
       gpioConfig(_pin, GPIO_OUTPUT);
    }
-   DigitalOut& operator=(int v)
+   GpioOut& operator=(int v)
    {
       gpioWrite(_pin, v);
       return *this;
@@ -24,14 +24,31 @@ public:
    {
       return gpioRead(_pin);
    }
+   GpioOut& toggle()
+   {
+      *this = inverted();
+      return *this;
+   }
+   bool isOn() const
+   {
+      return int(*this);
+   }
+   bool isOff() const
+   {
+      return !isOn();
+   }
+   int inverted() const
+   {
+      return !int(*this);
+   }
 };
 
-class DigitalIn
+class GpioIn
 {
 private:
    gpioMap_t _pin;
 public:
-   DigitalIn(gpioMap_t pin) : _pin(pin)
+   GpioIn(gpioMap_t pin) : _pin(pin)
    {
       gpioConfig(_pin, GPIO_INPUT);
    }
@@ -39,12 +56,30 @@ public:
    {
       return gpioRead(_pin);
    }
+   bool isOn() const
+   {
+      return int(*this);
+   }
+   bool isOff() const
+   {
+      return !isOn();
+   }
+   int inverted() const
+   {
+      return !int(*this);
+   }
 };
 
 class Board_t
 {
 public:
    Board_t();
+
+   float frec() const
+   {
+      SystemCoreClockUpdate();
+      return SystemCoreClock / 1000.0f;
+   }
 };
 
 extern Board_t Board;
