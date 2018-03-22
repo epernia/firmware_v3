@@ -203,7 +203,7 @@ bool_t uartReadByte( uartMap_t uart, uint8_t* receivedByte ){
 }
 
 
-void uartWriteByte( uartMap_t uart, uint8_t byte ){
+void uartWriteByte( uartMap_t uart, const uint8_t byte ){
 
    switch(uart){
    case UART_USB:
@@ -220,7 +220,7 @@ void uartWriteByte( uartMap_t uart, uint8_t byte ){
 }
 
 
-void uartWriteString( uartMap_t uart, char* str ){
+void uartWriteString( uartMap_t uart, const char* str ){
    while(*str != 0){
 	  uartWriteByte( uart, (uint8_t)*str );
 	  str++;

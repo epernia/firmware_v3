@@ -83,7 +83,7 @@ void uartConfig( uartMap_t uart, uint32_t baudRate );
 bool_t uartReadByte( uartMap_t uart, uint8_t* receivedByte );
 void uartWriteByte( uartMap_t uart, uint8_t byte );
 
-void uartWriteString( uartMap_t uart, char* str );
+void uartWriteString( uartMap_t uart, const char* str );
 
 /*==================[ISR external functions declaration]======================*/
 

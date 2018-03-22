@@ -129,5 +129,11 @@ bool_t i2cWrite( i2cMap_t  i2cNumber,
 
 /*==================[ISR external functions declaration]=====================*/
 
+/*==================[cplusplus]==============================================*/
+
+#ifdef __cplusplus
+}
+#endif
+
 /*==================[end of file]============================================*/
 #endif /* #ifndef _SAPI_I2C_H_ */
