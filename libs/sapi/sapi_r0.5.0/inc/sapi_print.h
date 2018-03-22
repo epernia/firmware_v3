@@ -101,6 +101,12 @@ void printHex( uint64_t number, uint8_t bitSize );
 
 /*==================[typedef]================================================*/
 
+/*==================[cplusplus]==============================================*/
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef uartMap_t print_t;
 
 /*==================[external data declaration]==============================*/
@@ -112,7 +118,7 @@ void printSetUart( print_t* printer, uartMap_t uart );
 void printConfigUart( print_t* printer, uartMap_t uart, uint32_t baudRate );
 
 // Print String
-void printString( print_t printer, char* string );
+void printString( print_t printer, const char* string );
 void printEnter( print_t printer );
 
 // Print Integer
@@ -146,5 +152,10 @@ printIntFormat( printer, 45454578, HEX_FORMAT );
 printlnString( printer, "" );
 */
 
+/*==================[cplusplus]==============================================*/
+
+#ifdef __cplusplus
+}
+#endif
 /*==================[end of file]============================================*/
 #endif /* #ifndef _SAPI_PRINT_H_ */

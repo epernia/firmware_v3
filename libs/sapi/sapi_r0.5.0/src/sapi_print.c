@@ -68,7 +68,7 @@ void printConfigUart( print_t* printer, uartMap_t uart, uint32_t baudRate ){
 
 // Print String
 
-void printString( print_t printer, char* string ){
+void printString( print_t printer, const char* string ){
    uartWriteString( printer, string );
 }
 

@@ -11,11 +11,14 @@ MODULES=$(sort $(dir $(wildcard libs/*/)))
 SRC=$(wildcard $(PROJECT_PATH_AND_NAME)/src/*.c)
 SRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.c))
 
+CXXSRC=$(wildcard $(PROJECT_PATH_AND_NAME)/src/*.cpp)
+CXXSRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.cpp))
+
 ASRC=$(wildcard $(PROJECT_PATH_AND_NAME)/src/*.s)
-ASCR+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.s))
+ASRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.s))
 
 OUT=$(PROJECT_PATH_AND_NAME)/out
-OBJECTS=$(ASRC:%.s=$(OUT)/%.o) $(SRC:%.c=$(OUT)/%.o)
+OBJECTS=$(CXXSRC:%.cpp=$(OUT)/%.o) $(ASRC:%.s=$(OUT)/%.o) $(SRC:%.c=$(OUT)/%.o)
 DEPS=$(OBJECTS:%.o=%.d)
 
 OOCD_SCRIPT=scripts/openocd.cfg
@@ -26,11 +29,14 @@ TARGET_LST=$(basename $(TARGET)).lst
 TARGET_MAP=$(basename $(TARGET)).map
 TARGET_NM=$(basename $(TARGET)).names.csv
 
-CFLAGS=$(ARCH_FLAGS)
-CFLAGS+=$(foreach m, $(MODULES), -I$(m)/inc) -I$(PROJECT_PATH_AND_NAME)/inc $(INCLUDES)
-CFLAGS+=$(foreach m, $(DEFINES), -D$(m))
-CFLAGS+=-ggdb3 -O$(OPT)
-CLFAGS+=-ffunction-sections -fdata-sections
+INCLUDE_FLAGS=$(foreach m, $(MODULES), -I$(m)/inc) -I$(PROJECT_PATH_AND_NAME)/inc $(INCLUDES)
+DEFINES_FLAGS=$(foreach m, $(DEFINES), -D$(m))
+OPT_FLAGS=-ggdb3 -O$(OPT) -ffunction-sections -fdata-sections
+
+COMMON_FLAGS=$(ARCH_FLAGS) $(DEFINES_FLAGS) $(INCLUDE_FLAGS) $(OPT_FLAGS)
+
+CFLAGS=$(COMMON_FLAGS)
+CXXFLAGS=$(COMMON_FLAGS) -fno-rtti -fno-exceptions -std=c++11
 
 LDFLAGS=$(ARCH_FLAGS)
 LDFLAGS+=$(foreach m, $(MODULES), -L$(m)/lib)
@@ -47,7 +53,12 @@ endif
 
 CROSS=arm-none-eabi-
 CC=$(CROSS)gcc
+CXX=$(CROSS)g++
+ifeq ($(CXXSRC),)
 LD=$(CROSS)gcc
+else
+LD=$(CROSS)g++
+endif
 SIZE=$(CROSS)size
 LIST=$(CROSS)objdump -xdS
 OBJCOPY=$(CROSS)objcopy
@@ -71,6 +82,11 @@ $(OUT)/%.o: %.c
 	@echo CC $(notdir $<)
 	@mkdir -p $(dir $@)
 	$(Q)$(CC) -MMD $(CFLAGS) -c -o $@ $<
+
+$(OUT)/%.o: %.cpp
+	@echo CXX $(notdir $<)
+	@mkdir -p $(dir $@)
+	$(Q)$(CXX) -MMD $(CXXFLAGS) -c -o $@ $<
 
 $(OUT)/%.o: %.s
 	@echo AS $(notdir $<)
