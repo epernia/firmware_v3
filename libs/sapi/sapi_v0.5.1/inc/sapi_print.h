@@ -74,8 +74,8 @@ void printHex( uint64_t number, uint8_t bitSize );
 
 // Any printer
 
-#define printlnString(printer,string)   {printString((printer),(string));\
-                                        printEnter((printer))}
+#define printlnString(printer,string);  {printString((printer),(string));\
+                                        printEnter((printer));}
 
 
 #define printInt(printer,number)        printIntFormat((printer),(number),(DEC_FORMAT))
@@ -83,21 +83,21 @@ void printHex( uint64_t number, uint8_t bitSize );
 #define printUInt(printer,number)       printUIntFormat((printer),(number),(DEC_FORMAT))
 
 
-#define printlnInt(printer,number)      {printInt((printer),number);\
-                                        printEnter((printer))}
+#define printlnInt(printer,number);     {printInt((printer),number);\
+                                        printEnter((printer));}
 
-#define printlnUInt(printer,number)     {printUInt((printer),number);\
-                                        printEnter((printer))}
+#define printlnUInt(printer,number);    {printUInt((printer),number);\
+                                        printEnter((printer));}
 
 // Ver que pueden molestar dentro de un bucle!
-#define printlnIntFormat(printer,number,format)    {printIntFormat((printer),(number),(format));\
-                                                   printEnter((printer))}
+#define printlnIntFormat(printer,number,format);   {printIntFormat((printer),(number),(format));\
+                                                   printEnter((printer));}
 
-#define printlnUIntFormat(printer,number,format)   {printUIntFormat((printer),(number),(format));\
-                                                   printEnter((printer))}
+#define printlnUIntFormat(printer,number,format);  {printUIntFormat((printer),(number),(format));\
+                                                   printEnter((printer));}
 
-#define printlnHex(printer,number,bitSize)         {printHex((printer),(number),(bitSize));\
-                                                   printEnter((printer))}
+#define printlnHex(printer,number,bitSize);        {printHex((printer),(number),(bitSize));\
+                                                   printEnter((printer));}
 
 #define printInitUart printInitUart
 

@@ -76,7 +76,7 @@ void* callBackFuncParams = NULL;
 void tickerCallback(void);
 
 // Tick Initialization and rate configuration from 1 to 50 ms
-bool_t tickInit( tick_t tickRateMSvalue ){
+bool_t tickInit( tick_t tickRateMSvalue )
 {
 #ifndef TICK_OVER_RTOS
    bool_t ret_val = 1;

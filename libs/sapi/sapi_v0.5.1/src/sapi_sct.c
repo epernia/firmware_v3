@@ -67,7 +67,7 @@
  * LED 1 and LCD1, have the same channel, so you can only generate 1 signal
  * for both. Because of that only one of them will be used.
  */
-static pinConfigLpc4337_t SCTdataList[] =
+static pinInitLpc4337_t SCTdataList[] =
 {
 /* Sct n° | port | pin | name in board */
 /* CTOUT0 */ { 4 , 2 }, /* T_FIL2 */
