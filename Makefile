@@ -104,12 +104,15 @@ $(TARGET_LST): $(TARGET)
 	@echo LIST
 	$(Q)$(LIST) $< > $@
 
+# If you have sed
 #$(TARGET_NM): $(TARGET)
 #	@echo NAME
 #	$(Q)$(NM) -nAsSCp $< \
 #		| sed -r 's/(.+?\:[^ ]+) ([a-zA-Z\?] [a-zA-Z_].*)/\1 00000000 \2/' \
 #		| sed -r 's/(.+?)\:([a-fA-F0-9]+) ([a-fA-F0-9]+) ([a-zA-Z\?]) (.*)/\1\t0x\2\t0x\3\t\4\t\5/' \
 #		> $@
+
+# If you doesn't have sed
 $(TARGET_NM): $(TARGET)
 	@echo NAME
 	$(Q)$(NM) -nAsSCp $< > $@
