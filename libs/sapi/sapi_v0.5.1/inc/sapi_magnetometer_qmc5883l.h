@@ -142,8 +142,6 @@ bool_t QMC5883LPrepareDefaultInit( QMC5883L_config_t * config );
 bool_t QMC5883LInit( QMC5883L_config_t config );
 bool_t QMC5883LRead( int16_t * x, int16_t * y, int16_t * z );
 
-uint8_t register1_global;
-
 /*==================[cplusplus]==============================================*/
 
 #ifdef __cplusplus
