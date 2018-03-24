@@ -3,11 +3,11 @@
 #------------------------------------------------------------------------------
 
 # Project name
-PROJECT_NAME=myProject
+#PROJECT_NAME=myProject
 
 # Project path 
 # (relative to this folder, leave void if the project is in this folder)
-PROJECT_PATH=
+#PROJECT_PATH=
 
 #------------------------------------------------------------------------------
 # Examples
@@ -17,10 +17,10 @@ PROJECT_PATH=
 #PROJECT_NAME=C_without_libs
 #PROJECT_NAME=C_LPCOpen
 #PROJECT_NAME=C_sAPI
-#PROJECT_NAME=examples/CPP_sAPI
+PROJECT_NAME=CPP_sAPI
 #PROJECT_NAME=C_FreeRTOS_sAPI
 #PROJECT_NAME=ASM_LPCOpen
 #PROJECT_NAME=ASM_sAPI
 
 # Project path
-#PROJECT_PATH=examples
+PROJECT_PATH=examples
