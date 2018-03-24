@@ -32,9 +32,11 @@ int main( void )
    // Inicializar y configurar la plataforma
    boardConfig();
 
-   // Inicializar UART_USB como salida de consola
+   // Inicializar UART_USB como salida Serial de debug
    debugPrintConfigUart( UART_USB, 115200 );
-   debugPrintlnString( "UART_USB configurada." );
+   debugPrintlnString( "DEBUG: UART_USB configurada." );
+
+   // Inicializar UART_232 como salida Serial de consola
    consolePrintConfigUart( UART_232, 115200 );
    consolePrintlnString( "UART_232 configurada." );
 
@@ -103,14 +105,15 @@ int main( void )
       // Chequear si el valor leido es encedido
       if( ledbValue == ON ) {
          // Si esta encendido mostrar por UART_USB "LEDB encendido."
-         debugPrintlnString( "LEDB encendido." );
+         debugPrintlnString( "DEBUG: LEDB encendido." );
          consolePrintlnString( "LEDB encendido." );
+         consolePrintEnter();
       } else {
          // Si esta apagado mostrar por UART_USB "LEDB apagado."
-         debugPrintlnString( "LEDB apagado." );
+         debugPrintlnString( "DEBUG: LEDB apagado." );
          consolePrintlnString( "LEDB apagado." );
+         consolePrintEnter();
       }
-
 
       /* Retardo bloqueante durante 250ms */
 

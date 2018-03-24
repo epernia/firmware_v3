@@ -154,7 +154,7 @@ extern "C" {
 #define escribirPin                               gpioWrite
 #define intercambiarPin                           gpioToggle
 
-#define configurarI2c                             i2cConfig
+#define inicializarI2c                            i2cInit
 #define leerI2c                                   i2cRead
 #define escribirI2c                               i2cWrite
 
@@ -168,7 +168,7 @@ extern "C" {
 #define escribirPwm                               pwmWrite
 
 #define relojDeTiempoReal_t                       rtc_t
-#define configurarRelojDeTiempoReal               rtcConfig
+#define inicializarRelojDeTiempoReal              rtcInit
 #define leerRelojDeTiempoReal                     rtcRead
 #define escribirRelojDeTiempoReal                 rtcWrite
 
@@ -176,14 +176,14 @@ extern "C" {
 #define DESHABILITAR_SERVO                        SERVO_DISABLE
 #define HABILITAR_SALIDA_SERVO                    SERVO_ENABLE_OUTPUT
 #define DESHABILITAR_SALIDA_SERVO                 SERVO_DISABLE_OUTPUT
-#define configurarServo_t                         servoConfig_t
-#define configurarServo                           servoConfig
+#define inicializarServo_t                        servoInit_t
+#define inicializarServo                          servoInit
 #define leerServo                                 servoRead
 #define escribirServo                             servoWrite
 
 #define dormirHastaLaProximaInterrupcion          sleepUntilNextInterrupt
 
-#define configurarBaseDeTiempo                    tickConfig
+#define inicializarBaseDeTiempo                   tickInit
 #define leerContadorDeBaseDeTiempo                tickRead
 #define escribirContadorDeBaseDeTiempo            tickWrite
 
@@ -191,18 +191,18 @@ extern "C" {
 #define esperarARecibirCadenaOTiempoCumplido_t           waitForReceiveStringOrTimeout_t
 #define esperarARecibirCadenaOTiempoCumplido             waitForReceiveStringOrTimeout
 #define esperarARecibirCadenaOTiempoCumplidoBloqueando   waitForReceiveStringOrTimeoutBlocking
-#define configurarUart                                   uartConfig
+#define inicializarUart                                   uartInit
 #define recibirBytePorUart                               uartReadByte
 #define eviarBytePorUart                                 uartWriteByte
 #define eviarCadenaPorUart                               uartWriteString
 
 #define APAGAR_DISPLAY_7_SEGMENTOS                DISPLAY_7_SEGMENT_OFF
 #define testearPinesDeDisplay7Segmentos           display7SegmentTestPins
-#define configurarPinesDeDisplay7Segmentos        display7SegmentPinConfig
+#define inicializarPinesDeDisplay7Segmentos       display7SegmentPinInit
 #define escribirDisplay7Segmentos                 display7SegmentWrite
 
 #define tecladoMatricial_t                        keypad_t
-#define configurarTecladoMatricial                keypadConfig
+#define inicializarTecladoMatricial               keypadInit
 #define leerTecladoMatricial                      keypadRead
 
 
