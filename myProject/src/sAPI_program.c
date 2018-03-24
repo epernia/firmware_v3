@@ -24,7 +24,8 @@ CONSOLE_PRINT_ENABLE
 /*==================[funcion principal]======================================*/
 
 // FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
-int main( void ){
+int main( void )
+{
 
    // ---------- CONFIGURACIONES ------------------------------
 
@@ -34,7 +35,7 @@ int main( void ){
    // Inicializar UART_USB como salida Serial de debug
    debugPrintConfigUart( UART_USB, 115200 );
    debugPrintlnString( "DEBUG: UART_USB configurada." );
-   
+
    // Inicializar UART_232 como salida Serial de consola
    consolePrintConfigUart( UART_232, 115200 );
    consolePrintlnString( "UART_232 configurada." );
@@ -47,8 +48,7 @@ int main( void ){
    bool_t ledbValue = OFF;
 
    // ---------- REPETIR POR SIEMPRE --------------------------
-   while( TRUE )
-   {
+   while( TRUE ) {
       /* Si se presiona TEC1, enciende el LEDR */
 
       // Leer pin conectado a la tecla.
@@ -103,18 +103,17 @@ int main( void ){
       // Leer el estado del pin conectado al led
       ledbValue = gpioRead( LEDB );
       // Chequear si el valor leido es encedido
-      if( ledbValue == ON ){
+      if( ledbValue == ON ) {
          // Si esta encendido mostrar por UART_USB "LEDB encendido."
          debugPrintlnString( "DEBUG: LEDB encendido." );
          consolePrintlnString( "LEDB encendido." );
          consolePrintEnter();
-      } else{
+      } else {
          // Si esta apagado mostrar por UART_USB "LEDB apagado."
          debugPrintlnString( "DEBUG: LEDB apagado." );
          consolePrintlnString( "LEDB apagado." );
          consolePrintEnter();
       }
-
 
       /* Retardo bloqueante durante 250ms */
 

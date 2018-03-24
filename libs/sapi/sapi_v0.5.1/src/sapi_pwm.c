@@ -45,7 +45,7 @@
 /*==================[macros and definitions]=================================*/
 
 #ifndef EMPTY_POSITION
-   #define EMPTY_POSITION 255
+#define EMPTY_POSITION 255
 #endif
 
 #define PWM_TOTALNUMBER   11   /* From PWM0 to PWM10 */
@@ -102,7 +102,7 @@ static const uint8_t pwmMap[PWM_TOTALNUMBER] = {
 
 /*when the user adds a pwm with pwmAttach the list updates with the pin number of the element*/
 static uint8_t AttachedPWMList[PWM_TOTALNUMBER] = {
-/*Position | Pwm Number*/
+   /*Position | Pwm Number*/
    /*0*/  EMPTY_POSITION,
    /*1*/  EMPTY_POSITION,
    /*2*/  EMPTY_POSITION,
@@ -123,7 +123,8 @@ static uint8_t AttachedPWMList[PWM_TOTALNUMBER] = {
  * @param   none
  * @return   nothing
  */
-static void pwmInitTimers(void){
+static void pwmInitTimers(void)
+{
    Sct_Init(PWM_FREC);
 }
 
@@ -132,15 +133,16 @@ static void pwmInitTimers(void){
  * @param:   pwmNumber:   ID of the pwm, from 0 to 10
  * @return:   True if pwm was successfully attached, False if not.
  */
-static bool_t pwmAttach( pwmMap_t pwmNumber){
+static bool_t pwmAttach( pwmMap_t pwmNumber)
+{
 
    bool_t success = FALSE;
    uint8_t position = 0;
 
    position = pwmIsAttached(pwmNumber);
-   if(position==0){
+   if(position==0) {
       position = pwmIsAttached(EMPTY_POSITION); /* Searches for the first empty position */
-      if(position){ /* if position==0 => there is no room in the list for another pwm */
+      if(position) { /* if position==0 => there is no room in the list for another pwm */
          AttachedPWMList[position-1] = pwmNumber;
          Sct_EnablePwmFor(pwmMap[pwmNumber]);
          success = TRUE;
@@ -154,14 +156,15 @@ static bool_t pwmAttach( pwmMap_t pwmNumber){
  * @param:   pwmNumber:   ID of the pwm, from 0 to 10
  * @return:    True if pwm was successfully detached, False if not.
  */
-static bool_t pwmDetach( pwmMap_t pwmNumber ){
+static bool_t pwmDetach( pwmMap_t pwmNumber )
+{
 
    bool_t success = FALSE;
    uint8_t position = 0;
 
    position = pwmIsAttached(pwmNumber);
 
-   if(position){
+   if(position) {
       AttachedPWMList[position-1] = EMPTY_POSITION;
       success = TRUE;
    }
@@ -176,14 +179,15 @@ static bool_t pwmDetach( pwmMap_t pwmNumber ){
  * @param:   value:   8bit value, from 0 to 255
  * @return:   True if the value was successfully changed, False if not.
  */
-bool_t pwmWrite( pwmMap_t pwmNumber, uint8_t value ){
+bool_t pwmWrite( pwmMap_t pwmNumber, uint8_t value )
+{
 
    bool_t success = FALSE;
    uint8_t position = 0;
 
    position = pwmIsAttached(pwmNumber);
 
-   if(position){
+   if(position) {
       Sct_SetDutyCycle(pwmMap[pwmNumber], value);
       success = TRUE;
    }
@@ -197,14 +201,15 @@ bool_t pwmWrite( pwmMap_t pwmNumber, uint8_t value ){
  * @return:   value of the pwm in the pin (0 ~ 255).
  *   If an error ocurred, return = EMPTY_POSITION = 255
  */
-uint8_t pwmRead( pwmMap_t pwmNumber ){
+uint8_t pwmRead( pwmMap_t pwmNumber )
+{
 
    uint8_t position = 0, value = 0;
    position = pwmIsAttached(pwmNumber);
 
-   if(position){
+   if(position) {
       value = Sct_GetDutyCycle(pwmMap[pwmNumber]);
-   }else{
+   } else {
       value = EMPTY_POSITION;
    }
 
@@ -218,30 +223,31 @@ uint8_t pwmRead( pwmMap_t pwmNumber ){
  * @param  uint8_t config
  * @return bool_t true (1) if config it is ok
  */
-bool_t pwmInit( pwmMap_t pwmNumber, pwmInit_t config){
+bool_t pwmInit( pwmMap_t pwmNumber, pwmInit_t config)
+{
 
    bool_t ret_val = 1;
 
-   switch(config){
+   switch(config) {
 
-      case PWM_ENABLE:
-         pwmInitTimers();
+   case PWM_ENABLE:
+      pwmInitTimers();
       break;
 
-      case PWM_DISABLE:
-         ret_val = 0;
+   case PWM_DISABLE:
+      ret_val = 0;
       break;
 
-      case PWM_ENABLE_OUTPUT:
-         ret_val = pwmAttach( pwmNumber );
+   case PWM_ENABLE_OUTPUT:
+      ret_val = pwmAttach( pwmNumber );
       break;
 
-      case PWM_DISABLE_OUTPUT:
-         ret_val = pwmDetach( pwmNumber );
+   case PWM_DISABLE_OUTPUT:
+      ret_val = pwmDetach( pwmNumber );
       break;
 
-      default:
-         ret_val = 0;
+   default:
+      ret_val = 0;
       break;
    }
 
@@ -261,9 +267,9 @@ uint8_t pwmIsAttached( pwmMap_t pwmNumber )
       position++;
    }
 
-   if (position < PWM_TOTALNUMBER){
+   if (position < PWM_TOTALNUMBER) {
       positionInList = position + 1;
-   } else{
+   } else {
       positionInList = 0;
    }
 

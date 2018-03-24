@@ -55,9 +55,10 @@
 // Written by Luk�s Chmela
 // Released under GPLv3.
 // Modified by Eric Pernia.
-bool_t int64ToString( int64_t value, char* result, uint8_t base ){
+bool_t int64ToString( int64_t value, char* result, uint8_t base )
+{
    // check that the base if valid
-   if( base < 2 || base > 36 ){
+   if( base < 2 || base > 36 ) {
       *result = '\0';
       return FALSE;
    }
@@ -86,9 +87,10 @@ bool_t int64ToString( int64_t value, char* result, uint8_t base ){
 // Written by Luk�s Chmela
 // Released under GPLv3.
 // Modified by Eric Pernia.
-bool_t uint64ToString( uint64_t value, char* result, uint8_t base ){
+bool_t uint64ToString( uint64_t value, char* result, uint8_t base )
+{
    // check that the base if valid
-   if( base < 2 || base > 36 ){
+   if( base < 2 || base > 36 ) {
       *result = '\0';
       return FALSE;
    }
@@ -113,29 +115,25 @@ bool_t uint64ToString( uint64_t value, char* result, uint8_t base ){
    return TRUE;
 }
 
-char* uintToAsciiHex( uint64_t value, uint8_t bitSize ){
-
+char* uintToAsciiHex( uint64_t value, uint8_t bitSize )
+{
    static char result[17];
    uint8_t i = 0;
    uint8_t vectorNumHex[] = "0123456789ABCDEF";
-
    result[bitSize/4] = 0;
 
-   for( i=0; i<bitSize/4; i++ ){
+   for( i=0; i<bitSize/4; i++ ) {
       result[(bitSize/4)-i-1] = vectorNumHex[ (uint8_t)(( value & (((uint64_t)0x0F)<<(4*i)) ) >> (4*i)) ];
    }
 
    return result;
 }
 
-char* intToString( int64_t value ){
-
+char* intToString( int64_t value )
+{
    static char result[20];
-   
    result[0] = 0;
-
    int64ToString( value, result, 10 );
-
    return result;
 }
 

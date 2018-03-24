@@ -54,7 +54,7 @@ extern "C" {
 
 /*==================[typedef]================================================*/
 
-typedef enum{
+typedef enum {
    DAC_ENABLE, DAC_DISABLE
 } dacInit_t;
 

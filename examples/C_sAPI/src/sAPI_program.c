@@ -24,7 +24,8 @@ CONSOLE_PRINT_ENABLE
 /*==================[funcion principal]======================================*/
 
 // FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
-int main( void ){
+int main( void )
+{
 
    // ---------- CONFIGURACIONES ------------------------------
 
@@ -45,8 +46,7 @@ int main( void ){
    bool_t ledbValue = OFF;
 
    // ---------- REPETIR POR SIEMPRE --------------------------
-   while( TRUE )
-   {
+   while( TRUE ) {
       /* Si se presiona TEC1, enciende el LEDR */
 
       // Leer pin conectado a la tecla.
@@ -101,11 +101,11 @@ int main( void ){
       // Leer el estado del pin conectado al led
       ledbValue = gpioRead( LEDB );
       // Chequear si el valor leido es encedido
-      if( ledbValue == ON ){
+      if( ledbValue == ON ) {
          // Si esta encendido mostrar por UART_USB "LEDB encendido."
          debugPrintlnString( "LEDB encendido." );
          consolePrintlnString( "LEDB encendido." );
-      } else{
+      } else {
          // Si esta apagado mostrar por UART_USB "LEDB apagado."
          debugPrintlnString( "LEDB apagado." );
          consolePrintlnString( "LEDB apagado." );

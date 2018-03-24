@@ -54,16 +54,16 @@ extern "C" {
 
 /* ----- Begin Pin Init Structs NXP LPC4337 ----- */
 
-typedef struct{
+typedef struct {
    int8_t port;
    int8_t pin;
 } pinInitLpc4337_t;
 
-typedef struct{
+typedef struct {
    uint8_t lpcScuPort;
    uint8_t lpcScuPin;
    uint8_t lpcScuFunc;
-}lpc4337ScuPin_t;
+} lpc4337ScuPin_t;
 
 /* ------ End Pin Init Structs NXP LPC4337 ------ */
 
@@ -71,7 +71,7 @@ typedef struct{
 /* ------- Begin EDU-CIAA-NXP Peripheral Map ------ */
 
 /* Defined for sapi_gpio.h */
-typedef enum{
+typedef enum {
    /* EDU-CIAA-NXP */
 
    // P1 header
@@ -97,24 +97,24 @@ typedef enum{
    LEDR,  LEDG,  LEDB,  LED1,  LED2,  LED3,
 
    /* CIAA-NXP */
- /* 46     47     48     49     50     51     52     53 */
+   /* 46     47     48     49     50     51     52     53 */
    DI0,   DI1,   DI2,   DI3,   DI4,   DI5,   DI6,   DI7,
- /* 54     55     56     57     58     59     60     61 */
+   /* 54     55     56     57     58     59     60     61 */
    DO0,   DO1,   DO2,   DO3,   DO4,   DO5,   DO6,   DO7
 } gpioMap_t;
 
 /* Defined for sapi_adc.h */
-typedef enum{
-/* 62         63       64        65       */
+typedef enum {
+   /* 62         63       64        65       */
    AI3 = 62, AI2 = 63, AI1 = 64, AI0 = 65,
-             CH3 = 63, CH2 = 64, CH1 = 65
-/*  46        47   48  49 */
+   CH3 = 63, CH2 = 64, CH1 = 65
+                             /*  46        47   48  49 */
 // AI2 = 46, AI1, AI0, AO
 } adcMap_t;
 
 /* Defined for sapi_dac.h */
-typedef enum{
-/* 66 */
+typedef enum {
+   /* 66 */
    AO = 66,
    DAC = 66
 } dacMap_t;
@@ -123,7 +123,7 @@ typedef enum{
 // Note that:
 // - If use UART_GPIO you can't use UART_485 and vice versa.
 // - If use UART_USB you can't use UART_ENET and vice versa.
-typedef enum{
+typedef enum {
    UART_GPIO = 0, // Hardware UART0 via GPIO1(TX), GPIO2(RX) pins on header P0
    UART_485  = 1, // Hardware UART0 via RS_485 A, B and GND Borns
    //UART_1  = 2, // Hardware UART1 not routed
@@ -134,28 +134,28 @@ typedef enum{
 
 /*Defined for sapi_timer.h*/
 //NOTE: if servo is enable (servoInit used) the only available timer to use is TIMER0
-typedef enum{
+typedef enum {
    TIMER0, TIMER1, TIMER2, TIMER3
 } timerMap_t;
-typedef enum{
+typedef enum {
    TIMERCOMPAREMATCH0, TIMERCOMPAREMATCH1, TIMERCOMPAREMATCH2, TIMERCOMPAREMATCH3
 } timerCompareMatch_t;
 
 /*Defined for sapi_sct.h*/
 // NOTE: CTOUT11 has no SCT mode associated, so it can't be used!
 // NOTE: if pwm is enable (pwmInit used) there will be no sct channels available
-typedef enum{
+typedef enum {
    CTOUT0, CTOUT1, CTOUT2, CTOUT3, CTOUT4, CTOUT5, CTOUT6, CTOUT7, CTOUT8,
    CTOUT9, CTOUT10, CTOUT11, CTOUT12, CTOUT13
 } sctMap_t;
 
 /*Defined for sapi_pwm.h*/
-typedef enum{
+typedef enum {
    PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6, PWM7, PWM8, PWM9, PWM10
 } pwmMap_t;
 
 /*Defined for sapi_servo.h*/
-typedef enum{
+typedef enum {
    SERVO0, SERVO1, SERVO2, SERVO3, SERVO4, SERVO5, SERVO6, SERVO7, SERVO8
 } servoMap_t;
 
@@ -168,7 +168,7 @@ typedef enum{
 */
 typedef uint8_t i2cMap_t;
 
-typedef enum{
+typedef enum {
    SPI0
 } spiMap_t;
 

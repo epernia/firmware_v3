@@ -124,7 +124,7 @@ typedef enum {
    HMC5883L_DEFAULT_mode = HMC5883L_single_measurement
 } HMC5883L_mode_t;
 
-typedef struct{
+typedef struct {
    HMC5883L_samples_t samples; /*number of samples averaged (1 to 8) per measurement output.*/
    HMC5883L_rate_t    rate;    /* Data Output Rate Bits. These bits set the rate at which data
                                 * is written to all three data output registers.*/

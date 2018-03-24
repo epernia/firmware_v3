@@ -56,11 +56,13 @@
 
 // Print uart configuration
 
-void printSetUart( print_t* printer, uartMap_t uart ){
+void printSetUart( print_t* printer, uartMap_t uart )
+{
    *printer = uart;
 }
 
-void printInitUart( print_t* printer, uartMap_t uart, uint32_t baudRate ){
+void printInitUart( print_t* printer, uartMap_t uart, uint32_t baudRate )
+{
    *printer = uart;
    uartInit( uart, baudRate );
 }
@@ -68,36 +70,41 @@ void printInitUart( print_t* printer, uartMap_t uart, uint32_t baudRate ){
 
 // Print String
 
-void printString( print_t printer, const char* string ){
+void printString( print_t printer, const char* string )
+{
    uartWriteString( printer, string );
 }
 
-void printEnter( print_t printer ){
+void printEnter( print_t printer )
+{
    uartWriteString( printer, PRINT_ENTER_STRING );
 }
 
 
 // Print Integer
 
-void printIntFormat( print_t printer, int64_t number, numberFormat_t format ){
+void printIntFormat( print_t printer, int64_t number, numberFormat_t format )
+{
 
    char strNumber[65];
 
-   if( int64ToString( number, strNumber, format ) ){
+   if( int64ToString( number, strNumber, format ) ) {
       uartWriteString( printer, strNumber );
    }
 }
 
-void printUIntFormat( print_t printer, uint64_t number, numberFormat_t format ){
+void printUIntFormat( print_t printer, uint64_t number, numberFormat_t format )
+{
 
    char strNumber[65];
 
-   if( uint64ToString( number, strNumber, format ) ){
+   if( uint64ToString( number, strNumber, format ) ) {
       uartWriteString( printer, strNumber );
    }
 }
 
-void printHex( print_t printer, uint64_t number, uint8_t bitSize ){
+void printHex( print_t printer, uint64_t number, uint8_t bitSize )
+{
    printString( printer, uintToAsciiHex( number , bitSize ) );
 }
 

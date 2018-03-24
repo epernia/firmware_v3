@@ -79,7 +79,7 @@ extern "C" {
     all possible values of the MODE
     */
 typedef enum {
-   QMC5883L_standby = 0, 
+   QMC5883L_standby = 0,
    QMC5883L_continuous_measurement = 1,
    QMC5883L_DEFAULT_mode = QMC5883L_standby
 } QMC5883L_mode_t;
@@ -121,7 +121,7 @@ typedef enum {
 
 
 
-typedef struct{
+typedef struct {
    QMC5883L_samples_t samples; /*number of over samples averaged per measurement output.*/
 
    QMC5883L_gain_t gain; /* Gain Configuration Bits. These bits configure the gain for

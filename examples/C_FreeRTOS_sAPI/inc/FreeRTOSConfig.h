@@ -42,10 +42,10 @@
 *----------------------------------------------------------*/
 
 /* Ensure stdint is only used by the compiler, and not the assembler. */
-#if defined( __ICCARM__ ) || defined( __ARMCC_VERSION ) 
-    #include <stdint.h>
-    extern uint32_t SystemCoreClock;
-	extern int DbgConsole_Printf( const char *fmt_s, ... );
+#if defined( __ICCARM__ ) || defined( __ARMCC_VERSION )
+#include <stdint.h>
+extern uint32_t SystemCoreClock;
+extern int DbgConsole_Printf( const char *fmt_s, ... );
 #endif
 
 
@@ -101,10 +101,10 @@
 
 /* Cortex-M specific definitions. */
 #ifdef __NVIC_PRIO_BITS
-    /* __BVIC_PRIO_BITS will be specified when CMSIS is being used. */
-    #define configPRIO_BITS    __NVIC_PRIO_BITS
+/* __BVIC_PRIO_BITS will be specified when CMSIS is being used. */
+#define configPRIO_BITS    __NVIC_PRIO_BITS
 #else
-    #define configPRIO_BITS    3                                 /* 8 priority levels. */
+#define configPRIO_BITS    3                                 /* 8 priority levels. */
 #endif
 
 /* The lowest interrupt priority that can be used in a call to a "set priority"
@@ -155,8 +155,8 @@
  * macros can be used to turn turn off and on IO, clocks, the Flash etc. to obtain
  * the lowest power possible while the tick is off. */
 #if defined( __ICCARM__ ) || defined( __CC_ARM ) || defined( __GNUC__ )
-    void vMainPreStopProcessing( void );
-    void vMainPostStopProcessing( void );
+void vMainPreStopProcessing( void );
+void vMainPostStopProcessing( void );
 #endif /* defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__) */
 
 #define configPRE_STOP_PROCESSING     vMainPreStopProcessing
@@ -189,17 +189,17 @@
 
 /* Prevent the assembler seeing code it doesn't understand. */
 #ifdef __ICCARM__
-	/* Logging task definitions. */
-	extern void vMainUARTPrintString( char * pcString );
-	void vLoggingPrintf( const char * pcFormat,
-						 ... );
+/* Logging task definitions. */
+extern void vMainUARTPrintString( char * pcString );
+void vLoggingPrintf( const char * pcFormat,
+                     ... );
 
-	extern int iMainRand32( void );
+extern int iMainRand32( void );
 
-	/* Pseudo random number generator, just used by demos so does not have to be
-	 * secure.  Do not use the standard C library rand() function as it can cause
-	 * unexpected behaviour, such as calls to malloc(). */
-	#define configRAND32()    iMainRand32()
+/* Pseudo random number generator, just used by demos so does not have to be
+ * secure.  Do not use the standard C library rand() function as it can cause
+ * unexpected behaviour, such as calls to malloc(). */
+#define configRAND32()    iMainRand32()
 #endif
 
 #endif /* FREERTOS_CONFIG_H */

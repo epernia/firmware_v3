@@ -57,13 +57,13 @@
  * @param  rtc_t rtc: RTC structure
  * @return bool_t true (1) if config it is ok
  */
-bool_t rtcInit( rtc_t * rtc ){
-
+bool_t rtcInit( rtc_t * rtc )
+{
    bool_t ret_val = 1;
 
    static bool_t init;
 
-   if( init ){
+   if( init ) {
       /* Already initialized */
       ret_val = 0;
    } else {
@@ -99,8 +99,8 @@ bool_t rtcInit( rtc_t * rtc ){
  * @param  rtc_t rtc: RTC structure
  * @return bool_t true (1) if config it is ok
  */
-bool_t rtcRead( rtc_t * rtc ){
-
+bool_t rtcRead( rtc_t * rtc )
+{
    bool_t ret_val = 1;
 
    RTC_TIME_T rtcTime;
@@ -123,8 +123,8 @@ bool_t rtcRead( rtc_t * rtc ){
  * @param  rtc_t rtc: RTC structure
  * @return bool_t true (1) if config it is ok
  */
-bool_t rtcWrite( rtc_t * rtc ){
-
+bool_t rtcWrite( rtc_t * rtc )
+{
    bool_t ret_val = 1;
 
    RTC_TIME_T rtcTime;

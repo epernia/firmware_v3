@@ -57,7 +57,8 @@ extern volatile tick_t tickRateMS;
 
 /* ---- Inaccurate Blocking Delay ---- */
 
-void delayInaccurate(tick_t delay_ms) {
+void delayInaccurate(tick_t delay_ms)
+{
    volatile tick_t i;
    volatile tick_t delay;
 
@@ -66,7 +67,8 @@ void delayInaccurate(tick_t delay_ms) {
    for( i=delay; i>0; i-- );
 }
 
-void delayInaccurateUs(tick_t delay_us) {
+void delayInaccurateUs(tick_t delay_us)
+{
    volatile tick_t i;
    volatile tick_t delay;
 
@@ -79,39 +81,42 @@ void delayInaccurateUs(tick_t delay_us) {
 
 // delay( 1, DELAY_US );
 
-void delay(tick_t duration){
-    tick_t startTime = tickRead();
-    while ( (tick_t)(tickRead() - startTime) < duration/tickRateMS );
+void delay(tick_t duration)
+{
+   tick_t startTime = tickRead();
+   while ( (tick_t)(tickRead() - startTime) < duration/tickRateMS );
 }
 
-void delayUs(tick_t delay_us){
+void delayUs(tick_t delay_us)
+{
 
    volatile float timeElapsedUs = 0;
    volatile uint32_t startCycles = cyclesCounterRead();
 
-   while( ((tick_t)timeElapsedUs) < delay_us ){
-	   timeElapsedUs = cyclesCounterToUs( cyclesCounterRead() - startCycles );
+   while( ((tick_t)timeElapsedUs) < delay_us ) {
+      timeElapsedUs = cyclesCounterToUs( cyclesCounterRead() - startCycles );
    }
 }
 
 
 /* ---- Non Blocking Delay ---- */
 
-void delayInit( delay_t * delay, tick_t duration ){
+void delayInit( delay_t * delay, tick_t duration )
+{
    delay->duration = duration/tickRateMS;
    delay->running = 0;
 }
 
-bool_t delayRead( delay_t * delay ){
+bool_t delayRead( delay_t * delay )
+{
 
    bool_t timeArrived = 0;
 
-   if( !delay->running ){
+   if( !delay->running ) {
       delay->startTime = tickRead();
       delay->running = 1;
-   }
-   else{
-      if ( (tick_t)(tickRead() - delay->startTime) >= delay->duration ){
+   } else {
+      if ( (tick_t)(tickRead() - delay->startTime) >= delay->duration ) {
          timeArrived = 1;
          delay->running = 0;
       }
@@ -120,7 +125,8 @@ bool_t delayRead( delay_t * delay ){
    return timeArrived;
 }
 
-void delayWrite( delay_t * delay, tick_t duration ){
+void delayWrite( delay_t * delay, tick_t duration )
+{
    delay->duration = duration/tickRateMS;
 }
 

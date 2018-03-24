@@ -46,7 +46,7 @@ int main( void )
       // (invertidos porque al cerrar conectan a masa)
       for( auto& e: io )
          e.led = not e.button;
-      
+
       /* Intercambiar el valor del pin conectado a LED blinking */
       if( blinkLed.toggle().isOn() ) {
          // Si esta encendido mostrar por UART_USB "LEDB encendido."
@@ -58,7 +58,7 @@ int main( void )
          consolePrintlnString( "Blinging led apagado." );
       }
 
-      /* Retardo bloqueante durante 250ms */
+      // Retardo bloqueante durante 250ms
       delay( 100 );
    }
 

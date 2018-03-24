@@ -51,27 +51,27 @@ extern "C" {
 /*==================[macros]=================================================*/
 /* Functional states */
 #ifndef ON
-   #define ON     1
+#define ON     1
 #endif
 #ifndef OFF
-   #define OFF    0
+#define OFF    0
 #endif
 
 /* Electrical states */
 #ifndef HIGH
-   #define HIGH   1
+#define HIGH   1
 #endif
 #ifndef LOW
-   #define LOW    0
+#define LOW    0
 #endif
 
 /* Logical states */
 
 #ifndef FALSE
-   #define FALSE  0
+#define FALSE  0
 #endif
 #ifndef TRUE
-   #define TRUE   (!FALSE)
+#define TRUE   (!FALSE)
 #endif
 
 /*==================[typedef]================================================*/

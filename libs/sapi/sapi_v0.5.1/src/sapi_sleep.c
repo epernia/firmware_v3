@@ -56,7 +56,8 @@
  * @param  nothing
  * @return nothing
  */
-void sleepUntilNextInterrupt( void ){
+void sleepUntilNextInterrupt( void )
+{
 
    /* Instert an assembly instruction wfi (wait for interrupt) */
    __asm volatile( "wfi" );

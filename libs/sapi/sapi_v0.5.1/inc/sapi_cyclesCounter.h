@@ -33,7 +33,7 @@
 
 /* Date: 2017-30-10 */
 
-// More information at: 
+// More information at:
 // https://groups.google.com/forum/#!msg/embebidos32/tPntHHUSnyE/S3CDyCwXsaMJ
 
 #ifndef _SAPI_CYCLES_COUNTER_H_

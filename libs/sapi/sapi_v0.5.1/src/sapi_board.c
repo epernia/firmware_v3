@@ -56,7 +56,8 @@
 /*==================[external functions definition]==========================*/
 
 /* Set up and initialize board hardware */
-void boardInit(void) {
+void boardInit(void)
+{
 
    // Read clock settings and update SystemCoreClock variable
    SystemCoreClockUpdate();

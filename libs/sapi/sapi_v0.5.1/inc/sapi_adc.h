@@ -54,7 +54,7 @@ extern "C" {
 
 /*==================[typedef]================================================*/
 
-typedef enum{
+typedef enum {
    ADC_ENABLE, ADC_DISABLE
 } adcInit_t;
 

@@ -70,9 +70,9 @@ extern "C" {
 /*==================[typedef]================================================*/
 
 typedef enum {
-	CIRCULAR_BUFFER_NORMAL,
-	CIRCULAR_BUFFER_EMPTY,
-	CIRCULAR_BUFFER_FULL
+   CIRCULAR_BUFFER_NORMAL,
+   CIRCULAR_BUFFER_EMPTY,
+   CIRCULAR_BUFFER_FULL
 } circularBufferStatus_t;
 
 
@@ -96,23 +96,23 @@ void circularBuffer_Init(
    uint8_t* bufferMemory,       // buffer array of memory
    uint32_t amountOfElements,   // amount of elements in buffer
    uint32_t elementSize         // each element size in bytes
-                         );
+);
 
 void circularBufferEmptyBufferCallbackSet(
    circularBuffer_t* buffer,              // buffer structure
    callBackFuncPtr_t emptyBufferCallback  // pointer to emptyBuffer function
-                                         );
+);
 
 void circularBufferFullBufferCallbackSet(
    circularBuffer_t* buffer,              // buffer structure
    callBackFuncPtr_t fullBufferCalback    // pointer to fullBuffer function
-                                        );
+);
 
 circularBufferStatus_t circularBufferRead( circularBuffer_t* buffer,
-                                           uint8_t *dataByte );
+      uint8_t *dataByte );
 
 circularBufferStatus_t circularBufferWrite( circularBuffer_t* buffer,
-                                            uint8_t *dataByte );
+      uint8_t *dataByte );
 
 /*==================[cplusplus]==============================================*/
 

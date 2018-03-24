@@ -161,11 +161,12 @@ uint8_t display7SegmentOutputs[26] = {
 	-----    O h = dp (decimal pint).
 
 */
-void display7SegmentTestPins( gpioMap_t* display7SegmentPins, gpioMap_t pin ){
+void display7SegmentTestPins( gpioMap_t* display7SegmentPins, gpioMap_t pin )
+{
 
    uint8_t i = 0;
 
-   for(i=0;i<=7;i++){
+   for(i=0; i<=7; i++) {
       gpioWrite( display7SegmentPins[i], ON  );
       if( i == 0 )
          gpioWrite( pin, ON );
@@ -179,7 +180,8 @@ void display7SegmentTestPins( gpioMap_t* display7SegmentPins, gpioMap_t pin ){
 
 
 /* Configure 7-segment display GPIOs as Outputs */
-void display7SegmentPinInit( gpioMap_t* display7SegmentPins ){
+void display7SegmentPinInit( gpioMap_t* display7SegmentPins )
+{
 
    uint8_t i = 0;
 
@@ -189,7 +191,8 @@ void display7SegmentPinInit( gpioMap_t* display7SegmentPins ){
 
 
 /* Write a symbol on 7-segment display */
-void display7SegmentWrite( gpioMap_t* display7SegmentPins, uint8_t symbolIndex ){
+void display7SegmentWrite( gpioMap_t* display7SegmentPins, uint8_t symbolIndex )
+{
 
    uint8_t i = 0;
 

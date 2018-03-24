@@ -45,7 +45,7 @@
 
 /*==================[typedef]================================================*/
 
-typedef struct{
+typedef struct {
    gpioMap_t* keypadRowPins;
    uint8_t keypadRowSize;
    gpioMap_t* keypadColPins;

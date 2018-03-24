@@ -1,7 +1,7 @@
-    .syntax unified
-    .cpu cortex-m4
-    .fpu softvfp
-    .thumb
+   .syntax unified
+   .cpu cortex-m4
+   .fpu softvfp
+   .thumb
 
 .equ LEDR, 40
 .equ LEDB, 41

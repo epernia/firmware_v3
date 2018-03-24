@@ -55,7 +55,7 @@ char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
 
 /*==================[typedef]================================================*/
 
-typedef enum{
+typedef enum {
    BIN_FORMAT = 2,
    DEC_FORMAT = 10,
    HEX_FORMAT = 16

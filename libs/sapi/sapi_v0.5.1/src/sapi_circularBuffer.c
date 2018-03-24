@@ -85,7 +85,8 @@ void circularBuffer_Init(
    uint8_t* bufferMemory,       // buffer array of memory
    uint32_t amountOfElements,   // amount of elements in buffer
    uint32_t elementSize         // each element size in bytes
-                         ){
+)
+{
 
    buffer->memoryAddress    = bufferMemory;
    buffer->amountOfElements = amountOfElements + 1;
@@ -99,10 +100,11 @@ void circularBuffer_Init(
 void circularBufferEmptyBufferCallbackSet(
    circularBuffer_t* buffer,              // buffer structure
    callBackFuncPtr_t emptyBufferCallback  // pointer to emptyBuffer function
-                                         ){
+)
+{
 
    // Empty buffer callback
-   if( emptyBufferCallback != 0 ){
+   if( emptyBufferCallback != 0 ) {
       buffer->emptyBufferCallback = emptyBufferCallback;
       isSetEmptyBufferCallback = TRUE;
    }
@@ -112,9 +114,10 @@ void circularBufferEmptyBufferCallbackSet(
 void circularBufferFullBufferCallbackSet(
    circularBuffer_t* buffer,              // buffer structure
    callBackFuncPtr_t fullBufferCalback    // pointer to fullBuffer function
-                                        ){
+)
+{
    // Full buffer callback
-   if( fullBufferCalback != 0 ){
+   if( fullBufferCalback != 0 ) {
       buffer->fullBufferCalback = fullBufferCalback;
       isSetFullBufferCallback = TRUE;
    }
@@ -122,69 +125,71 @@ void circularBufferFullBufferCallbackSet(
 
 
 circularBufferStatus_t circularBufferRead( circularBuffer_t* buffer,
-                                           uint8_t *dataByte ){
+      uint8_t *dataByte )
+{
 
    uint8_t i = 0;
 
-	// Is Empty?
-	if ( (buffer->readIndex) == (buffer->writeIndex) ){
+   // Is Empty?
+   if ( (buffer->readIndex) == (buffer->writeIndex) ) {
 
-	   // Error, empty buffer
-	   buffer->status = CIRCULAR_BUFFER_EMPTY;
+      // Error, empty buffer
+      buffer->status = CIRCULAR_BUFFER_EMPTY;
 
-	   // Execute emptyBufferCallback
-	   if( isSetEmptyBufferCallback ){
-		   (* (buffer->emptyBufferCallback) )(0);
-	   }
-
-	} else {
-
-	   buffer->status = CIRCULAR_BUFFER_NORMAL;
-
-	   // TODO:
-	   for( i=0; i<(buffer->elementSize); i++ ){
-	      dataByte[i] = (buffer->memoryAddress)[ buffer->readIndex + i ];
+      // Execute emptyBufferCallback
+      if( isSetEmptyBufferCallback ) {
+         (* (buffer->emptyBufferCallback) )(0);
       }
 
-	   // Increment readIndex (circular)
+   } else {
+
+      buffer->status = CIRCULAR_BUFFER_NORMAL;
+
+      // TODO:
+      for( i=0; i<(buffer->elementSize); i++ ) {
+         dataByte[i] = (buffer->memoryAddress)[ buffer->readIndex + i ];
+      }
+
+      // Increment readIndex (circular)
       buffer->readIndex = (buffer->readIndex + buffer->elementSize) % (buffer->amountOfElements * buffer->elementSize);
 
-	}
+   }
 
-	return buffer->status;
+   return buffer->status;
 }
 
 
 circularBufferStatus_t circularBufferWrite( circularBuffer_t* buffer,
-                                            uint8_t *dataByte ){
+      uint8_t *dataByte )
+{
 
    uint8_t i = 0;
 
-	// Is Full?
-	if( ((buffer->writeIndex + buffer->elementSize) % (buffer->amountOfElements * buffer->elementSize) ) == (buffer->readIndex) ){
+   // Is Full?
+   if( ((buffer->writeIndex + buffer->elementSize) % (buffer->amountOfElements * buffer->elementSize) ) == (buffer->readIndex) ) {
 
-	   // Error, full buffer
-	   buffer->status = CIRCULAR_BUFFER_FULL;
+      // Error, full buffer
+      buffer->status = CIRCULAR_BUFFER_FULL;
 
-	   // Execute fullBufferCalback
-	   if( isSetFullBufferCallback ){
-		   (* (buffer->fullBufferCalback) )(0);
-	   }
+      // Execute fullBufferCalback
+      if( isSetFullBufferCallback ) {
+         (* (buffer->fullBufferCalback) )(0);
+      }
 
-	} else{
+   } else {
 
-		buffer->status = CIRCULAR_BUFFER_NORMAL;
+      buffer->status = CIRCULAR_BUFFER_NORMAL;
 
       // TODO:
-      for( i=0; i<(buffer->elementSize); i++ ){
+      for( i=0; i<(buffer->elementSize); i++ ) {
          (buffer->memoryAddress)[ buffer->writeIndex + i ] = dataByte[i];
       }
 
       // Increment writeIndex (circular)
-		buffer->writeIndex = (buffer->writeIndex + buffer->elementSize) % (buffer->amountOfElements * buffer->elementSize);
-	}
+      buffer->writeIndex = (buffer->writeIndex + buffer->elementSize) % (buffer->amountOfElements * buffer->elementSize);
+   }
 
-	return buffer->status;
+   return buffer->status;
 }
 
 /*==================[end of file]============================================*/

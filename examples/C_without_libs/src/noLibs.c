@@ -1,6 +1,6 @@
 /************************************************************************************
  * Ejemplo para prender un led haciendo polling	sobre el estado de un boton
- * sin bibliotecas. 
+ * sin bibliotecas.
  * Por Nicolás Alvarez.
  ************************************************************************************/
 
@@ -30,7 +30,7 @@
 #define	SFSP1_1                         0x084        // pin P1_1  -> TEC2
 #define	SFSP1_2                         0x088        // pin P1_2  -> TEC3
 #define	SFSP1_6                         0x098        // pin P1_6  -> TEC4
-// Leds		
+// Leds
 #define	SFSP2_0                         0x100        // pin P2_0  -> LED0_R
 #define	SFSP2_1                         0x104        // pin P2_1  -> LED0_G
 #define	SFSP2_2                         0x108        // pin P2_2  -> LED0_B
@@ -55,7 +55,8 @@
 #define ADDRESS(x, offset) (*(volatile int *)(volatile char *) ((x)+(offset)))
 
 // Inicio de programa principal
-int main( void ){
+int main( void )
+{
 
    // Configuro el pin (LED1) como GPIO, con pull-up (Registro de configuracion, pag. 405 de User Manual)
    ADDRESS(SCU_BASE, SFSP2_10) = (SCU_MODE_PULLUP | SCU_MODE_FUNC0);   // P2_10, GPIO0[14], LED1

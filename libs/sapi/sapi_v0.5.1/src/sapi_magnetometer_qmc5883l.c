@@ -38,8 +38,9 @@
 #include "sapi_i2c.h"         	   /* <= sAPI I2C header */
 
 
-bool_t qmc5883lPrepareDefaultInit( QMC5883L_config_t * config ){
-   
+bool_t qmc5883lPrepareDefaultInit( QMC5883L_config_t * config )
+{
+
    config->samples = QMC5883L_DEFAULT_sample;
    config->gain = QMC5883L_DEFAULT_gain;
    config->rate = QMC5883L_DEFAULT_rate;
@@ -50,24 +51,25 @@ bool_t qmc5883lPrepareDefaultInit( QMC5883L_config_t * config ){
 }
 
 
-bool_t qmc5883lInit( QMC5883L_config_t config ){
+bool_t qmc5883lInit( QMC5883L_config_t config )
+{
 
    uint8_t register1;//, register2, registerMode;
 
    uint8_t transmitDataBuffer[2];
-   
-    register1 = 0;
-    
+
+   register1 = 0;
+
    /*OSR bit 7 and bit 6 */
    register1 |= ((uint8_t)config.samples) << 6;
-   
+
    /*RNG bit 5 and bit 4*/
    register1 |= ((uint8_t)config.gain) << 4;
 
    /*ODR bit 3 and bit 2*/
    register1 |= ((uint8_t)config.rate) << 2;
 
-    /*MODE bit 1 and bit 0*/
+   /*MODE bit 1 and bit 0*/
    register1 |= config.mode;
 
    i2cInit( I2C0, 100000 );
@@ -80,13 +82,14 @@ bool_t qmc5883lInit( QMC5883L_config_t config ){
    transmitDataBuffer[1] = register1;
    i2cWrite( I2C0, QMC5883L_ADD, transmitDataBuffer, 2, TRUE );
 
-    /** TODO: Implement the configuration of register QMC5883L_REG_CTRL_2: possition 0x0A*/
-    
+   /** TODO: Implement the configuration of register QMC5883L_REG_CTRL_2: possition 0x0A*/
+
    return ( TRUE);
 }
 
 
-bool_t qmc5883lRead( int16_t * x, int16_t * y, int16_t * z ){
+bool_t qmc5883lRead( int16_t * x, int16_t * y, int16_t * z )
+{
 
    bool_t result = TRUE;
 

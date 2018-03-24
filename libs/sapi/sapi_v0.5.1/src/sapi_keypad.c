@@ -61,7 +61,8 @@
 /* Configure keypad pins */
 bool_t keypadInit( keypad_t* keypad,
                    gpioMap_t* keypadRowPins, uint8_t keypadRowSize,
-                   gpioMap_t* keypadColPins, uint8_t keypadColSize ){
+                   gpioMap_t* keypadColPins, uint8_t keypadColSize )
+{
 
    bool_t retVal = TRUE;
 
@@ -69,7 +70,7 @@ bool_t keypadInit( keypad_t* keypad,
 
    // Check if values are not invalid
    if( keypadRowPins == NULL || keypadColPins == NULL ||
-       keypadRowSize <= 0 || keypadColSize <= 0  ){
+       keypadRowSize <= 0 || keypadColSize <= 0  ) {
       retVal = FALSE;
    }
 
@@ -80,12 +81,12 @@ bool_t keypadInit( keypad_t* keypad,
    keypad->keypadColSize = keypadColSize;
 
    // Configure Rows as Outputs
-   for( i=0; i<keypadRowSize; i++ ){
+   for( i=0; i<keypadRowSize; i++ ) {
       gpioInit( keypad->keypadRowPins[i], GPIO_OUTPUT );
    }
 
    // Configure Columns as Inputs with pull-up resistors enable
-   for( i=0; i<keypadColSize; i++ ){
+   for( i=0; i<keypadColSize; i++ ) {
       gpioInit( keypad->keypadColPins[i], GPIO_INPUT_PULLUP );
    }
 
@@ -95,7 +96,8 @@ bool_t keypadInit( keypad_t* keypad,
 
 /* Return TRUE if any key is pressed or FALSE (0) in other cases.
  * If exist key pressed write pressed key on key variable */
-bool_t keypadRead( keypad_t* keypad, uint16_t* key ){
+bool_t keypadRead( keypad_t* keypad, uint16_t* key )
+{
 
    bool_t retVal = FALSE;
 
@@ -103,35 +105,35 @@ bool_t keypadRead( keypad_t* keypad, uint16_t* key ){
    uint8_t c = 0; // Columns
 
    // Put all Rows in LOW state
-   for( r=0; r<keypad->keypadRowSize; r++ ){
+   for( r=0; r<keypad->keypadRowSize; r++ ) {
       gpioWrite( keypad->keypadRowPins[r], LOW );
    }
 
    // Check all Columns to search if any key is pressed
-   for( c=0; c<keypad->keypadColSize; c++ ){
+   for( c=0; c<keypad->keypadColSize; c++ ) {
 
       // If reads a LOW state in a column then that key may be pressed
-      if( !gpioRead( keypad->keypadColPins[c] ) ){
+      if( !gpioRead( keypad->keypadColPins[c] ) ) {
 
          delay( 50 ); // Debounce 50 ms
 
          // Put all Rows in HIGH state except first one
-         for( r=1; r<keypad->keypadRowSize; r++ ){
+         for( r=1; r<keypad->keypadRowSize; r++ ) {
             gpioWrite( keypad->keypadRowPins[r], HIGH );
          }
 
          // Search what key are pressed
-         for( r=0; r<keypad->keypadRowSize; r++ ){
+         for( r=0; r<keypad->keypadRowSize; r++ ) {
 
             // Put the Row[r-1] in HIGH state and the Row[r] in LOW state
-            if( r>0 ){ // Prevents negative index in array
+            if( r>0 ) { // Prevents negative index in array
                gpioWrite( keypad->keypadRowPins[r-1], HIGH );
             }
             gpioWrite( keypad->keypadRowPins[r], LOW );
 
             // Check Columns[c] at Row[r] to search if the key is pressed
             // if that key is pressed (LOW state) then retuns the key
-            if( !gpioRead( keypad->keypadColPins[c] ) ){
+            if( !gpioRead( keypad->keypadColPins[c] ) ) {
                *key = (uint16_t)r * (uint16_t)(keypad->keypadColSize) + (uint16_t)c;
                retVal = TRUE;
                return retVal;

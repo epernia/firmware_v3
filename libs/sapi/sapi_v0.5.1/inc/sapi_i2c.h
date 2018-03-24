@@ -33,14 +33,14 @@
  *
  */
 
- /*
-  * Date:
-  * 2016-05-02 Eric Pernia - Only define API
-  * 2016-06-23 Alejandro Permingeat - First functional version
-  * 2016-08-07 Eric Pernia - Improve names
-  * 2016-09-10 Eric Pernia - Add unlimited buffer transfer
-  * 2016-11-20 Eric Pernia - Software I2C
-  */
+/*
+ * Date:
+ * 2016-05-02 Eric Pernia - Only define API
+ * 2016-06-23 Alejandro Permingeat - First functional version
+ * 2016-08-07 Eric Pernia - Improve names
+ * 2016-09-10 Eric Pernia - Add unlimited buffer transfer
+ * 2016-11-20 Eric Pernia - Software I2C
+ */
 
 #ifndef _SAPI_I2C_H_
 #define _SAPI_I2C_H_
@@ -74,12 +74,12 @@ extern "C" {
 /*==================[typedef]================================================*/
 
 #if( I2C_SOFTWARE == 1 )
-typedef enum{
+typedef enum {
    I2C_SOFTWARE_WRITE = 0,
    I2C_SOFTWARE_READ  = 1
 } I2C_Software_rw_t;
 
-typedef enum{
+typedef enum {
    I2C_SOFTWARE_NACK = 0,
    I2C_SOFTWARE_ACK  = 1
 } I2C_Software_ack_t;
@@ -110,23 +110,23 @@ bool_t i2cWrite( i2cMap_t  i2cNumber,
 // Software Master I2C
 
 #if( SOFTWARE_I2C_DEBUG == 1 )
-   void i2cSoftwareMasterPinTestInit( void );
-   void i2cSoftwareMasterPinTest( void );
+void i2cSoftwareMasterPinTestInit( void );
+void i2cSoftwareMasterPinTest( void );
 #endif
 
 #if( I2C_SOFTWARE == 1 )
-   void i2cSoftwareDelay( tick_t duration );
+void i2cSoftwareDelay( tick_t duration );
 
-   void i2cSoftwareMasterWriteStart( void );
+void i2cSoftwareMasterWriteStart( void );
 
-   void i2cSoftwareMasterWriteStop( void );
+void i2cSoftwareMasterWriteStop( void );
 
-   bool_t i2cSoftwareMasterWriteAddress( uint8_t i2cSlaveAddress,
-                                         I2C_Software_rw_t readOrWrite );
+bool_t i2cSoftwareMasterWriteAddress( uint8_t i2cSlaveAddress,
+                                      I2C_Software_rw_t readOrWrite );
 
-   bool_t i2cSoftwareMasterWriteByte( uint8_t dataByte );
+bool_t i2cSoftwareMasterWriteByte( uint8_t dataByte );
 
-   uint8_t i2cSoftwareMasterReadByte( bool_t ack );
+uint8_t i2cSoftwareMasterReadByte( bool_t ack );
 #endif
 
 /*==================[ISR external functions declaration]=====================*/

@@ -40,16 +40,16 @@
 #include "sapi_tick.h"
 
 #ifdef TICK_OVER_RTOS
-   #ifdef USE_FREERTOS
-      #include <FreeRTOS.h>
-      #include <timers.h>
-   #endif
+#ifdef USE_FREERTOS
+#include <FreeRTOS.h>
+#include <timers.h>
+#endif
 #endif
 
 /*==================[macros and definitions]=================================*/
 
 #ifndef TICK_OVER_RTOS
-   #define tickerCallback SysTick_Handler
+#define tickerCallback SysTick_Handler
 #endif
 
 /*==================[internal data declaration]==============================*/
@@ -82,13 +82,13 @@ bool_t tickInit( tick_t tickRateMSvalue )
    bool_t ret_val = 1;
    tick_t tickRateHz = 0;
 
-   if( tickRateMSvalue == 0 ){
+   if( tickRateMSvalue == 0 ) {
       tickPowerSet( OFF );
       ret_val = 0;
-   } else{
-      if( (tickRateMSvalue >= 1) && (tickRateMSvalue <= 50) ){
+   } else {
+      if( (tickRateMSvalue >= 1) && (tickRateMSvalue <= 50) ) {
 
-		   tickRateMS = tickRateMSvalue;
+         tickRateMS = tickRateMSvalue;
 
          /*
          tickRateHz = 1000 => 1000 ticks per second =>  1 ms tick
@@ -98,17 +98,16 @@ bool_t tickInit( tick_t tickRateMSvalue )
          */
          // Init SysTick interrupt, tickRateHz ticks per second
          SysTick_Config( SystemCoreClock * tickRateMSvalue / 1000 );
-         
+
          /*
          if ( SysTick_Config( CMU_ClockFreqGet(cmuClock_CORE) / tickRateHz) ){
-		      //DEBUG_BREAK;
+            //DEBUG_BREAK;
             ret_val = 0;
          }
          */
-         
+
          tickPowerSet( ON );
-      }
-      else{
+      } else {
          // Error, tickRateMS variable not in range (1 <= tickRateMS <= 50)
          ret_val = 0;
       }
@@ -137,27 +136,30 @@ bool_t tickInit( tick_t tickRateMSvalue )
 
 
 // Read Tick Counter
-tick_t tickRead( void ) {
+tick_t tickRead( void )
+{
    return tickCounter;
 }
 
 // Write Tick Counter
-void tickWrite( tick_t ticks ) {
+void tickWrite( tick_t ticks )
+{
    tickCounter = ticks;
 }
 
 // Tick interrupt callback
-bool_t tickCallbackSet( callBackFuncPtr_t tickCallback, void* tickCallbackParams ) {
+bool_t tickCallbackSet( callBackFuncPtr_t tickCallback, void* tickCallbackParams )
+{
 
    bool_t retVal = TRUE;
 
-   if( tickCallback != NULL ){
+   if( tickCallback != NULL ) {
       tickHookFunction = tickCallback;
    } else {
       retVal = FALSE;
    }
 
-   if( tickCallbackParams != NULL ){
+   if( tickCallbackParams != NULL ) {
       callBackFuncParams = tickCallbackParams;
    } else {
       retVal &= FALSE;
@@ -167,14 +169,15 @@ bool_t tickCallbackSet( callBackFuncPtr_t tickCallback, void* tickCallbackParams
 }
 
 // Enable or disable the peripheral energy and clock
-void tickPowerSet( bool_t power ){
+void tickPowerSet( bool_t power )
+{
 
-   if( power ){
+   if( power ) {
       // Enable SysTick IRQ and SysTick Timer
       SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk |
                       SysTick_CTRL_TICKINT_Msk   |
                       SysTick_CTRL_ENABLE_Msk;
-   } else{
+   } else {
       // Disable SysTick IRQ and SysTick Timer
       SysTick->CTRL = 0x0000000;
    }
@@ -185,13 +188,14 @@ void tickPowerSet( bool_t power ){
 //__attribute__ ((section(".after_vectors")))
 
 // SysTick Timer ISR Handler
-void SysTick_Handler(void) {
+void SysTick_Handler(void)
+{
 
    tickCounter++;
 
-   if( (tickHookFunction != NULL) ){	   
+   if( (tickHookFunction != NULL) ) {
       // Execute Tick Hook function
-	   (* tickHookFunction )( callBackFuncParams );
+      (* tickHookFunction )( callBackFuncParams );
    }
 }
 

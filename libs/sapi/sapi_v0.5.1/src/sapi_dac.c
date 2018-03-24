@@ -57,24 +57,25 @@
  * @param:  DAC_ENABLE, DAC_DISABLE
  * @return: none
 */
-void dacInit( dacInit_t config ){
+void dacInit( dacInit_t config )
+{
 
-   switch(config){
+   switch(config) {
 
-      case DAC_ENABLE:
-         /* Initialize the DAC peripheral */
-         Chip_DAC_Init(LPC_DAC);
+   case DAC_ENABLE:
+      /* Initialize the DAC peripheral */
+      Chip_DAC_Init(LPC_DAC);
 
-         /* Enables the DMA operation and controls DMA timer */
-         Chip_DAC_ConfigDAConverterControl(LPC_DAC, DAC_DMA_ENA);
-                                                 /* DCAR DMA access */
-         /* Update value to DAC buffer*/
-         Chip_DAC_UpdateValue(LPC_DAC, 0);
+      /* Enables the DMA operation and controls DMA timer */
+      Chip_DAC_ConfigDAConverterControl(LPC_DAC, DAC_DMA_ENA);
+      /* DCAR DMA access */
+      /* Update value to DAC buffer*/
+      Chip_DAC_UpdateValue(LPC_DAC, 0);
       break;
 
-      case DAC_DISABLE:
-         /* Disable DAC peripheral */
-         Chip_DAC_DeInit( LPC_DAC );
+   case DAC_DISABLE:
+      /* Disable DAC peripheral */
+      Chip_DAC_DeInit( LPC_DAC );
       break;
    }
 
@@ -87,10 +88,11 @@ void dacInit( dacInit_t config ){
  * @param   value: analog value to be writen in the DAC, from 0 to 1023
  * @return  none
  */
-void dacWrite( dacMap_t analogOutput, uint16_t value ){
+void dacWrite( dacMap_t analogOutput, uint16_t value )
+{
 
-   if( analogOutput == AO ){
-      if( value > 1023 ){
+   if( analogOutput == AO ) {
+      if( value > 1023 ) {
          value = 1023;
       }
       Chip_DAC_UpdateValue( LPC_DAC, value );

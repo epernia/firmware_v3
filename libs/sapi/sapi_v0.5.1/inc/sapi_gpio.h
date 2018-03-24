@@ -62,7 +62,7 @@ extern "C" {
  *  INPUT_REPEATER (PULLUP and PULLDOWN)
  *  INITIALIZE
  */
-typedef enum{
+typedef enum {
    GPIO_INPUT, GPIO_OUTPUT,
    GPIO_INPUT_PULLUP, GPIO_INPUT_PULLDOWN,
    GPIO_INPUT_PULLUP_PULLDOWN,
@@ -72,14 +72,14 @@ typedef enum{
 
 /* ----- Begin Pin Init Structs NXP LPC4337 ----- */
 
-typedef struct{
+typedef struct {
    int8_t port;
    int8_t pin;
 } gpioInitLpc4337_t;
 
-typedef struct{
-    pinInitLpc4337_t pinName;
-              int8_t func;
+typedef struct {
+   pinInitLpc4337_t pinName;
+   int8_t func;
    gpioInitLpc4337_t gpio;
 } pinInitGpioLpc4337_t;
 

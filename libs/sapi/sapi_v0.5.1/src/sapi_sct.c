@@ -67,23 +67,22 @@
  * LED 1 and LCD1, have the same channel, so you can only generate 1 signal
  * for both. Because of that only one of them will be used.
  */
-static pinInitLpc4337_t SCTdataList[] =
-{
-/* Sct n° | port | pin | name in board */
-/* CTOUT0 */ { 4 , 2 }, /* T_FIL2 */
-/* CTOUT1 */ { 4 , 1 }, /* T_FIL1 */
-/* CTOUT2 */ { 2 , 10 }, /* LED1 (also for LCD1) */
-/* CTOUT3 */ { 4 , 3 }, /* T_FIL3 */
-/* CTOUT4 */ { 2 , 12 }, /* LED3 (also for LCD3) */
-/* CTOUT5 */ { 2 , 11 }, /* LED2 (also for LCD2) */
-/* CTOUT6 */ { 6 , 5 }, /* GPIO2 */
-/* CTOUT7 */ { 6 , 12 }, /* GPIO8 */
-/* CTOUT8 */ { 1 , 3 }, /* MDC / SPI_MISO */
-/* CTOUT9 */ { 1 , 4 }, /* SPI_MOSI */
-/* CTOUT10 */ { 1 , 5 }, /* T_COL0 */
-/* CTOUT11 */ { 0 , 0 }, /* DO NOT USE */
-/* CTOUT12 */ { 7 , 5 }, /* T_COL2 */
-/* CTOUT13 */ { 7 , 4 } /* T_COL1 */
+static pinInitLpc4337_t SCTdataList[] = {
+   /* Sct n° | port | pin | name in board */
+   /* CTOUT0 */ { 4 , 2 }, /* T_FIL2 */
+   /* CTOUT1 */ { 4 , 1 }, /* T_FIL1 */
+   /* CTOUT2 */ { 2 , 10 }, /* LED1 (also for LCD1) */
+   /* CTOUT3 */ { 4 , 3 }, /* T_FIL3 */
+   /* CTOUT4 */ { 2 , 12 }, /* LED3 (also for LCD3) */
+   /* CTOUT5 */ { 2 , 11 }, /* LED2 (also for LCD2) */
+   /* CTOUT6 */ { 6 , 5 }, /* GPIO2 */
+   /* CTOUT7 */ { 6 , 12 }, /* GPIO8 */
+   /* CTOUT8 */ { 1 , 3 }, /* MDC / SPI_MISO */
+   /* CTOUT9 */ { 1 , 4 }, /* SPI_MOSI */
+   /* CTOUT10 */ { 1 , 5 }, /* T_COL0 */
+   /* CTOUT11 */ { 0 , 0 }, /* DO NOT USE */
+   /* CTOUT12 */ { 7 , 5 }, /* T_COL2 */
+   /* CTOUT13 */ { 7 , 4 } /* T_COL1 */
 };
 
 /*Configuration data for LCD1, LCD2 and LCD3:
@@ -154,7 +153,7 @@ void Sct_SetDutyCycle(uint8_t sctNumber, uint8_t value)
  * @param:	sctNumber:   pin where the pwm signal is generated
  * @return:   duty cycle of the channel, from 0 to 255
  */
- /* TODO: function not tested */
+/* TODO: function not tested */
 uint8_t Sct_GetDutyCycle(uint8_t sctNumber)
 {
    uint8_t value = 0;

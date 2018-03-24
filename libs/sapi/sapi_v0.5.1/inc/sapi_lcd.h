@@ -66,7 +66,7 @@ extern "C" {
 #define LCD_CMD_WAIT_US        45    // Wait time for every command 45 us, except:
 #define LCD_CLR_DISP_WAIT_MS   3     // - Clear Display 1.52 ms
 #define LCD_RET_HOME_WAIT_MS   3     // - Return Home  1.52 ms
-                                     // - Read Busy flag and address 0 us
+// - Read Busy flag and address 0 us
 
 #define LCD_STARTUP_WAIT_MS    1000  // 3000 ms
 

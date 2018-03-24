@@ -33,7 +33,7 @@
 
 /* Date: 2017-30-10 */
 
-// More information at: 
+// More information at:
 // https://groups.google.com/forum/#!msg/embebidos32/tPntHHUSnyE/S3CDyCwXsaMJ
 
 /*==================[inclusions]=============================================*/
@@ -67,7 +67,8 @@ static uint32_t ClockSpeed = EDU_CIAA_NXP_CLOCK_SPEED;
  * Funcion para configurar los registros para contar ciclos de clock.
  * @return TRUE si esta OK, FALSE en caso de error.
  */
-bool_t cyclesCounterInit( uint32_t clockSpeed ){
+bool_t cyclesCounterInit( uint32_t clockSpeed )
+{
    //Asigna  a la variable local ClockSpeed el valor recibido como argumento.
    ClockSpeed = clockSpeed;
    //Iniciar el contador de ciclos de clock.
@@ -79,7 +80,8 @@ bool_t cyclesCounterInit( uint32_t clockSpeed ){
  * Funcion para leer el registro con la cuenta de ciclos de clock.
  * @return el valor del contador de ciclos de clock.
  */
-uint32_t cyclesCounterRead( void ){
+uint32_t cyclesCounterRead( void )
+{
    return *DWT_CYCCNT;
 }
 
@@ -90,7 +92,8 @@ uint32_t cyclesCounterRead( void ){
  * se debe llamar a la funcion cyclesCounterRead(). Asi se
  * obtendra la cantidad de ciclos que pasaron.
  */
-void cyclesCounterReset( void ){
+void cyclesCounterReset( void )
+{
    //resetea el contador de ciclos de clock
    *DWT_CYCCNT = 0;
 }
@@ -102,7 +105,8 @@ void cyclesCounterReset( void ){
  * @param cycles la cantidad de ciclos.
  * @return el valor convertido a micro segundos.
  */
-float cyclesCounterToUs( uint32_t cycles ){
+float cyclesCounterToUs( uint32_t cycles )
+{
    float valueInMicroSeconds = 0;
    valueInMicroSeconds = (float)cycles/(ClockSpeed/1000000);
    return valueInMicroSeconds;
@@ -115,7 +119,8 @@ float cyclesCounterToUs( uint32_t cycles ){
  * @param cycles la cantidad de ciclos.
  * @return el valor convertido a mili segundos.
  */
-float cyclesCounterToMs( uint32_t cycles ){
+float cyclesCounterToMs( uint32_t cycles )
+{
    float valueInMilliSeconds = 0;
    valueInMilliSeconds = (float)cycles/(ClockSpeed/1000);
    return valueInMilliSeconds;

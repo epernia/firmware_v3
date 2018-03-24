@@ -57,51 +57,52 @@
  * @param:  ADC_ENABLE, ADC_DISABLE
  * @return: none
 */
-void adcInit( adcInit_t config ){
+void adcInit( adcInit_t config )
+{
 
-   switch(config){
+   switch(config) {
 
-      case ADC_ENABLE: {
+   case ADC_ENABLE: {
 
-         /* Config ADC0 sample mode */
-         /*
-         ADC_CLOCK_SETUP_T ADCSetup = {
-            400000,   // ADC rate
-            10,       // ADC bit accuracy
-            0         // ADC Burt Mode (true or false)
-         };
-         */
-         ADC_CLOCK_SETUP_T ADCSetup;
+      /* Config ADC0 sample mode */
+      /*
+      ADC_CLOCK_SETUP_T ADCSetup = {
+         400000,   // ADC rate
+         10,       // ADC bit accuracy
+         0         // ADC Burt Mode (true or false)
+      };
+      */
+      ADC_CLOCK_SETUP_T ADCSetup;
 
-         /* Initialized to default values:
-		   *   - Sample rate:ADC_MAX_SAMPLE_RATE=400KHz
-		   *   - resolution: ADC_10BITS
-		   *   - burst mode: DISABLE */
-         Chip_ADC_Init( LPC_ADC0, &ADCSetup );
-         /* Disable burst mode */
-         Chip_ADC_SetBurstCmd( LPC_ADC0, DISABLE );
-         /* Set sample rate to 200KHz */
-         Chip_ADC_SetSampleRate( LPC_ADC0, &ADCSetup, ADC_MAX_SAMPLE_RATE/2 );
-         /* Disable all channels */
-         Chip_ADC_EnableChannel( LPC_ADC0,ADC_CH1, DISABLE );
-         Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH1, DISABLE );
+      /* Initialized to default values:
+      *   - Sample rate:ADC_MAX_SAMPLE_RATE=400KHz
+      *   - resolution: ADC_10BITS
+      *   - burst mode: DISABLE */
+      Chip_ADC_Init( LPC_ADC0, &ADCSetup );
+      /* Disable burst mode */
+      Chip_ADC_SetBurstCmd( LPC_ADC0, DISABLE );
+      /* Set sample rate to 200KHz */
+      Chip_ADC_SetSampleRate( LPC_ADC0, &ADCSetup, ADC_MAX_SAMPLE_RATE/2 );
+      /* Disable all channels */
+      Chip_ADC_EnableChannel( LPC_ADC0,ADC_CH1, DISABLE );
+      Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH1, DISABLE );
 
-         Chip_ADC_EnableChannel( LPC_ADC0, ADC_CH2, DISABLE );
-         Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH2, DISABLE );
+      Chip_ADC_EnableChannel( LPC_ADC0, ADC_CH2, DISABLE );
+      Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH2, DISABLE );
 
-         Chip_ADC_EnableChannel( LPC_ADC0, ADC_CH3, DISABLE );
-         Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH3, DISABLE );
+      Chip_ADC_EnableChannel( LPC_ADC0, ADC_CH3, DISABLE );
+      Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH3, DISABLE );
 
-         Chip_ADC_EnableChannel( LPC_ADC0, ADC_CH4, DISABLE );
-         Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH4, DISABLE );
+      Chip_ADC_EnableChannel( LPC_ADC0, ADC_CH4, DISABLE );
+      Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH4, DISABLE );
 
-         // Chip_SCU_ADC_Channel_Config( 0, 4 ); // Pablo Gomez
-      }
-      break;
+      // Chip_SCU_ADC_Channel_Config( 0, 4 ); // Pablo Gomez
+   }
+   break;
 
-      case ADC_DISABLE:
-         /* Disable ADC peripheral */
-         Chip_ADC_DeInit( LPC_ADC0 );
+   case ADC_DISABLE:
+      /* Disable ADC peripheral */
+      Chip_ADC_DeInit( LPC_ADC0 );
       break;
    }
 
@@ -113,7 +114,8 @@ void adcInit( adcInit_t config ){
  * @param   AI0 ... AIn
  * @return  analog value
  */
-uint16_t adcRead( adcMap_t analogInput ){
+uint16_t adcRead( adcMap_t analogInput )
+{
 
    uint8_t lpcAdcChannel = 66 - analogInput;
    uint16_t analogValue = 0;

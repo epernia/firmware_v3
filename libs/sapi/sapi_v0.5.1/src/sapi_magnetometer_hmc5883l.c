@@ -34,11 +34,11 @@
 
 /* Date: 2015-06-27 */
 
-#include "sapi_magnetometer_hmc5883l.h"         /* <= sAPI HMC5883L header */
-#include "sapi_i2c.h"         	   /* <= sAPI I2C header */
+#include "sapi_magnetometer_hmc5883l.h"   /* <= sAPI HMC5883L header */
+#include "sapi_i2c.h"         	         /* <= sAPI I2C header */
 
-bool_t hmc5883lIsAlive( void ){
-
+bool_t hmc5883lIsAlive( void )
+{
    uint8_t idRegister[3] = { 0, 0, 0 };
 
    // i2cRead( I2C0, HMC5883L_ADD, HMC5883L_REG_ID_REG_A, &idRegister, 3 );
@@ -46,16 +46,15 @@ bool_t hmc5883lIsAlive( void ){
    if( (HMC5883L_VALUE_ID_REG_A == idRegister[0]) &&
        (HMC5883L_VALUE_ID_REG_B == idRegister[1]) &&
        (HMC5883L_VALUE_ID_REG_C == idRegister[2])
-     ){
+     ) {
       return (TRUE);
-   }
-   else{
+   } else {
       return (FALSE);
    }
 }
 
-bool_t hmc5883lPrepareDefaultInit( HMC5883L_config_t * config ){
-
+bool_t hmc5883lPrepareDefaultInit( HMC5883L_config_t * config )
+{
    config->gain = HMC5883L_DEFAULT_gain;
    config->meassurement = HMC5883L_DEFAULT_messurement;
    config->rate = HMC5883L_DEFAULT_rate;
@@ -66,8 +65,8 @@ bool_t hmc5883lPrepareDefaultInit( HMC5883L_config_t * config ){
 }
 
 
-bool_t hmc5883lInit( HMC5883L_config_t config ){
-
+bool_t hmc5883lInit( HMC5883L_config_t config )
+{
    uint8_t registerA, registerB, registerMode;
 
    uint8_t transmitDataBuffer[2];
@@ -101,8 +100,8 @@ bool_t hmc5883lInit( HMC5883L_config_t config ){
 }
 
 
-bool_t hmc5883lRead( int16_t * x, int16_t * y, int16_t * z ){
-
+bool_t hmc5883lRead( int16_t * x, int16_t * y, int16_t * z )
+{
    bool_t result = TRUE;
 
    uint8_t x_MSB, x_LSB;
@@ -142,13 +141,13 @@ bool_t hmc5883lRead( int16_t * x, int16_t * y, int16_t * z ){
             &z_LSB, 1, TRUE );
 
    *x = x_MSB;
-   *x = (*x << 8)|x_LSB;
+   *x = (*x << 8) | x_LSB;
 
    *y = y_MSB;
-   *y = (*y << 8)|y_LSB;
+   *y = (*y << 8) | y_LSB;
 
    *z = z_MSB;
-   *z = (*z << 8)|z_LSB;
+   *z = (*z << 8) | z_LSB;
 
    return(result); /** TODO: return value must reflect the result of the operation */
 }

@@ -23,11 +23,11 @@ int main(void)
    boardConfig();
 
    xTaskCreateStatic(myTask, "myTask", configMINIMAL_STACK_SIZE, NULL,
-                   tskIDLE_PRIORITY+1, myTaskStack, &myTaskTCB);
+                     tskIDLE_PRIORITY+1, myTaskStack, &myTaskTCB);
 
    vTaskStartScheduler();
-   
+
    while(1);
-   
+
    return 0;
 }
