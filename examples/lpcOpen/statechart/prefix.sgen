@@ -1,0 +1,11 @@
+GeneratorModel for yakindu::c {
+
+	statechart prefix {
+
+		feature Outlet {
+			targetProject = "firmware_v2"
+			targetFolder = "examples/statechart/gen"
+			libraryTargetFolder = "examples/statechart/gen"
+		}
+	}
+}

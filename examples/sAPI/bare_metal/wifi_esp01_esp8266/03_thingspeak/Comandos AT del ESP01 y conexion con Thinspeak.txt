@@ -1,0 +1,95 @@
+COOLTERM: 
+http://freeware.the-meiers.org/
+
+AT
+
+AT+CWMODE?
+AT+CWMODE=3
+
+AT+CWLAP
+
+AT+CWJAP="miconexion","miclavewifi"
+
+AT+CWJAP?
+
+AT+CWQAP
+
+----------------------------------------------------------------------
+
+Canal CAPSE Eric en Thingspeak:
+
+https://thingspeak.com/channels/377497
+
+Write API Key: 7E7IOJ276BSDLOBA
+https://api.thingspeak.com/update?key=7E7IOJ276BSDLOBA&field1=31
+
+Read API Keys: L8JVCU8F1F819IXM
+http://api.thingspeak.com/channels/377497/fields/1/last?api_key=L8JVCU8F1F819IXM
+
+----------------------------------------------------------------------
+
+- Para leer:
+
+>> Conectarse (copiar y pegar los comandos y tocar enter):
+AT+CIPSTART="TCP","api.thingspeak.com",80
+
+>> AT+CIPSEND=largoDelProximoMensaje+2 (por el /r/n que se envía cuando tocan enter, que son 2 caracteres)
+AT+CIPSEND=61
+
+>> GET /channels/CHANNEL_ID/fields/FIELD_NUMBER/last?api_key=READ_API_KEY
+GET /channels/377497/fields/1/last?api_key=L8JVCU8F1F819IXM
+
+	deberia devolver algo como: +IPD,2:20CLOSED
+	Donde 20 es el ultimo valor guardado
+
+----------------------------------------------------------------------
+- Para escribir:
+
+>> Conectarse (copiar y pegar los comandos y tocar enter):
+AT+CIPSTART="TCP","api.thingspeak.com",80
+
+>> AT+CIPSEND=largoDelProximoMensaje+2 (por el /r/n que se envía cuando tocan enter, que son 2 caracteres)
+AT+CIPSEND=39
+
+>> GET /update?key=WRITE_API_KEY&FIELD_NUMBER=VALUE
+GET /update?key=7E7IOJ276BSDLOBA&1=66
+
+	deberia devolver algo como: +IPD,1:4CLOSED
+	Donde 4 es el la cantidad de datos mandados
+	
+----------------------------------------------------------------------
+
+- Para cerrar:
+AT+CIPCLOSE
+
+----------------------------------------------------------------------
+
+Para leer o escribir desde el browser (genérica):
+
+Escribir:
+https://api.thingspeak.com/update?key=WRITE_API_KEY&fieldFIELD_NUMBER=VALUE
+
+Leer:
+http://api.thingspeak.com/channels/CHANNEL_ID/fields/FIELD_NUMBER/last?api_key=READ_API_KEY
+
+
+==============================================================
+
+WIFI
+
+   http://www.naylampmechatronics.com/blog/21_Tutorial-ESP8266-Parte-I.html
+
+   https://www.dexterindustries.com/BrickPi/brickpi-tutorials-documentation/projects/thingspeak-temperature-log/
+
+   https://programarfacil.com/podcast/como-configurar-esp01-wifi-esp8266/
+
+   http://community.thingspeak.com/tutorials/
+
+
+Programar ESP8266
+
+   https://github.com/makespacemadrid/Jarvis/wiki/ESP8266-Diferentes-formas-de-programaci%C3%B3n
+
+   https://polaridad.es/esp8266-wifi-programar/
+
+

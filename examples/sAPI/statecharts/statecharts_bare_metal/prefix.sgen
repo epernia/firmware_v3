@@ -1,0 +1,11 @@
+GeneratorModel for yakindu::c {
+
+	statechart prefix {
+
+		feature Outlet {
+			targetProject = "firmware_v2"
+			targetFolder = "sapi_examples/edu-ciaa-nxp/statecharts/statecharts_bare_metal/gen"
+			libraryTargetFolder = "sapi_examples/edu-ciaa-nxp/statecharts/statecharts_bare_metal/gen"
+		}
+	}
+}

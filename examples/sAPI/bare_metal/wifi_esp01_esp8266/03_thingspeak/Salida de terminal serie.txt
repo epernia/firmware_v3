@@ -1,0 +1,205 @@
+>>>> UART_USB configurada como salida de debug.
+>>>> UART_ESP (donde se conecta el ESP01), 
+>>>> configurada como salida de consola.
+
+>>>> Chequear si se encuentra el modulo Wi-Fi.
+>>>>    Enviando "AT"...
+>>>>    Modulo ESP01 Wi-Fi detectado.
+
+>>>> Consultando las redes Wi-Fi disponibles.
+>>>>    Enviando "AT+CWLAP"...
+
+
+OK
+AT+CWLAP
+
++CWLAP:(4,"Telecentro-4836",-87,"8c:10:d4:88:0c:a6",1,3)
++CWLAP:(2,"Telecentro-0c16",-73,"38:60:77:0b:f6:95",1,18)
++CWLAP:(4,"Telecentro-73d8",-88,"8c:10:d4:89:73:de",11,3)
++CWLAP:(3,"Summertime",-71,"1c:b7:2c:85:b5:70",2,3)
++CWLAP:(3,"Miriam",-81,"c4:e9:84:ff:66:80",11,5)
++CWLAP:(4,"casaEric",-46,"08:6a:0a:a9:aa:d0",11,-6)
++CWLAP:(3,"dd-wrt repetidor2",-47,"02:1a:70:d1:1e:09",11,50)
++CWLAP:(4,"Telecentro-87f0",-88,"8c:10:d4:90:87:f6",6,-2)
++CWLAP:(4,"ANOXIDE",-89,"24:7f:20:08:06:c6",6,-17)
+
+OK
+>>>> Conectando a la red Wi-Fi: "casaEric"...
+WIFI CONNECTED
+WIFI GOT IP
+
+OK
+>>>> ===========================================================
+>>>> Enviar dato: "GET /update?api_key=7E7IOJ276BSDLOBA&field1=0"
+>>>> al servidor "api.thingspeak.com", puerto "80"...
+
+>>>> Conectando al servidor "api.thingspeak.com", puerto "80"...
+>>>> AT+CIPSTART="TCP","api.thingspeak.com",80
+
+AT+CIPSTART="TCP","api.thingspeak.com",80
+
+CONNECT
+
+OK
+>>>> Envio datos TCP/IP al servidor...
+>>>> AT+CIPSEND=47
+
+AT+CIPSEND=47
+
+
+OK
+> 
+Recv 47 bytes
+
+SEND OK
+GET /update?api_key=7E7IOJ276BSDLOBA&field1=0
+
+
+ERROR
+
++IPD,3:100CLOSED
+>>>> ===========================================================
+>>>> Enviar dato: "GET /update?api_key=7E7IOJ276BSDLOBA&field1=1"
+>>>> al servidor "api.thingspeak.com", puerto "80"...
+
+>>>> Conectando al servidor "api.thingspeak.com", puerto "80"...
+>>>> AT+CIPSTART="TCP","api.thingspeak.com",80
+
+AT+CIPSTART="TCP","api.thingspeak.com",80
+
+CONNECT
+
+OK
+>>>> Envio datos TCP/IP al servidor...
+>>>> AT+CIPSEND=47
+
+AT+CIPSEND=47
+
+
+OK
+> 
+Recv 47 bytes
+
+SEND OK
+GET /update?api_key=7E7IOJ276BSDLOBA&field1=1
+
+
+ERROR
+
++IPD,3:101CLOSED
+>>>> ===========================================================
+>>>> Enviar dato: "GET /update?api_key=7E7IOJ276BSDLOBA&field1=2"
+>>>> al servidor "api.thingspeak.com", puerto "80"...
+
+>>>> Conectando al servidor "api.thingspeak.com", puerto "80"...
+>>>> AT+CIPSTART="TCP","api.thingspeak.com",80
+
+AT+CIPSTART="TCP","api.thingspeak.com",80
+
+CONNECT
+
+OK
+>>>> Envio datos TCP/IP al servidor...
+>>>> AT+CIPSEND=47
+
+AT+CIPSEND=47
+
+
+OK
+> 
+Recv 47 bytes
+
+SEND OK
+GET /update?api_key=7E7IOJ276BSDLOBA&field1=2
+
+
+ERROR
+
++IPD,3:102CLOSED
+>>>> ===========================================================
+>>>> Enviar dato: "GET /update?api_key=7E7IOJ276BSDLOBA&field1=3"
+>>>> al servidor "api.thingspeak.com", puerto "80"...
+
+>>>> Conectando al servidor "api.thingspeak.com", puerto "80"...
+>>>> AT+CIPSTART="TCP","api.thingspeak.com",80
+
+AT+CIPSTART="TCP","api.thingspeak.com",80
+
+CONNECT
+
+OK
+>>>> Envio datos TCP/IP al servidor...
+>>>> AT+CIPSEND=47
+
+AT+CIPSEND=47
+
+
+OK
+> 
+Recv 47 bytes
+
+SEND OK
+GET /update?api_key=7E7IOJ276BSDLOBA&field1=3
+
+
+ERROR
+
++IPD,3:103CLOSED
+>>>> ===========================================================
+>>>> Enviar dato: "GET /update?api_key=7E7IOJ276BSDLOBA&field1=4"
+>>>> al servidor "api.thingspeak.com", puerto "80"...
+
+>>>> Conectando al servidor "api.thingspeak.com", puerto "80"...
+>>>> AT+CIPSTART="TCP","api.thingspeak.com",80
+
+AT+CIPSTART="TCP","api.thingspeak.com",80
+
+CONNECT
+
+OK
+>>>> Envio datos TCP/IP al servidor...
+>>>> AT+CIPSEND=47
+
+AT+CIPSEND=47
+
+
+OK
+> 
+Recv 47 bytes
+
+SEND OK
+GET /update?api_key=7E7IOJ276BSDLOBA&field1=4
+
+
+ERROR
+
++IPD,3:104CLOSED
+>>>> ===========================================================
+>>>> Enviar dato: "GET /update?api_key=7E7IOJ276BSDLOBA&field1=5"
+>>>> al servidor "api.thingspeak.com", puerto "80"...
+
+>>>> Conectando al servidor "api.thingspeak.com", puerto "80"...
+>>>> AT+CIPSTART="TCP","api.thingspeak.com",80
+
+AT+CIPSTART="TCP","api.thingspeak.com",80
+
+CONNECT
+
+OK
+>>>> Envio datos TCP/IP al servidor...
+>>>> AT+CIPSEND=47
+
+AT+CIPSEND=47
+
+
+OK
+> 
+Recv 47 bytes
+
+SEND OK
+GET /update?api_key=7E7IOJ276BSDLOBA&field1=5
+
+
+ERROR
+
++IPD,3:105CLOSED
