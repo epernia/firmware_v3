@@ -6,7 +6,6 @@
 # Project path 
 # (relative to this folder, leave void if the project is in this folder)
 PROJECT_PATH =
-
 # ---------- Project names ---------------------------------------------
 PROJECT_NAME = myProject
 
@@ -29,13 +28,12 @@ PROJECT_NAME = myProject
 #PROJECT_NAME = C_LPCOpen
 #PROJECT_NAME = C_sAPI
 #PROJECT_NAME = CPP_sAPI
-################################PROJECT_NAME = C_FreeRTOS_sAPI
+#PROJECT_NAME = C_FreeRTOS_sAPI
 #PROJECT_NAME = ASM_LPCOpen
 #PROJECT_NAME = ASM_sAPI
 
-
 #------------------------------------------------------------------------------
-# sAPI
+# sAPI bare metal
 #------------------------------------------------------------------------------
 
 # ---------- Projects path ---------------------------------------------
@@ -55,7 +53,7 @@ PROJECT_NAME = myProject
 		# resetear nuevamente la placa para permitir grabar nuevos programas.
 		# Tenga en cuenta tambien la corriente maxima del regulador al
 		# conectar uno o mas servos.
-	#################PROJECT_NAME = spi_01_sdCard_fatFileSystem # falta biblioteca de fileSystem
+	#################PROJECT_NAME = spi_01_sdCard_fatFileSystem   # falta biblioteca de fileSystem
 #PROJECT_NAME = stdio_01_printf_sprintf
 #PROJECT_NAME = tick_01_tickHook
 
@@ -108,13 +106,24 @@ PROJECT_NAME = myProject
 #PROJECT_NAME = 02_http_server
 #PROJECT_NAME = 03_thingspeak
 
+#------------------------------------------------------------------------------
+# sAPI Operating Systems
+#------------------------------------------------------------------------------
 
 	# ---------- Projects path ---------------------------------------------
-	#PROJECT_PATH = examples/sAPI/operating_systems/freeRTOS
+	#PROJECT_PATH = examples/sAPI/coperative
 	# ---------- Project names (uncomment only one) ------------------------
-	#PROJECT_NAME = freeRTOS_01_blinky
-	#PROJECT_NAME = freeRTOS_02_Queue
-	#PROJECT_NAME = freeRTOS_03_ChanFatFS_SPI_SdCard_ADC_log
+	#PROJECT_NAME = scheduler_01_seos
+	#PROJECT_NAME = scheduler_02_seos_background_foreground
+	#PROJECT_NAME = seos_Pont2014_01
+	#PROJECT_NAME = seos_Pont2014_02_microwave
+
+# ---------- Projects path ---------------------------------------------
+#PROJECT_PATH = examples/sAPI/operating_systems/freeRTOS
+# ---------- Project names (uncomment only one) ------------------------
+#PROJECT_NAME = freeRTOS_01_blinky
+#################PROJECT_NAME = freeRTOS_02_Queue
+	#################PROJECT_NAME = freeRTOS_03_ChanFatFS_SPI_SdCard_ADC_log
 
 	# ---------- Projects path ---------------------------------------------
 	#PROJECT_PATH = examples/sAPI/operating_systems/freeRTOS/freeRTOS_book
@@ -143,10 +152,13 @@ PROJECT_NAME = myProject
 	#PROJECT_NAME = Example022
 
 # ---------- Projects path ---------------------------------------------
-#################PROJECT_PATH = examples/sAPI/operating_systems/freeOSEK
+#PROJECT_PATH = examples/sAPI/operating_systems/freeOSEK
 # ---------- Project names (uncomment only one) ------------------------
 #################PROJECT_NAME = freeOSEK_01_blinky # OSEK aun no esta portado
 
+#------------------------------------------------------------------------------
+# sAPI Statecharts
+#------------------------------------------------------------------------------
 
 # ---------- Projects path ---------------------------------------------
 #PROJECT_PATH = examples/sAPI/statecharts
@@ -164,10 +176,9 @@ PROJECT_NAME = myProject
 #PROJECT_NAME = 
 
 # ---------- Projects path ---------------------------------------------
-##########################PROJECT_PATH = examples/sAPI/statecharts/statecharts_os/freeOSEK_examples
+#PROJECT_PATH = examples/sAPI/statecharts/statecharts_os/freeOSEK_examples
 # ---------- Project names (uncomment only one) ------------------------
 #PROJECT_NAME = 
-
 
 #------------------------------------------------------------------------------
 # LPC Open

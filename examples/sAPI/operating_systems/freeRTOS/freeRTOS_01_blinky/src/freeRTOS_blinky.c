@@ -1,4 +1,4 @@
-/* Copyright 2017, Eric Pernia
+/* Copyright 2017-2018, Eric Pernia
  * All rights reserved.
  *
  * This file is part of sAPI Library.
@@ -28,7 +28,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /*==================[inlcusiones]============================================*/
@@ -38,12 +37,12 @@
 #include "FreeRTOSConfig.h"
 #include "task.h"
 
-#include "sapi.h"        // <= sAPI header
+// sAPI header
+#include "sapi.h"
 
 /*==================[definiciones y macros]==================================*/
 
 /*==================[definiciones de datos internos]=========================*/
-
 
 /*==================[definiciones de datos externos]=========================*/
 
@@ -73,21 +72,20 @@ int main(void)
    gpioWrite( LED3, ON );
 
    // Crear tarea en freeRTOS
-	xTaskCreate(
-                myTask,                     // Funcion de la tarea a ejecutar
-		          (const char *)"myTask",     // Nombre de la tarea como String amigable para el usuario
-					 configMINIMAL_STACK_SIZE*2, // Tama�o del stack de la tarea
-					 0,                          // Parametros de tarea
-					 tskIDLE_PRIORITY+1,         // Prioridad de la tarea
-					 0                           // Puntero a la tarea creada en el sistema
-              );
+   xTaskCreate(
+      myTask,                     // Funcion de la tarea a ejecutar
+      (const char *)"myTask",     // Nombre de la tarea como String amigable para el usuario
+      configMINIMAL_STACK_SIZE*2, // Cantidad de stack de la tarea
+      0,                          // Parametros de tarea
+      tskIDLE_PRIORITY+1,         // Prioridad de la tarea
+      0                           // Puntero a la tarea creada en el sistema
+   );
 
    // Iniciar scheduler
-	vTaskStartScheduler();
+   vTaskStartScheduler();
 
    // ---------- REPETIR POR SIEMPRE --------------------------
-   while( TRUE )
-   {
+   while( TRUE ) {
       // Si cae en este while 1 significa que no pudo iniciar el scheduler
    }
 
@@ -97,7 +95,6 @@ int main(void)
    return 0;
 }
 
-
 /*==================[definiciones de funciones internas]=====================*/
 
 /*==================[definiciones de funciones externas]=====================*/
@@ -106,16 +103,14 @@ int main(void)
 void myTask( void* taskParmPtr )
 {
    // ---------- CONFIGURACIONES ------------------------------
-
    // ---------- REPETIR POR SIEMPRE --------------------------
-	while(TRUE)
-   {
+   while(TRUE) {
       // Intercambia el estado del LEDB
-		gpioToggle( LEDB );
-
+      gpioToggle( LEDB );
+      debugPrintlnString( "Blink!" );
       // Envia la tarea al estado bloqueado durante 500ms
-		vTaskDelay( 500 / portTICK_RATE_MS );
-	}
+      vTaskDelay( 500 / portTICK_RATE_MS );
+   }
 }
 
 /*==================[fin del archivo]========================================*/
