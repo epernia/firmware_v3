@@ -28,6 +28,18 @@ Available libraries:
 * Clean with ```make clean```. Clean for all targets with ```make clean_all```.
 * Download to target via OpenOCD with ```make download```.
 
+## Create a new project
+
+Cada proyecto es una carpeta (con nombre sin espacios) que incluye dentro, una carpeta src (contiene los archivos .c), una carpeta inc (contiene los archivos .h) y un archivo config.mk, donde se ponen algunos parámetros de compilación y se elige qué bibliotecas incluirá el proyecto.
+
+## Add a new library
+
+La carpeta libs permite incluir una nueva bilioteca de 2 formas:
+
+ - Biblioteca sencilla, una carpeta con adentro de libs que en su interior contenga una carpeta "src" con los archivos .c y una carpeta "inc" con los archivos .h. Este tipo de biblioteca se compila automáticamente por como está definido el makefile.
+ - Biblioteca avanzada, una biblioteca compleja como LibUSB o cosas raras con una esturtura complicada de carpetas y subcarpetas. En este caso hay que hacerle un pequeño makefile que agregue dichas rutas y particularidades. Se pueden usar de ejemplos los makefiles que hay en las 3 bibliotecas que trae.
+
+
 ## Examples
 
 Actualmente contamos con los siguientes, todos probados con la EDU-CIAA-NXP:
