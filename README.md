@@ -30,33 +30,33 @@ Available libraries:
 
 ## Create a new project
 
-Cada proyecto es una carpeta (con nombre sin espacios) que incluye dentro, una carpeta src (contiene los archivos .c), una carpeta inc (contiene los archivos .h) y un archivo config.mk, donde se ponen algunos parámetros de compilación y se elige qué bibliotecas incluirá el proyecto.
+Each project consist in a folder (with a non-spaces name) that includes inside 2 folders, one named ```src``` (here go, .c, .cpp or .s source code files), and another one named ```inc``` (here go, .h or .hpp source header files) and one file named ```config.mk```, where you may configure which libraries you include and compiler options.
 
 ## Add a new library
 
-La carpeta libs permite incluir una nueva bilioteca de 2 formas:
+The ```libs``` folder allow you to include 2 types of libraries:
 
- - Biblioteca sencilla, una carpeta con adentro de libs que en su interior contenga una carpeta "src" con los archivos .c y una carpeta "inc" con los archivos .h. Este tipo de biblioteca se compila automáticamente por como está definido el makefile.
- - Biblioteca avanzada, una biblioteca compleja como LibUSB o cosas raras con una esturtura complicada de carpetas y subcarpetas. En este caso hay que hacerle un pequeño makefile que agregue dichas rutas y particularidades. Se pueden usar de ejemplos los makefiles que hay en las 3 bibliotecas que trae.
+ - Simplie library. Consist in a folder (with a non-spaces name) that includes inside 2 folders, one named ```src``` (here go, .c, .cpp or .s source code files), and another one named ```inc``` (here go, .h or .hpp source header files). This kind of library compiles automaticaly by the Makefile.
+ - Advanced library. Consist in a library whit a complex folder and files strcuture, i.e. LibUSB. This case reuire make your own makefile. You can inspire from sAPI makefile to do that.
 
 
 ## Examples
 
-Actualmente contamos con los siguientes, todos probados con la EDU-CIAA-NXP:
+Included examples are:
 
-**Ejemplos Bare-metal con biblioteca sAPI**
+**Bare-metal with sAPI library examples**
 
  - GPIO:
-    - gpio_01_switches_leds: teclas y leds de la EDU-CIAA-NXP.
-    - gpio_02_blinky: led destellando de la EDU-CIAA-NXP.
-    - gpio_03_blinky_switch: ejemplo de destello de led y manejo de tecla con destello utilizando delay no bloqueante.
-    - gpio_04_led_sequences: ejemplo de secuencias de leds.
-    - keypad_7segment_01: Manejo de teclado matricial y display 7 segmentos.
-    - lcd_01: Manejo de display LCD.
+    - gpio_01_switches_leds: each switch drives the upper led.
+    - gpio_02_blinky: the simply led blinky with a blocking delay.
+    - gpio_03_blinky_switch: led blinky with a with a non-blocking delay, to allow you to respond to a switch at the same time.
+    - gpio_04_led_sequences: led sequences by using a non-blocking delay.
+    - keypad_7segment_01: Drives a keypad and 7 segment display.
+    - lcd_01: Drives an LCD display.
  - UART:
-    - uart_01_echo: Eco de por UART,  la EDU-CIAA-NXP responde lo que le transmito desde la PC.
-    - uart_02_receive_string_blocking: Espera a recibir cierta cadena patrón por UART o sale por timeout (funciona de manera bloqueante).
-    - uart_03_receive_string: Espera a recibir cierta cadena patrón por UART o sale por timeout (funciona de manera no bloqueante mediante una FSM).
+    - uart_01_echo: UART echo, it respond the same that you send from PC.
+    - uart_02_receive_string_blocking: Waits until receive a certain pattern String in a UART or timeout expire (blocking code).
+    - uart_03_receive_string:  Waits until receive a certain pattern String in a UART or timeout expire (non-blocking code).
  - Printf
     - stdio_01_printf_sprintf: Ejemplo de uso de printf() y similares de la biblioteca de C estándar.
  - ADC, DAC:
@@ -80,20 +80,20 @@ Actualmente contamos con los siguientes, todos probados con la EDU-CIAA-NXP:
        - 02_http_server: Servidor embebido en la EDU-CIAA-NXP para ver datos de la misma.
        - 03_thingspeak: Envío de datos a un dashboard en thingspeak para visualización de datos por internet.
 
-**Ejemplos con sistemas operativos y biblioteca sAPI**
+**Embedded Operating Systems with sAPI library examples**
 
- - S.O. Cooperativos (de M.J. Pont, ver )
-    - scheduler_01_seos: Introducción al sistema operativo cooperativo.
-    - scheduler_02_seos_background_foreground: Sistema operativo cooperativo, variante foreground-background.
-    - seos_Pont2014_01: Sistema operativo cooperativo completo de M.J. Pont.
-    - seos_pont_02_microwave: Sistema operativo cooperativo completo de M.J. Pont, ejemplo de microondas.
+ - Cooperative O.S. Cooperativos (from M.J. Pont, see at https://www.safetty.net/publications/pttes )
+    - scheduler_01_seos: Cooperative O.S. introduction.
+    - scheduler_02_seos_background_foreground: Cooperative O.S., foreground-background.
+    - seos_Pont2014_01: SEOS Cooperative O.S. from M.J. Pont (2014).
+    - seos_pont_02_microwave: SEOS Cooperative O.S. from M.J. Pont (2014), microwave example.
  - FreeOSEK
-    - freeOSEK_01_blinky: Ejemplo de Led destellando con freeOSEK.
+    - freeOSEK_01_blinky: Blinky led with freeOSEK RTOS.
  - FreeRTOS
-    - freeRTOS_01_blinky: Ejemplo deLed destellando con freeRTOS.
-    - freeRTOS_02_Queue: Ejemplo de utilización de colas en freeRTOS.
-    - freeRTOS_03_ChanFatFS_SPI_SdCard_ADC_log: Ejemplo de logueo de valores del ADC en tarjeta SD (conectada a la EDU-CIAA-NXP por SPI) utilizando un sistema de archivos FAT (ChanFS) y freeRTOS.
-    - freeRTOS_book: Ejemplos del libro de Richard Barry con FreeRTOS y sAPI. Estos son:
+    - freeRTOS_01_blinky: Blinky led with freeRTOS RTOS and sAPI.
+    - freeRTOS_02_Queue: Queue management with freeRTOS and sAPI.
+    - freeRTOS_03_ChanFatFS_SPI_SdCard_ADC_log: ADC logging in a SD/MicroSD Card (SPI connected) by using a FAT File System (ChanFS), freeRTOS and sAPI.
+    - freeRTOS_book: Richard Barry's book examples with FreeRTOS and sAPI:
        - EXAMPLE001: Creating tasks
        - EXAMPLE002: Using the task parameter
        - EXAMPLE003: Experimenting with priorities
@@ -120,7 +120,7 @@ Actualmente contamos con los siguientes, todos probados con la EDU-CIAA-NXP:
        - EXAMPLE024: Using a task notification in place of a semaphore, method 1
        - EXAMPLE025: Using a task notification in place of a semaphore, method 2
 
-**Ejemplos sin biblioteca sAPI**
+**LPC Open examples**
 
  - LPC4337:
      - adc_fir_dac 

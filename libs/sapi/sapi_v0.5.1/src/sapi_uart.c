@@ -549,6 +549,16 @@ void uartWriteString( uartMap_t uart, const char* str )
    }
 }
 
+// Blocking, Send a Byte Array
+void uartWriteByteArray( uartMap_t uart,
+                         const uint8_t* byteArray, uint32_t byteArrayLen )
+{
+   uint32_t i = 0;
+   for( i=0; i<byteArrayLen; i++ ) {
+      uartWriteByte( uart, byteArray[i] );
+   }
+}
+
 /*==================[ISR external functions definition]======================*/
 
 __attribute__ ((section(".after_vectors")))

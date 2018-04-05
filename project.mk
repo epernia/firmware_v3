@@ -7,7 +7,7 @@
 # (relative to this folder, leave void if the project is in this folder)
 PROJECT_PATH =
 # ---------- Project names ---------------------------------------------
-PROJECT_NAME = myProject
+PROJECT_NAME = app
 
 
 #==============================================================================
