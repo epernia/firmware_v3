@@ -120,9 +120,11 @@ Included examples are:
        - EXAMPLE024: Using a task notification in place of a semaphore, method 1
        - EXAMPLE025: Using a task notification in place of a semaphore, method 2
 
+**Statecharts with sAPI library examples**
+       
 **LPC Open examples**
 
- - LPC4337:
+ - LPC4337 LPC Open:
      - adc_fir_dac 
      - asm
      - blinky
@@ -140,7 +142,7 @@ Included examples are:
      - usb_rom_cdc
      - statechart
      - tcpecho
- - LPC4337 RTOS:
+ - LPC4337 LPC Open and RTOS:
      - freertos_blinky
      - blinky_osek
      - multicore 	
