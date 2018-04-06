@@ -55,16 +55,15 @@
 /*==================[external functions definition]==========================*/
 
 /* FUNCION que se ejecuta cada vez que ocurre un Tick. */
-void myTickHook( void *ptr ){
-
+void myTickHook( void *ptr )
+{
    static bool_t ledState = OFF;
-   
+
    gpioMap_t led = (gpioMap_t)ptr;
 
-   if( ledState ){
+   if( ledState ) {
       ledState = OFF;
-   }
-   else{
+   } else {
       ledState = ON;
    }
    gpioWrite( led, ledState );
@@ -72,8 +71,8 @@ void myTickHook( void *ptr ){
 
 
 /* FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. */
-int main(void){
-
+int main(void)
+{
    /* ------------- INICIALIZACIONES ------------- */
 
    /* Inicializar la placa */
@@ -84,10 +83,10 @@ int main(void){
       Ticks obteniendose una base de tiempos). */
    tickConfig( 50 );
 
-   /* Se agrega ademas un "tick hook" nombrado myTickHook. El tick hook es 
-      simplemente una funcion que se ejecutara peri­odicamente con cada 
-      interrupcion de Tick, este nombre se refiere a una funcion "enganchada" 
-      a una interrupcion. 
+   /* Se agrega ademas un "tick hook" nombrado myTickHook. El tick hook es
+      simplemente una funcion que se ejecutara peri­odicamente con cada
+      interrupcion de Tick, este nombre se refiere a una funcion "enganchada"
+      a una interrupcion.
       El segundo parametro es el parametro que recibe la funcion myTickHook
       al ejecutarse. En este ejemplo se utiliza para pasarle el led a titilar.
    */
@@ -95,19 +94,19 @@ int main(void){
    delay(1000);
 
    /* ------------- REPETIR POR SIEMPRE ------------- */
-   while(1) {  
+   while(1) {
       tickCallbackSet( myTickHook, (void*)LEDG );
       delay(1000);
       tickCallbackSet( myTickHook, (void*)LEDB );
       delay(1000);
       tickCallbackSet( myTickHook, (void*)LED1 );
-      delay(1000);  
+      delay(1000);
       tickCallbackSet( myTickHook, (void*)LED2 );
-      delay(1000);  
+      delay(1000);
       tickCallbackSet( myTickHook, (void*)LED3 );
-      delay(1000);  
+      delay(1000);
       tickCallbackSet( myTickHook, (void*)LEDR );
-      delay(1000);   
+      delay(1000);
    }
 
    /* NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado

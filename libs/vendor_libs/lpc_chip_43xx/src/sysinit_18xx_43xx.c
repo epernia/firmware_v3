@@ -81,7 +81,7 @@ static const struct CLK_BASE_STATES InitClkStates[] = {
 void Chip_SetupCoreClock(CHIP_CGU_CLKIN_T clkin, uint32_t core_freq, bool setbase)
 {
 	int i;
-	volatile uint32_t delay = 500;
+	volatile uint32_t delay = 10000; // FIXME: original was 500, fix for horrible crystals. @Eric
 	uint32_t direct = 0, pdivide = 0;
 	PLL_PARAM_T ppll;
 
@@ -118,12 +118,12 @@ void Chip_SetupCoreClock(CHIP_CGU_CLKIN_T clkin, uint32_t core_freq, bool setbas
 	Chip_Clock_SetBaseClock(CLK_BASE_MX, CLKIN_MAINPLL, true, false);
 
 	if (direct) {
-		delay = 1000;
+		delay = 10000; // FIXME: original was 1000, fix for horrible crystals. @Eric
 		while(delay --){} /* Wait for approx 50 uSec -- for power supply to stabilize*/
 		ppll.ctrl |= 1 << 7;
 		Chip_Clock_SetupMainPLL(&ppll); /* Set DIRECT to operate at full frequency */
 	} else if (pdivide) {
-		delay = 1000;
+		delay = 10000; // FIXME: original was 1000, fix for horrible crystals. @Eric
 		while(delay --){} /* Wait for approx 50 uSec -- for power supply to stabilize */
 		ppll.psel--;
 		Chip_Clock_SetupMainPLL(&ppll); /* Set PDIV to operate at full frequency */
@@ -158,9 +158,3 @@ void Chip_SystemInit(void)
 	/* Initial internal clocking */
 	Chip_SetupIrcClocking();
 }
-
-
-
-
-
-

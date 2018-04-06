@@ -1,1 +1,0 @@
-http://www.nxp.com/products/microcontrollers-and-processors/arm-processors/lpc-mcus/lpc54000-series-cortex-m4-mcus/low-power-32-bit-microcontroller-mcu-based-on-arm-cortex-m4-core:LPC54102J512BD64?tab=Documentation_Tab

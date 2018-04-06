@@ -7,8 +7,7 @@
 # (relative to this folder, leave void if the project is in this folder)
 PROJECT_PATH =
 # ---------- Project names ---------------------------------------------
-PROJECT_NAME = myProject
-
+PROJECT_NAME = app
 
 #==============================================================================
 # Examples
@@ -110,13 +109,13 @@ PROJECT_NAME = myProject
 # sAPI Operating Systems
 #------------------------------------------------------------------------------
 
-	# ---------- Projects path ---------------------------------------------
-	#PROJECT_PATH = examples/sAPI/coperative
-	# ---------- Project names (uncomment only one) ------------------------
-	#PROJECT_NAME = scheduler_01_seos
-	#PROJECT_NAME = scheduler_02_seos_background_foreground
-	#PROJECT_NAME = seos_Pont2014_01
-	#PROJECT_NAME = seos_Pont2014_02_microwave
+# ---------- Projects path ---------------------------------------------
+#PROJECT_PATH = examples/sAPI/operating_systems/coperative
+# ---------- Project names (uncomment only one) ------------------------
+#PROJECT_NAME = scheduler_01_seos
+#PROJECT_NAME = scheduler_02_seos_background_foreground
+#PROJECT_NAME = seos_Pont2014_01_firstApp
+#PROJECT_NAME = seos_Pont2014_02_microwave
 
 # ---------- Projects path ---------------------------------------------
 #PROJECT_PATH = examples/sAPI/operating_systems/freeRTOS
@@ -127,7 +126,7 @@ PROJECT_NAME = myProject
 
 	# ---------- Projects path ---------------------------------------------
 	#PROJECT_PATH = examples/sAPI/operating_systems/freeRTOS/freeRTOS_book
-	# ---------- Project names (uncomment only one) ------------------------
+################# ---------- Project names (uncomment only one) ------------------------
 	#PROJECT_NAME = Example001
 	#PROJECT_NAME = Example002
 	#PROJECT_NAME = Example003
