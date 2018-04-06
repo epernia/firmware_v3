@@ -20,6 +20,11 @@ extern "C" {
 #define LED_2                       4
 #define LED_3                       5
 
+#define BOARD_TEC_1                 0
+#define BOARD_TEC_2                 1
+#define BOARD_TEC_3                 2
+#define BOARD_TEC_4                 3
+
 #define BOARD_GPIO_0                0
 #define BOARD_GPIO_1                1
 #define BOARD_GPIO_2                2
@@ -99,8 +104,8 @@ extern "C" {
 #endif
 
 
-bool        Board_BTN_GetStatus     (uint8_t button);
-void        Board_ADC_ReadBegin     (CHIP_ADC_CHANNEL channel);
+bool        Board_TEC_GetStatus     (uint8_t button);
+void        Board_ADC_ReadBegin     (ADC_CHANNEL_T channel);
 bool        Board_ADC_ReadWait      ();
 uint16_t    Board_ADC_ReadEnd       ();
 

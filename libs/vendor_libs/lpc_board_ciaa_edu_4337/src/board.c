@@ -98,7 +98,7 @@ static const struct gpio_t GpioPorts[] = {
 };
 
 
-static CHIP_ADC_CHANNEL curADCChannel = 0xFF;
+static ADC_CHANNEL_T curADCChannel = 0xFF;
 
 
 #define GPIO_LEDS_SIZE      (sizeof(GpioLeds) / sizeof(struct gpio_t))
@@ -110,18 +110,18 @@ static void Board_LED_Init ()
 {
     for (uint32_t i = 0; i < GPIO_LEDS_SIZE; ++i)
     {
-        const struct io_port_t *io = &GpioLeds[i];
+        const struct gpio_t *io = &GpioLeds[i];
         Chip_GPIO_SetPinDIROutput   (LPC_GPIO_PORT, io->port, io->pin);
         Chip_GPIO_SetPinState       (LPC_GPIO_PORT, io->port, io->pin, false);
     }
 }
 
 
-static void Board_BTN_Init ()
+static void Board_TEC_Init ()
 {
     for (uint32_t i = 0; i < GPIO_BUTTONS_SIZE; ++i)
     {
-        const struct io_port_t *io = &GpioButtons[i];
+        const struct gpio_t *io = &GpioButtons[i];
         Chip_GPIO_SetPinDIRInput (LPC_GPIO_PORT, io->port, io->pin);
     }
 }
@@ -131,7 +131,7 @@ static void Board_GPIO_Init ()
 {
     for (uint32_t i = 0; i < GPIO_PORTS_SIZE; ++i)
     {
-        const struct io_port_t *io = &GpioPorts[i];
+        const struct gpio_t *io = &GpioPorts[i];
         Chip_GPIO_SetPinDIRInput (LPC_GPIO_PORT, io->port, io->pin);
     }
 }
@@ -161,8 +161,8 @@ static void Board_ADC_Init ()
     ADC_CLOCK_SETUP_T cs;
 
     Chip_ADC_Init               (LPC_ADC0, &cs);
-    Chip_ADC_Set_SampleRate     (LPC_ADC0, &cs, BOARD_ADC_SAMPLE_RATE);
-    Chip_ADC_Set_Resolution     (LPC_ADC0, &cs, BOARD_ADC_RESOLUTION);
+    Chip_ADC_SetSampleRate      (LPC_ADC0, &cs, BOARD_ADC_SAMPLE_RATE);
+    Chip_ADC_SetResolution      (LPC_ADC0, &cs, BOARD_ADC_RESOLUTION);
 }
 
 
@@ -209,7 +209,7 @@ void Board_LED_Set (uint8_t LEDNumber, bool On)
         return;
     }
 
-    const struct io_port_t *io = &GpioLeds[LEDNumber];
+    const struct gpio_t *io = &GpioLeds[LEDNumber];
     Chip_GPIO_SetPinState (LPC_GPIO_PORT, io->port, io->pin, !On);
 }
 
@@ -221,7 +221,7 @@ bool Board_LED_Test (uint8_t LEDNumber)
         return false;
     }
 
-    const struct io_port_t *io = &GpioLeds[LEDNumber];
+    const struct gpio_t *io = &GpioLeds[LEDNumber];
     return !Chip_GPIO_GetPinState (LPC_GPIO_PORT, io->port, io->pin);
 }
 
@@ -238,7 +238,8 @@ void Board_Init (void)
    Chip_GPIO_Init       (LPC_GPIO_PORT);
 
    Board_LED_Init       ();
-   Board_BTN_Init       ();
+   Board_TEC_Init       ();
+   Board_SPI_Init       ();
    Board_GPIO_Init      ();
    Board_I2C_Init       ();
    Board_ADC_Init       ();
@@ -247,23 +248,23 @@ void Board_Init (void)
 }
 
 
-bool Board_BTN_GetStatus (uint8_t button)
+bool Board_TEC_GetStatus (uint8_t button)
 {
    if (button >= GPIO_BUTTONS_SIZE)
    {
        return false;
    }
 
-   return Chip_GPIO_GetPinState (LPC_GPIO_PORT, gpioButtons[button].port,
-                                 gpioButtons[button].pin);
+   return Chip_GPIO_GetPinState (LPC_GPIO_PORT, GpioButtons[button].port,
+                                 GpioButtons[button].pin);
 }
 
 
-void Board_ADC_ReadBegin (CHIP_ADC_CHANNEL channel)
+void Board_ADC_ReadBegin (ADC_CHANNEL_T channel)
 {
     if (channel < ADC_CH0 || channel > ADC_CH3)
     {
-        return 0;
+        return;
     }
 
     if (curADCChannel >= ADC_CH0 || curADCChannel <= ADC_CH3)
@@ -292,7 +293,7 @@ uint16_t Board_ADC_ReadEnd ()
 {
     uint16_t data;
 
-    if (Chip_ADC_ReadValue (LPC_ADC0, curADCChannel, &dataADC) != SUCCESS)
+    if (Chip_ADC_ReadValue (LPC_ADC0, curADCChannel, &data) != SUCCESS)
     {
         data = 0xFFFF;
     }

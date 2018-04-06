@@ -4,30 +4,34 @@
 
 #include <board.h>
 
-#define UNUSED(...) ((void) (__VA_ARGS__))
+#define UNUSED1(x) (void)x
+#define UNUSED2(x,y) UNUSED1(x); UNUSED1(y)
+#define UNUSED3(x,y,z) UNUSED2(x,y); UNUSED1(z)
 #define SET_ERR(e) (r->_errno = e)
 
 void _exit(int code) {
    register int __params__ __asm__("r0") = code;
    while (1)
        __asm__ __volatile__("bkpt 0");
+
+   (void) __params__;
 }
 
 int _close_r(struct _reent *r, int fd) {
-   UNUSED(fd);
+   UNUSED1(fd);
    SET_ERR(EBADF);
    return -1;
 }
 
 int _execve_r(struct _reent *r, const char *f, char * const *args,
        char * const *env) {
-   UNUSED(f, args, env);
+   UNUSED3(f, args, env);
    SET_ERR(ENOSYS);
    return -1;
 }
 
 int _fcntl_r(struct _reent *r, int fd, int cmd, int arg) {
-   UNUSED(fd, cmd, arg);
+   UNUSED3(fd, cmd, arg);
    SET_ERR(ENOSYS);
    return -1;
 }
@@ -38,13 +42,13 @@ int _fork_r(struct _reent *r) {
 }
 
 int _fstat_r(struct _reent *r, int fd, struct stat *st) {
-   UNUSED(fd, st);
+   UNUSED2(fd, st);
    SET_ERR(ENOSYS);
    return -1;
 }
 
 int _getpid_r(struct _reent *r) {
-   UNUSED(r);
+   UNUSED1(r);
    return 1;
 }
 
@@ -87,25 +91,25 @@ int _kill_r(struct _reent *r, int pid, int signal) {
 }
 
 int _link_r(struct _reent *r, const char *oldf, const char *newf) {
-   UNUSED(oldf, newf);
+   UNUSED2(oldf, newf);
    SET_ERR(ENOSYS);
    return -1;
 }
 
 _off_t _lseek_r(struct _reent *r, int fd, _off_t off, int w) {
-   UNUSED(fd, off, w);
+   UNUSED3(fd, off, w);
    SET_ERR(ENOSYS);
    return -1;
 }
 
 int _mkdir_r(struct _reent *r, const char *name, int m) {
-   UNUSED(name, m);
+   UNUSED2(name, m);
    SET_ERR(ENOSYS);
    return -1;
 }
 
 int _open_r(struct _reent *r, const char *name, int f, int m) {
-   UNUSED(name, f, m);
+   UNUSED3(name, f, m);
    SET_ERR(EBADF);
    return -1;
 }
@@ -126,7 +130,7 @@ _ssize_t _read_r(struct _reent *r, int fd, void *b, size_t n) {
 }
 
 int _rename_r(struct _reent *r, const char *oldf, const char *newf) {
-   UNUSED(oldf, newf);
+   UNUSED2(oldf, newf);
    SET_ERR(ENOSYS);
    return -1;
 }
@@ -144,25 +148,25 @@ void *_sbrk_r(struct _reent *r, ptrdiff_t incr) {
 }
 
 int _stat_r(struct _reent *r, const char *name, struct stat *s) {
-   UNUSED(name, s);
+   UNUSED2(name, s);
    SET_ERR(ENOSYS);
    return -1;
 }
 
 _CLOCK_T_ _times_r(struct _reent *r, struct tms *tm) {
-   UNUSED(tm);
+   UNUSED1(tm);
    SET_ERR(ENOSYS);
    return -1;
 }
 
 int _unlink_r(struct _reent *r, const char *name) {
-   UNUSED(name);
+   UNUSED1(name);
    SET_ERR(ENOSYS);
    return -1;
 }
 
 int _wait_r(struct _reent *r, int *st) {
-   UNUSED(st);
+   UNUSED1(st);
    SET_ERR(ENOSYS);
    return -1;
 }
@@ -184,7 +188,7 @@ _ssize_t _write_r(struct _reent *r, int fd, const void *b, size_t n) {
 
 /* This one is not guaranteed to be available on all targets.  */
 int _gettimeofday_r(struct _reent *r, struct timeval *__tp, void *__tzp) {
-   UNUSED(__tp, __tzp);
+   UNUSED2(__tp, __tzp);
    SET_ERR(ENOSYS);
    return -1;
 }
