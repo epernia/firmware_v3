@@ -36,7 +36,7 @@ Each project consist in a folder (with a non-spaces name) that includes inside 2
 
 The ```libs``` folder allow you to include 2 types of libraries:
 
- - Simplie library. Consist in a folder (with a non-spaces name) that includes inside 2 folders, one named ```src``` (here go, .c, .cpp or .s source code files), and another one named ```inc``` (here go, .h or .hpp source header files). This kind of library compiles automaticaly by the Makefile.
+ - Simplie library. Consist in a folder (with a non-spaces name) that includes inside 2 folders, one named ```src``` (here go .c, .cpp or .s source code files), and another one named ```inc``` (here go .h or .hpp header files). This kind of library compiles automaticaly by the Makefile.
  - Advanced library. Consist in a library whit a complex folder and files strcuture, i.e. LibUSB. This case reuire make your own makefile. You can inspire from sAPI makefile to do that.
 
 
@@ -58,31 +58,31 @@ Included examples are:
     - uart_02_receive_string_blocking: Waits until receive a certain pattern String in a UART or timeout expire (blocking code).
     - uart_03_receive_string:  Waits until receive a certain pattern String in a UART or timeout expire (non-blocking code).
  - Printf
-    - stdio_01_printf_sprintf: Ejemplo de uso de printf() y similares de la biblioteca de C estándar.
+    - stdio_01_printf_sprintf: printf() and other similar standard C libray functions.
  - ADC, DAC:
-    - adc_dac_01: Utilización de los periféricos ADC y DAC de la EDU-CIAA-NXP.
+    - adc_dac_01: ADC and DAC example.
  - TIMER, RTC:
-    - cycles_counter_01: Funciones de conteo de ciclos de reloj, funciona únicamente en modo debug y permite tener trazabilidad de tiempos de ejecución.
-    - tick_01_tickHook: Función de tick periódico y como ejecutar periódicamente una función callback desde dicha interrupción.
-    - rtc_01: Periférico RTC para reloj de fecha/hora.
-    - pwm_01: Ejemplo de PWM aplicado a los LEDs de la EDU-CIAA-NXP.
-    - pwm_02_rgb_controller_uart: Control de LED RGB para formar cualquier color.
-    - servo_01: Ejemplo de Servomotor conectado a la EDU-CIAA-NXP.
- - Periféricos externos:
-    - Magnetómetros I2C. Puede venir cualquiera de ellos en el módulo GY-273, son compatibles en cuanto a disposición y tamaño de pines pero con diferente mapa de registros. Para diferenciarlos revise el chip con una lupa:
-       - i2c_01_hmc5883l: Ejemplo de magnetómetro HMC5883L. 
-       - i2c_02_qmc5883l: Ejemplo de magnetómetro QMC5883L.
-    - dht11_01: Sensor de humedad y temperatura.
-    - ultrasonicSensor_HCSR04_01: Sensor ultrasónico de  distancia HC-SR04.
-    - spi_01_sdCard_fatFileSystem: Ejemplo de logueo de valores del ADC en tarjeta SD (conectada a la EDU-CIAA-NXP por SPI) utilizando un sistema de archivos FAT (ChanFS).
-    - Módulo WiFi ESP01 (ESP8266):
-       - 01_uart_bridge: Conexión directa con módulo ESP01 para enviar comandos AT al mismo.
-       - 02_http_server: Servidor embebido en la EDU-CIAA-NXP para ver datos de la misma.
-       - 03_thingspeak: Envío de datos a un dashboard en thingspeak para visualización de datos por internet.
+    - cycles_counter_01: clock cycles counter functions, only work in debug mode. Allows execution time trazability.
+    - tick_01_tickHook: Periodic tick function (interrupt-based) with periodic callback.
+    - rtc_01: RTC peripheral to have date and time clock.
+    - pwm_01: PWM applied to LEDs.
+    - pwm_02_rgb_controller_uart: RGB LED example.
+    - servo_01: Servomotor PWM control example.
+ - External peripherals:
+    - I2C Magnetometers. In Chinese GY-273 module you can have one of this magnetometers, that have the same pinout but different register map. To difference them see the chip, ignore the board serigraphy:
+       - i2c_01_hmc5883l: HMC5883L magnetometer. 
+       - i2c_02_qmc5883l: QMC5883L magnetometer.
+    - dht11_01: Humidity an Temperature sensor.
+    - ultrasonicSensor_HCSR04_01: HC-SR04 utrasonic distance sensor.
+    - spi_01_sdCard_fatFileSystem: ADC logging in a SD/MicroSD Card (SPI connected) by using a FAT File System (ChanFS).
+    - WiFi ESP01 (ESP8266) module:
+       - 01_uart_bridge: Use this to send AT commands directly to ESP01 module.
+       - 02_http_server: Embedded web Server to see sensor values.
+       - 03_thingspeak: Send data to thingspeak dashboards.
 
 **Embedded Operating Systems with sAPI library examples**
 
- - Cooperative O.S. Cooperativos (from M.J. Pont, see at https://www.safetty.net/publications/pttes )
+ - Cooperative O.S. (see M.J. Pont's book at https://www.safetty.net/publications/pttes )
     - scheduler_01_seos: Cooperative O.S. introduction.
     - scheduler_02_seos_background_foreground: Cooperative O.S., foreground-background.
     - seos_Pont2014_01: SEOS Cooperative O.S. from M.J. Pont (2014).
