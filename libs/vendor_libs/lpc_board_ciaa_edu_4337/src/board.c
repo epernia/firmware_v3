@@ -1,201 +1,304 @@
 /*
- * Copyright(C) NXP Semiconductors, 2012
- * All rights reserved.
- *
- * Software that is described herein is for illustrative purposes only
- * which provides customers with programming information regarding the
- * LPC products.  This software is supplied "AS IS" without any warranties of
- * any kind, and NXP Semiconductors and its licensor disclaim any and
- * all warranties, express or implied, including all implied warranties of
- * merchantability, fitness for a particular purpose and non-infringement of
- * intellectual property rights.  NXP Semiconductors assumes no responsibility
- * or liability for the use of the software, conveys no license or rights under any
- * patent, copyright, mask work right, or any other intellectual property rights in
- * or to any products. NXP Semiconductors reserves the right to make changes
- * in the software without notification. NXP Semiconductors also makes no
- * representation or warranty that such application will be suitable for the
- * specified use without further testing or modification.
- *
- * Permission to use, copy, modify, and distribute this software and its
- * documentation is hereby granted, under NXP Semiconductors' and its
- * licensor's relevant copyrights in the software, without fee, provided that it
- * is used in conjunction with NXP Semiconductors microcontrollers.  This
- * copyright, permission, and disclaimer notice must appear in all copies of
- * this code.
- */
+    LPCOpen Edu-CIAA Board port
+    Copyright (C) 2018 Santiago Germino.
+    royconejo@gmail.com
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    ----------------------------------------------------------------------------
+
+    Objetivo y alcance:
+
+    Exponer funcionalidad basica de la placa Edu-CIAA en proyectos que, por
+    algun motivo, solo utilizaran la libraria LPCOpen.
+
+    Realizado segun la defincion de la API de Board en board_api.h. Se agregan
+    funciones para manejar los botones TEC_1 a TEC_4, obtener samples de los
+    canales ADC y demas.
+
+    La mayoria de los pines expuestos en P1 y P2 se configuran e inician segun
+    su funcion original: ETHERNET, 232_RX/TX, SPI, GPIO, I2C y ADC.
+
+    Los pins GPIO se inician en direccion INPUT con pullups, tal como si fuesen
+    pulsadores.
+
+    El puerto ETHERNET de la Edu-CIAA requiere un poncho especifico que provea
+    el "physical layer". Por ende, no existe en esta placa codigo para iniciar
+    dicho integrado, sino simplemente la configuracion del MUX para activar
+    los pines del puerto ETHERNET como RMII y el clock.
+
+    Para CAN, display de caracteres con 4 bits de datos (puerto LCD*) y teclado
+    (puerto T_*) tambien se requiere conectar ponchos o hardware externo.
+
+    El puerto serie de DEBUG (conectado al FT2232 y expuesto como un puerto
+    serie USB en la PC de desarrollo) se configura por defecto de la siguiente
+    forma: 115200, 8N1. Aunque como pasa con I2C, SPI, ADC y demas, puede
+    configurarse a gusto previo a la inclusion de board.h (ver ese archivo para
+    conocer el nombre de los #defines) o bien puede reconfigurarse luego.
+
+    El MUXING de los pines se configura en board_sysinit.c. Si bien el objetivo
+    de ese archivo es configurar la interfaz a memoria SDRAM previo a la
+    llamada a main(), en la Edu-CIAA su uso queda completamente desvirtuado. De
+    todos modos valoro que board.c quede libre de setear listas y listas de
+    pines, funciones, etc. que se configuran y usan solo en el inicio.
+
+    ----------------------------------------------------------------------------
+
+    Changelog:
+
+    v0.9 - 4/4/2018, sgermino:
+        Primer version. Para completar la funcionalidad basica de la placa
+        seria necesario agregar funciones para enviar y recibir datos por
+        RS-485.
+*/
+
 
 #include "board.h"
-#include "string.h"
+#if defined(DEBUG_ENABLE) && !defined(DEBUG_UART)
+    #error "Definir DEBUG_UART como LPC_USART{numero de UART}"
+#endif
 
-/** @ingroup BOARD_NGX_XPLORER_18304330
- * @{
- */
 
-/* SDIO Data pin configuration bits */
-#define SDIO_DAT_PINCFG (SCU_MODE_HIGHSPEEDSLEW_EN | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS | SCU_MODE_PULLUP | SCU_MODE_FUNC7)
-
-/*****************************************************************************
- * Public types/enumerations/variables
- ****************************************************************************/
-
-/* System configuration variables used by chip driver */
+// Configuracion del modulo CHIP. El clock de la Edu-CIAA utiliza un cristal de
+// 12 Mhz.
 const uint32_t ExtRateIn = 0;
 const uint32_t OscRateIn = 12000000;
 
-typedef struct {
-   uint8_t port;
-   uint8_t pin;
-} io_port_t;
 
-static const io_port_t gpioLEDBits[] = {{0, 14}, {1, 11}, {1, 12}, {5, 0}, {5, 1}, {5, 2}};
-static uint32_t lcd_cfg_val;
-
-void Board_UART_Init(LPC_USART_T *pUART)
+struct gpio_t
 {
-   Chip_SCU_PinMuxSet(0x6, 4, (SCU_MODE_INACT | SCU_MODE_FUNC2));                  /* P6,4 : UART0_TXD */
-   Chip_SCU_PinMuxSet(0x2, 1, (SCU_MODE_INACT | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS | SCU_MODE_FUNC1));/* P2.1 : UART0_RXD */
+    uint8_t port;
+    uint8_t pin;
+};
+
+
+static const struct gpio_t GpioLeds[] = {
+    {5, 0}, {5, 1}, {5, 2}, {0, 14}, {1, 11}, {1, 12}
+};
+
+
+static const struct gpio_t GpioButtons[] = {
+    {0, 4}, {0, 8}, {0, 9}, {1, 9}
+};
+
+
+static const struct gpio_t GpioPorts[] = {
+    {3, 0}, {3, 3}, {3, 4}, {5,15}, {5,16}, {3, 5}, {3, 6}, {3, 7}, {2, 8}
+};
+
+
+static CHIP_ADC_CHANNEL curADCChannel = 0xFF;
+
+
+#define GPIO_LEDS_SIZE      (sizeof(GpioLeds) / sizeof(struct gpio_t))
+#define GPIO_BUTTONS_SIZE   (sizeof(GpioButtons) / sizeof(struct gpio_t))
+#define GPIO_PORTS_SIZE     (sizeof(GpioPorts) / sizeof(struct gpio_t))
+
+
+static void Board_LED_Init ()
+{
+    for (uint32_t i = 0; i < GPIO_LEDS_SIZE; ++i)
+    {
+        const struct io_port_t *io = &GpioLeds[i];
+        Chip_GPIO_SetPinDIROutput   (LPC_GPIO_PORT, io->port, io->pin);
+        Chip_GPIO_SetPinState       (LPC_GPIO_PORT, io->port, io->pin, false);
+    }
 }
 
-/* Initialize debug output via UART for board */
-void Board_Debug_Init(void)
+
+static void Board_BTN_Init ()
 {
-#if defined(DEBUG_UART)
-   Board_UART_Init(DEBUG_UART);
-
-   Chip_UART_Init(DEBUG_UART);
-   Chip_UART_SetBaudFDR(DEBUG_UART, 115200);
-   Chip_UART_ConfigData(DEBUG_UART, UART_LCR_WLEN8 | UART_LCR_SBS_1BIT | UART_LCR_PARITY_DIS);
-
-   /* Enable UART Transmit */
-   Chip_UART_TXEnable(DEBUG_UART);
-#endif
+    for (uint32_t i = 0; i < GPIO_BUTTONS_SIZE; ++i)
+    {
+        const struct io_port_t *io = &GpioButtons[i];
+        Chip_GPIO_SetPinDIRInput (LPC_GPIO_PORT, io->port, io->pin);
+    }
 }
 
-/* Sends a character on the UART */
-void Board_UARTPutChar(char ch)
+
+static void Board_GPIO_Init ()
 {
-#if defined(DEBUG_UART)
-   /* Wait for space in FIFO */
-   while ((Chip_UART_ReadLineStatus(DEBUG_UART) & UART_LSR_THRE) == 0) {}
-   Chip_UART_SendByte(DEBUG_UART, (uint8_t) ch);
-#endif
+    for (uint32_t i = 0; i < GPIO_PORTS_SIZE; ++i)
+    {
+        const struct io_port_t *io = &GpioPorts[i];
+        Chip_GPIO_SetPinDIRInput (LPC_GPIO_PORT, io->port, io->pin);
+    }
 }
 
-/* Gets a character from the UART, returns EOF if no character is ready */
-int Board_UARTGetChar(void)
+
+static void Board_I2C_Init ()
 {
-#if defined(DEBUG_UART)
-   if (Chip_UART_ReadLineStatus(DEBUG_UART) & UART_LSR_RDR) {
-       return (int) Chip_UART_ReadByte(DEBUG_UART);
-   }
-#endif
-   return EOF;
+    Chip_I2C_Init           (I2C0);
+    Chip_SCU_I2C0PinConfig  (BOARD_I2C_MODE);
+    Chip_I2C_SetClockRate   (I2C0, BOARD_I2C_SPEED);
 }
 
-/* Outputs a string on the debug UART */
-void Board_UARTPutSTR(const char *str)
+
+static void Board_SPI_Init ()
 {
-#if defined(DEBUG_UART)
-   while (*str != '\0') {
-       Board_UARTPutChar(*str++);
-   }
-#endif
+    Chip_SSP_Init           (LPC_SSP1);
+    Chip_SSP_Set_Mode       (LPC_SSP1, BOARD_SPI_MODE);
+    Chip_SSP_SetFormat      (LPC_SSP1, BOARD_SPI_BITS, BOARD_SPI_FORMAT,
+                             BOARD_SPI_POLARITY);
+    Chip_SSP_SetBitRate     (LPC_SSP1, BOARD_SPI_SPEED);
+    Chip_SSP_Enable         (LPC_SSP1);
 }
 
-static void Board_LED_Init()
-{
-   uint32_t idx;
 
-   for (idx = 0; idx < (sizeof(gpioLEDBits) / sizeof(io_port_t)); ++idx) {
-       /* Set pin direction and init to off */
-       Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, gpioLEDBits[idx].port, gpioLEDBits[idx].pin);
-       Chip_GPIO_SetPinState(LPC_GPIO_PORT, gpioLEDBits[idx].port, gpioLEDBits[idx].pin, (bool) false);
-   }
+static void Board_ADC_Init ()
+{
+    ADC_CLOCK_SETUP_T cs;
+
+    Chip_ADC_Init               (LPC_ADC0, &cs);
+    Chip_ADC_Set_SampleRate     (LPC_ADC0, &cs, BOARD_ADC_SAMPLE_RATE);
+    Chip_ADC_Set_Resolution     (LPC_ADC0, &cs, BOARD_ADC_RESOLUTION);
 }
 
-void Board_LED_Set(uint8_t LEDNumber, bool On)
+
+void Board_Debug_Init (void)
 {
-   if (LEDNumber < (sizeof(gpioLEDBits) / sizeof(io_port_t)))
-        Chip_GPIO_SetPinState(LPC_GPIO_PORT, gpioLEDBits[LEDNumber].port, gpioLEDBits[LEDNumber].pin, (bool) !On);
+    Chip_UART_Init          (DEBUG_UART);
+    Chip_UART_SetBaudFDR    (DEBUG_UART, DEBUG_UART_BAUD_RATE);
+    Chip_UART_ConfigData    (DEBUG_UART, DEBUG_UART_CONFIG);
+    Chip_UART_TXEnable      (DEBUG_UART);
 }
 
-bool Board_LED_Test(uint8_t LEDNumber)
-{
-   if (LEDNumber < (sizeof(gpioLEDBits) / sizeof(io_port_t)))
-       return (bool) !Chip_GPIO_GetPinState(LPC_GPIO_PORT, gpioLEDBits[LEDNumber].port, gpioLEDBits[LEDNumber].pin);
 
-   return false;
+void Board_UARTPutChar (char ch)
+{
+    while ( !(Chip_UART_ReadLineStatus(DEBUG_UART) & UART_LSR_THRE));
+    Chip_UART_SendByte (DEBUG_UART, (uint8_t) ch);
 }
 
-void Board_LED_Toggle(uint8_t LEDNumber)
+
+int Board_UARTGetChar (void)
 {
-   Board_LED_Set(LEDNumber, !Board_LED_Test(LEDNumber));
+    if (Chip_UART_ReadLineStatus(DEBUG_UART) & UART_LSR_RDR)
+    {
+       return (int) Chip_UART_ReadByte (DEBUG_UART);
+    }
+
+    return EOF;
 }
 
-/* Returns the MAC address assigned to this board */
-void Board_ENET_GetMacADDR(uint8_t *mcaddr)
-{
-   uint8_t boardmac[] = {0x00, 0x60, 0x37, 0x12, 0x34, 0x56};
 
-   memcpy(mcaddr, boardmac, 6);
+void Board_UARTPutSTR (const char *str)
+{
+    while (*str != '\0')
+    {
+        Board_UARTPutChar (*str++);
+    }
 }
 
-/* Set up and initialize all required blocks and functions related to the
-   board hardware */
-void Board_Init(void)
+
+void Board_LED_Set (uint8_t LEDNumber, bool On)
 {
-   /* Sets up DEBUG UART */
+    if (LEDNumber >= GPIO_LEDS_SIZE)
+    {
+        return;
+    }
+
+    const struct io_port_t *io = &GpioLeds[LEDNumber];
+    Chip_GPIO_SetPinState (LPC_GPIO_PORT, io->port, io->pin, !On);
+}
+
+
+bool Board_LED_Test (uint8_t LEDNumber)
+{
+    if (LEDNumber >= GPIO_LEDS_SIZE)
+    {
+        return false;
+    }
+
+    const struct io_port_t *io = &GpioLeds[LEDNumber];
+    return !Chip_GPIO_GetPinState (LPC_GPIO_PORT, io->port, io->pin);
+}
+
+
+void Board_LED_Toggle (uint8_t LEDNumber)
+{
+    Board_LED_Set (LEDNumber, !Board_LED_Test(LEDNumber));
+}
+
+
+void Board_Init (void)
+{
    DEBUGINIT();
+   Chip_GPIO_Init       (LPC_GPIO_PORT);
 
-   /* Initializes GPIO */
-   Chip_GPIO_Init(LPC_GPIO_PORT);
+   Board_LED_Init       ();
+   Board_BTN_Init       ();
+   Board_GPIO_Init      ();
+   Board_I2C_Init       ();
+   Board_ADC_Init       ();
 
-   /* Initialize LEDs */
-   Board_LED_Init();
-   Chip_ENET_RMIIEnable(LPC_ETHERNET);
+   Chip_ENET_RMIIEnable (LPC_ETHERNET);
 }
 
-void Board_I2C_Init(I2C_ID_T id)
+
+bool Board_BTN_GetStatus (uint8_t button)
 {
-   if (id == I2C1) {
-       /* Configure pin function for I2C1*/
-       Chip_SCU_PinMuxSet(0x2, 3, (SCU_MODE_ZIF_DIS | SCU_MODE_INBUFF_EN | SCU_MODE_FUNC1));       /* P2.3 : I2C1_SDA */
-       Chip_SCU_PinMuxSet(0x2, 4, (SCU_MODE_ZIF_DIS | SCU_MODE_INBUFF_EN | SCU_MODE_FUNC1));       /* P2.4 : I2C1_SCL */
-   } else {
-       Chip_SCU_I2C0PinConfig(I2C0_STANDARD_FAST_MODE);
+   if (button >= GPIO_BUTTONS_SIZE)
+   {
+       return false;
    }
+
+   return Chip_GPIO_GetPinState (LPC_GPIO_PORT, gpioButtons[button].port,
+                                 gpioButtons[button].pin);
 }
 
-void Board_SDMMC_Init(void)
+
+void Board_ADC_ReadBegin (CHIP_ADC_CHANNEL channel)
 {
-   Chip_SCU_PinMuxSet(0x1, 9, SDIO_DAT_PINCFG);    /* P1.9 connected to SDIO_D0 */
-   Chip_SCU_PinMuxSet(0x1, 10, SDIO_DAT_PINCFG);   /* P1.10 connected to SDIO_D1 */
-   Chip_SCU_PinMuxSet(0x1, 11, SDIO_DAT_PINCFG);   /* P1.11 connected to SDIO_D2 */
-   Chip_SCU_PinMuxSet(0x1, 12, SDIO_DAT_PINCFG);   /* P1.12 connected to SDIO_D3 */
+    if (channel < ADC_CH0 || channel > ADC_CH3)
+    {
+        return 0;
+    }
 
-   Chip_SCU_ClockPinMuxSet(2, (SCU_MODE_INACT | SCU_MODE_INBUFF_EN | SCU_MODE_FUNC4)); /* CLK2 connected to SDIO_CLK */
-   Chip_SCU_PinMuxSet(0x1, 6, SDIO_DAT_PINCFG);    /* P1.6 connected to SDIO_CMD */
-   Chip_SCU_PinMuxSet(0x1, 13, (SCU_MODE_INBUFF_EN | SCU_MODE_FUNC7)); /* P1.13 connected to SDIO_CD */
+    if (curADCChannel >= ADC_CH0 || curADCChannel <= ADC_CH3)
+    {
+        Chip_ADC_EnableChannel (LPC_ADC0, curADCChannel, DISABLE);
+    }
+
+    curADCChannel = channel;
+
+    Chip_SCU_ADC_Channel_Config (0, channel);
+    Chip_ADC_EnableChannel      (LPC_ADC0, channel, ENABLE);
+    Chip_ADC_SetBurstCmd        (LPC_ADC0, DISABLE);
+    Chip_ADC_SetStartMode       (LPC_ADC0, ADC_START_NOW,
+                                 ADC_TRIGGERMODE_RISING);
 }
 
-void Board_SSP_Init(LPC_SSP_T *pSSP)
+
+bool Board_ADC_ReadWait ()
 {
-   if (pSSP == LPC_SSP1) {
-       Chip_SCU_PinMuxSet(0x1, 5, (SCU_PINIO_FAST | SCU_MODE_FUNC5));  /* P1.5 => SSEL1 */
-       Chip_SCU_PinMuxSet(0xF, 4, (SCU_PINIO_FAST | SCU_MODE_FUNC0));  /* PF.4 => SCK1 */
-       Chip_SCU_PinMuxSet(0x1, 4, (SCU_MODE_INACT | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS | SCU_MODE_FUNC5)); /* P1.4 => MOSI1 */
-       Chip_SCU_PinMuxSet(0x1, 3, (SCU_MODE_INACT | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS | SCU_MODE_FUNC5)); /* P1.3 => MISO1 */
-   } else {
-       return;
-   }
+    return (Chip_ADC_ReadStatus (LPC_ADC0, curADCChannel, ADC_DR_DONE_STAT)
+            == RESET);
 }
 
-/* Initialize DAC interface for the board */
-void Board_DAC_Init(LPC_DAC_T *pDAC)
+
+uint16_t Board_ADC_ReadEnd ()
 {
-   Chip_SCU_DAC_Analog_Config();
-}
+    uint16_t data;
 
-/**
- * @}
- */
+    if (Chip_ADC_ReadValue (LPC_ADC0, curADCChannel, &dataADC) != SUCCESS)
+    {
+        data = 0xFFFF;
+    }
+
+    Chip_ADC_EnableChannel (LPC_ADC0, curADCChannel, DISABLE);
+    curADCChannel = 0xFF;
+
+    return data;
+}

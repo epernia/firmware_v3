@@ -14,11 +14,11 @@ SRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.c))
 CXXSRC=$(wildcard $(PROJECT_PATH_AND_NAME)/src/*.cpp)
 CXXSRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.cpp))
 
-ASRC=$(wildcard $(PROJECT_PATH_AND_NAME)/src/*.s)
-ASRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.s))
+ASRC=$(wildcard $(PROJECT_PATH_AND_NAME)/src/*.S)
+ASRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.S))
 
 OUT=$(PROJECT_PATH_AND_NAME)/out
-OBJECTS=$(CXXSRC:%.cpp=$(OUT)/%.o) $(ASRC:%.s=$(OUT)/%.o) $(SRC:%.c=$(OUT)/%.o)
+OBJECTS=$(CXXSRC:%.cpp=$(OUT)/%.o) $(ASRC:%.S=$(OUT)/%.o) $(SRC:%.c=$(OUT)/%.o)
 DEPS=$(OBJECTS:%.o=%.d)
 
 OOCD_SCRIPT=scripts/openocd.cfg
@@ -88,7 +88,7 @@ $(OUT)/%.o: %.cpp
 	@mkdir -p $(dir $@)
 	$(Q)$(CXX) -MMD $(CXXFLAGS) -c -o $@ $<
 
-$(OUT)/%.o: %.s
+$(OUT)/%.o: %.S
 	@echo AS $(notdir $<)
 	@mkdir -p $(dir $@)
 	$(Q)$(CC) -MMD $(CFLAGS) -c -o $@ $<
