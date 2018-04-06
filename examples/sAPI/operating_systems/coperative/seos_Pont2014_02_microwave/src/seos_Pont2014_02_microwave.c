@@ -59,8 +59,8 @@
 
 /*==================[inlcusiones]============================================*/
 
-#include "cooperativeOs_isr.h"       // <= dispatcher and task management header
-#include "cooperativeOs_scheduler.h" // <= scheduler and system initialization header
+#include "seos_pont_2014_isr.h"       // <= dispatcher and task management header
+#include "seos_pont_2014_scheduler.h" // <= scheduler and system initialization header
 #include "sapi.h"        // <= sAPI header
 
 /*==================[definiciones y macros]==================================*/

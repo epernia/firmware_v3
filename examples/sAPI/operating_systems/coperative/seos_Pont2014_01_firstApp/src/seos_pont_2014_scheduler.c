@@ -36,7 +36,7 @@
 
 /*==================[inclusions]=============================================*/
 
-#include "cooperativeOs_scheduler.h"   // <= own header
+#include "seos_pont_2014_scheduler.h"  // <= own header
 #include "sapi.h"                      // <= sAPI header
 
 /*==================[macros and definitions]=================================*/

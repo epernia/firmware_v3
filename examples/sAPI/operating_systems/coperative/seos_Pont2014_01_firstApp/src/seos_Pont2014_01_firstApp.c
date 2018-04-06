@@ -9,8 +9,8 @@
 //#include "cooperative_os_scheduler_03_seos_Pont2014.h"   // <= own header (optional)
 #include "sapi.h"        // <= sAPI header
 
-#include "cooperativeOs_isr.h"       // <= dispatcher and task management header
-#include "cooperativeOs_scheduler.h" // <= scheduler and system initialization header
+#include "seos_pont_2014_isr.h"       // <= dispatcher and task management header
+#include "seos_pont_2014_scheduler.h" // <= scheduler and system initialization header
 
 /*==================[definiciones y macros]==================================*/
 

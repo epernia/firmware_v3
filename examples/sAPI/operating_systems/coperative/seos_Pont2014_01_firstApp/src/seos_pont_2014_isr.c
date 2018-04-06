@@ -36,10 +36,10 @@
 
 /*==================[inclusions]=============================================*/
 
-#include "cooperativeOs_isr.h"       // <= own header
-#include "cooperativeOs_scheduler.h" // <= dispatcher and task management header
+#include "seos_pont_2014_isr.h"       // <= own header
+#include "seos_pont_2014_scheduler.h" // <= dispatcher and task management header
 
-#include "sapi.h"                    // <= sAPI header
+#include "sapi.h"                     // <= sAPI header
 
 /*==================[macros and definitions]=================================*/
 
