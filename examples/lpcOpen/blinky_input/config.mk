@@ -1,6 +1,6 @@
 # Compile options
 VERBOSE=n
-OPT=0 -std=c99 -Wall
+OPT=g
 USE_NANO=y
 SEMIHOST=n
 USE_FPU=y
