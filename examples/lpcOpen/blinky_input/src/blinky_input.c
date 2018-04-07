@@ -1,58 +1,67 @@
 #include "board.h"
 /*
     Ejemplo de uso de LPCOpen en Board Edu-CIAA
-    Copyright (C) 2018 Santiago Germino.
-    royconejo@gmail.com
+    Copyright 2018 Santiago Germino (royconejo@gmail.com)
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions are met:
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    1.  Redistributions of source code must retain the above copyright notice,
+        this list of conditions and the following disclaimer.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    2.  Redistributions in binary form must reproduce the above copyright
+        notice, this list of conditions and the following disclaimer in the
+        documentation and/or other materials provided with the distribution.
+
+    3.  Neither the name of the copyright holder nor the names of its
+        contributors may be used to endorse or promote products derived from
+        this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+    ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+    LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+    INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+    CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
 
     ----------------------------------------------------------------------------
 
-    [BTN_1] controla la velocidad de parpadeo de los leds: 50, 100 o 1000
-            milisegundos de tiempo de encendido. Multiplicar por dos para el
-            tiempo total del periodo de encendido + apagado.
+    [BTN_1] toggles between different blinking half-periods: 50, 100 o 1000
+            milliseconds.
 
-    [BTN_2] selecciona uno de los 6 leds de la Edu-CIAA. El led RGB se toma como
-            tres colores por separado.
+    [BTN_2] toggles between one of six leds found on the Edu-CIAA. RGB led
+            acts as three independent leds.
 
-    Una vez que se presiona un pulsador, para evitar falsas presiones causadas
-    por el efecto "rebote" (señales involuntarias causados por el rebote
-    a alta velocidad de las conexiones electricas internas del pulsador) es
-    necesario implementar algun algoritmo de "antirebote".
+    When a button is pressed and to avoid false pushes caused by the "bounce"
+    effect (spurious signals as a result of a high-speed bounce in the button
+    electrical contacts) it is necessary to use a "debounce" algorithm.
 
-    El objetivo es ignorar conexiones y desconexiones repetitivas del mismo
-    boton en un lapso de 20 milisegundos desde la primer presion. Esto se
-    implementa en la funcion buttonPressed ().
+    This is done by ignoring repetitive button presses in a 20 millisecond time
+    lapse (look for buttonPressed()).
 
-    El SysTick se configura para generar una interrupcion cada un milisegundo.
+    SysTick is configured to interrupt every one millsecond.
 
-    __WFI () pone a dormir el CPU hasta la proxima interrupcion. En este caso,
-    eso sera hasta que ocurra un nuevo milisegundo en el SysTick.
+    __WFI () puts the CPU to sleep until next interruption. In this case, it
+    will wake up when a new milliscond ocurrs in the SysTick peripheral.
 
     ----------------------------------------------------------------------------
 
     Changelog:
 
     v1.0 - 6/4/2018, sgermino:
-        Version inicial.
+        First version.
 */
 
 
 volatile uint32_t g_ticks = 0;
 
 
-void SysTick_Handler ()
+void SysTick_Handler()
 {
     ++ g_ticks;
 }
@@ -62,8 +71,7 @@ void SysTick_Handler ()
 #define INVALID_HALF_PERIOD     0xFFFFFFFF
 
 
-const uint8_t Led[] =
-{
+const uint8_t Led[] = {
     LED_RED,
     LED_GREEN,
     LED_BLUE,
@@ -73,8 +81,7 @@ const uint8_t Led[] =
     INVALID_LED
 };
 
-const uint32_t HalfPeriod[] =
-{
+const uint32_t HalfPeriod[] = {
     50,
     100,
     1000,
@@ -82,29 +89,26 @@ const uint32_t HalfPeriod[] =
 };
 
 
-static bool buttonPressed (uint8_t button, uint32_t *pressed)
+static bool buttonPressed(uint8_t button, uint32_t *pressed)
 {
-    if (!Board_TEC_GetStatus (button))
-    {
-        if (! *pressed)
-        {
+    if (!Board_TEC_GetStatus(button)) {
+        if (! *pressed) {
             *pressed = g_ticks + 20;
             return true;
         }
     }
-    else if (*pressed < g_ticks)
-    {
+    else if (*pressed < g_ticks) {
         *pressed = 0;
     }
     return false;
 }
 
 
-int main (void)
+int main(void)
 {
-    SystemCoreClockUpdate   ();
-    Board_Init              ();
-    SysTick_Config          (SystemCoreClock / 1000);
+    SystemCoreClockUpdate();
+    Board_Init();
+    SysTick_Config(SystemCoreClock / 1000);
 
     uint32_t ledCurrentIndex    = 0;
     uint32_t halfPeriodIndex    = 0;
@@ -115,28 +119,22 @@ int main (void)
 
     while (1)
     {
-        if (g_ticks >= ledCurrentCount + ledHalfPeriod)
-        {
+        if (g_ticks >= ledCurrentCount + ledHalfPeriod) {
             ledCurrentCount = g_ticks + ledHalfPeriod;
         }
 
-        Board_LED_Set (Led[ledCurrentIndex], ledCurrentCount > g_ticks);
+        Board_LED_Set(Led[ledCurrentIndex], ledCurrentCount > g_ticks);
 
-        if (buttonPressed (BOARD_TEC_1, &tec1Pressed))
-        {
+        if (buttonPressed(BOARD_TEC_1, &tec1Pressed)) {
             if ((ledHalfPeriod = HalfPeriod[++ halfPeriodIndex]) ==
-                    INVALID_HALF_PERIOD)
-            {
+                INVALID_HALF_PERIOD) {
                 ledHalfPeriod = HalfPeriod[halfPeriodIndex = 0];
             }
-
         }
 
-        if (buttonPressed (BOARD_TEC_2, &tec2Pressed))
-        {
+        if (buttonPressed (BOARD_TEC_2, &tec2Pressed)) {
             Board_LED_Set (Led[ledCurrentIndex], true);
-            if (Led[++ ledCurrentIndex] == INVALID_LED)
-            {
+            if (Led[++ ledCurrentIndex] == INVALID_LED) {
                 ledCurrentIndex = 0;
             }
         }

@@ -26,11 +26,11 @@
 
 
 /*
-    Adaptacion del codigo a board Edu-CIAA.
+    Code reworking to fit the Edu-CIAA board.
     Santiago Germino, 2018.
     royconejo@gmail.com
 
-    Ver comentarios en board.c.
+    Please see board.c for comments on this implementation.
 */
 
 #include "board.h"
@@ -70,7 +70,7 @@ STATIC const PINMUX_GRP_T pinmuxing[] =
     {2, 11, (SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | SCU_MODE_FUNC0)},
     {2, 12, (SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | SCU_MODE_FUNC0)},
 
-    /* BUTTONS */
+    /* Board Buttons */
     {1, 0, (SCU_MODE_INBUFF_EN | SCU_MODE_INACT | SCU_MODE_FUNC0)},
     {1, 1, (SCU_MODE_INBUFF_EN | SCU_MODE_INACT | SCU_MODE_FUNC0)},
     {1, 2, (SCU_MODE_INBUFF_EN | SCU_MODE_INACT | SCU_MODE_FUNC0)},
@@ -87,21 +87,20 @@ STATIC const PINMUX_GRP_T pinmuxing[] =
     {6,11, (SCU_MODE_INBUFF_EN | SCU_MODE_INACT | SCU_MODE_FUNC0)},
     {6,12, (SCU_MODE_INBUFF_EN | SCU_MODE_INACT | SCU_MODE_FUNC0)},
 
-    /* Puerto SPI (LPC_SSP1) PF_4: SSP1_SCK, P1_3: SSP1_MISO, P1_4: SSP1_MOSI */
+    /* SPI port (LPC_SSP1) PF_4: SSP1_SCK, P1_3: SSP1_MISO, P1_4: SSP1_MOSI */
     {0xF, 4, (SCU_PINIO_FAST | SCU_MODE_FUNC0)},
     {0x1, 3, (SCU_MODE_INACT | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS | SCU_MODE_FUNC5)},
     {0x1, 4, (SCU_MODE_INACT | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS | SCU_MODE_FUNC5)},
 
-    /* UART2 conectado directamente al integrado FT2232; Estos pines no sirven
-       a otra funcion configurable en la Edu-CIAA. P7_1: U2_TXD, P7_2: U2_RXD */
+    /* UART2 directly wired to FT2232 IC; P7_1: U2_TXD, P7_2: U2_RXD */
     {7, 1, (SCU_MODE_INACT | SCU_MODE_FUNC6)},
     {7, 2, (SCU_MODE_INACT | SCU_MODE_INBUFF_EN | SCU_MODE_FUNC6)},
 
-    /* UART3: 232_TX/RX en la tira de pines P1 */
+    /* UART3: 232_TX/RX on P1 header */
     {2, 3, (SCU_MODE_INBUFF_EN | SCU_MODE_INACT | SCU_MODE_FUNC2)},
     {2, 4, (SCU_MODE_INBUFF_EN | SCU_MODE_INACT | SCU_MODE_FUNC2)},
 
-    /* UART0: RS-485 */
+    /* UART0: RS-485 with on-board transceiver */
     {9, 5, (SCU_MODE_INBUFF_EN | SCU_MODE_INACT | SCU_MODE_FUNC2)},
     {9, 6, (SCU_MODE_INBUFF_EN | SCU_MODE_INACT | SCU_MODE_FUNC7)},
     {6, 2, (SCU_MODE_INBUFF_EN | SCU_MODE_INACT | SCU_MODE_FUNC7)},

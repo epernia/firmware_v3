@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __BOARD_H__
+#define __BOARD_H__
 
 #include "chip.h"
 #define DEBUG_ENABLE
@@ -41,7 +42,7 @@ extern "C" {
 #define DEBUG_UART                  LPC_USART2
 
 
-// Configuracion por defecto de la UART de Debug: 115200, 8N1.
+// Debug UART defaults: 115200, 8N1.
 #ifndef DEBUG_UART_BAUD_RATE
     #define DEBUG_UART_BAUD_RATE    115200
 #endif
@@ -62,7 +63,7 @@ extern "C" {
                                     | DEBUG_UART_STOP_BITS)
 
 
-// Configuracion por defecto de I2C: Standard/Fast mode, 100 Khz
+// I2C defaults to Standard/Fast mode, 100 Khz
 #ifndef BOARD_I2C_MODE
     #define BOARD_I2C_MODE          I2C0_STANDARD_FAST_MODE
 #endif
@@ -72,7 +73,7 @@ extern "C" {
 #endif
 
 
-// Configuracion por defecto de SPI: Master,
+// SPI default config: Master, 8 Bits, SPI format, CPHA0/CPOL0 polarity.
 #ifndef BOARD_SPI_MODE
     #define BOARD_SPI_MODE          SSP_MODE_MASTER
 #endif
@@ -94,7 +95,7 @@ extern "C" {
 #endif
 
 
-// Configuracion de ADC: Maximo Sampling rate: (4.5 Mhz / 11 bits) = ~400 Khz
+// ADC maximum sampling rate: (4.5 Mhz / 11 bits) = ~400 Khz
 #ifndef BOARD_ADC_SAMPLE_RATE
     #define BOARD_ADC_SAMPLE_RATE   400000
 #endif
@@ -113,3 +114,5 @@ uint16_t    Board_ADC_ReadEnd       ();
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* __BOARD_H_ */
