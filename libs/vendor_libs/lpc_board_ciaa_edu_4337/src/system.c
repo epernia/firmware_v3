@@ -4,13 +4,15 @@
 
 #include <board.h>
 
-#define UNUSED(...) ((void) (__VA_ARGS__))
+#define UNUSED(x) (void)x
 #define SET_ERR(e) (r->_errno = e)
 
 void _exit(int code) {
    register int __params__ __asm__("r0") = code;
    while (1)
        __asm__ __volatile__("bkpt 0");
+
+   (void) __params__;
 }
 
 int _close_r(struct _reent *r, int fd) {
@@ -21,13 +23,17 @@ int _close_r(struct _reent *r, int fd) {
 
 int _execve_r(struct _reent *r, const char *f, char * const *args,
        char * const *env) {
-   UNUSED(f, args, env);
+   UNUSED(f);
+   UNUSED(args);
+   UNUSED(env);
    SET_ERR(ENOSYS);
    return -1;
 }
 
 int _fcntl_r(struct _reent *r, int fd, int cmd, int arg) {
-   UNUSED(fd, cmd, arg);
+   UNUSED(fd);
+   UNUSED(cmd);
+   UNUSED(arg);
    SET_ERR(ENOSYS);
    return -1;
 }
@@ -38,7 +44,8 @@ int _fork_r(struct _reent *r) {
 }
 
 int _fstat_r(struct _reent *r, int fd, struct stat *st) {
-   UNUSED(fd, st);
+   UNUSED(fd);
+   UNUSED(st);
    SET_ERR(ENOSYS);
    return -1;
 }
@@ -87,25 +94,31 @@ int _kill_r(struct _reent *r, int pid, int signal) {
 }
 
 int _link_r(struct _reent *r, const char *oldf, const char *newf) {
-   UNUSED(oldf, newf);
+   UNUSED(oldf);
+   UNUSED(newf);
    SET_ERR(ENOSYS);
    return -1;
 }
 
 _off_t _lseek_r(struct _reent *r, int fd, _off_t off, int w) {
-   UNUSED(fd, off, w);
+   UNUSED(fd);
+   UNUSED(off);
+   UNUSED(w);
    SET_ERR(ENOSYS);
    return -1;
 }
 
 int _mkdir_r(struct _reent *r, const char *name, int m) {
-   UNUSED(name, m);
+   UNUSED(name);
+   UNUSED(m);
    SET_ERR(ENOSYS);
    return -1;
 }
 
 int _open_r(struct _reent *r, const char *name, int f, int m) {
-   UNUSED(name, f, m);
+   UNUSED(name);
+   UNUSED(f);
+   UNUSED(m);
    SET_ERR(EBADF);
    return -1;
 }
@@ -126,7 +139,8 @@ _ssize_t _read_r(struct _reent *r, int fd, void *b, size_t n) {
 }
 
 int _rename_r(struct _reent *r, const char *oldf, const char *newf) {
-   UNUSED(oldf, newf);
+   UNUSED(oldf);
+   UNUSED(newf);
    SET_ERR(ENOSYS);
    return -1;
 }
@@ -144,7 +158,8 @@ void *_sbrk_r(struct _reent *r, ptrdiff_t incr) {
 }
 
 int _stat_r(struct _reent *r, const char *name, struct stat *s) {
-   UNUSED(name, s);
+   UNUSED(name);
+   UNUSED(s);
    SET_ERR(ENOSYS);
    return -1;
 }
@@ -184,7 +199,8 @@ _ssize_t _write_r(struct _reent *r, int fd, const void *b, size_t n) {
 
 /* This one is not guaranteed to be available on all targets.  */
 int _gettimeofday_r(struct _reent *r, struct timeval *__tp, void *__tzp) {
-   UNUSED(__tp, __tzp);
+   UNUSED(__tp);
+   UNUSED(__tzp);
    SET_ERR(ENOSYS);
    return -1;
 }

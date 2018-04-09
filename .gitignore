@@ -51,5 +51,4 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-examples/*/out
-*/out
+out/

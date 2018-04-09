@@ -1,175 +1,115 @@
-/*
- * @brief NGX Xplorer 4330 board file
- *
- * @note
- * Copyright(C) NXP Semiconductors, 2013
- * All rights reserved.
- *
- * @par
- * Software that is described herein is for illustrative purposes only
- * which provides customers with programming information regarding the
- * LPC products.  This software is supplied "AS IS" without any warranties of
- * any kind, and NXP Semiconductors and its licensor disclaim any and
- * all warranties, express or implied, including all implied warranties of
- * merchantability, fitness for a particular purpose and non-infringement of
- * intellectual property rights.  NXP Semiconductors assumes no responsibility
- * or liability for the use of the software, conveys no license or rights under any
- * patent, copyright, mask work right, or any other intellectual property rights in
- * or to any products. NXP Semiconductors reserves the right to make changes
- * in the software without notification. NXP Semiconductors also makes no
- * representation or warranty that such application will be suitable for the
- * specified use without further testing or modification.
- *
- * @par
- * Permission to use, copy, modify, and distribute this software and its
- * documentation is hereby granted, under NXP Semiconductors' and its
- * licensor's relevant copyrights in the software, without fee, provided that it
- * is used in conjunction with NXP Semiconductors microcontrollers.  This
- * copyright, permission, and disclaimer notice must appear in all copies of
- * this code.
- */
-
-#ifndef __BOARD_H_
-#define __BOARD_H_
+#ifndef __BOARD_H__
+#define __BOARD_H__
 
 #include "chip.h"
-/* board_api.h is included at the bottom of this file after DEBUG setup */
+#define DEBUG_ENABLE
+#include "board_api.h"
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/** @defgroup BOARD_NGX_XPLORER_4330 LPC4330 NGX Xplorer board support software API functions
- * @ingroup LPCOPEN_43XX_BOARD_NGX4330
- * The board support software API functions provide some simple abstracted
- * functions used across multiple LPCOpen board examples. See @ref BOARD_COMMON_API
- * for the functions defined by this board support layer.<br>
- * @{
- */
-
-/** @defgroup BOARD_NGX_XPLORER_4330_OPTIONS BOARD: LPC4330 NGX Xplorer board options
- * This board has options that configure its operation at build-time.<br>
- * @{
- */
-
-/** Define DEBUG_ENABLE to enable IO via the DEBUGSTR, DEBUGOUT, and
-    DEBUGIN macros. If not defined, DEBUG* functions will be optimized
-   out of the code at build time.
- */
-#define DEBUG_ENABLE
-
-/** Define DEBUG_SEMIHOSTING along with DEBUG_ENABLE to enable IO support
-    via semihosting. You may need to use a C library that supports
-   semihosting with this option.
- */
-//#define DEBUG_SEMIHOSTING
-
-/** Board UART used for debug output and input using the DEBUG* macros. This
-    is also the port used for Board_UARTPutChar, Board_UARTGetChar, and
-   Board_UARTPutSTR functions. */
-#define DEBUG_UART LPC_USART2
-
-/**
- * @}
- */
-
-/* Board name */
 #define BOARD_CIAA_EDU_NXP_4337
-
-/* Build for RMII interface */
 #define USE_RMII
-#define BOARD_ENET_PHY_ADDR    0x00
+#define BOARD_ENET_PHY_ADDR         0x00
 
-#define LED_3 2
-#define LED_2 1
-#define LED_1 0
-#define LED_RED 3
-#define LED_GREEN 4
-#define LED_BLUE 5
+#define LED_RED                     0
+#define LED_GREEN                   1
+#define LED_BLUE                    2
+#define LED_1                       3
+#define LED_2                       4
+#define LED_3                       5
 
-/**
- * @brief  Sets up board specific I2C interface
- * @param  id  : I2C Peripheral ID (I2C0, I2C1)
- * @return Nothing
- */
-void Board_I2C_Init(I2C_ID_T id);
+#define BOARD_TEC_1                 0
+#define BOARD_TEC_2                 1
+#define BOARD_TEC_3                 2
+#define BOARD_TEC_4                 3
 
-/**
- * @brief  Sets up I2C Fast Plus mode
- * @param  id  : Must always be I2C0
- * @return Nothing
- * @note   This function must be called before calling
- *          Chip_I2C_SetClockRate() to set clock rates above
- *          normal range 100KHz to 400KHz. Only I2C0 supports
- *          this mode.
- */
-STATIC INLINE void Board_I2C_EnableFastPlus(I2C_ID_T id)
-{
-   Chip_SCU_I2C0PinConfig(I2C0_FAST_MODE_PLUS);
-}
+#define BOARD_GPIO_0                0
+#define BOARD_GPIO_1                1
+#define BOARD_GPIO_2                2
+#define BOARD_GPIO_3                3
+#define BOARD_GPIO_4                4
+#define BOARD_GPIO_5                5
+#define BOARD_GPIO_6                6
+#define BOARD_GPIO_7                7
+#define BOARD_GPIO_8                8
 
-/**
- * @brief  Disable I2C Fast Plus mode and enables default mode
- * @param  id  : Must always be I2C0
- * @return Nothing
- * @sa     Board_I2C_EnableFastPlus()
- */
-STATIC INLINE void Board_I2C_DisableFastPlus(I2C_ID_T id)
-{
-   Chip_SCU_I2C0PinConfig(I2C0_STANDARD_FAST_MODE);
-}
+#define BOARD_I2C_PORT              I2C0
+#define BOARD_SPI_PORT              LPC_SSP1
 
-/**
- * @brief  Initializes board specific GPIO Interrupt
- * @return Nothing
- */
-void Board_GPIO_Int_Init(void);
+#define DEBUG_UART                  LPC_USART2
 
-/**
- * @brief  Initialize pin muxing for SSP interface
- * @param  pSSP    : Pointer to SSP interface to initialize
- * @return Nothing
- */
-void Board_SSP_Init(LPC_SSP_T *pSSP);
 
-/**
- * @brief  Returns the MAC address assigned to this board
- * @param  mcaddr : Pointer to 6-byte character array to populate with MAC address
- * @return Nothing
- */
-void Board_ENET_GetMacADDR(uint8_t *mcaddr);
+// Debug UART defaults: 115200, 8N1.
+#ifndef DEBUG_UART_BAUD_RATE
+    #define DEBUG_UART_BAUD_RATE    115200
+#endif
 
-/**
- * @brief  Initialize pin muxing for a UART
- * @param  pUART   : Pointer to UART register block for UART pins to init
- * @return Nothing
- */
-void Board_UART_Init(LPC_USART_T *pUART);
+#ifndef DEBUG_UART_DATA_BITS
+    #define DEBUG_UART_DATA_BITS    UART_LCR_WLEN8
+#endif
 
-/**
- * @brief  Initialize pin muxing for SDMMC interface
- * @return Nothing
- */
-void Board_SDMMC_Init(void);
+#ifndef DEBUG_UART_PARITY
+    #define DEBUG_UART_PARITY       UART_LCR_PARITY_DIS
+#endif
 
-/**
- * @brief  Initialize DAC
- * @param  pDAC    : Pointer to DAC register interface used on this board
- * @return Nothing
- */
-void Board_DAC_Init(LPC_DAC_T *pDAC);
+#ifndef DEBUG_UART_STOP_BITS
+    #define DEBUG_UART_STOP_BITS    UART_LCR_SBS_1BIT
+#endif
 
-/**
- * @brief  Initialize ADC
- * @return Nothing
- */
-STATIC INLINE void Board_ADC_Init(void){}
+#define DEBUG_UART_CONFIG           (DEBUG_UART_DATA_BITS | DEBUG_UART_PARITY \
+                                    | DEBUG_UART_STOP_BITS)
 
-/**
- * @}
- */
 
-#include "board_api.h"
+// I2C defaults to Standard/Fast mode, 100 Khz
+#ifndef BOARD_I2C_MODE
+    #define BOARD_I2C_MODE          I2C0_STANDARD_FAST_MODE
+#endif
+
+#ifndef BOARD_I2C_SPEED
+    #define BOARD_I2C_SPEED         1000000
+#endif
+
+
+// SPI default config: Master, 8 Bits, SPI format, CPHA0/CPOL0 polarity.
+#ifndef BOARD_SPI_MODE
+    #define BOARD_SPI_MODE          SSP_MODE_MASTER
+#endif
+
+#ifndef BOARD_SPI_BITS
+    #define BOARD_SPI_BITS          SSP_BITS_8
+#endif
+
+#ifndef BOARD_SPI_FORMAT
+    #define BOARD_SPI_FORMAT        SSP_FRAMEFORMAT_SPI
+#endif
+
+#ifndef BOARD_SPI_POLARITY
+    #define BOARD_SPI_POLARITY      SSP_CLOCK_CPHA0_CPOL0
+#endif
+
+#ifndef BOARD_SPI_SPEED
+    #define BOARD_SPI_SPEED         100000
+#endif
+
+
+// ADC maximum sampling rate: (4.5 Mhz / 11 bits) = ~400 Khz
+#ifndef BOARD_ADC_SAMPLE_RATE
+    #define BOARD_ADC_SAMPLE_RATE   400000
+#endif
+
+#ifndef BOARD_ADC_RESOLUTION
+    #define BOARD_ADC_RESOLUTION    ADC_10BITS
+#endif
+
+
+bool        Board_TEC_GetStatus     (uint8_t button);
+void        Board_ADC_ReadBegin     (ADC_CHANNEL_T channel);
+bool        Board_ADC_ReadWait      ();
+uint16_t    Board_ADC_ReadEnd       ();
+
 
 #ifdef __cplusplus
 }

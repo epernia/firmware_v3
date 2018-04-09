@@ -129,7 +129,8 @@ Included examples are:
      - asm
      - blinky
      - blinky_ram 	
-     - blinky_rit 	
+     - blinky_rit
+     - blinky_input
      - boot: LPCBootloader example
      - mpu
      - start_m0 	
