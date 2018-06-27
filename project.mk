@@ -5,9 +5,9 @@
 # ---------- Project path ----------------------------------------------
 # Project path 
 # (relative to this folder, leave void if the project is in this folder)
-PROJECT_PATH =
+#PROJECT_PATH =
 # ---------- Project names ---------------------------------------------
-PROJECT_NAME = app
+#PROJECT_NAME = app
 
 #==============================================================================
 # Examples
@@ -36,7 +36,7 @@ PROJECT_NAME = app
 #------------------------------------------------------------------------------
 
 # ---------- Projects path ---------------------------------------------
-#PROJECT_PATH = examples/sAPI/bare_metal
+PROJECT_PATH = examples/sAPI/bare_metal
 # ---------- Project names (uncomment only one) ------------------------
 	#PROJECT_NAME = adc_dac_01
 #PROJECT_NAME = cycles_counter_01
@@ -52,7 +52,7 @@ PROJECT_NAME = app
 		# resetear nuevamente la placa para permitir grabar nuevos programas.
 		# Tenga en cuenta tambien la corriente maxima del regulador al
 		# conectar uno o mas servos.
-	#################PROJECT_NAME = spi_01_sdCard_fatFileSystem   # falta biblioteca de fileSystem
+PROJECT_NAME = spi_01_sdCard_fatFileSystem
 #PROJECT_NAME = stdio_01_printf_sprintf
 #PROJECT_NAME = tick_01_tickHook
 
@@ -174,10 +174,6 @@ PROJECT_NAME = app
 # ---------- Project names (uncomment only one) ------------------------
 #PROJECT_NAME = 
 
-# ---------- Projects path ---------------------------------------------
-#PROJECT_PATH = examples/sAPI/statecharts/statecharts_os/freeOSEK_examples
-# ---------- Project names (uncomment only one) ------------------------
-#PROJECT_NAME = 
 
 #------------------------------------------------------------------------------
 # LPC Open

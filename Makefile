@@ -1,4 +1,5 @@
 include project.mk
+
 ifeq ($(PROJECT_PATH),)
 PROJECT_PATH_AND_NAME=$(PROJECT_NAME)
 else
@@ -35,7 +36,7 @@ OPT_FLAGS=-ggdb3 -O$(OPT) -ffunction-sections -fdata-sections
 
 COMMON_FLAGS=$(ARCH_FLAGS) $(DEFINES_FLAGS) $(INCLUDE_FLAGS) $(OPT_FLAGS)
 
-CFLAGS=$(COMMON_FLAGS)
+CFLAGS=$(COMMON_FLAGS) -std=c99
 CXXFLAGS=$(COMMON_FLAGS) -fno-rtti -fno-exceptions -std=c++11
 
 LDFLAGS=$(ARCH_FLAGS)

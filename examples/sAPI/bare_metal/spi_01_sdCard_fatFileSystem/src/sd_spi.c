@@ -127,7 +127,6 @@ int main( void ){
 // FUNCION que se ejecuta cada vezque ocurre un Tick
 void diskTickHook( void *ptr ){
    disk_timerproc();   // Disk timer process
-   return 1;
 }
 
 
