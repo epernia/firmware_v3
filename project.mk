@@ -5,9 +5,9 @@
 # ---------- Project path ----------------------------------------------
 # Project path 
 # (relative to this folder, leave void if the project is in this folder)
-#PROJECT_PATH =
+PROJECT_PATH =
 # ---------- Project names ---------------------------------------------
-#PROJECT_NAME = app
+PROJECT_NAME = app
 
 #==============================================================================
 # Examples
@@ -20,9 +20,9 @@
 # Languages and libs
 #------------------------------------------------------------------------------
 
-# ---------- Projects path ---------------------------------------------
+#---------- Projects path ---------------------------------------------
 #PROJECT_PATH = examples/languages_and_libs
-# ---------- Project names (uncomment only one) ------------------------
+#---------- Project names (uncomment only one) ------------------------
 #PROJECT_NAME = C_without_libs
 #PROJECT_NAME = C_LPCOpen
 #PROJECT_NAME = C_sAPI
@@ -35,9 +35,9 @@
 # sAPI bare metal
 #------------------------------------------------------------------------------
 
-# ---------- Projects path ---------------------------------------------
-PROJECT_PATH = examples/sAPI/bare_metal
-# ---------- Project names (uncomment only one) ------------------------
+#---------- Projects path ---------------------------------------------
+#PROJECT_PATH = examples/sAPI/bare_metal
+#---------- Project names (uncomment only one) ------------------------
 	#PROJECT_NAME = adc_dac_01
 #PROJECT_NAME = cycles_counter_01
 	#PROJECT_NAME = keypad_7segment_01
@@ -52,7 +52,7 @@ PROJECT_PATH = examples/sAPI/bare_metal
 		# resetear nuevamente la placa para permitir grabar nuevos programas.
 		# Tenga en cuenta tambien la corriente maxima del regulador al
 		# conectar uno o mas servos.
-PROJECT_NAME = spi_01_sdCard_fatFileSystem
+#PROJECT_NAME = spi_01_sdCard_fatFileSystem
 #PROJECT_NAME = stdio_01_printf_sprintf
 #PROJECT_NAME = tick_01_tickHook
 
@@ -64,9 +64,9 @@ PROJECT_NAME = spi_01_sdCard_fatFileSystem
 #PROJECT_NAME = gpio_03_blinky_switch
 #PROJECT_NAME = gpio_04_led_sequences
 
-	# ---------- Projects path ---------------------------------------------
+	#---------- Projects path ---------------------------------------------
 	#PROJECT_PATH = examples/sAPI/bare_metal/i2c
-	# ---------- Project names (uncomment only one) ------------------------
+	#---------- Project names (uncomment only one) ------------------------
 	#PROJECT_NAME = i2c_02_qmc5883l
 	#PROJECT_NAME = i2c_01_hmc5883l
 
@@ -76,31 +76,31 @@ PROJECT_NAME = spi_01_sdCard_fatFileSystem
 #PROJECT_NAME = pwm_01
 #PROJECT_NAME = pwm_02_rgb_controller_uart
 
-	# ---------- Projects path ---------------------------------------------
+	#---------- Projects path ---------------------------------------------
 	#PROJECT_PATH = examples/sAPI/bare_metal/temperature_humidity_sensors
-	# ---------- Project names (uncomment only one) ------------------------
+	#---------- Project names (uncomment only one) ------------------------
 	#PROJECT_NAME = dht11_01
 
-# ---------- Projects path ---------------------------------------------
+#---------- Projects path ---------------------------------------------
 #PROJECT_PATH = examples/sAPI/bare_metal/uart
-# ---------- Project names (uncomment only one) ------------------------
+#---------- Project names (uncomment only one) ------------------------
 #PROJECT_NAME = uart_01_echo
 #PROJECT_NAME = uart_02_receive_string_blocking
 #PROJECT_NAME = uart_03_receive_string
 
-	# ---------- Projects path ---------------------------------------------
+	#---------- Projects path ---------------------------------------------
 	#PROJECT_PATH = examples/sAPI/bare_metal/ultrasonicSensors
-	# ---------- Project names (uncomment only one) ------------------------
+	#---------- Project names (uncomment only one) ------------------------
 	#PROJECT_NAME = ultrasonicSensor_HCSR04_01
 
-	# ---------- Projects path ---------------------------------------------
+	#---------- Projects path ---------------------------------------------
 	#PROJECT_PATH = examples/sAPI/bare_metal/ultrasonicSensors
-	# ---------- Project names (uncomment only one) ------------------------
+	#---------- Project names (uncomment only one) ------------------------
 	#PROJECT_NAME = ultrasonicSensor_HCSR04_01
 
-# ---------- Projects path ---------------------------------------------
+#---------- Projects path ---------------------------------------------
 #PROJECT_PATH = examples/sAPI/bare_metal/wifi_esp01_esp8266
-# ---------- Project names (uncomment only one) ------------------------
+#---------- Project names (uncomment only one) ------------------------
 #PROJECT_NAME = 01_uart_bridge
 #PROJECT_NAME = 02_http_server
 #PROJECT_NAME = 03_thingspeak
@@ -109,24 +109,24 @@ PROJECT_NAME = spi_01_sdCard_fatFileSystem
 # sAPI Operating Systems
 #------------------------------------------------------------------------------
 
-# ---------- Projects path ---------------------------------------------
+#---------- Projects path ---------------------------------------------
 #PROJECT_PATH = examples/sAPI/operating_systems/coperative
-# ---------- Project names (uncomment only one) ------------------------
+#---------- Project names (uncomment only one) ------------------------
 #PROJECT_NAME = scheduler_01_seos
 #PROJECT_NAME = scheduler_02_seos_background_foreground
 #PROJECT_NAME = seos_Pont2014_01_firstApp
 #PROJECT_NAME = seos_Pont2014_02_microwave
 
-# ---------- Projects path ---------------------------------------------
+#---------- Projects path ---------------------------------------------
 #PROJECT_PATH = examples/sAPI/operating_systems/freeRTOS
-# ---------- Project names (uncomment only one) ------------------------
+#---------- Project names (uncomment only one) ------------------------
 #PROJECT_NAME = freeRTOS_01_blinky
 #################PROJECT_NAME = freeRTOS_02_Queue
 	#################PROJECT_NAME = freeRTOS_03_ChanFatFS_SPI_SdCard_ADC_log
 
-	# ---------- Projects path ---------------------------------------------
+	#---------- Projects path ---------------------------------------------
 	#PROJECT_PATH = examples/sAPI/operating_systems/freeRTOS/freeRTOS_book
-################# ---------- Project names (uncomment only one) ------------------------
+#################---------- Project names (uncomment only one) ------------------------
 	#PROJECT_NAME = Example001
 	#PROJECT_NAME = Example002
 	#PROJECT_NAME = Example003
@@ -150,28 +150,28 @@ PROJECT_NAME = spi_01_sdCard_fatFileSystem
 	#PROJECT_NAME = Example021
 	#PROJECT_NAME = Example022
 
-# ---------- Projects path ---------------------------------------------
+#---------- Projects path ---------------------------------------------
 #PROJECT_PATH = examples/sAPI/operating_systems/freeOSEK
-# ---------- Project names (uncomment only one) ------------------------
+#---------- Project names (uncomment only one) ------------------------
 #################PROJECT_NAME = freeOSEK_01_blinky # OSEK aun no esta portado
 
 #------------------------------------------------------------------------------
 # sAPI Statecharts
 #------------------------------------------------------------------------------
 
-# ---------- Projects path ---------------------------------------------
+#---------- Projects path ---------------------------------------------
 #PROJECT_PATH = examples/sAPI/statecharts
-# ---------- Project names (uncomment only one) ------------------------
+#---------- Project names (uncomment only one) ------------------------
 #################PROJECT_NAME = statecharts_bare_metal
 
-# ---------- Projects path ---------------------------------------------
+#---------- Projects path ---------------------------------------------
 #PROJECT_PATH = examples/sAPI/statecharts/statecharts_os/coperative_os_examples
-# ---------- Project names (uncomment only one) ------------------------
+#---------- Project names (uncomment only one) ------------------------
 #PROJECT_NAME = 
 
-# ---------- Projects path ---------------------------------------------
+#---------- Projects path ---------------------------------------------
 #PROJECT_PATH = examples/sAPI/statecharts/statecharts_os/freeRTOS_examples
-# ---------- Project names (uncomment only one) ------------------------
+#---------- Project names (uncomment only one) ------------------------
 #PROJECT_NAME = 
 
 
@@ -179,9 +179,9 @@ PROJECT_NAME = spi_01_sdCard_fatFileSystem
 # LPC Open
 #------------------------------------------------------------------------------
 
-# ---------- Projects path ---------------------------------------------
+#---------- Projects path ---------------------------------------------
 #PROJECT_PATH = examples/lpcOpen
-# ---------- Project names (uncomment only one) ------------------------
+#---------- Project names (uncomment only one) ------------------------
 ##########################PROJECT_NAME = adc_fir_dac   # arreglar el makefile
 #PROJECT_NAME = blinky
 #PROJECT_NAME = blinky_ram
@@ -192,9 +192,9 @@ PROJECT_NAME = spi_01_sdCard_fatFileSystem
 ##########################PROJECT_NAME = mpu
 ##########################PROJECT_NAME = statechart
 
-# ---------- Projects path ---------------------------------------------
+#---------- Projects path ---------------------------------------------
 #PROJECT_PATH = examples/lpcOpen/asm
-# ---------- Project names (uncomment only one) ------------------------
+#---------- Project names (uncomment only one) ------------------------
 ##########################PROJECT_NAME = first
 ##########################PROJECT_NAME = conv
 ##########################PROJECT_NAME = packer
