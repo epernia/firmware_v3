@@ -1,4 +1,4 @@
-/* Copyright 2015-2016, Eric Pernia.
+/* Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -28,20 +28,40 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
-/* Date: 2015-09-23 */
+/*
+ * Date: 2016-07-03
+ */
 
 /*==================[inclusions]=============================================*/
 
-#include "sapi_board.h"
-
-#include "sapi_tick.h"
-#include "sapi_gpio.h"
-#include "sapi_cyclesCounter.h"
+//#include "servo.h"   // <= own header (optional)
+#include "sapi.h"      // <= sAPI header
 
 /*==================[macros and definitions]=================================*/
+
+#define SERVO_N   SERVO0
+/*
+   SERVO0 <---> T_FIL1 de EDU-CIAA-NXP
+   SERVO1 <---> T_COL0 de EDU-CIAA-NXP
+   SERVO2 <---> T_FIL2 de EDU-CIAA-NXP
+   SERVO3 <---> T_FIL3 de EDU-CIAA-NXP
+   SERVO4 <---> GPIO8 de EDU-CIAA-NXP
+   SERVO5 <---> LCD1 de EDU-CIAA-NXP
+   SERVO6 <---> LCD2 de EDU-CIAA-NXP
+   SERVO7 <---> LCD3 de EDU-CIAA-NXP
+   SERVO8 <---> GPIO2 de EDU-CIAA-NXP
+
+	Nota: Este ejemplo de servo puede requerir un borrado completo de
+	la memoria flash luego de su uso para grabar programas posteriores.
+	Para hcerlo debe puentear el Jumper JP5 y resetear la placa con el
+	puente sostenido hasta soltar el boton de reset entrando en modo
+	ISP (se prenden todos los leds), luego aplique "make erase" y debe
+	resetear nuevamente la placa para permitir grabar nuevos programas.
+	Tenga en cuenta tambien la corriente maxima del regulador al
+	conectar uno o mas servos.
+*/
 
 /*==================[internal data declaration]==============================*/
 
@@ -55,55 +75,44 @@
 
 /*==================[external functions definition]==========================*/
 
-/* Set up and initialize board hardware */
-void boardInit(void)
-{
-   // Read clock settings and update SystemCoreClock variable
-   SystemCoreClockUpdate();
+// FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET.
+int main(void){
 
-   cyclesCounterInit( SystemCoreClock );
+   // ------------- INICIALIZACIONES ----------------
 
-   // Inicializar el conteo de Ticks con resolucion de 1ms
-   tickInit( 1 );
+   // Inicializar la placa
+   boardConfig();
 
-   // Inicializar GPIOs
-   gpioInit( 0, GPIO_ENABLE );
+   bool_t valor = 0;
 
-   // Configuracion de pines de entrada para Teclas de la EDU-CIAA-NXP
-   gpioInit( TEC1, GPIO_INPUT );
-   gpioInit( TEC2, GPIO_INPUT );
-   gpioInit( TEC3, GPIO_INPUT );
-   gpioInit( TEC4, GPIO_INPUT );
+   uint8_t servoAngle = 0; // 0 a 180 grados
 
-   // Configuracion de pines de salida para Leds de la EDU-CIAA-NXP
-   gpioInit( LEDR, GPIO_OUTPUT );
-   gpioInit( LEDG, GPIO_OUTPUT );
-   gpioInit( LEDB, GPIO_OUTPUT );
-   gpioInit( LED1, GPIO_OUTPUT );
-   gpioInit( LED2, GPIO_OUTPUT );
-   gpioInit( LED3, GPIO_OUTPUT );
+   // Configurar Servo
+   valor = servoConfig( 0, SERVO_ENABLE );
 
+   valor = servoConfig( SERVO_N, SERVO_ENABLE_OUTPUT );
 
-   // Configuracion de pines de entrada de la CIAA-NXP
-   gpioInit( DI0, GPIO_INPUT );
-   gpioInit( DI1, GPIO_INPUT );
-   gpioInit( DI2, GPIO_INPUT );
-   gpioInit( DI3, GPIO_INPUT );
-   gpioInit( DI4, GPIO_INPUT );
-   gpioInit( DI5, GPIO_INPUT );
-   gpioInit( DI6, GPIO_INPUT );
-   gpioInit( DI7, GPIO_INPUT );
+   // Usar Servo
+   valor = servoWrite( SERVO_N, servoAngle );
+   servoAngle = servoRead( SERVO_N );
 
-   // Configuracion de pines de salida de la CIAA-NXP
-   gpioInit( DO0, GPIO_OUTPUT );
-   gpioInit( DO1, GPIO_OUTPUT );
-   gpioInit( DO2, GPIO_OUTPUT );
-   gpioInit( DO3, GPIO_OUTPUT );
-   gpioInit( DO4, GPIO_OUTPUT );
-   gpioInit( DO5, GPIO_OUTPUT );
-   gpioInit( DO6, GPIO_OUTPUT );
-   gpioInit( DO7, GPIO_OUTPUT );
+   gpioWrite( LEDB, 1 );
 
+   // ------------- REPETIR POR SIEMPRE -------------
+   while(1) {
+      servoWrite( SERVO_N, 0 );
+      delay(500);
+
+      servoWrite( SERVO_N, 90 );
+      delay(500);
+
+      servoWrite( SERVO_N, 180 );
+      delay(500);
+   }
+
+   // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado
+   // por ningun S.O.
+   return 0 ;
 }
 
 /*==================[end of file]============================================*/

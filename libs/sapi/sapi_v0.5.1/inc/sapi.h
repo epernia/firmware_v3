@@ -59,7 +59,7 @@
 
 // High Level drivers     
 
-#include "sapi_stdio.h"                  // Use sapi_uart module
+//#include "sapi_stdio.h"                  // Use sapi_uart module
 
 #include "sapi_print.h"                  // Use sapi_uart module
 #include "sapi_debugPrint.h"             // Use sapi_print module

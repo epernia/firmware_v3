@@ -1,4 +1,4 @@
-/* Copyright 2016, Eric Pernia.
+/* Copyright 2018, Eric Pernia.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -28,32 +28,13 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
- */
-
-/*
- * Date: 2016-07-03
  */
 
 /*==================[inclusions]=============================================*/
 
-//#include "servo.h"   // <= own header (optional)
-#include "sapi.h"      // <= sAPI header
+#include <stdio.h>
 
 /*==================[macros and definitions]=================================*/
-
-#define SERVO_N   SERVO0
-/*
-   SERVO0 <---> T_FIL1 de EDU-CIAA-NXP
-   SERVO1 <---> T_COL0 de EDU-CIAA-NXP
-   SERVO2 <---> T_FIL2 de EDU-CIAA-NXP
-   SERVO3 <---> T_FIL3 de EDU-CIAA-NXP
-   SERVO4 <---> GPIO8 de EDU-CIAA-NXP
-   SERVO5 <---> LCD1 de EDU-CIAA-NXP
-   SERVO6 <---> LCD2 de EDU-CIAA-NXP
-   SERVO7 <---> LCD3 de EDU-CIAA-NXP
-   SERVO8 <---> GPIO2 de EDU-CIAA-NXP
-*/
 
 /*==================[internal data declaration]==============================*/
 
@@ -63,48 +44,37 @@
 
 /*==================[external data definition]===============================*/
 
+// La UART_USB se inicializa en el startup del microcontrolador a
+// 115200 baudios  para salida y entrada estandar.
+
+// Recordar en config.mk poner USE_NANO=n (usar newlib completa
+// en lugar de newlib nano) para tener soporte de flotantes en 
+// printf(), sin embargo, esto causa que el programa ocupe MUCHA
+// mas RAM y FLASH.
+
+int main( void )
+{
+   printf( "Pi vale aproximadamente %f\r\n\r\n", 3.14 );
+   
+   char text[50];
+   int num;
+   
+   printf( "Ingrese una palabra (hasta 50 caracteres, sin espacios) y presione enter:\r\n" );
+   scanf( "%s", text );
+   printf( "La palabra ingresada es: %s\r\n\r\n", text );
+
+   printf( "Ingrese un numero y presione enter:\r\n" );
+   scanf( "%d", &num );
+   printf( "El numero ingresado es: %d\r\n\r\n", num );
+   printf( "Fin del programa.\r\n" );
+
+   while(1);     
+
+   return 0;
+}
+
 /*==================[internal functions definition]==========================*/
 
 /*==================[external functions definition]==========================*/
-
-// FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET.
-int main(void){
-
-   // ------------- INICIALIZACIONES ----------------
-
-   // Inicializar la placa
-   boardConfig();
-
-   bool_t valor = 0;
-
-   uint8_t servoAngle = 0; // 0 a 180 grados
-
-   // Configurar Servo
-   valor = servoConfig( 0, SERVO_ENABLE );
-
-   valor = servoConfig( SERVO_N, SERVO_ENABLE_OUTPUT );
-
-   // Usar Servo
-   valor = servoWrite( SERVO_N, servoAngle );
-   servoAngle = servoRead( SERVO_N );
-
-   gpioWrite( LEDB, 1 );
-
-   // ------------- REPETIR POR SIEMPRE -------------
-   while(1) {
-      servoWrite( SERVO_N, 0 );
-      delay(500);
-
-      servoWrite( SERVO_N, 90 );
-      delay(500);
-
-      servoWrite( SERVO_N, 180 );
-      delay(500);
-   }
-
-   // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado
-   // por ningun S.O.
-   return 0 ;
-}
 
 /*==================[end of file]============================================*/

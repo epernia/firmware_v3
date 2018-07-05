@@ -26,7 +26,6 @@ CONSOLE_PRINT_ENABLE
 // FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
 int main( void )
 {
-
    // ---------- CONFIGURACIONES ------------------------------
 
    // Inicializar y configurar la plataforma

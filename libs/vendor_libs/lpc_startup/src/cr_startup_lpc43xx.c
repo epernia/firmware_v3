@@ -29,6 +29,8 @@
 // this code.
 //*****************************************************************************
 
+#include "board.h"
+
 #if defined (__cplusplus)
 #ifdef __REDLIB__
 #error Redlib does not support C++
@@ -427,6 +429,7 @@ void ResetISR(void) {
     // Call the Redlib library, which in turn calls main()
     __main();
 #else
+    Board_Init(); // From Board module (modules/lpc4337_m4/board)
     main();
 #endif
 
