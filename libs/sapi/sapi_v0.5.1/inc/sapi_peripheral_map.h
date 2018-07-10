@@ -103,6 +103,10 @@ typedef enum {
    DO0,   DO1,   DO2,   DO3,   DO4,   DO5,   DO6,   DO7
 } gpioMap_t;
 
+#define CIAA_BOARD_BUTTON   TEC1
+#define CIAA_BOARD_LED      LEDB
+
+
 /* Defined for sapi_adc.h */
 typedef enum {
    /* 62         63       64        65       */
