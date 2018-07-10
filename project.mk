@@ -10,9 +10,12 @@
 #PROJECT_NAME = app
 
 # ---------- Example of path inside this file folder -------------------
-PROJECT_PATH = examples/c/sapi/bare_metal
-PROJECT_NAME = sapi_basic_example
+#PROJECT_PATH = examples/c/sapi/bare_metal
+#PROJECT_NAME = sapi_basic_example
 
 # ---------- Example of path outside this file folder ------------------
-#PROJECT_PATH = ../firmware_v3_lpc4337_examples/c/sapi/bare_metal
+#PROJECT_PATH = ../examples/c/sapi/bare_metal
 #PROJECT_NAME = sapi_basic_example
+
+PROJECT_PATH = examples/c/sapi/bare_metal/i2c/IMUs
+PROJECT_NAME = mpu9250
