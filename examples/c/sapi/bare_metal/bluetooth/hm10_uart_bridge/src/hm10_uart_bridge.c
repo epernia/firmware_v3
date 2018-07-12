@@ -73,7 +73,7 @@ int main( void )
    
    uartWriteString( UART_PC, "Testeto si el modulo esta conectado enviando: AT\r\n" );
    if( hm10bleTest( UART_BLUETOOTH ) ){
-      uartWriteString( "Modulo conectado correctamente.\r\n" );
+      uartWriteString( UART_PC, "Modulo conectado correctamente.\r\n" );
    }  
 
    // ---------- REPETIR POR SIEMPRE --------------------------
