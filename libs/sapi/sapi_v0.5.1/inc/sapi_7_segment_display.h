@@ -103,7 +103,7 @@ void display7SegmentInit(Display7Segment_t *disp, gpioMap_t* segments,
 void display7SegmentWriteInt( Display7Segment_t* disp, uint32_t val );
 void display7SegmentWriteHex( Display7Segment_t* disp, uint32_t val );
 void display7SegmentWriteIndex( Display7Segment_t* disp, uint8_t digit, uint8_t idx );
-
+void display7SegmentClear( Display7Segment_t* disp );
 void display7SegmentRefresh( Display7Segment_t *disp );
 
 /*==================[end of file]============================================*/

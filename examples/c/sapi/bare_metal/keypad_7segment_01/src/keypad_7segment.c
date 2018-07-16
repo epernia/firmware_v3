@@ -63,50 +63,6 @@ int main(void){
    /* Inicializar la placa */
    boardConfig();
 
-   /* Configuracion de pines para el display 7 segmentos */
-   /*
-   --------------------------+------------+-----------+----------------
-    Segmento encendido       | Valor BIN  | Valor HEX | GPIO resultado
-   --------------------------+------------+-----------+----------------
-    Enciende el segmento 'a' | 0b00000001 |   0x20    | GPIO5
-    Enciende el segmento 'b' | 0b00000010 |   0x80    | GPIO7
-    Enciende el segmento 'c' | 0b00000100 |   0x40    | GPIO6
-    Enciende el segmento 'd' | 0b00001000 |   0x02    | GPIO1
-    Enciende el segmento 'e' | 0b00010000 |   0x04    | GPIO2
-    Enciende el segmento 'f' | 0b00100000 |   0x10    | GPIO4
-    Enciende el segmento 'g' | 0b01000000 |   0x08    | GPIO3
-    Enciende el segmento 'h' | 0b10000000 |   0x80    | GPIO8
-   --------------------------+------------+-----------+----------------
-                a
-              -----
-          f /     / b
-           /  g  /
-           -----
-       e /     / c
-        /  d  /
-        -----    O h = dp (decimal pint).
-
-   */
-   uint8_t display7Segment[8] = {
-      GPIO5, // Segment 'a'
-      GPIO7, // Segment 'b'
-      GPIO6, // Segment 'c'
-      GPIO1, // Segment 'd'
-      GPIO2, // Segment 'e'
-      GPIO4, // Segment 'f'
-      GPIO3, // Segment 'g'
-      GPIO8  // Segment 'h' or 'dp'
-   };
-   
-   typedef struct {
-      bool_t anoComm;
-      uint8_t segments[8];
-      uint8_t *digits;
-      uint8_t n_digits;
-   } Display7Seg_t;
-
-   display7SegmentPinConfig( display7Segment );
-
    /* Configuracion de pines para el Teclado Matricial*/
 
    // Teclado
@@ -146,8 +102,11 @@ int main(void){
    uint8_t disp1_digits[] = { LCD1, LCD2, LCD3, LCD4 };
    uint8_t disp1_pins[]= { GPIO5, GPIO7, GPIO6, GPIO1, GPIO2, GPIO4, GPIO3, GPIO8 };
    uint8_t disp1_buf[] = { 0, 0, 0, 0 };
-   Display7Seg_t disp1;
-   display7SegmentPinConfig( &disp1, ANODO_COMUN, disp1_pins, disp1_digits, 4, disp1_buf );
+   Display7Segment_t disp1;
+   void display7SegmentInit(Display7Segment_t *disp, gpioMap_t* segments,
+                            gpioMap_t *digits, uint8_t nDigits,
+                            DisplayCommonType_t common, uint8_t *buf);
+   display7SegmentInit( &disp1, disp1_pins, disp1_digits, 4, DISP7_ANODE, disp1_buf );
    display7SegmentWriteInt( &disp1, 0 );
 
    // Loop
@@ -179,25 +138,14 @@ int main(void){
             display7SegmentWriteHex(&disp1, 0x000D);
             break;
          case 0xD: // -
-            buffer[0] = 0b01000000; // g -> encendido
-            buffer[0] = 0;
-            buffer[0] = 0;
-            buffer[0] = 0;
+            disp1_buf[0] = 0b01000000; // g -> encendido
+            disp1_buf[0] = 0;
+            disp1_buf[0] = 0;
+            disp1_buf[0] = 0;
             break;
          }
       }
       delay(10);
-   }
-   
-   
-   /* ------------- REPETIR POR SIEMPRE ------------- */
-   while(1) {
-      if( keypadRead( &keypad, &tecla ) ) {
-         display7SegmentWrite( display7Segment,
-                               keypadToDesplayKeys[ (uint8_t)tecla ] );
-      } else {
-         display7SegmentWrite( display7Segment, DISPLAY_7_SEGMENT_OFF );
-      }
    }
 
    /* NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado
