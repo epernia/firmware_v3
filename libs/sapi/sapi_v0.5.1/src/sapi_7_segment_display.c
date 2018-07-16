@@ -151,8 +151,8 @@ const uint8_t display7SegmentOutputs[26] = {
  Segment 'h' ON | 0b10000000 |   0x80    | .....
 ----------------+------------+-----------+------------
 
-                a
-              -----
+           a
+         -----
 	  f /     / b
 	   /  g  /
 	   -----
@@ -187,16 +187,32 @@ void display7SegmentPinInit( gpioMap_t* display7SegmentPins )
       gpioInit( display7SegmentPins[i], GPIO_OUTPUT );
 }
 
-void digitsWrite( gpioMap_t d, DisplayCommonType_t c, int val)
+static void digitsWrite( gpioMap_t d, DisplayCommonType_t c, int val)
 {
    if (c == DISP7_ANODE) // WARN: VERIFICAR
       val = !val;
    gpioWrite( d, val );
 }
 
+/*
+typedef enum {
+   DISP7_ANODE,
+   DISP7_CATODE
+} DisplayCommonType_t;
+
+typedef struct {
+   gpioMap_t *digits;
+   gpioMap_t *segments;
+   uint8_t nDigits;
+   uint8_t currentDigit;
+   DisplayCommonType_t comm;
+   uint8_t *buffer;
+} Display7Segment_t;
+ */
+
 void display7SegmentInit(Display7Segment_t *disp, gpioMap_t* segments,
-                            gpioMap_t *digits, uint8_t nDigits,
-                            DisplayCommonType_t common, uint8_t *buf)
+                         gpioMap_t *digits, uint8_t nDigits,
+                         DisplayCommonType_t common, uint8_t *buf)
 {
    disp->digits = digits;
    disp->segments = segments;
@@ -205,6 +221,7 @@ void display7SegmentInit(Display7Segment_t *disp, gpioMap_t* segments,
    disp->comm = common;
    disp->buffer = buf;
    for (int i=0; i<nDigits; i++) {
+      buf[i] = 0;
       gpioInit( digits[i], GPIO_OUTPUT);
       digitsWrite( digits[i], disp->comm, 0);
    }
@@ -214,15 +231,18 @@ void display7SegmentInit(Display7Segment_t *disp, gpioMap_t* segments,
    }
 }
 
-/* Write a symbol on 7-segment display */
-void display7SegmentWriteInt( Display7Segment_t* disp, uint32_t val )
-{
-   // TODO
-}
-
 void display7SegmentWriteIndex( Display7Segment_t* disp, uint8_t digit, uint8_t idx )
 {
    disp->buffer[digit] = idx;
+}
+
+void display7SegmentWriteInt( Display7Segment_t* disp, uint32_t val )
+{
+   for (int i=0; i<disp->nDigits; i++) {
+      uint8_t digit = val % 10;
+      display7SegmentWriteIndex(disp, i, digit );
+      val /= 10;
+   }
 }
 
 void display7SegmentWriteHex( Display7Segment_t* disp, uint32_t val )
@@ -247,21 +267,13 @@ void display7SegmentWrite( gpioMap_t* display7SegmentPins, DisplayCommonType_t c
    }
 }
 
-/*
-typedef enum {
-   DISP7_ANODE,
-   DISP7_CATODE
-} DisplayCommonType_t;
+void display7SegmentClear( Display7Segment_t* disp )
+{
+   for (int i=0; i<disp->nDigits; i++) {
+      disp->buffer[i] = 0;
+   }
+}
 
-typedef struct {
-   gpioMap_t *digits;
-   gpioMap_t *segments;
-   uint8_t nDigits;
-   uint8_t currentDigit;
-   DisplayCommonType_t comm;
-   uint8_t *buffer;
-} Display7Segment_t;
- */
 void display7SegmentRefresh( Display7Segment_t *disp )
 {
    digitsWrite( disp->digits[disp->currentDigit], disp->comm, 0 );
