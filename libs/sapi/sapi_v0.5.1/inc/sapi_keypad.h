@@ -50,6 +50,7 @@ typedef struct {
    uint8_t keypadRowSize;
    gpioMap_t* keypadColPins;
    uint8_t keypadColSize;
+   uint8_t currentColumn;
 } keypad_t;
 
 /*==================[external data declaration]==============================*/

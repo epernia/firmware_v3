@@ -97,9 +97,15 @@ int main(void){
       GPIO3, // Segment 'g'
       GPIO8  // Segment 'h' or 'dp'
    };
+   
+   typedef struct {
+      bool_t anoComm;
+      uint8_t segments[8];
+      uint8_t *digits;
+      uint8_t n_digits;
+   } Display7Seg_t;
 
    display7SegmentPinConfig( display7Segment );
-
 
    /* Configuracion de pines para el Teclado Matricial*/
 
@@ -122,9 +128,6 @@ int main(void){
       T_COL0     // Column 3
    };
 
-   keypadConfig( &keypad, keypadRowPins1, 4, keypadColPins1, 4 );
-
-
    // Vector de conversion entre indice de tecla presionada y el índice del
    // display 7 segmentos
    uint16_t keypadToDesplayKeys[16] = {
@@ -137,13 +140,62 @@ int main(void){
    // Variable para guardar la tecla leida
    uint16_t tecla = 0;
 
+   keypadConfig( &keypad, keypadRowPins1, 4, keypadColPins1, 4 );
+
+   // Display config
+   uint8_t disp1_digits[] = { LCD1, LCD2, LCD3, LCD4 };
+   uint8_t disp1_pins[]= { GPIO5, GPIO7, GPIO6, GPIO1, GPIO2, GPIO4, GPIO3, GPIO8 };
+   uint8_t disp1_buf[] = { 0, 0, 0, 0 };
+   Display7Seg_t disp1;
+   display7SegmentPinConfig( &disp1, ANODO_COMUN, disp1_pins, disp1_digits, 4, disp1_buf );
+   display7SegmentWriteInt( &disp1, 0 );
+
+   // Loop
+   while(1) {
+      display7SegmentRefresh( &disp1 );
+      if( keypadRead( &keypad, &tecla ) ) {
+         switch(tecla) {
+         case 0:
+         case 1:
+         case 2:
+         case 3:
+         case 4:
+         case 5:
+         case 6:
+         case 7:
+         case 8:
+         case 9:
+            display7SegmentWriteInt( &disp1, tecla );
+            break;
+         case 0xA: // +
+            display7SegmentClear( &disp1 );
+            display7SegmentWriteIndex( &disp1, 0, 22);
+            break;
+         case 0xB: // *
+            display7SegmentClear( &disp1 );
+            display7SegmentWriteIndex( &disp1, 0, 25);
+            break;
+         case 0xC: // /
+            display7SegmentWriteHex(&disp1, 0x000D);
+            break;
+         case 0xD: // -
+            buffer[0] = 0b01000000; // g -> encendido
+            buffer[0] = 0;
+            buffer[0] = 0;
+            buffer[0] = 0;
+            break;
+         }
+      }
+      delay(10);
+   }
+   
+   
    /* ------------- REPETIR POR SIEMPRE ------------- */
    while(1) {
-
-      if( keypadRead( &keypad, &tecla ) ){
+      if( keypadRead( &keypad, &tecla ) ) {
          display7SegmentWrite( display7Segment,
                                keypadToDesplayKeys[ (uint8_t)tecla ] );
-      } else{
+      } else {
          display7SegmentWrite( display7Segment, DISPLAY_7_SEGMENT_OFF );
       }
    }

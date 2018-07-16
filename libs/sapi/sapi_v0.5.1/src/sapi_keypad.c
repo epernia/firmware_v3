@@ -79,6 +79,7 @@ bool_t keypadInit( keypad_t* keypad,
    keypad->keypadRowSize = keypadRowSize;
    keypad->keypadColPins = keypadColPins;
    keypad->keypadColSize = keypadColSize;
+   keypad->currentColumn = 0;
 
    // Configure Rows as Outputs
    for( i=0; i<keypadRowSize; i++ ) {
@@ -110,7 +111,9 @@ bool_t keypadRead( keypad_t* keypad, uint16_t* key )
    }
 
    // Check all Columns to search if any key is pressed
-   for( c=0; c<keypad->keypadColSize; c++ ) {
+   //for( c=0; c<keypad->keypadColSize; c++ ) 
+   if (1) {
+      c = keypad->currentColumn;
 
       // If reads a LOW state in a column then that key may be pressed
       if( !gpioRead( keypad->keypadColPins[c] ) ) {
@@ -139,7 +142,9 @@ bool_t keypadRead( keypad_t* keypad, uint16_t* key )
                return retVal;
             }
          }
-
+         keypad->currentColumn++;
+         if (keypad->currentColumn >= keypad->keypadRowSize)
+            keypad->currentColumn = 0;
       }
    }
 
