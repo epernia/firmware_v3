@@ -56,7 +56,7 @@ typedef struct {
    gpioMap_t *digits;
    gpioMap_t *segments;
    uint8_t nDigits;
-   uint8_T currentDigit;
+   uint8_t currentDigit;
    DisplayCommonType_t comm;
    uint8_t *buffer;
 } Display7Segment_t;
