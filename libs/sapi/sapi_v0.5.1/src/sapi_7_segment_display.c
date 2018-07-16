@@ -182,11 +182,16 @@ void display7SegmentTestPins( gpioMap_t* display7SegmentPins, gpioMap_t pin )
 /* Configure 7-segment display GPIOs as Outputs */
 void display7SegmentPinInit( gpioMap_t* display7SegmentPins )
 {
-
    uint8_t i = 0;
-
    for( i=0; i<=7; i++ )
       gpioInit( display7SegmentPins[i], GPIO_OUTPUT );
+}
+
+void digitsWrite( gpioMap_t d, DisplayCommonType_t c, int val)
+{
+   if (c == DISP7_ANODE) // WARN: VERIFICAR
+      val = !val;
+   gpioWrite( d, val );
 }
 
 void display7SegmentInit(Display7Segment_t *disp, gpioMap_t* segments,
@@ -199,23 +204,48 @@ void display7SegmentInit(Display7Segment_t *disp, gpioMap_t* segments,
    disp->currentDigit = 0;
    disp->comm = common;
    disp->buffer = buf;
+   for (int i=0; i<nDigits; i++) {
+      gpioInit( digits[i], GPIO_OUTPUT);
+      digitsWrite( digits[i], disp->comm, 0);
+   }
+   for (int i=0; i<8; i++) {
+      gpioInit( segments[i], GPIO_OUTPUT);
+      digitsWrite( segments[i], disp->comm, 0);
+   }
 }
 
 /* Write a symbol on 7-segment display */
-void display7SegmentWriteInt( Display7Segment_t* disp, uint32_t val );
-void display7SegmentWriteHex( Display7Segment_t* disp, uint32_t val );
-void display7SegmentWriteIndex( Display7Segment_t* disp, uint8_t digit, uint8_t idx );
+void display7SegmentWriteInt( Display7Segment_t* disp, uint32_t val )
+{
+   // TODO
+}
+
+void display7SegmentWriteIndex( Display7Segment_t* disp, uint8_t digit, uint8_t idx )
+{
+   disp->buffer[digit] = idx;
+}
+
+void display7SegmentWriteHex( Display7Segment_t* disp, uint32_t val )
+{
+   for (int i=0; i<disp->nDigits; i++) {
+      uint8_t nibble = (val >> (4 * i)) & 0xF;
+      display7SegmentWriteIndex(disp, i, nibble );
+   }
+}
 
 /* Write a symbol on 7-segment display */
-void display7SegmentWrite( gpioMap_t* display7SegmentPins, uint8_t symbolIndex )
+void display7SegmentWrite( gpioMap_t* display7SegmentPins, DisplayCommonType_t c, uint8_t symbolIndex )
 {
 
    uint8_t i = 0;
 
-   for( i=0; i<=7; i++ )
-      gpioWrite( display7SegmentPins[i], display7SegmentOutputs[symbolIndex] & (1<<i) );
+   for( i=0; i<=7; i++ ) {
+      int val = display7SegmentOutputs[symbolIndex] & (1<<i);
+      if (c == DISP7_ANODE) // WARN: VERIFICAR
+         val = !val;
+      gpioWrite( display7SegmentPins[i], val );
+   }
 }
-
 
 /*
 typedef enum {
@@ -234,8 +264,11 @@ typedef struct {
  */
 void display7SegmentRefresh( Display7Segment_t *disp )
 {
-   gpioMap_t *currentDigit = disp->digits[disp->currentDigit];
-   
+   digitsWrite( disp->digits[disp->currentDigit], disp->comm, 0 );
+   disp->currentDigit++;
+   if (disp->currentDigit >= disp->nDigits)
+      disp->currentDigit = 0;
+   digitsWrite( disp->digits[disp->currentDigit], disp->comm, 0 );
 }
 
 
