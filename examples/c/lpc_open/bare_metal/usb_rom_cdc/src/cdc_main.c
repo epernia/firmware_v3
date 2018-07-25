@@ -34,7 +34,7 @@
 #include <string.h>
 #include "app_usbd_cfg.h"
 #include "cdc_vcom.h"
-#include "ciaaIO.h"
+#include "sapi.h"
 
 /*****************************************************************************
  * Private types/enumerations/variables
@@ -137,7 +137,7 @@ int main(void)
 	/* Initialize board and chip */
 	SystemCoreClockUpdate();
 	Board_Init();
-	ciaaIOInit();
+	boardConfig();
 
 	/* enable clocks and pinmux */
 	USB_init_pin_clk();
@@ -209,7 +209,7 @@ int main(void)
 			if (rdCnt) {
 				int i;
 				for (i=0; i<6; i++) {
-					ciaaWriteOutput(i, g_rxBuff[0] & (1 << i));
+					gpioWrite( LEDR+i, g_rxBuff[0] & (1 << i) );
 				}
 				vcom_write(&g_rxBuff[0], rdCnt);
 			}

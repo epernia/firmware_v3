@@ -3,7 +3,6 @@
 #include <signal.h>
 
 #include <board.h>
-#include "sapi.h"
 
 #define UNUSED(x) (void)x
 #define SET_ERR(e) (r->_errno = e)
