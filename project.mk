@@ -14,7 +14,7 @@
 #PROJECT_NAME = sapi_basic_example
 
 PROJECT_PATH = examples/c/sapi/bare_metal
-PROJECT_NAME = keypad_7segment_01
+PROJECT_NAME = spi_01_sd_card_list
 
 # ---------- Example of path outside this file folder ------------------
 #PROJECT_PATH = ../examples/c/sapi/bare_metal
