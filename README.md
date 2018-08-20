@@ -6,6 +6,7 @@ Available libraries:
    - LPCOpen v3.01
    - sAPI r0.5.0.
    - FreeRTOS Kernel V10.0.1
+   - Elm-Chan FatFS (SSP & USB).
 
 ## IMPORTANT
 

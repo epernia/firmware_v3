@@ -145,8 +145,8 @@ int main(void){
 	// Configura la UART USB a 115200 baudios
 	uartConfig (UART_USB, 115200);
 	// Envia un mensaje de bienvenida.
-	stdioPrintf(UART_USB, "\n\rBienvenido al servidor HTTP Esp8266 con EDU CIAA");
-	stdioPrintf(UART_USB, "\n\rLa configuracion puede tardar hasta 1 minuto.");
+	printf("\n\rBienvenido al servidor HTTP Esp8266 con EDU CIAA");
+	printf("\n\rLa configuracion puede tardar hasta 1 minuto.");
 
 	error = FALSE;
 	// Configura un delay para salir de la configuracion en caso de error.
@@ -165,11 +165,11 @@ int main(void){
 
 	// Avisa al usuario como salio la configuracion
 	if (!error){
-		stdioPrintf(UART_USB, "\n\rServidor HTTP configurado. IP: %s", esp8266GetIpAddress());
+		printf("\n\rServidor HTTP configurado. IP: %s", esp8266GetIpAddress());
 		// Enciende LEDG indicando que el modulo esta configurado.
 		gpioWrite(LEDG, TRUE);
 	} else {
-		stdioPrintf(UART_USB, "\n\rError al configurar servidor HTTP");
+		printf("\n\rError al configurar servidor HTTP");
 		// Enciende LEDR indicando que el modulo esta en error.
 		gpioWrite(LEDR, TRUE);
 	}
@@ -181,7 +181,7 @@ int main(void){
 
 			// Los datos a enviar a la web deben estar en formato HTML. Notar que
 			// BEGIN_USER_LINE y END_USER_LINE solo formatean la cadena a enviar con tags HTML.
-			stdioSprintf(HttpWebPageBody, "%s VALOR CONTADOR: %d - VALOR ADC: %d %s", BEGIN_USER_LINE, counter, 3+counter*2, END_USER_LINE);
+			sprintf(HttpWebPageBody, "%s VALOR CONTADOR: %d - VALOR ADC: %d %s", BEGIN_USER_LINE, counter, 3+counter*2, END_USER_LINE);
 
 			error = FALSE;
 			// Configura un delay para salir de la configuracion en caso de error.
@@ -196,10 +196,10 @@ int main(void){
 
 			// Avisa al usuario como fue el envio
 			if (!error){
-				stdioPrintf(UART_USB, "\n\rPeticion respondida al cliente HTTP %d.", esp8266GetConnectionId());
+				printf("\n\rPeticion respondida al cliente HTTP %d.", esp8266GetConnectionId());
 				gpioToggle(LEDG);
 			} else {
-				stdioPrintf(UART_USB, "\n\rPeticion no respondida al cliente HTTP %d.", esp8266GetConnectionId());
+				printf("\n\rPeticion no respondida al cliente HTTP %d.", esp8266GetConnectionId());
 				gpioToggle(LEDR);
 			}
 

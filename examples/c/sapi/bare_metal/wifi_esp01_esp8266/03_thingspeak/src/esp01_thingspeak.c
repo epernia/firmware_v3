@@ -118,8 +118,6 @@ bool_t esp01ConnectToWifiAP( char* wiFiSSID, char* wiFiPassword );
 
 bool_t esp01ConnectToServer( char* url, uint32_t port );
 
-bool_t esp01ConnectToServer( char* url, uint32_t port );
-
 bool_t esp01SendTCPIPData( char* strData, uint32_t strDataLen );
 
 bool_t esp01SendTPCIPDataToServer( char* url, uint32_t port, char* strData, uint32_t strDataLen );
