@@ -162,12 +162,12 @@ int main(void){
    /* Estructura RTC */
    rtc_t rtc;
 
-   rtc.year = 2016;
-   rtc.month = 7;
-   rtc.mday = 3;
+   rtc.year = 2018;
+   rtc.month = 8;
+   rtc.mday = 13;
    rtc.wday = 1;
-   rtc.hour = 13;
-   rtc.min = 17;
+   rtc.hour = 19;
+   rtc.min = 25;
    rtc.sec= 0;
 
    bool_t val = 0;

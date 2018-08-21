@@ -62,7 +62,8 @@ void diskTickHook( void *ptr );
 /*==================[funcion principal]======================================*/
 
 // FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
-int main( void ){
+int main( void )
+{
 
    // ---------- CONFIGURACIONES ------------------------------
    // Inicializar y configurar la plataforma
@@ -81,7 +82,7 @@ int main( void ){
    UINT nbytes;
 
    // Give a work area to the default drive
-   if( f_mount( &fs, "", 0 ) != FR_OK ){
+   if( f_mount( &fs, "", 0 ) != FR_OK ) {
       // If this fails, it means that the function could
       // not register a file system object.
       // Check whether the SD card is correctly connected
@@ -91,26 +92,30 @@ int main( void ){
 
    uint8_t i=0;
 
-   for( i=0; i<5; i++ ){
-
-      if( f_open( &fp, FILENAME, FA_WRITE | FA_OPEN_APPEND ) == FR_OK ){
-         f_write( &fp, "Hola mundo\r\n", 12, &nbytes );
+   while (1) {
+      if( f_open( &fp, FILENAME, FA_WRITE | FA_OPEN_APPEND ) == FR_OK ) {
+         char buf[256];
+         // Leer el RTC
+         // Leer valor
+         int n = sprintf(buf, "..., %d", ...datos del rtc..., valor);
+         f_write( &fp, buf, n, &nbytes );
+         
+         f_printf( &fp...
 
          f_close(&fp);
 
-         if( nbytes == 12 ){
+         if( nbytes == n ) {
             // Turn ON LEDG if the write operation was successful
             gpioWrite( LEDG, ON );
          }
-      } else{
+      } else {
          // Turn ON LEDR if the write operation was fail
          gpioWrite( LEDR, ON );
       }
    }
 
    // ---------- REPETIR POR SIEMPRE --------------------------
-   while( TRUE )
-   {
+   while( TRUE ) {
       sleepUntilNextInterrupt();
    }
 
@@ -125,7 +130,8 @@ int main( void ){
 /*==================[definiciones de funciones externas]=====================*/
 
 // FUNCION que se ejecuta cada vezque ocurre un Tick
-void diskTickHook( void *ptr ){
+void diskTickHook( void *ptr )
+{
    disk_timerproc();   // Disk timer process
 }
 
