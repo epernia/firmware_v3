@@ -123,6 +123,7 @@ int _open_r(struct _reent *r, const char *name, int f, int m) {
    return -1;
 }
 
+/*
 _ssize_t _read_r(struct _reent *r, int fd, void *b, size_t n) {
    size_t i;
    switch (fd) {
@@ -136,6 +137,35 @@ _ssize_t _read_r(struct _reent *r, int fd, void *b, size_t n) {
        SET_ERR(ENODEV);
        return -1;
    }
+}
+*/
+_ssize_t _read_r(struct _reent *r, int fd, void *b, size_t n) {
+  size_t i = 0;
+  char c = 0;
+  switch (fd) {
+  case 0:
+  case 1:
+  case 2:
+      while( i < n ){
+         c = (char)Board_UARTGetChar();
+         if( c != 255 ){
+            if( c != '\r' && c != '\n' ){
+               ((char*) b)[i] = c;
+               i++;
+            }else{
+               ((char*) b)[i] = c;
+               i++;
+               c = (char)Board_UARTGetChar(); // read anotherone to prevent \r\n
+               return i;
+            }
+         }
+      }
+      SET_ERR(ENODEV);
+      return -1;
+  default:
+      SET_ERR(ENODEV);
+      return -1;
+  }
 }
 
 int _rename_r(struct _reent *r, const char *oldf, const char *newf) {

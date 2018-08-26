@@ -115,7 +115,7 @@ static void uartProcessIRQ( uartMap_t uart )
 
    // Tx Interrupt
    if( ( status & UART_LSR_THRE ) && // uartTxReady
-       ( Chip_UART_GetIntsEnabled(LPC_USART3) & UART_IER_THREINT ) ) {
+       ( Chip_UART_GetIntsEnabled( lpcUarts[uart].uartAddr ) & UART_IER_THREINT ) ) {
 
       // Execute callback
       if( ( uart == UART_GPIO ) && (txIsrCallbackUART0 != 0) )

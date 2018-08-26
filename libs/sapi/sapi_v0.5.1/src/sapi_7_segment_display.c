@@ -70,16 +70,16 @@
  0b01111111 | 0x00 |   8
  0b01101111 | 0x00 |   9
 
- 0b01011111 | 0x00 |   a
- 0b01111100 | 0x00 |   b
- 0b01011000 | 0x00 |   c
- 0b01011110 | 0x00 |   d
- 0b01111011 | 0x00 |   e
- 0b01110001 | 0x00 |   F
+ 0b01011111 | 0x00 |   a 10
+ 0b01111100 | 0x00 |   b 11
+ 0b01011000 | 0x00 |   c 12
+ 0b01011110 | 0x00 |   d 13
+ 0b01111011 | 0x00 |   e 14
+ 0b01110001 | 0x00 |   F 15
 
- 0b01110111 | 0x00 |   A
- 0b00111001 | 0x00 |   C
- 0b01111001 | 0x00 |   E
+ 0b01110111 | 0x00 |   A 16
+ 0b00111001 | 0x00 |   C 17
+ 0b01111001 | 0x00 |   E 18
  0b01110110 | 0x00 |   H
  0b00011110 | 0x00 |   J
  0b00111000 | 0x00 |   L
@@ -98,7 +98,7 @@
      -----    O h = dp (decimal point).
 
 */
-uint8_t display7SegmentOutputs[26] = {
+const uint8_t display7SegmentOutputs[26] = {
    0b00111111, // 0
    0b00000110, // 1
    0b01011011, // 2
@@ -151,8 +151,8 @@ uint8_t display7SegmentOutputs[26] = {
  Segment 'h' ON | 0b10000000 |   0x80    | .....
 ----------------+------------+-----------+------------
 
-                a
-              -----
+           a
+         -----
 	  f /     / b
 	   /  g  /
 	   -----
@@ -182,22 +182,106 @@ void display7SegmentTestPins( gpioMap_t* display7SegmentPins, gpioMap_t pin )
 /* Configure 7-segment display GPIOs as Outputs */
 void display7SegmentPinInit( gpioMap_t* display7SegmentPins )
 {
-
    uint8_t i = 0;
-
    for( i=0; i<=7; i++ )
       gpioInit( display7SegmentPins[i], GPIO_OUTPUT );
 }
 
+static void digitsWrite( gpioMap_t d, DisplayCommonType_t c, int val)
+{
+   if (c == DISP7_ANODE) // WARN: VERIFICAR
+      val = !val;
+   gpioWrite( d, val );
+}
+
+/*
+typedef enum {
+   DISP7_ANODE,
+   DISP7_CATODE
+} DisplayCommonType_t;
+
+typedef struct {
+   gpioMap_t *digits;
+   gpioMap_t *segments;
+   uint8_t nDigits;
+   uint8_t currentDigit;
+   DisplayCommonType_t comm;
+   uint8_t *buffer;
+} Display7Segment_t;
+ */
+
+void display7SegmentInit(Display7Segment_t *disp, gpioMap_t* segments,
+                         gpioMap_t *digits, uint8_t nDigits,
+                         DisplayCommonType_t common, uint8_t *buf)
+{
+   disp->digits = digits;
+   disp->segments = segments;
+   disp->nDigits = nDigits;
+   disp->currentDigit = 0;
+   disp->comm = common;
+   disp->buffer = buf;
+   for (int i=0; i<nDigits; i++) {
+      buf[i] = 0;
+      gpioInit( digits[i], GPIO_OUTPUT);
+      digitsWrite( digits[i], disp->comm, 0);
+   }
+   for (int i=0; i<8; i++) {
+      gpioInit( segments[i], GPIO_OUTPUT);
+      digitsWrite( segments[i], disp->comm, 0);
+   }
+}
+
+void display7SegmentWriteIndex( Display7Segment_t* disp, uint8_t digit, uint8_t idx )
+{
+   disp->buffer[digit] = idx;
+}
+
+void display7SegmentWriteInt( Display7Segment_t* disp, uint32_t val )
+{
+   for (int i=0; i<disp->nDigits; i++) {
+      uint8_t digit = val % 10;
+      display7SegmentWriteIndex(disp, i, digit );
+      val /= 10;
+   }
+}
+
+void display7SegmentWriteHex( Display7Segment_t* disp, uint32_t val )
+{
+   for (int i=0; i<disp->nDigits; i++) {
+      uint8_t nibble = (val >> (4 * i)) & 0xF;
+      display7SegmentWriteIndex(disp, i, nibble );
+   }
+}
 
 /* Write a symbol on 7-segment display */
-void display7SegmentWrite( gpioMap_t* display7SegmentPins, uint8_t symbolIndex )
+void display7SegmentWrite( gpioMap_t* display7SegmentPins, DisplayCommonType_t c, uint8_t symbolIndex )
 {
 
    uint8_t i = 0;
 
-   for( i=0; i<=7; i++ )
-      gpioWrite( display7SegmentPins[i], display7SegmentOutputs[symbolIndex] & (1<<i) );
+   for( i=0; i<=7; i++ ) {
+      int val = display7SegmentOutputs[symbolIndex] & (1<<i);
+      if (c == DISP7_ANODE) // WARN: VERIFICAR
+         val = !val;
+      gpioWrite( display7SegmentPins[i], val );
+   }
 }
+
+void display7SegmentClear( Display7Segment_t* disp )
+{
+   for (int i=0; i<disp->nDigits; i++) {
+      disp->buffer[i] = 0;
+   }
+}
+
+void display7SegmentRefresh( Display7Segment_t *disp )
+{
+   digitsWrite( disp->digits[disp->currentDigit], disp->comm, 0 );
+   disp->currentDigit++;
+   if (disp->currentDigit >= disp->nDigits)
+      disp->currentDigit = 0;
+   digitsWrite( disp->digits[disp->currentDigit], disp->comm, 0 );
+}
+
 
 /*==================[end of file]============================================*/

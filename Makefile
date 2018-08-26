@@ -1,11 +1,22 @@
-include project.mk
+# -------- Project path and name default values ------------------------
+# Project path
+# relative to this folder, leave void if the project is in this folder
+PROJECT_PATH =
+# Project name
+PROJECT_NAME = app
+# -------- Project path and name from an external projec.mk file -------
+-include project.mk
+
+# Compose project path and name
 ifeq ($(PROJECT_PATH),)
 PROJECT_PATH_AND_NAME=$(PROJECT_NAME)
 else
 PROJECT_PATH_AND_NAME=$(PROJECT_PATH)/$(PROJECT_NAME)
 endif
 
+# -------- Include config.mk file fom project --------------------------
 include $(PROJECT_PATH_AND_NAME)/config.mk
+# ----------------------------------------------------------------------
 
 MODULES=$(sort $(dir $(wildcard libs/*/)))
 SRC=$(wildcard $(PROJECT_PATH_AND_NAME)/src/*.c)
@@ -35,7 +46,7 @@ OPT_FLAGS=-ggdb3 -O$(OPT) -ffunction-sections -fdata-sections
 
 COMMON_FLAGS=$(ARCH_FLAGS) $(DEFINES_FLAGS) $(INCLUDE_FLAGS) $(OPT_FLAGS)
 
-CFLAGS=$(COMMON_FLAGS)
+CFLAGS=$(COMMON_FLAGS) -std=c99
 CXXFLAGS=$(COMMON_FLAGS) -fno-rtti -fno-exceptions -std=c++11
 
 LDFLAGS=$(ARCH_FLAGS)

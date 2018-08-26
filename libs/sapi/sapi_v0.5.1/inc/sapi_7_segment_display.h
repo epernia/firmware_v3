@@ -47,6 +47,20 @@
 
 /*==================[typedef]================================================*/
 
+typedef enum {
+   DISP7_ANODE,
+   DISP7_CATODE
+} DisplayCommonType_t;
+
+typedef struct {
+   gpioMap_t *digits;
+   gpioMap_t *segments;
+   uint8_t nDigits;
+   uint8_t currentDigit;
+   DisplayCommonType_t comm;
+   uint8_t *buffer;
+} Display7Segment_t;
+
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
@@ -79,11 +93,18 @@
 void display7SegmentTestPins( gpioMap_t* display7SegmentPins, gpioMap_t pin );
 
 /* Configure 7-segment display GPIOs as Outputs */
-void display7SegmentPinInit( gpioMap_t* display7SegmentPins );
+//void display7SegmentPinInit( gpioMap_t* display7SegmentPins );
+
+void display7SegmentInit(Display7Segment_t *disp, gpioMap_t* segments,
+                            gpioMap_t *digits, uint8_t nDigits,
+                            DisplayCommonType_t common, uint8_t *buf);
 
 /* Write a symbol on 7-segment display */
-void display7SegmentWrite( gpioMap_t* display7SegmentPins, uint8_t symbolIndex );
-
+void display7SegmentWriteInt( Display7Segment_t* disp, uint32_t val );
+void display7SegmentWriteHex( Display7Segment_t* disp, uint32_t val );
+void display7SegmentWriteIndex( Display7Segment_t* disp, uint8_t digit, uint8_t idx );
+void display7SegmentClear( Display7Segment_t* disp );
+void display7SegmentRefresh( Display7Segment_t *disp );
 
 /*==================[end of file]============================================*/
 #endif /* #ifndef _SAPI_7_SEGMENT_DISPLAY_H_ */

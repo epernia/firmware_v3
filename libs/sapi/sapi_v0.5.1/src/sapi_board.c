@@ -58,13 +58,10 @@
 /* Set up and initialize board hardware */
 void boardInit(void)
 {
-
    // Read clock settings and update SystemCoreClock variable
    SystemCoreClockUpdate();
 
    cyclesCounterInit( SystemCoreClock );
-
-   Board_Init(); // From Board module (modules/lpc4337_m4/board)
 
    // Inicializar el conteo de Ticks con resolucion de 1ms
    tickInit( 1 );
