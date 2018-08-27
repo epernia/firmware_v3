@@ -112,7 +112,7 @@ static bool_t dht11_StartRead(void)
    dht11_GPIO_Low();
    delay(20);
    dht11_GPIO_High();
-
+   __disable_irq ();
    while(FALSE == flag_loop_end) {
       switch(state) {
       case dht11_state_start:
@@ -185,7 +185,7 @@ static bool_t dht11_StartRead(void)
          state = dht11_state_end;
       }
    }
-
+   __enable_irq ();
    if(82 == n_bit) {
       return TRUE;
    }
@@ -207,6 +207,7 @@ static bool_t dht11_ProcessData(void)
    }
 
    i_i = 2;
+   
    for(j = 0; j < DHT11_LEN_dht11_byte; j++) {
       dht11_byte[j] = 0x00;
       i_f = i_i + 8 * 2 - 1;
