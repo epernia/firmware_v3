@@ -213,8 +213,7 @@ int main( void ){
       lcdSendStringRaw( "Tmp" );
       lcdData(0);
 
-      lcdSendStringRaw( " Hum" );
-      lcdData(1);
+      lcdSendStringRaw( " Hum\x01" );
 
       lcdSendStringRaw( " Vie" );
       lcdData(2);
@@ -237,6 +236,7 @@ int main( void ){
 
       lcdClear(); // Borrar la pantalla
       lcdGoToXY( 1, 1 ); // Poner cursor en 1, 1
+      lcdSendStringRaw( "\x03\x04\x05\x06" );
       lcdData(3);
       lcdData(4);
       lcdData(5);
