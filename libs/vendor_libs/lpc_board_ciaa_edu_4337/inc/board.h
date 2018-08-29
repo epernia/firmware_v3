@@ -2,7 +2,6 @@
 #define __BOARD_H__
 
 #include "chip.h"
-#define DEBUG_ENABLE
 #include "board_api.h"
 
 
