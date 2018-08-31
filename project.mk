@@ -5,9 +5,9 @@
 # ---------- Project path ----------------------------------------------
 # Project path 
 # (relative to this folder, leave void if the project is in this folder)
-#PROJECT_PATH =
+PROJECT_PATH =
 # ---------- Project names ---------------------------------------------
-#PROJECT_NAME = app
+PROJECT_NAME = app
 
 # ---------- Example of path inside this file folder -------------------
 #PROJECT_PATH = examples/c/sapi/bare_metal
@@ -43,11 +43,17 @@
 #PROJECT_PATH = examples/c/sapi/bare_metal
 #PROJECT_NAME = lcd_01
 
+
+
 #PROJECT_PATH = examples/c/sapi/bare_metal
 #PROJECT_NAME = sd_logger
 #PROJECT_NAME = sdcard_usbms
 
-PROJECT_PATH = examples/c/sapi/bare_metal/usb
-PROJECT_NAME = usb_device_01_hid_keyboard
+#PROJECT_PATH = examples/c/sapi/bare_metal/usb
+#PROJECT_NAME = usb_device_01_hid_keyboard
 #PROJECT_NAME = usb_device_02_cdc_virtualSerialPort
+
+#PROJECT_PATH = examples/c/lpc_open/bare_metal
+	#PROJECT_NAME = usb_msc_host
+#PROJECT_NAME = usb_rom_cdc
 
