@@ -40,5 +40,14 @@
 #PROJECT_PATH = examples/c/sapi/bare_metal/temperature_humidity_sensors
 #PROJECT_NAME = dht11_01
 
-PROJECT_PATH = examples/c/sapi/bare_metal
-PROJECT_NAME = lcd_01
+#PROJECT_PATH = examples/c/sapi/bare_metal
+#PROJECT_NAME = lcd_01
+
+#PROJECT_PATH = examples/c/sapi/bare_metal
+#PROJECT_NAME = sd_logger
+#PROJECT_NAME = sdcard_usbms
+
+PROJECT_PATH = examples/c/sapi/bare_metal/usb
+PROJECT_NAME = usb_device_01_hid_keyboard
+#PROJECT_NAME = usb_device_02_cdc_virtualSerialPort
+
