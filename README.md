@@ -2,17 +2,17 @@
 
 CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 
-Available libraries:
-   - LPCOpen v3.01
-   - sAPI r0.5.0.
-   - FreeRTOS Kernel V10.0.1
-   - Elm-Chan FatFS (SSP & USB).
-
 ## IMPORTANT
 
 **This environment is under construction!!**
 
 **Always use the [released versions](../../releases) because in these all examples are tested and the API documentation is consistent. The master branch may contain inconsistencies because this environment is currently under development.**
+
+## Available libraries:
+- LPCOpen v3.01
+- sAPI r0.5.0.
+- FreeRTOS Kernel V10.0.1
+- Elm-Chan FatFS (duplicated for SSP & USB).
 
 ## Supported boards
 - CIAA-NXP (LPC4337).
