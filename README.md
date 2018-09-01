@@ -92,8 +92,7 @@ Included examples are:
             - ```uart_03_receive_string```: waits until receive a certain pattern String in a UART or timeout expire (non-blocking code). Don't save received string.
         - wifi_esp8266
             - ```wifi_esp8266_01_uart_bridg```: use this to send AT commands directly to ESP01 module.
-            - ```wifi_esp8266_02_http_server```: embedded web server to see sensor values.
-            - ```wifi_esp8266_03_thingspeak```: send data to thingspeak dashboards.
+            - ```wifi_esp8266_02_thingspeak```: send data to thingspeak dashboards.
         - usb
             - ```usb_device_01_hid_keyboard```: USB Device. Board as USB Keyboard.
             - ```usb_device_02_cdc_virtualSerialPort```: USB Device. Using USB OTG as a virtual serial port.
