@@ -51,7 +51,7 @@
 /** Size of share memory that a device uses to store data transfer to/ receive from host
  *  or a host uses to store data transfer to/ receive from device.
  */
-#define USBRAM_BUFFER_SIZE  (2*1024)
+#define USBRAM_BUFFER_SIZE  (4*1024)
 
 /** This option effects only on high speed parts that need to test full speed activities */
 #define USB_FORCED_FULLSPEED		0

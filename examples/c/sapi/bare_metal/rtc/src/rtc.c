@@ -32,12 +32,12 @@
  */
 
 /*
- * Date: 2016-04-26
+ * Date: 2016-07-03
  */
 
 /*==================[inclusions]=============================================*/
 
-#include "sapi.h"     // <= sAPI header
+#include "sapi.h"    // <= sAPI header
 
 /*==================[macros and definitions]=================================*/
 
@@ -48,6 +48,9 @@
 /*==================[internal data definition]===============================*/
 
 /*==================[external data definition]===============================*/
+
+/* Buffer */
+static char uartBuff[10];
 
 /*==================[internal functions definition]==========================*/
 
@@ -85,6 +88,65 @@ char* itoa(int value, char* result, int base) {
 }
 
 
+/* Enviar fecha y hora en formato "DD/MM/YYYY, HH:MM:SS" */
+void showDateAndTime( rtc_t * rtc ){
+   /* Conversion de entero a ascii con base decimal */
+   itoa( (int) (rtc->mday), (char*)uartBuff, 10 ); /* 10 significa decimal */
+   /* Envio el dia */
+   if( (rtc->mday)<10 )
+      uartWriteByte( UART_USB, '0' );
+   uartWriteString( UART_USB, uartBuff );
+   uartWriteByte( UART_USB, '/' );
+
+   /* Conversion de entero a ascii con base decimal */
+   itoa( (int) (rtc->month), (char*)uartBuff, 10 ); /* 10 significa decimal */
+   /* Envio el mes */
+   if( (rtc->month)<10 )
+      uartWriteByte( UART_USB, '0' );
+   uartWriteString( UART_USB, uartBuff );
+   uartWriteByte( UART_USB, '/' );
+
+   /* Conversion de entero a ascii con base decimal */
+   itoa( (int) (rtc->year), (char*)uartBuff, 10 ); /* 10 significa decimal */
+   /* Envio el año */
+   if( (rtc->year)<10 )
+      uartWriteByte( UART_USB, '0' );
+   uartWriteString( UART_USB, uartBuff );
+
+
+   uartWriteString( UART_USB, ", ");
+
+
+   /* Conversion de entero a ascii con base decimal */
+   itoa( (int) (rtc->hour), (char*)uartBuff, 10 ); /* 10 significa decimal */
+   /* Envio la hora */
+   if( (rtc->hour)<10 )
+      uartWriteByte( UART_USB, '0' );
+   uartWriteString( UART_USB, uartBuff );
+   uartWriteByte( UART_USB, ':' );
+
+   /* Conversion de entero a ascii con base decimal */
+   itoa( (int) (rtc->min), (char*)uartBuff, 10 ); /* 10 significa decimal */
+   /* Envio los minutos */
+  // uartBuff[2] = 0;    /* NULL */
+   if( (rtc->min)<10 )
+      uartWriteByte( UART_USB, '0' );
+   uartWriteString( UART_USB, uartBuff );
+   uartWriteByte( UART_USB, ':' );
+
+   /* Conversion de entero a ascii con base decimal */
+   itoa( (int) (rtc->sec), (char*)uartBuff, 10 ); /* 10 significa decimal */
+   /* Envio los segundos */
+   if( (rtc->sec)<10 )
+      uartWriteByte( UART_USB, '0' );
+   uartWriteString( UART_USB, uartBuff );
+
+
+   /* Envio un 'enter' */
+   uartWriteString( UART_USB, "\r\n");
+}
+
+
 /* FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. */
 int main(void){
 
@@ -96,62 +158,55 @@ int main(void){
    /* Inicializar UART_USB a 115200 baudios */
    uartConfig( UART_USB, 115200 );
 
-   uint8_t dato  = 0;
-   uint8_t dato1 = 1;
-   uint8_t dato2 = 78;
-   int32_t dato3 = 1234;
+   /* Estructura RTC */
+   rtc_t rtc;
 
-   /* Buffer */
-   static char uartBuff[10];
+   rtc.year = 2018;
+   rtc.month = 8;
+   rtc.mday = 13;
+   rtc.wday = 1;
+   rtc.hour = 19;
+   rtc.min = 25;
+   rtc.sec= 0;
 
-   uartWriteByte( UART_USB, 'h' - 32 );   /* Envía 'H' */
-   uartWriteByte( UART_USB, 'A' + 32 );   /* Envía 'a' */
+   bool_t val = 0;
+   uint8_t i = 0;
 
-   /* Enviar un Enter */
-   uartWriteByte( UART_USB, '\r' ); /* Envía '\r', retorno de carro */
-   uartWriteByte( UART_USB, '\n' ); /* Envía '\n', nueva línea      */
+   /* Inicializar RTC */
+   val = rtcConfig( &rtc );
 
-   uartWriteByte( UART_USB, dato1 + 48 ); /* Envía '1' */
-   uartWriteByte( UART_USB, ' ' );        /* Envía ' ' */
-   uartWriteByte( UART_USB, '1' );        /* Envía '1' */
-   uartWriteByte( UART_USB, 32 );         /* Envía ' ' */
+   delay_t delay1s;
+   delayConfig( &delay1s, 1000 );
 
-   /* Convertir un número entero de 2 dígitos ASCII y enviar */
-   uartWriteByte( UART_USB, (dato2/10) + 48 ); /* Envía '7' */
-   uartWriteByte( UART_USB, (dato2%10) + 48 ); /* Envía '8' */
+   delay(2000); // El RTC tarda en setear la hora, por eso el delay
 
-   uartWriteString( UART_USB, "\r\n" ); /* Enviar un Enter */
+   for( i=0; i<10; i++ ){
+      /* Leer fecha y hora */
+      val = rtcRead( &rtc );
+      /* Mostrar fecha y hora en formato "DD/MM/YYYY, HH:MM:SS" */
+      showDateAndTime( &rtc );
+      delay(1000);
+   }
 
-   uartWriteByte( UART_USB, 'H' );  /* Envía 'H' */
-   uartWriteByte( UART_USB, 'o' );  /* Envía 'o' */
-   uartWriteByte( UART_USB, 'l' );  /* Envía 'l' */
-   uartWriteByte( UART_USB, 'a' );  /* Envía 'a' */
-   uartWriteByte( UART_USB, '\r' ); /* Envía '\r', retorno de carro */
-   uartWriteByte( UART_USB, '\n' ); /* Envía '\n', nueva línea      */
+   rtc.year = 2016;
+   rtc.month = 7;
+   rtc.mday = 3;
+   rtc.wday = 1;
+   rtc.hour = 14;
+   rtc.min = 30;
+   rtc.sec= 0;
 
-   uartWriteString( UART_USB, "Chau\r\n" ); /* Envía "Chau\r\n" */
-
-   char miTexto[] = "Hola de nuevo\r\n";
-
-   uartWriteString( UART_USB, miTexto ); /* Envía "Hola de nuevo\r\n" */
-
-   miTexto[0] = 'h';
-   uartWriteString( UART_USB, miTexto ); /* Envía "hola de nuevo\r\n" */
-
-   /* Conversión de muestra entera a ascii con base decimal usando itoa() */
-   itoa( dato3, uartBuff, 10 ); /* base 10 significa decimal */
-   uartWriteString( UART_USB, uartBuff );
-
-   uartWriteString( UART_USB, "\r\n" ); /* Enviar un Enter */
+   /* Establecer fecha y hora */
+   val = rtcWrite( &rtc );
 
    /* ------------- REPETIR POR SIEMPRE ------------- */
    while(1) {
 
-      /* Si recibe un byte de la UART_USB lo guardarlo en la variable dato. */
-      if(  uartReadByte( UART_USB, &dato ) ){
-
-         /* Se reenvíael dato a la UART_USB realizando un eco de lo que llega */
-         uartWriteByte( UART_USB, dato );
+      if( delayRead( &delay1s ) ){
+         /* Leer fecha y hora */
+         val = rtcRead( &rtc );
+         /* Mostrar fecha y hora en formato "DD/MM/YYYY, HH:MM:SS" */
+         showDateAndTime( &rtc );
       }
 
    }

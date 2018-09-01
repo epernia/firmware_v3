@@ -28,18 +28,39 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /*
- * Date: 2016-04-26
+ * Date: 2016-07-03
  */
 
 /*==================[inclusions]=============================================*/
 
-#include "sapi.h"              // <= sAPI header
+#include "sapi.h"      // <= sAPI header
 
 /*==================[macros and definitions]=================================*/
+
+#define SERVO_N   SERVO0
+/*
+   SERVO0 <---> T_FIL1 de EDU-CIAA-NXP
+   SERVO1 <---> T_COL0 de EDU-CIAA-NXP
+   SERVO2 <---> T_FIL2 de EDU-CIAA-NXP
+   SERVO3 <---> T_FIL3 de EDU-CIAA-NXP
+   SERVO4 <---> GPIO8 de EDU-CIAA-NXP
+   SERVO5 <---> LCD1 de EDU-CIAA-NXP
+   SERVO6 <---> LCD2 de EDU-CIAA-NXP
+   SERVO7 <---> LCD3 de EDU-CIAA-NXP
+   SERVO8 <---> GPIO2 de EDU-CIAA-NXP
+
+	Nota: Este ejemplo de servo puede requerir un borrado completo de
+	la memoria flash luego de su uso para grabar programas posteriores.
+	Para hcerlo debe puentear el Jumper JP5 y resetear la placa con el
+	puente sostenido hasta soltar el boton de reset entrando en modo
+	ISP (se prenden todos los leds), luego aplique "make erase" y debe
+	resetear nuevamente la placa para permitir grabar nuevos programas.
+	Tenga en cuenta tambien la corriente maxima del regulador al
+	conectar uno o mas servos.
+*/
 
 /*==================[internal data declaration]==============================*/
 
@@ -53,43 +74,43 @@
 
 /*==================[external functions definition]==========================*/
 
-/* FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. */
+// FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET.
 int main(void){
 
-   /* ------------- INICIALIZACIONES ------------- */
+   // ------------- INICIALIZACIONES ----------------
 
-   /* Inicializar la placa */
+   // Inicializar la placa
    boardConfig();
 
-   /* Variable de Retardo no bloqueante */
-   delay_t delay;
+   bool_t valor = 0;
 
-   /* Inicializar Retardo no bloqueante con tiempo en milisegundos
-      (500ms = 0,5s) */
-   delayConfig( &delay, 500 );
+   uint8_t servoAngle = 0; // 0 a 180 grados
 
-   uint8_t led = OFF;
-   uint8_t valor = 0;
+   // Configurar Servo
+   valor = servoConfig( 0, SERVO_ENABLE );
 
-   /* ------------- REPETIR POR SIEMPRE ------------- */
+   valor = servoConfig( SERVO_N, SERVO_ENABLE_OUTPUT );
+
+   // Usar Servo
+   valor = servoWrite( SERVO_N, servoAngle );
+   servoAngle = servoRead( SERVO_N );
+
+   gpioWrite( LEDB, 1 );
+
+   // ------------- REPETIR POR SIEMPRE -------------
    while(1) {
+      servoWrite( SERVO_N, 0 );
+      delay(500);
 
-      /* delayRead retorna TRUE cuando se cumple el tiempo de retardo */
-      if ( delayRead( &delay ) ){
-         if( !led )
-            led = ON;
-         else
-            led = OFF;
-         gpioWrite( LEDB, led );
-      }
+      servoWrite( SERVO_N, 90 );
+      delay(500);
 
-      valor = !gpioRead( TEC4 );
-      gpioWrite( LED3, valor );
-
+      servoWrite( SERVO_N, 180 );
+      delay(500);
    }
 
-   /* NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado
-      por ningun S.O. */
+   // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado
+   // por ningun S.O.
    return 0 ;
 }
 

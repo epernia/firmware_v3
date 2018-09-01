@@ -2,13 +2,7 @@ ifeq ($(USE_LPCUSBLIB),y)
 
 LPCUSBLIB_BASE=libs/lpcusblib
 
-# sgermino: necesario para resolver el mal orden (automatico) de precedencia en
-# la inclusion de librerias!
-DEFINES+=__LPC43XX__
-
-# sgermino: no se incluye codigo de device classes de esta libreria. para device
-# seria mejor usar USBD.
-DEFINES+=USB_HOST_ONLY
+#DEFINES+=__LPC43XX__
 
 SRC+=$(wildcard $(LPCUSBLIB_BASE)/Drivers/USB/Class/Common/*.c)
 SRC+=$(wildcard $(LPCUSBLIB_BASE)/Drivers/USB/Class/Host/*.c)

@@ -37,7 +37,7 @@
 
 /*==================[inclusions]=============================================*/
 
-#include "sapi.h"              // <= sAPI header
+#include "sapi.h"         // <= sAPI header
 
 /*==================[macros and definitions]=================================*/
 
@@ -53,39 +53,59 @@
 
 /*==================[external functions definition]==========================*/
 
-/* FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. */
-int main(void){
+/* FUNCION que se ejecuta cada vez que ocurre un Tick. */
+void myTickHook( void *ptr )
+{
+   static bool_t ledState = OFF;
 
+   gpioMap_t led = (gpioMap_t)ptr;
+
+   if( ledState ) {
+      ledState = OFF;
+   } else {
+      ledState = ON;
+   }
+   gpioWrite( led, ledState );
+}
+
+
+/* FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. */
+int main(void)
+{
    /* ------------- INICIALIZACIONES ------------- */
 
    /* Inicializar la placa */
    boardConfig();
 
-   /* Variable de Retardo no bloqueante */
-   delay_t delay;
+   /* Inicializar el conteo de Ticks con resolucion de 50ms (se ejecuta
+      periodicamente una interrupcion cada 50ms que incrementa un contador de
+      Ticks obteniendose una base de tiempos). */
+   tickConfig( 50 );
 
-   /* Inicializar Retardo no bloqueante con tiempo en milisegundos
-      (500ms = 0,5s) */
-   delayConfig( &delay, 500 );
-
-   uint8_t led = OFF;
-   uint8_t valor = 0;
+   /* Se agrega ademas un "tick hook" nombrado myTickHook. El tick hook es
+      simplemente una funcion que se ejecutara peri­odicamente con cada
+      interrupcion de Tick, este nombre se refiere a una funcion "enganchada"
+      a una interrupcion.
+      El segundo parametro es el parametro que recibe la funcion myTickHook
+      al ejecutarse. En este ejemplo se utiliza para pasarle el led a titilar.
+   */
+   tickCallbackSet( myTickHook, (void*)LEDR );
+   delay(1000);
 
    /* ------------- REPETIR POR SIEMPRE ------------- */
    while(1) {
-
-      /* delayRead retorna TRUE cuando se cumple el tiempo de retardo */
-      if ( delayRead( &delay ) ){
-         if( !led )
-            led = ON;
-         else
-            led = OFF;
-         gpioWrite( LEDB, led );
-      }
-
-      valor = !gpioRead( TEC4 );
-      gpioWrite( LED3, valor );
-
+      tickCallbackSet( myTickHook, (void*)LEDG );
+      delay(1000);
+      tickCallbackSet( myTickHook, (void*)LEDB );
+      delay(1000);
+      tickCallbackSet( myTickHook, (void*)LED1 );
+      delay(1000);
+      tickCallbackSet( myTickHook, (void*)LED2 );
+      delay(1000);
+      tickCallbackSet( myTickHook, (void*)LED3 );
+      delay(1000);
+      tickCallbackSet( myTickHook, (void*)LEDR );
+      delay(1000);
    }
 
    /* NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado

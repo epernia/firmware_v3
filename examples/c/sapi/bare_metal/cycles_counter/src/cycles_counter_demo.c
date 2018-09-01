@@ -1,4 +1,4 @@
-/* Copyright 2016, Eric Pernia.
+/* Copyright 2017, Agustin Bassi.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -31,13 +31,11 @@
  *
  */
 
-/*
- * Date: 2016-04-26
- */
+/* Date: 2017-30-10 */
 
 /*==================[inclusions]=============================================*/
 
-#include "sapi.h"              // <= sAPI header
+#include "sapi.h"    // <= sAPI header
 
 /*==================[macros and definitions]=================================*/
 
@@ -55,37 +53,48 @@
 
 /* FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. */
 int main(void){
+bool_t cyclesCondition = FALSE;
+uint32_t cyclesElapsed = 0;
+uint32_t msElapsed = 0, usElapsed = 0;
 
    /* ------------- INICIALIZACIONES ------------- */
 
    /* Inicializar la placa */
    boardConfig();
 
-   /* Variable de Retardo no bloqueante */
-   delay_t delay;
+   /* Inicializar UART_USB a 115200 baudios */
+   uartConfig( UART_USB, 115200 );
 
-   /* Inicializar Retardo no bloqueante con tiempo en milisegundos
-      (500ms = 0,5s) */
-   delayConfig( &delay, 500 );
-
-   uint8_t led = OFF;
-   uint8_t valor = 0;
+   // Configura el contador de ciclos con el clock de la EDU-CIAA NXP
+   cyclesCounterConfig(EDU_CIAA_NXP_CLOCK_SPEED);
 
    /* ------------- REPETIR POR SIEMPRE ------------- */
    while(1) {
-
-      /* delayRead retorna TRUE cuando se cumple el tiempo de retardo */
-      if ( delayRead( &delay ) ){
-         if( !led )
-            led = ON;
-         else
-            led = OFF;
-         gpioWrite( LEDB, led );
-      }
-
-      valor = !gpioRead( TEC4 );
-      gpioWrite( LED3, valor );
-
+	   // Resetea el contador de ciclos
+	   cyclesCounterReset();
+	   //Ejecuta dos condiciones para mostrar el valor de los ciclos
+	   if (cyclesCondition){
+		   // Espera un tiempo aleatorio
+		   delay(3);
+		   // Guarda en una variable los ciclos leidos
+		   cyclesElapsed = cyclesCounterRead();
+		   // Convierte el valor de ciclos en micro segundos
+		   usElapsed = cyclesCounterToUs(cyclesElapsed);
+		   // Imprime por pantalla el valor de los ciclos y los micro segundos transcurridos.
+		   stdioPrintf(UART_USB, "Los ciclos en esperar 3 ms son: %d. En micro segundos (aprox) %d\n\r", cyclesElapsed, usElapsed);
+	   } else {
+		   // Espera un tiempo aleatorio
+		   delay(141);
+		   // Guarda en una variable los ciclos leidos
+		   cyclesElapsed = cyclesCounterRead();
+		   // Convierte el valor de ciclos en mili segundos
+		   msElapsed = cyclesCounterToMs(cyclesElapsed);
+		   // Imprime por pantalla el valor de los ciclos y los mili segundos transcurridos.
+		   stdioPrintf(UART_USB, "Los ciclos en esperar 141 ms son: %d. En mili segundos (aprox) %d\n\n\r", cyclesElapsed, msElapsed);
+	   }
+	   cyclesCondition = !cyclesCondition;
+	   gpioToggle(LEDB);
+	   delay (1000);
    }
 
    /* NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado

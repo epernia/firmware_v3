@@ -1,3 +1,4 @@
+
 /* Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
@@ -37,7 +38,6 @@
 
 /*==================[inclusions]=============================================*/
 
-//#include "uart_receive_string_blocking.h"   // <= own header (optional)
 #include "sapi.h"     // <= sAPI header
 
 /*==================[macros and definitions]=================================*/

@@ -32,12 +32,12 @@
  */
 
 /*
- * Date: 2016-04-26
+ * Date: 2016-07-28
  */
 
 /*==================[inclusions]=============================================*/
 
-#include "sapi.h"              // <= sAPI header
+#include "sapi.h"                // <= sAPI header
 
 /*==================[macros and definitions]=================================*/
 
@@ -53,6 +53,7 @@
 
 /*==================[external functions definition]==========================*/
 
+
 /* FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. */
 int main(void){
 
@@ -61,31 +62,89 @@ int main(void){
    /* Inicializar la placa */
    boardConfig();
 
-   /* Variable de Retardo no bloqueante */
-   delay_t delay;
+   /* Configuracion de pines para el display 7 segmentos */
+   /*
+   --------------------------+------------+-----------+----------------
+    Segmento encendido       | Valor BIN  | Valor HEX | GPIO resultado
+   --------------------------+------------+-----------+----------------
+    Enciende el segmento 'a' | 0b00000001 |   0x20    | GPIO5
+    Enciende el segmento 'b' | 0b00000010 |   0x80    | GPIO7
+    Enciende el segmento 'c' | 0b00000100 |   0x40    | GPIO6
+    Enciende el segmento 'd' | 0b00001000 |   0x02    | GPIO1
+    Enciende el segmento 'e' | 0b00010000 |   0x04    | GPIO2
+    Enciende el segmento 'f' | 0b00100000 |   0x10    | GPIO4
+    Enciende el segmento 'g' | 0b01000000 |   0x08    | GPIO3
+    Enciende el segmento 'h' | 0b10000000 |   0x80    | GPIO8
+   --------------------------+------------+-----------+----------------
+                a
+              -----
+          f /     / b
+           /  g  /
+           -----
+       e /     / c
+        /  d  /
+        -----    O h = dp (decimal pint).
 
-   /* Inicializar Retardo no bloqueante con tiempo en milisegundos
-      (500ms = 0,5s) */
-   delayConfig( &delay, 500 );
+   */
+   uint8_t display7Segment[8] = {
+      GPIO5, // Segment 'a'
+      GPIO7, // Segment 'b'
+      GPIO6, // Segment 'c'
+      GPIO1, // Segment 'd'
+      GPIO2, // Segment 'e'
+      GPIO4, // Segment 'f'
+      GPIO3, // Segment 'g'
+      GPIO8  // Segment 'h' or 'dp'
+   };
 
-   uint8_t led = OFF;
-   uint8_t valor = 0;
+   display7SegmentPinConfig( display7Segment );
+
+
+   /* Configuracion de pines para el Teclado Matricial*/
+
+   // Teclado
+   keypad_t keypad;
+
+   // Filas --> Salidas
+   uint8_t keypadRowPins1[4] = {
+      RS232_TXD, // Row 0
+      CAN_RD,    // Row 1
+      CAN_TD,    // Row 2
+      T_COL1     // Row 3
+   };
+
+   // Columnas --> Entradas con pull-up (MODO = GPIO_INPUT_PULLUP)
+   uint8_t keypadColPins1[4] = {
+      T_FIL0,    // Column 0
+      T_FIL3,    // Column 1
+      T_FIL2,    // Column 2
+      T_COL0     // Column 3
+   };
+
+   keypadConfig( &keypad, keypadRowPins1, 4, keypadColPins1, 4 );
+
+
+   // Vector de conversion entre indice de tecla presionada y el índice del
+   // display 7 segmentos
+   uint16_t keypadToDesplayKeys[16] = {
+                                           1,    2,    3, 0x0a,
+                                           4,    5,    6, 0x0b,
+                                           7,    8,    9, 0x0c,
+                                        0x0e,    0, 0x0f, 0x0d
+                                      };
+
+   // Variable para guardar la tecla leida
+   uint16_t tecla = 0;
 
    /* ------------- REPETIR POR SIEMPRE ------------- */
    while(1) {
 
-      /* delayRead retorna TRUE cuando se cumple el tiempo de retardo */
-      if ( delayRead( &delay ) ){
-         if( !led )
-            led = ON;
-         else
-            led = OFF;
-         gpioWrite( LEDB, led );
+      if( keypadRead( &keypad, &tecla ) ){
+         display7SegmentWrite( display7Segment,
+                               keypadToDesplayKeys[ (uint8_t)tecla ] );
+      } else{
+         display7SegmentWrite( display7Segment, DISPLAY_7_SEGMENT_OFF );
       }
-
-      valor = !gpioRead( TEC4 );
-      gpioWrite( LED3, valor );
-
    }
 
    /* NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado

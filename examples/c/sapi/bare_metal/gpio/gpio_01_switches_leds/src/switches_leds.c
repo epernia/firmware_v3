@@ -37,7 +37,6 @@
 
 /*==================[inclusions]=============================================*/
 
-//#include "switches_leds.h"   // <= own header (optional)
 #include "sapi.h"              // <= sAPI header
 
 /*==================[macros and definitions]=================================*/
