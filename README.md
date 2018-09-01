@@ -23,10 +23,11 @@ Available libraries:
 
 ## Usage
 * Make sure you have an ```arm-none-eabi-*``` toolchain configured in your ```PATH```. If you don't have it, download [GCC ARM Embedded](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm).
-* Define ```PROJECT_NAME```  and ```PROJECT_PATH``` variables in ```project.mk``` according to the project you want to compile (PROJECT_PATH is relative to this folder, leave void if the project is in this folder).
-* Compile with ```make```.
-* Clean with ```make clean```.
-* Download to target via OpenOCD with ```make download```.
+    * Define ```PROJECT_NAME```  and ```PROJECT_PATH``` variables in ```project.mk``` according to the project you want to compile (PROJECT_PATH is relative to this folder, leave void if the project is in this folder).
+    * Compile with ```make```.
+    * Clean with ```make clean```.
+* Make sure you have an ```openocd``` configured in your ```PATH```.
+    * Download to target via OpenOCD with ```make download```.
 
 ## Create a new project
 
