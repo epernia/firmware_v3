@@ -52,5 +52,3 @@ Mkfile.old
 dkms.conf
 
 out/
-
-project.mk
