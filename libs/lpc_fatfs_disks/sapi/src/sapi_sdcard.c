@@ -61,7 +61,10 @@ static void statusUpdateCallback( enum FSSDC_CardStatus cardStatus )
         case FSSDC_CardStatus_Ready:
             g_sdcard->status = SDCARD_Status_ReadyUnmounted;
             // Automount
-            sdcardMount( true );
+            if (!sdcardMount( true ))
+            {
+                Board_UARTPutSTR ("sapi_sdcard: Automount failed!\r\n");
+            }
             break;
 
         case FSSDC_CardStatus_Error:

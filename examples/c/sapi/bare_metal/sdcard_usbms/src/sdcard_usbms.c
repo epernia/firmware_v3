@@ -332,6 +332,8 @@ static bool fatFsTest( const char *unidad )
        return false;
     }
     fatFsTestOK( );
+    
+    f_close( &file );
 
     uartWriteString( UART_USB, ">>>> INICIO CONTENIDO DEL ARCHIVO >>>>\r\n");    
     uartWriteString( UART_USB, buf );
@@ -424,13 +426,13 @@ int main( void )
         #ifdef EXAMPLE_TEST_SDCARD_WRAPPER
         mostrarEstadoTarjetaSD();
         #else
-        sdcardUltimoEstado == SDCARD_Status_ReadyMounted;
+        sdcardUltimoEstado = SDCARD_Status_ReadyMounted;
         #endif
         
         #ifdef EXAMPLE_TEST_USBMS_WRAPPER
         mostrarEstadoUSBMassStorage();
         #else
-        usbmsUltimoEstado == USBMS_Status_StorageReadyMounted;
+        usbmsUltimoEstado = USBMS_Status_StorageReadyMounted;
         #endif
    
         // Si ambos dispositivos ya estan iniciados y montados, salimos de este

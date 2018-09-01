@@ -62,7 +62,10 @@ static void statusUpdateCallback( enum FSUSB_HostStatus hostStatus, uint32_t cor
         case FSUSB_HostStatus_DeviceReady:
             g_usbms->status = USBMS_Status_StorageReadyUnmounted;
             // Automount
-            usbmsMount( true );
+            if (!usbmsMount( true ))
+            {
+                Board_UARTPutSTR ("sapi_usbms: Automount failed!\r\n");
+            }
             break;
 
         case FSUSB_HostStatus_DeviceEnumerationFailed:
