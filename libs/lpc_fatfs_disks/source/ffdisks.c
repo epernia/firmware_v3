@@ -82,6 +82,15 @@ PARTITION VolToPart[FF_VOLUMES] =
 };
 #endif
 
+// Must be called once every 10 ms ideally from PendSV, not SysTickHandler!
+void disk_timerproc (void)
+{
+    FSSDC_Update ();
+    #ifdef LPCUSBLIB_HOST_MASS_STORAGE
+    FSUSB_Update ();
+    #endif
+}
+
 
 DSTATUS disk_status (
 	BYTE pdrv           /* Physical drive nmuber to identify the drive */

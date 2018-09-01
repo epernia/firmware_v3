@@ -1,5 +1,10 @@
-#include "sapi.h"    // <= sAPI header
-#include "ff.h"       // <= Biblioteca FAT FS
+#include "sapi.h"       // <= sAPI header
+#include "ff.h"         // <= Biblioteca FAT FS
+#include "fssdc.h"      // API de bajo nivel para acceso a drives FatFs
+
+// FUNCION que se ejecuta cada vezque ocurre un Tick
+void diskTickHook( void *ptr );
+
 
 char buf[100];
 
@@ -30,10 +35,18 @@ static rtc_t rtc = {
 int main(void){
    boardConfig();
    uartConfig( UART_USB, 115200 );
+   
    // SPI configuration
    spiConfig( SPI0 );
+   
+   // Inicializar el conteo de Ticks con resolucion de 10ms,
+   // con tickHook diskTickHook
+   tickConfig( 10 );
+   tickCallbackSet( diskTickHook, NULL );
+   
    printf("Inicializando\n");
-   if( f_mount( &fs, "", 0 ) != FR_OK ){
+   FSSDC_InitSPI ();
+   if( f_mount( &fs, "SDC:", 0 ) != FR_OK ){
       while (1) {
          gpioToggle( LEDR );
          printf("SD no disponible\n");
@@ -63,7 +76,7 @@ int main(void){
    while (1) {
       rtcRead( &rtc );
       showDateAndTime( &rtc );
-      if( f_open( &fp, "log.txt", FA_WRITE | FA_OPEN_APPEND ) == FR_OK ){
+      if( f_open( &fp, "SDC:/log.txt", FA_WRITE | FA_OPEN_APPEND ) == FR_OK ){
          int nbytes;
          int n = sprintf( buf, "Hola mundo %04d-%02d-%02d %02d:%02d:%02d\r\n",
             rtc.year,
@@ -90,4 +103,11 @@ int main(void){
       }
       delay(1000);
    }
+}
+
+
+// FUNCION que se ejecuta cada vezque ocurre un Tick
+void diskTickHook( void *ptr )
+{
+   disk_timerproc();   // Disk timer process
 }

@@ -489,7 +489,5 @@ int main( void )
 // FUNCION que se ejecuta cada vezque ocurre un Tick
 void diskTickHook( void *ptr )
 {
-    // FIXME: a veces usbmsUpdate realiza mucho trabajo, mover a PendSV!
-    sdcardUpdate();
-    usbmsUpdate(); 
+    disk_timerproc (); 
 }

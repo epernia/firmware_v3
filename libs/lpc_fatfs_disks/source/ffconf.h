@@ -287,3 +287,5 @@
 
 
 /*--- End of configuration options ---*/
+
+void disk_timerproc (void);

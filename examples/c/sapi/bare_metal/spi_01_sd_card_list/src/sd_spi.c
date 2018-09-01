@@ -2,8 +2,12 @@
 #include "sapi.h"     // <= sAPI header
 
 #include "ff.h"       // <= Biblioteca FAT FS
+#include "fssdc.h"    // API de bajo nivel para acceso a drives FatFs
 
 #include <string.h>
+
+// FUNCION que se ejecuta cada vezque ocurre un Tick
+void diskTickHook( void *ptr );
 
 FATFS fs;
 FRESULT res;
@@ -41,11 +45,25 @@ FRESULT scan_files (char* path)
 int main (void)
 {
    spiConfig( SPI0 );
-   res = f_mount(&fs, "", 1);
+   // Inicializar el conteo de Ticks con resolucion de 10ms,
+   // con tickHook diskTickHook
+   tickConfig( 10 );
+   tickCallbackSet( diskTickHook, NULL );   
+   
+   FSSDC_InitSPI ();
+   strcpy (buff, "SDC:");   
+   res = f_mount(&fs, "SDC:", 1);
    if (res == FR_OK) {
       strcpy(buff, "/");
       res = scan_files(buff);
    }
 
    return res;
+}
+
+
+// FUNCION que se ejecuta cada vezque ocurre un Tick
+void diskTickHook( void *ptr )
+{
+   disk_timerproc();   // Disk timer process
 }

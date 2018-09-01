@@ -11,7 +11,7 @@
 
 # ---------- Example of path inside this file folder -------------------
 PROJECT_PATH = examples/c/sapi/bare_metal
-PROJECT_NAME = sapi_basic_example
+PROJECT_NAME = sdcard_usbms
 
 #PROJECT_PATH = examples/c/sapi/bare_metal
 #PROJECT_NAME = sd_logger
