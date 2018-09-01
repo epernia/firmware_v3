@@ -29,7 +29,6 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifdef LPCUSBLIB_HOST_MASS_STORAGE
 #include "sapi_usbms.h"
 #include <string.h>
 
@@ -150,4 +149,3 @@ bool usbmsMount( bool mount )
     return true;
 }
 
-#endif /* LPCUSBLIB_HOST_MASS_STORAGE */

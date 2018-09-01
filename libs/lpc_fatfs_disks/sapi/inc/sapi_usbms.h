@@ -29,7 +29,6 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifdef LPCUSBLIB_HOST_MASS_STORAGE
 #ifndef SAPI_USBMS_H_
 #define SAPI_USBMS_H_
 
@@ -71,4 +70,3 @@ bool usbmsMount( bool mount );
 #endif
 
 #endif /* SAPI_USBMS_H_ */
-#endif /* LPCUSBLIB_HOST_MASS_STORAGE */
