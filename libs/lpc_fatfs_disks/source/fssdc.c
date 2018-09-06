@@ -819,13 +819,7 @@ void FSSDC_SetStatusUpdateCallback (FSSDC_StatusUpdateCallback_Func func)
 /*-----------------------------------------------------------------------*/
 /* This function must be called in period of 10ms                        */
 void FSSDC_Update ()
-{
-    // Auto initialization
-    if (FSSDC_CardStatus() == FSSDC_CardStatus_Inserted)
-    {
-        FSSDC_FatFs_DiskInitialize ();
-    }
-    
+{   
     if (Timer1)             /* 100Hz decrement timer */
     {
         -- Timer1;
