@@ -427,6 +427,7 @@ DSTATUS FSSDC_FatFs_DiskInitialize ()
 
     if (g_diskStats & STA_NODISK)
     {
+        Board_UARTPutSTR ("FSSDC: [Init] No card in socket.\r\n");
         return g_diskStats;                 /* No card in the socket */
     }
     
@@ -434,6 +435,8 @@ DSTATUS FSSDC_FatFs_DiskInitialize ()
     {
         return g_diskStats;
     }
+    
+    Board_UARTPutSTR ("FSSDC: [Init] Initialization begins.\r\n");
     
 	power_on();                             /* Force socket power on */
 	FCLK_SLOW();
@@ -443,11 +446,13 @@ DSTATUS FSSDC_FatFs_DiskInitialize ()
         rcvr_spi();	/* 80 dummy clocks */
     }
     
+    Board_UARTPutSTR ("FSSDC: [Init] New card status: Native Mode.\r\n");
     newCardStatus (FSSDC_CardStatus_NativeMode);    
 
 	ty = 0;
 	if (send_cmd(CMD0_, 0) == 1)                                /* Enter Idle state */
     {
+        Board_UARTPutSTR ("FSSDC: [Init] New card status: Initializing.\r\n");        
         newCardStatus (FSSDC_CardStatus_Initializing);
         
 		Timer1 = 100;                                           /* Initialization timeout of 1000 msec */
@@ -496,11 +501,13 @@ DSTATUS FSSDC_FatFs_DiskInitialize ()
     {
 		g_diskStats &= ~STA_NOINIT;                     /* Clear STA_NOINIT */
 		FCLK_FAST();
+        Board_UARTPutSTR ("FSSDC: [Init] New card status: Ready (Fast Clock).\r\n");        
         newCardStatus (FSSDC_CardStatus_Ready);        
 	} 
     else                                                /* Initialization failed */ 
     {
 		power_off();
+        Board_UARTPutSTR ("FSSDC: [Init] New card status: Error (Not Initialized).\r\n");        
         newCardStatus (FSSDC_CardStatus_Error); 
 	}
 
@@ -515,6 +522,7 @@ DRESULT FSSDC_FatFs_DiskRead (BYTE *buff, DWORD sector, UINT count)
 {   
 	if (g_diskStats & STA_NOINIT)
     {
+        Board_UARTPutSTR ("FSSDC: [Read] Card not initialized.\r\n");
         return RES_NOTRDY;
     }
 
@@ -560,11 +568,13 @@ DRESULT FSSDC_FatFs_DiskWrite (const BYTE *buff, DWORD sector, UINT count)
 {
 	if (g_diskStats & STA_NOINIT)
     {
+        Board_UARTPutSTR ("FSSDC: [Write] Card not initialized.\r\n");
         return RES_NOTRDY;
     }
     
 	if (g_diskStats & STA_PROTECT)
     {
+        Board_UARTPutSTR ("FSSDC: [Write] Card is write protected.\r\n");
         return RES_WRPRT;
     }
 
@@ -640,6 +650,7 @@ DRESULT FSSDC_FatFs_DiskIoCtl (BYTE cmd, void *buff)
     {
 		if (g_diskStats & STA_NOINIT)
         {
+            Board_UARTPutSTR ("FSSDC: [IOCtl] Card not initialized.\r\n");
             return RES_NOTRDY;
         }
 
@@ -759,6 +770,11 @@ DRESULT FSSDC_FatFs_DiskIoCtl (BYTE cmd, void *buff)
 
 		deselect();
 	}
+    
+    if (res != RES_OK)
+    {
+        Board_UARTPutSTR ("FSSDC: [IOCtl] Returning Error.\r\n");        
+    }
 
 	return res;
 }
@@ -797,7 +813,9 @@ void FSSDC_InitSPI ()
     
 #ifndef FSSDC_SUPPORTS_HOT_INSERTION
     g_diskStats &= ~STA_NODISK;
+    Board_UARTPutSTR ("FSSDC: [InitSPI] New card status: Inserted.\r\n");
     newCardStatus (FSSDC_CardStatus_Inserted);
+    FSSDC_FatFs_DiskInitialize ();
 #endif
 }
 
