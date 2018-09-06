@@ -60,7 +60,7 @@
 #endif
 
 #ifndef FSSDC_SPI_FAST_CLOCK
-#define FSSDC_SPI_FAST_CLOCK            25000000
+#define FSSDC_SPI_FAST_CLOCK            100000  // 25000000
 #endif
 
 /* Definitions for MMC/SDC command */
