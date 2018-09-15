@@ -44,8 +44,7 @@
     http://elm-chan.org/docs/mmc/mmc_e.html
 */
 
-// #define FSSDC_SUPPORTS_HOT_INSERTION    
-
+// #define FSSDC_SUPPORTS_HOT_INSERTION  
 
 #ifndef FSSDC_CS_PIN
 #define FSSDC_CS_PIN                    0
@@ -60,8 +59,9 @@
 #endif
 
 #ifndef FSSDC_SPI_FAST_CLOCK
-#define FSSDC_SPI_FAST_CLOCK            100000  // 25000000
+#define FSSDC_SPI_FAST_CLOCK            25000000
 #endif
+
 
 /* Definitions for MMC/SDC command */
 #define CMD0_	(0x40+0)	 /* GO_IDLE_STATE */
@@ -88,8 +88,8 @@
 #define CS_LOW()    Chip_GPIO_SetPinOutLow(LPC_GPIO_PORT, FSSDC_CS_PORT, FSSDC_CS_PIN)
 #define CS_HIGH()   Chip_GPIO_SetPinOutHigh(LPC_GPIO_PORT, FSSDC_CS_PORT, FSSDC_CS_PIN)
 
-#define	FCLK_SLOW()	Chip_SSP_SetBitRate(LPC_SSP1, FSSDC_SPI_SLOW_CLOCK);    /* Set slow clock (100k-400k) */
-#define	FCLK_FAST()	Chip_SSP_SetBitRate(LPC_SSP1, FSSDC_SPI_FAST_CLOCK);	/* Set fast clock (depends on the CSD) */
+#define	FCLK_SLOW()	Chip_SSP_SetBitRate(LPC_SSP1, g_spiSlowClock);  /* Set slow clock (100k-400k) */
+#define	FCLK_FAST()	Chip_SSP_SetBitRate(LPC_SSP1, g_spiFastClock);	/* Set fast clock (depends on the CSD) */
 
 /* MMC card type flags (MMC_GET_TYPE) */
 #define CT_MMC		0x01                /* MMC ver 3 */
@@ -99,14 +99,16 @@
 #define CT_BLOCK	0x08                /* Block addressing */
 
 
-static volatile                         /* Disk status */
-DSTATUS g_diskStats = STA_NOINIT | STA_NODISK;
+static volatile uint32_t g_spiSlowClock = FSSDC_SPI_SLOW_CLOCK;
+static volatile uint32_t g_spiFastClock = FSSDC_SPI_FAST_CLOCK;
 
-static volatile
-BYTE Timer1, Timer2;                    /* 100Hz decrement timer */
+/* Disk status */
+static volatile DSTATUS g_diskStats = STA_NOINIT | STA_NODISK;
+/* 100Hz decrement timer */
+static volatile BYTE Timer1, Timer2;
+/* Card type flags */
+static BYTE CardType;
 
-static
-BYTE CardType;                          /* Card type flags */
 
 static FSSDC_StatusUpdateCallback_Func  g_statusUpdateCallback = NULL;
 static enum FSSDC_CardStatus            g_cardStatus = FSSDC_CardStatus_Removed;
@@ -804,7 +806,7 @@ void FSSDC_InitSPI ()
     Chip_SSP_Set_Mode   (LPC_SSP1, SSP_MODE_MASTER);
     Chip_SSP_SetFormat  (LPC_SSP1, SSP_BITS_8, SSP_FRAMEFORMAT_SPI,
                          SSP_CLOCK_CPHA0_CPOL0);
-    Chip_SSP_SetBitRate (LPC_SSP1, FSSDC_SPI_SLOW_CLOCK);
+    FCLK_SLOW           ();
     Chip_SSP_Enable     (LPC_SSP1);
     
     // PLEASE NOTE: muxing and direction of CS signal on FSSDC_CS_{PIN/PORT}
@@ -817,6 +819,30 @@ void FSSDC_InitSPI ()
     newCardStatus (FSSDC_CardStatus_Inserted);
     FSSDC_FatFs_DiskInitialize ();
 #endif
+}
+
+
+uint32_t FSSDC_GetSlowClock ()
+{
+    return g_spiSlowClock;
+}
+
+
+uint32_t FSSDC_GetFastClock ()
+{
+    return g_spiFastClock;
+}
+
+
+void FSSDC_SetSlowClock (uint32_t hz)
+{
+    g_spiSlowClock = hz;
+}
+
+
+void FSSDC_SetFastClock (uint32_t hz)
+{
+    g_spiFastClock = hz;
 }
 
 

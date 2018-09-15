@@ -31,19 +31,23 @@ enum FSSDC_CardStatus
 typedef void (* FSSDC_StatusUpdateCallback_Func) (enum FSSDC_CardStatus cardStatus);
 
 
-void    FSSDC_InitSPI                   ();
+void        FSSDC_InitSPI                   ();
+uint32_t    FSSDC_GetSlowClock              ();
+uint32_t    FSSDC_GetFastClock              ();
+void        FSSDC_SetSlowClock              (uint32_t hz);
+void        FSSDC_SetFastClock              (uint32_t hz);
 enum FSSDC_CardStatus
-        FSSDC_CardStatus                ();
-void    FSSDC_SetStatusUpdateCallback   (FSSDC_StatusUpdateCallback_Func func);
-void    FSSDC_Update                    ();
+            FSSDC_CardStatus                ();
+void        FSSDC_SetStatusUpdateCallback   (FSSDC_StatusUpdateCallback_Func func);
+void        FSSDC_Update                    ();
 
-DSTATUS FSSDC_FatFs_DiskStatus          ();
-DSTATUS FSSDC_FatFs_DiskInitialize      ();
-DRESULT FSSDC_FatFs_DiskRead            (BYTE *buff, DWORD sector, UINT count);
+DSTATUS     FSSDC_FatFs_DiskStatus          ();
+DSTATUS     FSSDC_FatFs_DiskInitialize      ();
+DRESULT     FSSDC_FatFs_DiskRead            (BYTE *buff, DWORD sector, UINT count);
 #if !FF_FS_READONLY
-DRESULT FSSDC_FatFs_DiskWrite           (const BYTE *buff, DWORD sector, UINT count);
+DRESULT     FSSDC_FatFs_DiskWrite           (const BYTE *buff, DWORD sector, UINT count);
 #endif
-DRESULT FSSDC_FatFs_DiskIoCtl           (BYTE cmd, void *buff);
+DRESULT     FSSDC_FatFs_DiskIoCtl           (BYTE cmd, void *buff);
 
 
 #endif /* __FSSDC_H_ */

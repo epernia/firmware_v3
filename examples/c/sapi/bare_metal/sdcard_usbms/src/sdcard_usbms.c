@@ -271,9 +271,26 @@ static bool fatFsTest( const char *unidad )
         return false;
     }
     fatFsTestOK( );
+ 
+    // Prueba de f_putc
+    fatFsTestStart( "f_putc" );
+    sprintf (buf, "La unidad bajo prueba es '%s'\r\n"
+                  "Lista de caracteres ASCII:\r\n",
+                  unidad);
+    // Escribe mensaje
+    for (uint32_t i = 0; i < strlen(buf); ++i)
+    {
+        r = f_putc( buf[i], &file );
+        if (r < 1)
+        {
+            fatFsTestERROR( r );
+            f_close( &file );
+            return false;
+        }
+    }
     
-    // Prueba f_putc con los caracteres UTF-8 que overlapean ASCII
-    fatFsTestStart( "f_putc" );    
+    // Escribe todos los caracteres UTF-8 que overlapean ASCII
+    // (sin combinaciones multibyte)    
     for (uint32_t i = 32; i < 127; ++i)
     {
         r = f_putc( (TCHAR)i, &file );
@@ -287,16 +304,13 @@ static bool fatFsTest( const char *unidad )
     fatFsTestOK( );
     
     // Prueba f_puts
+    fatFsTestStart( "f_puts");  
     sprintf (buf, "\r\n"
-                  "\r\n"
-                  "Fecha y hora de compilacion de este programa: %s %s"
-                  "\r\n"
-                  "Estado de pulsadores: TEC_1(%i) TEC_2(%i) TEC_3(%i) TEC_4(%i)"
-                  "\r\n",
+                  "Fecha y hora de compilacion del programa: %s %s\r\n"
+                  "Estado de pulsadores TEC 1 a 4 al momento de la prueba: %i%i%i%i\r\n",
                   __DATE__, __TIME__,
                   gpioRead( TEC1 ), gpioRead( TEC2 ), gpioRead( TEC3 ), gpioRead( TEC4 ));
     
-    fatFsTestStart( "f_puts");  
     r = f_puts( buf, &file );
     if (r < 1)
     {
@@ -335,15 +349,18 @@ static bool fatFsTest( const char *unidad )
     
     f_close( &file );
 
-    uartWriteString( UART_USB, ">>>> INICIO CONTENIDO DEL ARCHIVO >>>>\r\n");    
+    uartWriteString( UART_USB, "\r\n");        
+    uartWriteString( UART_USB, ">>>> INICIO CONTENIDO DEL ARCHIVO LEIDO >>>>\r\n");    
     uartWriteString( UART_USB, buf );
-    uartWriteString( UART_USB, "<<<< FIN CONTENIDO DEL ARCHIVO <<<<\r\n");    
+    uartWriteString( UART_USB, "<<<< FIN CONTENIDO DEL ARCHIVO LEIDO <<<<\r\n");    
     return true;   
 }
 
 
 int main( void )
 {
+    char msg[256];
+    
     // ---------- CONFIGURACIONES ------------------------------
     // Inicializar y configurar la plataforma
     boardConfig();
@@ -381,32 +398,40 @@ int main( void )
     */
     
     #ifdef EXAMPLE_TEST_SDCARD_WRAPPER
-    uartWriteString( UART_USB, "Iniciando sdcard..." );     
+    uartWriteString( UART_USB, "Iniciando sdcard con configuracion:\r\n" );
+    sprintf( msg, "  velocidad inicial %i Hz.\r\n", FSSDC_GetSlowClock() );
+    uartWriteString( UART_USB, msg );
+    sprintf( msg, "  velocidad de trabajo %i Hz.\r\n", FSSDC_GetFastClock() );    
+    uartWriteString( UART_USB, msg );  
     if (sdcardInit( &sdcard ) == false)
     {
-        uartWriteString( UART_USB, "FALLO.\r\n**FIN**\r\n" );
+        uartWriteString( UART_USB, "Inicio de sdcard FALLO.\r\n**FIN**\r\n" );
         while( 1 );
     }
     else {
-        uartWriteString( UART_USB, "OK! Unidad FatFs '" );
+        uartWriteString( UART_USB, "Inicio de sdcard OK! Unidad FatFs '" );
         uartWriteString( UART_USB, sdcardDriveName());
         uartWriteString( UART_USB, "'.\r\n" );
     }
+    #else
+    uartWriteString( UART_USB, "NO se probara sdcard.\r\n" );
     #endif
     
     #ifdef EXAMPLE_TEST_USBMS_WRAPPER
-    uartWriteString( UART_USB, "Iniciando usbms..." ); 
+    uartWriteString( UART_USB, "Iniciando usbms.\r\n" ); 
     if (usbmsInit( &usbms ) == false)
     {
-        uartWriteString( UART_USB, "FALLO.\r\n**FIN**\r\n" );
+        uartWriteString( UART_USB, "Inicio de usbms FALLO.\r\n**FIN**\r\n" );
         while( 1 );        
     }
     else {
-        uartWriteString( UART_USB, "OK! unidad FatFs '" );
+        uartWriteString( UART_USB, "Inicio de usbms OK! unidad FatFs '" );
         uartWriteString( UART_USB, usbmsDriveName());
         uartWriteString( UART_USB, "'.\r\n" );
     }
-#endif
+    #else
+    uartWriteString( UART_USB, "NO se probara usbms.\r\n" );
+    #endif
     
     // Se paso la primer etapa con exito, enciende LED1
     gpioWrite( LED1, ON );
