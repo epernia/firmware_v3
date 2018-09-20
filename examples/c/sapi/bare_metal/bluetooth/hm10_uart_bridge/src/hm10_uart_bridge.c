@@ -66,7 +66,7 @@ int main( void )
    uartWriteString( UART_PC, "UART_PC configurada.\r\n" );
 
    // Inicializar UART_232 para conectar al modulo bluetooth
-   uartConfig( UART_BLUETOOTH, 9600 );
+   uartConfig( UART_BLUETOOTH, 115200 );
    uartWriteString( UART_PC, "UART_BLUETOOTH para modulo Bluetooth configurada.\r\n" );
    
    uint8_t data = 0;
@@ -74,7 +74,10 @@ int main( void )
    uartWriteString( UART_PC, "Testeto si el modulo esta conectado enviando: AT\r\n" );
    if( hm10bleTest( UART_BLUETOOTH ) ){
       uartWriteString( UART_PC, "Modulo conectado correctamente.\r\n" );
-   }  
+   }
+   else{
+      uartWriteString( UART_PC, "No funciona.\r\n" );
+   }
 
    // ---------- REPETIR POR SIEMPRE --------------------------
    while( TRUE ) {
@@ -125,7 +128,7 @@ bool_t hm10bleTest( int32_t uart )
    uartWriteString( uart, "AT\r\n" );
    return waitForReceiveStringOrTimeoutBlocking( uart, 
                                                  "OK\r\n", strlen("OK\r\n"),
-                                                 50 );
+                                                 1000 );
 }
 
 void hm10blePrintATCommands( int32_t uart )

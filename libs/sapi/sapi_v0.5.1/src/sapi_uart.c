@@ -374,7 +374,7 @@ void uartRxInterruptSet( uartMap_t uart, bool_t enable )
       // Enable UART Receiver Buffer Register Interrupt
       Chip_UART_IntEnable( lpcUarts[uart].uartAddr, UART_IER_RBRINT );
       // Enable UART line status interrupt. LPC43xx User manual page 1118
-      //NVIC_SetPriority( lpcUarts[uart].uartIrqAddr, 6 );
+      NVIC_SetPriority( lpcUarts[uart].uartIrqAddr, 5 ); // FreeRTOS Requiere prioridad>=5 (número más alto, más baja prioridad) FreeROTS usa las prioridades hasta 5 inclusive.
       // Enable Interrupt for UART channel
       NVIC_EnableIRQ( lpcUarts[uart].uartIrqAddr );
    } else {
