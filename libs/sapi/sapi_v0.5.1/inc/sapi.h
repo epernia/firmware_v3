@@ -59,7 +59,7 @@
 
 // High Level drivers     
 
-//#include "sapi_stdio.h"                  // Use sapi_uart module
+#include "sapi_stdio.h"                  // Use sapi_uart module
 
 #include "sapi_print.h"                  // Use sapi_uart module
 #include "sapi_debugPrint.h"             // Use sapi_print module
@@ -75,16 +75,18 @@
 
 #include "sapi_7_segment_display.h"      // Use sapi_gpio and sapi_delay modules
 #include "sapi_keypad.h"                 // Use sapi_gpio and sapi_delay modules
-#include "sapi_servo.h"                  // Use sapi_timer and sapi_gpio modules
-#include "sapi_rgb.h"                    // Use TIMER peripheral
 #include "sapi_dht11.h"                  // Use sapi_gpio peripheral
-#include "sapi_esp8266.h"                // Use sapi_uart module
 #include "sapi_lcd.h"                    // Use sapi_gpio peripherals
+#include "sapi_servo.h"                  // Use sapi_gpio modules and sapi_timer 
+#include "sapi_rgb.h"                    // Use TIMER peripheral
 
-#include "sapi_ultrasonic_hcsr04.h"      //
+#include "sapi_esp8266.h"                // Use sapi_uart module
+
 #include "sapi_magnetometer_hmc5883l.h"  // Use sapi_i2c module
 #include "sapi_magnetometer_qmc5883l.h"  // Use sapi_i2c module
 #include "sapi_imu_mpu9250.h"            // Use sapi_i2c module
+
+#include "sapi_ultrasonic_hcsr04.h"      //
 
 
 

@@ -74,22 +74,22 @@ static uartMap_t UartPrintf = UART_USB;
 
 /*==================[internal functions declaration]=========================*/
 
-static void printchar (char **str, int c);
+static void printchar(char **str, int c);
 
-static int  prints    (char **out, const char *string, int width, int pad);
+static int prints(char **out, const char *string, int width, int pad);
 
-static int  printi    (char **out, int i, int b, int sg, int width, int pad, int letbase);
+static int printi(char **out, int i, int b, int sg, int width, int pad, int letbase);
 
-static int  print     (char **out, int *varg);
+static int print(char **out, int *varg);
 
 /*==================[internal data definition]===============================*/
 
-void        _outbyte  (int c)
+void _outbyte(int c)
 {
    uartWriteByte(UartPrintf, (char)c);
 }
 
-void        outbyte   (int c)
+void outbyte(int c)
 {
    static char prev = 0;
    if (c < ' ' && c != '\r' && c != '\n' && c != '\t' && c != '\b')
@@ -108,7 +108,7 @@ void        outbyte   (int c)
  * @param str
  * @param c
  */
-static void printchar (char **str, int c)
+static void printchar(char **str, int c)
 {
    extern void putchar(int c);
    if (str) {
@@ -119,7 +119,7 @@ static void printchar (char **str, int c)
    }
 }
 
-static int  prints    (char **out, const char *string, int width, int pad)
+static int prints(char **out, const char *string, int width, int pad)
 {
    register int pc = 0, padchar = ' ';
 
@@ -148,7 +148,7 @@ static int  prints    (char **out, const char *string, int width, int pad)
    return pc;
 }
 
-static int  printi    (char **out, int i, int b, int sg, int width, int pad, int letbase)
+static int printi(char **out, int i, int b, int sg, int width, int pad, int letbase)
 {
    char print_buf[PRINT_BUF_LEN];
    register char *s;
@@ -190,7 +190,7 @@ static int  printi    (char **out, int i, int b, int sg, int width, int pad, int
    return pc + prints (out, s, width, pad);
 }
 
-static int  print     (char **out, int *varg)
+static int print(char **out, int *varg)
 {
    register int width, pad;
    register int pc = 0;
