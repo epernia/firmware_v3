@@ -2,6 +2,7 @@
 #include "ff.h"         // <= Biblioteca FAT FS
 #include "fssdc.h"      // API de bajo nivel para unidad "SDC:" en FAT FS
 
+
 // FUNCION que se ejecuta cada vezque ocurre un Tick
 void diskTickHook( void *ptr );
 
