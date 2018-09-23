@@ -13,6 +13,11 @@
 PROJECT_PATH = examples/c/sapi/bare_metal
 PROJECT_NAME = sdcard_usbms
 
+### PROJECT_PATH = ../rtos2
+### PROJECT_NAME = practica1
+
+
+
 #PROJECT_PATH = examples/c/sapi/bare_metal
 #PROJECT_NAME = sd_logger
 

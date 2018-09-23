@@ -1,1 +1,1 @@
-These sapi modules depends on fatfs and/or lpclibusb
+sapi modules depends on fatfs and/or lpclibusb

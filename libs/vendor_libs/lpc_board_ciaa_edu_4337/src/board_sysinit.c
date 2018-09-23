@@ -52,9 +52,11 @@ struct CLK_BASE_STATES
 /* Initial base clock states are mostly on */
 STATIC const struct CLK_BASE_STATES InitClkStates[] =
 {
-   /* Ethernet Clock base */
+   #ifdef USE_RMII
+   /* Ethernet Clock base */   
    {CLK_BASE_PHY_TX, CLKIN_ENET_TX, true, false},
    {CLK_BASE_PHY_RX, CLKIN_ENET_TX, true, false},
+   #endif
    /* Clocks derived from dividers */
    {CLK_BASE_USB0, CLKIN_IDIVD, true, true}
 };
@@ -105,6 +107,7 @@ STATIC const PINMUX_GRP_T pinmuxing[] =
     {9, 6, (SCU_MODE_INBUFF_EN | SCU_MODE_INACT | SCU_MODE_FUNC7)},
     {6, 2, (SCU_MODE_INBUFF_EN | SCU_MODE_INACT | SCU_MODE_FUNC7)},
 
+    #ifdef USE_RMII
     /* ENET Pin mux (RMII Pins) */
     {1, 15, (SCU_MODE_HIGHSPEEDSLEW_EN | SCU_MODE_INACT | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS | SCU_MODE_FUNC3)}, /* RXD0 */
     {1, 16, (SCU_MODE_HIGHSPEEDSLEW_EN | SCU_MODE_INACT | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS | SCU_MODE_FUNC7)}, /* CRS_DV */
@@ -115,6 +118,7 @@ STATIC const PINMUX_GRP_T pinmuxing[] =
     {7,  7, (SCU_MODE_HIGHSPEEDSLEW_EN | SCU_MODE_INACT | SCU_MODE_ZIF_DIS | SCU_MODE_FUNC6)}, /* MDC */
     {0,  0, (SCU_MODE_HIGHSPEEDSLEW_EN | SCU_MODE_INACT | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS | SCU_MODE_FUNC2)},  /* RXD1 */
     {0,  1, (SCU_MODE_HIGHSPEEDSLEW_EN | SCU_MODE_INACT | SCU_MODE_ZIF_DIS | SCU_MODE_FUNC6)}, /* TXEN */
+    #endif
 };
 
 
