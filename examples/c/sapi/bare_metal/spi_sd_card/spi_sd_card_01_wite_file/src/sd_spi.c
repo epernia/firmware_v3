@@ -39,10 +39,11 @@
 #include "sapi.h"     // <= sAPI header
 
 #include "ff.h"       // <= Biblioteca FAT FS
+#include "fssdc.h"      // API de bajo nivel para unidad "SDC:" en FAT FS
 
 /*==================[definiciones y macros]==================================*/
 
-#define FILENAME "hola.txt"
+#define FILENAME "SDC:/hola.txt"
 
 /*==================[definiciones de datos internos]=========================*/
 
@@ -80,8 +81,10 @@ int main( void ){
 
    UINT nbytes;
 
+   // Initialize SD card driver
+   FSSDC_InitSPI ();
    // Give a work area to the default drive
-   if( f_mount( &fs, "", 0 ) != FR_OK ){
+   if( f_mount( &fs, "SDC:", 0 ) != FR_OK ) {
       // If this fails, it means that the function could
       // not register a file system object.
       // Check whether the SD card is correctly connected

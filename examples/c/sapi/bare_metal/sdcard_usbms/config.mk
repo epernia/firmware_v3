@@ -1,7 +1,7 @@
 # Compile options
 
 VERBOSE=n
-OPT=g
+OPT=0
 USE_NANO=y
 SEMIHOST=n
 USE_FPU=y
@@ -10,7 +10,7 @@ USE_FPU=y
 
 USE_LPCOPEN=y
 USE_SAPI=y
-
+USE_LPCUSBLIB=y
 USE_FATFS=y
 
 USE_FREERTOS=n
