@@ -2,7 +2,6 @@
 #define __BOARD_H__
 
 #include "chip.h"
-#define DEBUG_ENABLE
 #include "board_api.h"
 
 
@@ -11,8 +10,10 @@ extern "C" {
 #endif
 
 #define BOARD_CIAA_EDU_NXP_4337
-#define USE_RMII
-#define BOARD_ENET_PHY_ADDR         0x00
+
+#ifdef USE_RMII
+    #define BOARD_ENET_PHY_ADDR     0x00
+#endif
 
 #define LED_RED                     0
 #define LED_GREEN                   1
@@ -40,6 +41,8 @@ extern "C" {
 #define BOARD_SPI_PORT              LPC_SSP1
 
 #define DEBUG_UART                  LPC_USART2
+#define DEBUG_UART_IRQ              USART2_IRQn
+#define DEBUG_UART_IRQHANDLER       UART2_IRQHandler
 
 
 // Debug UART defaults: 115200, 8N1.

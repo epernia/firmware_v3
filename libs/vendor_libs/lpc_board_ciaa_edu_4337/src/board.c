@@ -64,6 +64,12 @@
 
     Changelog:
 
+    v0.9.1 - 20/4/2018, sgermino:
+        Fixed LED state reversal, now On = true. Ethernet (RMII) not enabled by
+        default, USE_RMII must be defined. Added DEBUG_UART_IRQ and DEBUG_UART_
+        IRQHANDLER. CAN port not configured, stack not implemented: this will be
+        addressed on a CESE 2018 final work.
+
     v0.9 - 4/4/2018, sgermino:
         First version. TODO: To be feature complete on a stock Edu-CIAA, it
         should be neccesary to implement RS-485 communication.
@@ -208,7 +214,7 @@ void Board_LED_Set(uint8_t LEDNumber, bool On)
     }
 
     const struct gpio_t *io = &GpioLeds[LEDNumber];
-    Chip_GPIO_SetPinState(LPC_GPIO_PORT, io->port, io->pin, !On);
+    Chip_GPIO_SetPinState(LPC_GPIO_PORT, io->port, io->pin, On);
 }
 
 
@@ -219,7 +225,7 @@ bool Board_LED_Test(uint8_t LEDNumber)
     }
 
     const struct gpio_t *io = &GpioLeds[LEDNumber];
-    return !Chip_GPIO_GetPinState(LPC_GPIO_PORT, io->port, io->pin);
+    return Chip_GPIO_GetPinState(LPC_GPIO_PORT, io->port, io->pin);
 }
 
 
@@ -241,7 +247,9 @@ void Board_Init(void)
    Board_I2C_Init();
    Board_ADC_Init();
 
+   #ifdef USE_RMII
    Chip_ENET_RMIIEnable(LPC_ETHERNET);
+   #endif
 }
 
 
