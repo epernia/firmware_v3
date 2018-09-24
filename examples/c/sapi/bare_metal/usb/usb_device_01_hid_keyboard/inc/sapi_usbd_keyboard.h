@@ -51,10 +51,59 @@ extern "C"
 
 // USB HID Keyboard Scan codes
 typedef enum{
-   USB_KEYBOARD_KEY_A = 0x04,
-   USB_KEYBOARD_KEY_C = 0x06,
-   USB_KEYBOARD_KEY_I = 0x0C,
-   USB_KEYBOARD_KEY_ENTER = 0x28,
+   USB_KEYBOARD_RESERVED            = 0x00,
+   USB_KEYBOARD_ERROR_ROLL_OVER     = 0x01,
+   USB_KEYBOARD_POST_FAIL           = 0x02,
+   USB_KEYBOARD_ERROR_UNDEFINED     = 0x00,
+   
+   USB_KEYBOARD_KEY_A               = 0x04,
+   USB_KEYBOARD_KEY_B               = 0x05,
+   USB_KEYBOARD_KEY_C               = 0x06,
+   USB_KEYBOARD_KEY_D               = 0x07,
+   USB_KEYBOARD_KEY_E               = 0x08,
+   USB_KEYBOARD_KEY_F               = 0x09,
+   USB_KEYBOARD_KEY_G               = 0x0A,
+   USB_KEYBOARD_KEY_H               = 0x0B,
+   USB_KEYBOARD_KEY_I               = 0x0C,
+   USB_KEYBOARD_KEY_J               = 0x0D,
+   USB_KEYBOARD_KEY_K               = 0x0E,
+   USB_KEYBOARD_KEY_L               = 0x0F,
+   USB_KEYBOARD_KEY_M               = 0x10,
+   USB_KEYBOARD_KEY_N               = 0x11,
+   USB_KEYBOARD_KEY_O               = 0x12,
+   USB_KEYBOARD_KEY_P               = 0x13,
+   USB_KEYBOARD_KEY_Q               = 0x14,
+   USB_KEYBOARD_KEY_R               = 0x15,
+   USB_KEYBOARD_KEY_S               = 0x16,
+   USB_KEYBOARD_KEY_T               = 0x17,
+   USB_KEYBOARD_KEY_U               = 0x18,
+   USB_KEYBOARD_KEY_V               = 0x19,
+   USB_KEYBOARD_KEY_W               = 0x1A,
+   USB_KEYBOARD_KEY_X               = 0x1B,
+   USB_KEYBOARD_KEY_Y               = 0x1C,
+   USB_KEYBOARD_KEY_Z               = 0x1D,
+   
+   USB_KEYBOARD_KEY_1               = 0x1E,  // 1 and !
+   USB_KEYBOARD_KEY_2               = 0x1F,  // 2 and @
+   USB_KEYBOARD_KEY_3               = 0x20,  // 3 and #
+   USB_KEYBOARD_KEY_4               = 0x21,  // 4 and $
+   USB_KEYBOARD_KEY_5               = 0x22,  // 5 and %
+   USB_KEYBOARD_KEY_6               = 0x23,  // 6 and ^
+   USB_KEYBOARD_KEY_7               = 0x24,  // 7 and &
+   USB_KEYBOARD_KEY_8               = 0x25,  // 8 and *
+   USB_KEYBOARD_KEY_9               = 0x26,  // 9 and (
+   USB_KEYBOARD_KEY_0               = 0x27,  // 9 and )
+                                         
+   USB_KEYBOARD_KEY_ENTER           = 0x28,
+   USB_KEYBOARD_KEY_ESCAPE          = 0x29,
+   USB_KEYBOARD_KEY_BACKSPACE       = 0x2A,
+   USB_KEYBOARD_KEY_TAB             = 0x2B,
+   USB_KEYBOARD_KEY_SPACEBAR        = 0x2C,
+   
+   USB_KEYBOARD_KEY_MINUS           = 0x2D, // - and _
+   USB_KEYBOARD_KEY_EQUAL           = 0x2E, // = and +
+   
+   
 } usb_keyboard_keys_t;
 
 /**
