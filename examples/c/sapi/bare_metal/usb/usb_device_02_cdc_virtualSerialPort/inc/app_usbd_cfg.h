@@ -40,11 +40,11 @@ extern "C"
 {
 #endif
 
-/** @ingroup EXAMPLES_USBDROM_18XX43XX_CDC_UART
+/** @ingroup EXAMPLES_USBDROM_18XX43XX
  * @{
  */
 
-/* Comment below and uncomment USE_USB1 to enable USB-1 */
+/* Comment below and uncomment USE_USB1 to enable USB1 */
 #define USE_USB0
 /* #define USE_USB1 */
 
@@ -78,11 +78,7 @@ extern "C"
 /* Manifest constants defining interface numbers and endpoints used by a
    particular interface in this application.
  */
-#define USB_CDC_CIF_NUM         0
-#define USB_CDC_DIF_NUM         1
-#define USB_CDC_IN_EP           0x81
-#define USB_CDC_OUT_EP          0x01
-#define USB_CDC_INT_EP          0x82
+#include "endpoints_cfg.h"
 
 /* On LPC18xx/43xx the USB controller requires endpoint queue heads to start on
    a 4KB aligned memory. Hence the mem_base value passed to USB stack init should

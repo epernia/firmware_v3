@@ -29,10 +29,10 @@
  * this code.
  */
 
-#ifndef __HID_KEYBOARD_H_
-#define __HID_KEYBOARD_H_
+#ifndef SAPI_USBD_KEYBOARD_H
+#define SAPI_USBD_KEYBOARD_H
 
-#include "app_usbd_cfg.h"
+#include "lpc_app_usbd_cfg.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -48,6 +48,15 @@ extern "C"
 #define HID_KEYBOARD_CLEAR_REPORT(x)                memset(x, 0, 8);
 #define HID_KEYBOARD_REPORT_SET_KEY_PRESS(x, val)   x[2] = (uint8_t) val;
 
+
+// USB HID Keyboard Scan codes
+typedef enum{
+   USB_KEYBOARD_KEY_A = 0x04,
+   USB_KEYBOARD_KEY_C = 0x06,
+   USB_KEYBOARD_KEY_I = 0x0C,
+   USB_KEYBOARD_KEY_ENTER = 0x28,
+} usb_keyboard_keys_t;
+
 /**
  * @brief	HID keyboard interface init routine.
  * @param	hUsb		: Handle to USB device stack
@@ -57,16 +66,35 @@ extern "C"
  * @return	On success returns LPC_OK. Params mem_base and mem_size are updated
  *			to point to new base and available size.
  */
-extern ErrorCode_t Keyboard_init(USBD_HANDLE_T hUsb,
-								 USB_INTERFACE_DESCRIPTOR *pIntfDesc,
-								 uint32_t *mem_base,
-								 uint32_t *mem_size);
+extern ErrorCode_t usbDeviceKeyboardInit(
+                      USBD_HANDLE_T hUsb,
+                      USB_INTERFACE_DESCRIPTOR *pIntfDesc,
+                      uint32_t *mem_base,
+                      uint32_t *mem_size
+                   );
 
 /**
  * @brief	Keyboard tasks.
  * @return	On success returns LPC_OK.
  */
-extern void Keyboard_Tasks(void);
+extern void usbDeviceKeyboardTasks(void);
+
+
+// Keyboard receive from host set callback
+bool_t usbDeviceKeyboardReceiveFromHostCallbackSet(
+         callBackFuncPtr_t keyboardReceiveCallback
+       );
+       
+       
+// Keyboard function to check inmy device for pressed keys
+bool_t usbDeviceKeyboardCheckKeysCallbackSet(
+         callBackFuncPtr_t checkForPressedKeysCallback
+       );
+
+void usbDeviceKeyboardPress( uint8_t key );
+void usbDeviceKeyboardPressHold( uint8_t key );
+void usbDeviceKeyboardRelease( uint8_t key );
+
 
 /**
  * @}
@@ -76,4 +104,4 @@ extern void Keyboard_Tasks(void);
 }
 #endif
 
-#endif /* __HID_KEYBOARD_H_ */
+#endif /* SAPI_USBD_KEYBOARD_H */

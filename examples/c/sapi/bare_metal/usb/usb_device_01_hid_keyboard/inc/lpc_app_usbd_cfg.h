@@ -32,15 +32,15 @@
 #include "error.h"
 #include "usbd_rom_api.h"
 
-#ifndef __APP_USB_CFG_H_
-#define __APP_USB_CFG_H_
+#ifndef _LPC_APP_USB_CFG_H_
+#define _LPC_APP_USB_CFG_H_
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-/** @ingroup EXAMPLES_USBDROM_18XX43XX_KEYBOARD
+/** @ingroup EXAMPLES_USBDROM_18XX43XX
  * @{
  */
 
@@ -75,9 +75,10 @@ extern "C"
 #define USB_init_pin_clk        Chip_USB1_Init
 #endif
 
-/* HID In/Out Endpoint Address */
-#define HID_EP_IN       0x81
-#define HID_EP_OUT      0x01
+/* Manifest constants defining interface numbers and endpoints used by a
+   particular interface in this application.
+ */
+//#include "endpoints_cfg.h"
 
 /* On LPC18xx/43xx the USB controller requires endpoint queue heads to start on
    a 4KB aligned memory. Hence the mem_base value passed to USB stack init should
@@ -110,4 +111,4 @@ extern USB_INTERFACE_DESCRIPTOR *find_IntfDesc(const uint8_t *pDesc, uint32_t in
 }
 #endif
 
-#endif /* __APP_USB_CFG_H_ */
+#endif /* _LPC_APP_USB_CFG_H_ */

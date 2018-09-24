@@ -29,7 +29,8 @@
  * this code.
  */
 
-#include "app_usbd_cfg.h"
+#include "lpc_app_usbd_cfg.h"
+#include "sapi_usbd_keyboard_endpoints.h"
 
 /*****************************************************************************
  * Private types/enumerations/variables

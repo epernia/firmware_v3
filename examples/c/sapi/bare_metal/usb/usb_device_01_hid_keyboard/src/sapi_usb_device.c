@@ -1,3 +1,8 @@
+#include "sapi_usb_device.h"
+
+
+// @ LPC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 /*
  * @brief This file contains USB HID Keyboard example using USB ROM Drivers.
  *
@@ -29,68 +34,12 @@
  * this code.
  */
 
-/* Copyright 2016, Eric Pernia.
- * All rights reserved.
- *
- * This file is part sAPI library for microcontrollers.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * 3. Neither the name of the copyright holder nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- */
-
-/*
- * Date: 2016-11-06
- */
-
-/*==================[inclusions]=============================================*/
-
 #include "sapi.h"         /* <= sAPI header */
 
 #include <stdio.h>
 #include <string.h>
 
-#include "app_usbd_cfg.h"
-
-#include "hid_keyboard.h"
-
-/*==================[macros and definitions]=================================*/
-
-/*==================[internal data declaration]==============================*/
-
-/*==================[internal functions declaration]=========================*/
-
-/*==================[internal data definition]===============================*/
-
-/*==================[external data definition]===============================*/
-
-/*==================[internal functions definition]==========================*/
-
-/*==================[external functions definition]==========================*/
-
+#include "lpc_app_usbd_cfg.h"
 
 /*****************************************************************************
  * Private types/enumerations/variables
@@ -134,7 +83,6 @@ ErrorCode_t EP0_patch(USBD_HANDLE_T hUsb, void *data, uint32_t event)
    return g_Ep0BaseHdlr(hUsb, data, event);
 }
 
-
 /*****************************************************************************
  * Public functions
  ****************************************************************************/
@@ -146,7 +94,6 @@ ErrorCode_t EP0_patch(USBD_HANDLE_T hUsb, void *data, uint32_t event)
 void USB_IRQHandler(void){
    USBD_API->hw->ISR(g_hUsb);
 }
-
 
 /* Find the address of interface descriptor for given class type. */
 USB_INTERFACE_DESCRIPTOR *find_IntfDesc(const uint8_t *pDesc, uint32_t intfClass)
@@ -176,16 +123,103 @@ USB_INTERFACE_DESCRIPTOR *find_IntfDesc(const uint8_t *pDesc, uint32_t intfClass
    return pIntfDesc;
 }
 
+// @ LPC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+// Private function declarations (prototypes) -------------------------------------------------
+
+static ErrorCode_t usbDeviceLpcInit( USBD_API_INIT_PARAM_T* usb_param );
+static void usbDeviceLpcInterruptPrioritySet( uint32_t priority ); // For now only used by cdc_uart
+static void usbDeviceLpcInterruptInit( void );
+
+
+// Public function definitions ----------------------------------------------------------------
+
+bool_t usbDeviceInit( UsbSubClass_t subclass ){
+   
+   ErrorCode_t ret = LPC_OK;
+   USBD_API_INIT_PARAM_T usb_param;
+   
+   switch(subclass){
+      
+      case USB_HID_MOUSE:
+         printf("USB_HID_MOUSE\r\n");
+      break;
+      
+      
+      case USB_HID_KEYBOARD:
+         printf("USB_HID_KEYBOARD\r\n");
+      
+         usb_param.max_num_ep = 2; // Keyboard has 2 endpoints
+      
+         ret = usbDeviceLpcInit(&usb_param);
+
+         // Configuration routine for HID USB Keyboard example
+         ret = usbDeviceKeyboardInit(
+                  g_hUsb,
+                  (USB_INTERFACE_DESCRIPTOR *) &USB_FsConfigDescriptor[sizeof(USB_CONFIGURATION_DESCRIPTOR)],
+                  &(usb_param.mem_base),
+                  &(usb_param.mem_size)
+               );
+      
+         if (ret == LPC_OK) {
+            usbDeviceLpcInterruptInit();
+            return TRUE;
+         }         
+      break;
+         
+         
+      case USB_HID_GENERIC:
+         printf("USB_HID_GENERIC\r\n");
+      break;
+      
+      
+      case USB_CDC_SERIAL:
+         printf("USB_CDC_SERIAL\r\n");
+      
+         usb_param.max_num_ep = 4; // CDC Uart has 4 endpoints
+      
+         ret = usbDeviceLpcInit(&usb_param);
+      
+         /* Init UCOM - USB to UART bridge interface */
+ //        ret = UCOM_init(g_hUsb, &desc, &usb_param);
+      
+         if (ret == LPC_OK) {
+            /* Make sure USB and UART IRQ priorities are same (1) for this example */
+            usbDeviceLpcInterruptPrioritySet(1);
+            usbDeviceLpcInterruptInit();      
+            return TRUE;   
+         }
+      break;
+         
+         
+      case USB_MSC_DRIVE:
+         printf("USB_MSC_DRIVE\r\n");
+         return TRUE;
+      break;     
+     
+      
+      default:
+         printf("Error, you must use a valid USB device class\r\n");
+         return TRUE;
+   }
+   
+   return FALSE;
+}
+
+
+// Private function definitions ---------------------------------------------------------------
+
+// @ LPC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 /**
- * @brief   Configuration routine for HID USB Keyboard example
+ * @brief Configuration routine USB Device
  * maxNumEP max number of endpoints supported by the USB device
- *          controller instance (specified by \em usb_reg_base field)
- *          to which this instance of stack is attached.
+ * controller instance (specified by \em usb_reg_base field)
+ * to which this instance of stack is attached.
  */
-void usbDeviceConfig( uint8_t maxNumEP, int32_t usbPriority ){
+static ErrorCode_t usbDeviceLpcInit( USBD_API_INIT_PARAM_T* usb_param ){
 
-   USBD_API_INIT_PARAM_T usb_param;
    USB_CORE_DESCS_T desc;
    ErrorCode_t ret = LPC_OK;
    USB_CORE_CTRL_T *pCtrl;
@@ -195,14 +229,19 @@ void usbDeviceConfig( uint8_t maxNumEP, int32_t usbPriority ){
 
    /* Init USB API structure */
    g_pUsbApi = (const USBD_API_T *) LPC_ROM_API->usbdApiBase;
-
+   
+   // Save max_num_ep that is set outside this function because memset()
+   // destroy it.
+   uint8_t max_num_ep = usb_param->max_num_ep;
+   
    /* initialize call back structures */
-   memset((void *) &usb_param, 0, sizeof(USBD_API_INIT_PARAM_T));
-   usb_param.usb_reg_base = LPC_USB_BASE;
-   usb_param.mem_base = USB_STACK_MEM_BASE;
-   usb_param.mem_size = USB_STACK_MEM_SIZE;
-
-   usb_param.max_num_ep = maxNumEP; // @Eric - En keyboard tiene 2
+   memset((void *) usb_param, 0, sizeof(USBD_API_INIT_PARAM_T));   
+   usb_param->usb_reg_base = LPC_USB_BASE;
+   usb_param->mem_base = USB_STACK_MEM_BASE;
+   usb_param->mem_size = USB_STACK_MEM_SIZE;   
+   
+   // Restore max_num_ep in usb_param
+   usb_param->max_num_ep = max_num_ep;
 
    /* Set the USB descriptors */
    desc.device_desc = (uint8_t *) USB_DeviceDescriptor;
@@ -223,66 +262,34 @@ void usbDeviceConfig( uint8_t maxNumEP, int32_t usbPriority ){
    #endif
 
    /* USB Initialization */
-   ret = USBD_API->hw->Init(&g_hUsb, &desc, &usb_param);
+   ret = USBD_API->hw->Init(&g_hUsb, &desc, usb_param);
 
-   if (ret == LPC_OK) {
-
+   if (ret == LPC_OK) {      
       /* WORKAROUND for artf45032 ROM driver BUG:
-          Due to a race condition there is the chance that a second NAK event will
-          occur before the default endpoint0 handler has completed its preparation
-          of the DMA engine for the first NAK event. This can cause certain fields
-          in the DMA descriptors to be in an invalid state when the USB controller
-          reads them, thereby causing a hang.
-       */
+         Due to a race condition there is the chance that a second NAK event will
+         occur before the default endpoint0 handler has completed its preparation
+         of the DMA engine for the first NAK event. This can cause certain fields
+         in the DMA descriptors to be in an invalid state when the USB controller
+         reads them, thereby causing a hang. */
       pCtrl = (USB_CORE_CTRL_T *) g_hUsb; /* convert the handle to control structure */
       g_Ep0BaseHdlr = pCtrl->ep_event_hdlr[0];/* retrieve the default EP0_OUT handler */
       pCtrl->ep_event_hdlr[0] = EP0_patch;/* set our patch routine as EP0_OUT handler */
-
-
-      ret = Keyboard_init( g_hUsb,
-                           (USB_INTERFACE_DESCRIPTOR *) &USB_FsConfigDescriptor[sizeof(USB_CONFIGURATION_DESCRIPTOR)],
-                           &usb_param.mem_base, &usb_param.mem_size );
-
-      if (ret == LPC_OK) {
-         /* Make sure USB and UART IRQ priorities are same for this example */
-         if( usbPriority >=0 ){
-            NVIC_SetPriority( LPC_USB_IRQ, (uint32_t)usbPriority ); // @Eric - En el de keyboard no modifica la prioridad de la IRQ
-         }
-          /*  enable USB interrupts */
-         NVIC_EnableIRQ( LPC_USB_IRQ );
-         /* now connect */
-         USBD_API->hw->Connect( g_hUsb, 1 );
-      }
    }
-
+   return ret;
 }
 
-
-
-/* FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. */
-int main(void){
-
-   /* ------------- INICIALIZACIONES ------------- */
-
-   /* Inicializar la placa */
-   boardConfig();
-
-   // Configuration routine for HID Keyboard example
-   usbDeviceConfig( 2, -1 );
-
-   /* ------------- REPETIR POR SIEMPRE ------------- */
-   while(1) {
-
-      /* Do Keyboard tasks */
-      Keyboard_Tasks();
-
-      /* Sleep until next IRQ happens */
-      __WFI();
-   }
-
-   /* NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado
-      por ningun S.O. */
-   return 0 ;
+static void usbDeviceLpcInterruptPrioritySet( uint32_t priority ){
+   NVIC_SetPriority( LPC_USB_IRQ, priority ); // @Eric - En el de keyboard no modifica la prioridad de la IRQ
 }
 
-/*==================[end of file]============================================*/
+static void usbDeviceLpcInterruptInit( void ){
+    /*  enable USB interrupts */
+   NVIC_EnableIRQ( LPC_USB_IRQ );
+   /* now connect */
+   USBD_API->hw->Connect( g_hUsb, 1 );
+}
+
+// @ LPC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+// @ LPC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+

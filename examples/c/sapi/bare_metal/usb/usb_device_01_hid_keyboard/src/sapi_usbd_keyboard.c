@@ -33,7 +33,18 @@
 #include <stdint.h>
 #include <string.h>
 #include "usbd_rom_api.h"
-#include "hid_keyboard.h"
+
+#include "sapi_usbd_keyboard.h"
+
+#include "sapi_usbd_keyboard_endpoints.h"
+
+
+
+// Keyboard receive callbacks
+callBackFuncPtr_t keyboardReceiveFunction = NULL;
+callBackFuncPtr_t keyboardCheckKeysFunction = NULL;
+
+
 
 /*****************************************************************************
  * Private types/enumerations/variables
@@ -67,17 +78,9 @@ static void Keyboard_UpdateReport(void){
 
    HID_KEYBOARD_CLEAR_REPORT(&g_keyBoard.report[0]);
 
-   if( !gpioRead( TEC1 ) ){
-      HID_KEYBOARD_REPORT_SET_KEY_PRESS(g_keyBoard.report, 0x06); /* 'c' */
-   }
-   else if( !gpioRead( TEC2 ) ){
-      HID_KEYBOARD_REPORT_SET_KEY_PRESS(g_keyBoard.report, 0x0C); /* 'i' */
-   }
-   else if( !gpioRead( TEC3 ) ){
-      HID_KEYBOARD_REPORT_SET_KEY_PRESS(g_keyBoard.report, 0x04); /* 'a' */
-   }
-   else if( !gpioRead( TEC4 ) ){
-      HID_KEYBOARD_REPORT_SET_KEY_PRESS(g_keyBoard.report, 0x28); /* 'ENTER' */
+   // Execute Tick Hook function if pointer is not NULL
+   if( (keyboardCheckKeysFunction != NULL) ) {
+      (* keyboardCheckKeysFunction )( NULL );
    }
 
 }
@@ -158,11 +161,13 @@ static ErrorCode_t Keyboard_EpIN_Hdlr( USBD_HANDLE_T hUsb,
  ****************************************************************************/
 
 /* HID keyboard init routine */
-ErrorCode_t Keyboard_init(USBD_HANDLE_T hUsb,
-						  USB_INTERFACE_DESCRIPTOR *pIntfDesc,
-						  uint32_t *mem_base,
-						  uint32_t *mem_size){
-
+ErrorCode_t usbDeviceKeyboardInit(
+               USBD_HANDLE_T hUsb,
+               USB_INTERFACE_DESCRIPTOR *pIntfDesc,
+               uint32_t *mem_base,
+               uint32_t *mem_size
+            )
+{
    USBD_HID_INIT_PARAM_T hid_param;
    USB_HID_REPORT_T reports_data[1];
    ErrorCode_t ret = LPC_OK;
@@ -205,7 +210,7 @@ ErrorCode_t Keyboard_init(USBD_HANDLE_T hUsb,
 }
 
 /* Keyboard tasks */
-void Keyboard_Tasks(void)
+void usbDeviceKeyboardTasks(void)
 {
 	/* check device is configured before sending report. */
 	if ( USB_IsConfigured(g_keyBoard.hUsb)) {
@@ -226,5 +231,52 @@ void Keyboard_Tasks(void)
 		/* reset busy flag if we get disconnected. */
 		g_keyBoard.tx_busy = 0;
 	}
+}
 
+
+
+
+
+
+void usbDeviceKeyboardPress( uint8_t key )
+{
+   HID_KEYBOARD_REPORT_SET_KEY_PRESS(g_keyBoard.report, (key));
+}
+
+void usbDeviceKeyboardPressHold( uint8_t key )
+{
+   // TODO:
+}
+
+void usbDeviceKeyboardRelease( uint8_t key )
+{
+   // TODO:
+}
+
+// Keyboard receive from host set callback
+bool_t usbDeviceKeyboardReceiveFromHostCallbackSet(
+         callBackFuncPtr_t keyboardReceiveCallback
+       )
+{
+   bool_t retVal = TRUE;
+   if( keyboardReceiveCallback != NULL ) {
+      keyboardReceiveFunction = keyboardReceiveCallback;
+   } else {
+      retVal = FALSE;
+   }
+   return retVal;
+}
+
+// Keyboard function to check inmy device for pressed keys
+bool_t usbDeviceKeyboardCheckKeysCallbackSet(
+         callBackFuncPtr_t checkForPressedKeysCallback
+       )
+{
+   bool_t retVal = TRUE;
+   if( checkForPressedKeysCallback != NULL ) {
+      keyboardCheckKeysFunction = checkForPressedKeysCallback;
+   } else {
+      retVal = FALSE;
+   }
+   return retVal;
 }

@@ -26,7 +26,7 @@
 
 #include "error.h"
 #include "usbd.h"
-#include "app_usbd_cfg.h"
+#include "lpc_app_usbd_cfg.h"
 
 /** \file
  *  \brief ROM API for USB device stack.

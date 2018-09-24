@@ -58,14 +58,20 @@ int main( void )
    
    char text[50];
    int num;
+   float numf;
    
    printf( "Ingrese una palabra (hasta 50 caracteres, sin espacios) y presione enter:\r\n" );
    scanf( "%s", text );
    printf( "La palabra ingresada es: %s\r\n\r\n", text );
 
-   printf( "Ingrese un numero y presione enter:\r\n" );
+   printf( "Ingrese un numero entero y presione enter:\r\n" );
    scanf( "%d", &num );
-   printf( "El numero ingresado es: %d\r\n\r\n", num );
+   printf( "El numero entero ingresado es: %d\r\n\r\n", num );
+   
+   printf( "Ingrese un numero flotante y presione enter:\r\n" );
+   scanf( "%f", &numf );
+   printf( "El numero flotante ingresado es: %f\r\n\r\n", numf );
+   
    printf( "Fin del programa.\r\n" );
 
    while(1);     

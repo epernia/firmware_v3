@@ -108,10 +108,10 @@ extern "C" {
 #endif
 
 
-bool        Board_TEC_GetStatus     (uint8_t button);
-void        Board_ADC_ReadBegin     (ADC_CHANNEL_T channel);
-bool        Board_ADC_ReadWait      ();
-uint16_t    Board_ADC_ReadEnd       ();
+bool Board_TEC_GetStatus(uint8_t button);
+void Board_ADC_ReadBegin(ADC_CHANNEL_T channel);
+bool Board_ADC_ReadWait();
+uint16_t Board_ADC_ReadEnd();
 
 
 #ifdef __cplusplus

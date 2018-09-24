@@ -159,7 +159,7 @@ typedef void (*p_msDelay_func_t)(uint32_t);
 #endif /* defined(DEBUG_SEMIHOSTING) */
 
 #else
-#define DEBUGINIT()
+#define DEBUGINIT() Board_Debug_Init() // @Eric: For printf() and scanf() support
 #define DEBUGOUT(...)
 #define DEBUGSTR(str)
 #define DEBUGIN() (int) EOF
