@@ -18,7 +18,7 @@
 #PROJECT_NAME = sapi_basic_example
 
 PROJECT_PATH = examples/c/sapi/bare_metal/usb
-PROJECT_NAME = usb_device_01_hid_keyboard
+PROJECT_NAME = usb_device_03_hid_numerical_keypad
 #PROJECT_NAME = usb_device_02_cdc_virtualSerialPort
 
 #PROJECT_PATH = examples/c

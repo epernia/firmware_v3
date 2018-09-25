@@ -60,8 +60,8 @@
 
 /* Configure keypad pins */
 bool_t keypadInit( keypad_t* keypad,
-                   gpioMap_t* keypadRowPins, uint8_t keypadRowSize,
-                   gpioMap_t* keypadColPins, uint8_t keypadColSize )
+                   const gpioMap_t* keypadRowPins, uint8_t keypadRowSize,
+                   const gpioMap_t* keypadColPins, uint8_t keypadColSize )
 {
 
    bool_t retVal = TRUE;
