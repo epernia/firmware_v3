@@ -13,7 +13,7 @@ CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 - LPCOpen v3.01
 - sAPI r0.5.0.
 - FreeRTOS Kernel V10.0.1
-- Elm-Chan FatFS (Support for SD Cards (SSP) & Pendrives (USB MSD).
+- Elm-Chan FatFS. Support for SD Cards (SSP) & Pendrives (USB MSD).
 
 ## Supported boards
 
