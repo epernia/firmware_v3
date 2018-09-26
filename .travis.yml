@@ -23,7 +23,7 @@ jobs:
       install:
         - sudo add-apt-repository -y ppa:team-gcc-arm-embedded/ppa
         - sudo apt update -qq || true
-        - sudo apt install --allow-unauthenticated gcc-arm-none-eabi
+        - sudo apt install --allow-unauthenticated gcc-arm-embedded
         - arm-none-eabi-gcc --version
       script:
         - bash scripts/test-build-all.sh
