@@ -35,6 +35,7 @@ echo "************** FAIL Projects **************"
 cat ${OUT_GLOBAL_FAIL}
 echo
 echo "*************** FAIL Logs *****************"
+FAIL_NUM=0
 for D in $(cat ${OUT_GLOBAL_FAIL})
 do
    P_NAME=$(basename ${D})
@@ -46,5 +47,7 @@ do
    echo
    echo "STDERR for ${P_NAME}"
    cat ${OUT_STDERR}
+   FAIL_NUM=$((${FAIL_NUM} + 1))
 done
-exit $(wc -l $(OUT_GLOBAL_FAIL))
+echo "Failed ${FAIL_NUM} projects"
+exit ${FAIL_NUM}
