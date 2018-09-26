@@ -23,8 +23,8 @@ do
       PROJECT_PATH=${P_PATH} \
       PROJECT_NAME=${P_NAME} \
       all clean > ${OUT_STDOUT} 2>${OUT_STDERR} \
-         && (echo -e "[\e[92mPASS\e[0m]"; echo "${D}" >> ${OUT_GLOBAL_PASS}) \
-         || (echo -e "[\e[91mFAIL\e[0m]"; echo "${D}" >> ${OUT_GLOBAL_FAIL})
+         && (echo -e "[\e[32mPASS\e[0m]"; echo "${D}" >> ${OUT_GLOBAL_PASS}) \
+         || (echo -e "[\e[31mFAIL\e[0m]"; echo "${D}" >> ${OUT_GLOBAL_FAIL})
    COUNT=$((${COUNT} + 1))
 done
 echo
