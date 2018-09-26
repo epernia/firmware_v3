@@ -17,3 +17,7 @@
 
 PROJECT_PATH =
 PROJECT_NAME = app
+
+PROJECT_PATH = examples/c/sapi/operating_systems/coperative
+PROJECT_NAME = scheduler_02_seos_bg
+
