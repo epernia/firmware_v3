@@ -91,13 +91,13 @@ int main(void){
    boardConfig();
 
    /* Inicializar QMC5883L */
-   QMC5883L_init_t qmc5883L_initValue;
+   QMC5883L_config_t qmc5883L_configValue;
 
    qmc5883lPrepareDefaultInit( &qmc5883L_configValue );
 
    qmc5883L_configValue.mode = QMC5883L_continuous_measurement;
 
-   qmc5883lInit( qmc5883L_initValue );
+   qmc5883lInit( qmc5883L_configValue );
 
    // Inicializar UART_USB como salida de consola
    consolePrintConfigUart( UART_USB, BAUD_RATE );

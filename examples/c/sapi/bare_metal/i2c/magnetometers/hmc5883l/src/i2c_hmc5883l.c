@@ -39,6 +39,7 @@
 /*==================[inclusions]=============================================*/
 
 #include "sapi.h"         // <= sAPI header
+#include <stdlib.h>       // For itoa()
 
 /*==================[macros and definitions]=================================*/
 
@@ -71,7 +72,7 @@ void sendHmc5883lToUart( int16_t axis, uint8_t axisName ){
    uartWriteString( UART_USB, ": ");
 
    /* Conversion de muestra entera a ascii con base decimal */
-   itoa( (int) axis, uartBuff, 10 ); /* 10 significa decimal */
+   int64ToString( (int) axis, uartBuff, 10 ); /* 10 significa decimal */
 
    /* Envio el valor del eje */
    uartBuff[4] = 0;    /* NULL */
@@ -93,12 +94,12 @@ int main(void){
    /* Inicializar HMC5883L */
    HMC5883L_config_t hmc5883L_configValue;
 
-   hmc5883lPrepareDefaultConfig( &hmc5883L_configValue );
+   hmc5883lPrepareDefaultInit( &hmc5883L_configValue );
 
    hmc5883L_configValue.mode    = HMC5883L_continuous_measurement;
    hmc5883L_configValue.samples = HMC5883L_8_sample;
 
-   hmc5883lConfig( hmc5883L_configValue );
+   hmc5883lInit( hmc5883L_configValue );
 
    /* Inicializar Uart */
    uartConfig( UART_USB, BAUD_RATE );

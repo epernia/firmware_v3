@@ -51,9 +51,7 @@
 
 /*==================[external functions definition]==========================*/
 
-// C++ version 0.4 char* style "itoa":
-// Written by Luk�s Chmela
-// Released under GPLv3.
+// C++ version 0.4 char* style "itoa"
 // Modified by Eric Pernia.
 bool_t int64ToString( int64_t value, char* result, uint8_t base )
 {

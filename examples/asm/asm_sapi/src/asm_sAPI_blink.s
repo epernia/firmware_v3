@@ -16,12 +16,12 @@
     .type  main, %function
     .global  main
 main:
-    bl boardConfig // boardConfig();
+    bl boardInit // boardInit();
 main_loop:
     movs r0, #LED3
     bl gpioToggle // gpioToggle( LED3 );
     movs r0, #DELAY & 0xFFFFFFFF // <- r0 DELAY[31:0] 
-    movs r1, #DELAY >> 32        // <- r1 DELAY[63:32]
+    movs r1, #DELAY >> 31 //32        // <- r1 DELAY[63:32]
     bl delay // delay( 100 ); // tick_t is a 64-bits data type!
     b main_loop // Infinite loop on stop
     .size main, . - main
@@ -33,7 +33,7 @@ int main( void ){
    // ---------- CONFIGURACIONES ------------------------------
 
    // Inicializar y configurar la plataforma
-   boardConfig();
+   boardInit();
 
    // ---------- REPETIR POR SIEMPRE --------------------------
    while( TRUE )

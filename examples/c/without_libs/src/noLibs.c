@@ -22,7 +22,7 @@
  * System Control Unit (SCU)
  ************************************************************************************/
 
-#define SCU_BASE                        0x40086000
+#define SCU_BASE                         0x40086000
 
 // Offset de los registros de configuracion para los pines (pag. 405 de User Manual)
 // Botones

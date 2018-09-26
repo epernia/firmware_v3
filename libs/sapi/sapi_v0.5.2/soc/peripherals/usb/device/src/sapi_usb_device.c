@@ -91,9 +91,11 @@ ErrorCode_t EP0_patch(USBD_HANDLE_T hUsb, void *data, uint32_t event)
  * @brief   Handle interrupt from USB
  * @return  Nothing
  */
+#ifndef USB_HOST_ONLY // Parche para envitar conflictos con programa "sdcard_usbms"
 void USB_IRQHandler(void){
    USBD_API->hw->ISR(g_hUsb);
 }
+#endif
 
 /* Find the address of interface descriptor for given class type. */
 USB_INTERFACE_DESCRIPTOR *find_IntfDesc(const uint8_t *pDesc, uint32_t intfClass)

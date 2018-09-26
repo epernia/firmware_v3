@@ -65,7 +65,6 @@ typedef enum {
 
 /*==================[external functions declaration]=========================*/
 
-// C++ version 0.4 char* style "itoa":
 bool_t int64ToString( int64_t value, char* result, uint8_t base );
 bool_t uint64ToString( uint64_t value, char* result, uint8_t base );
 
