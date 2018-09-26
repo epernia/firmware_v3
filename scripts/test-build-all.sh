@@ -47,3 +47,4 @@ do
    echo "STDERR for ${P_NAME}"
    cat ${OUT_STDERR}
 done
+exit $(wc -l $(OUT_GLOBAL_FAIL))
