@@ -156,4 +156,8 @@ clean:
 	@echo CLEAN
 	$(Q)rm -fR $(OBJECTS) $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(DEPS) $(OUT)
 
-.PHONY: all size download erase debug clean
+test_build_all:
+	@echo Building all projecs...
+	bash scripts/build/test-build-all.sh
+
+.PHONY: all size download erase debug clean test_build_all
