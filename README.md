@@ -1,3 +1,7 @@
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[license-url]
+[![Build Status][travis-image]][travis-url]
+
 # CESE, FI-UBA project template for EDU-CIAA-NXP
 
 CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
