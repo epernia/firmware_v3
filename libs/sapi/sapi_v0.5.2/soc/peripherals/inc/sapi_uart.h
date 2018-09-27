@@ -71,6 +71,11 @@ typedef struct{
    delay_t  delay;
 } waitForReceiveStringOrTimeout_t;
 
+typedef enum{
+   UART_RECEIVE,
+   UART_TRANSMITER_FREE
+} uartEvents_t;
+
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
@@ -111,24 +116,6 @@ bool_t receiveBytesUntilReceiveStringOrTimeoutBlocking(
 
 //-------------------------------------------------------------
 
-// UART RX Interrupt Enable/Disable
-void uartRxInterruptSet( uartMap_t uart, bool_t enable );
-// UART TX Interrupt Enable/Disable
-void uartTxInterruptSet( uartMap_t uart, bool_t enable );
-
-// UART RX Interrupt set callback function that is excecuted when event ocurrs
-void uartRxInterruptCallbackSet( 
-   uartMap_t uart,                  // UART
-   callBackFuncPtr_t rxIsrCallback  // pointer to function
-);
-// UART TX Interrupt set callback function that is excecuted when event ocurrs
-void uartTxInterruptCallbackSet( 
-   uartMap_t uart,                  // UART
-   callBackFuncPtr_t txIsrCallback  // pointer to function
-);
-
-//-------------------------------------------------------------
-
 // Return TRUE if have unread data in RX FIFO
 bool_t uartRxReady( uartMap_t uart );
 // Return TRUE if have space in TX FIFO
@@ -153,6 +140,22 @@ void uartWriteString( uartMap_t uart, const char* str );
 // Blocking, Send a Byte Array
 void uartWriteByteArray( uartMap_t uart, const uint8_t* byteArray, uint32_t byteArrayLen );
 
+#ifdef SAPI_USE_INTERRUPTS
+
+//-------------------------------------------------------------
+// Interrupts
+//-------------------------------------------------------------
+
+// UART Global Interrupt Enable/Disable
+void uartInterrupt( uartMap_t uart, bool_t enable );
+
+// UART Interrupt event Enable and set a callback
+void uartCallbackSet( uartMap_t uart, uartEvents_t event, 
+                      callBackFuncPtr_t callbackFunc, void* callbackParam );
+                 
+// UART Interrupt event Disable
+void uartCallbackClr( uartMap_t uart, uartEvents_t event );
+
 /*==================[ISR external functions declaration]======================*/
 
 /* 0x28 0x000000A0 - Handler for ISR UART0 (IRQ 24) */
@@ -161,6 +164,8 @@ void UART0_IRQHandler(void);
 void UART2_IRQHandler(void);
 /* 0x2b 0x000000AC - Handler for ISR UART3 (IRQ 27) */
 void UART3_IRQHandler(void);
+
+#endif /* SAPI_USE_INTERRUPTS */
 
 /*==================[cplusplus]==============================================*/
 

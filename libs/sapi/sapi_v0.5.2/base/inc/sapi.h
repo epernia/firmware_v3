@@ -56,6 +56,7 @@
 #include "sapi_rtc.h"                    // Use RTC peripheral
 #include "sapi_sleep.h"                  // Use ARM ASM instructions
 #include "sapi_cyclesCounter.h"          // Use ARM Debug Registers
+#include "sapi_usb_device.h"
 
 // High Level drivers     
 

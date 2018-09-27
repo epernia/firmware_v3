@@ -35,28 +35,22 @@
  * Date: 2016-11-06
  */
 
-/*==================[inclusions]=============================================*/
-
 #include "sapi.h"         /* <= sAPI header */
-
-#include "sapi_usb_device.h"
-
-/*==================[external functions definition]==========================*/
 
 void checkForPressedKeys( void* unused )
 {
    /* Read keys */
    if( !gpioRead( TEC1 ) ){
-      usbDeviceKeyboardPress( USB_KEYBOARD_KEY_C ); // 'c' or 'C'
+      usbDeviceKeyboardPress( USB_KEY_C ); // 'c' or 'C'
    }
    else if( !gpioRead( TEC2 ) ){
-      usbDeviceKeyboardPress( USB_KEYBOARD_KEY_I ); // 'i' or 'I'
+      usbDeviceKeyboardPress( USB_KEY_I ); // 'i' or 'I'
    }
    else if( !gpioRead( TEC3 ) ){         
-      usbDeviceKeyboardPress( USB_KEYBOARD_KEY_A ); // 'a' or 'A'
+      usbDeviceKeyboardPress( USB_KEY_A ); // 'a' or 'A'
    }
    else if( !gpioRead( TEC4 ) ){         
-      usbDeviceKeyboardPress( USB_KEYBOARD_KEY_ENTER ); // Enter
+      usbDeviceKeyboardPress( USB_KEY_ENTER ); // Enter
    }
 }
 
@@ -73,12 +67,12 @@ int main(void){
    usbDeviceKeyboardCheckKeysCallbackSet( checkForPressedKeys );
    
    /* ------------- REPETIR POR SIEMPRE ------------- */
-   while(1) {
 
+   while(1) {
       /* Do Keyboard tasks */      
       usbDeviceKeyboardTasks();
       
-      /* Sleep until next IRQ happens */
+      /* Sleep until next Interrupt happens */
       sleepUntilNextInterrupt();
    }
 
@@ -86,5 +80,3 @@ int main(void){
       por ningun S.O. */
    return 0 ;
 }
-
-/*==================[end of file]============================================*/

@@ -29,21 +29,17 @@
  * this code.
  */
 
-#include "sapi.h"
+#include "usbd_keyboard.h"
+
+#include "sapi_gpio.h"
 #include <stdint.h>
 #include <string.h>
 #include "usbd_rom_api.h"
-
-#include "sapi_usbd_keyboard.h"
-
-#include "sapi_usbd_keyboard_endpoints.h"
-
-
+#include "usbd_keyboard_endpoints.h"
 
 // Keyboard receive callbacks
 callBackFuncPtr_t keyboardReceiveFunction = NULL;
 callBackFuncPtr_t keyboardCheckKeysFunction = NULL;
-
 
 
 /*****************************************************************************

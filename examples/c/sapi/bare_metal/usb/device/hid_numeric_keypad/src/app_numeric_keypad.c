@@ -39,8 +39,6 @@
 
 #include "sapi.h"         /* <= sAPI header */
 
-#include "sapi_usb_device.h"
-
 // Filas --> Salidas
 const uint8_t keypadRowPins1[4] = {
    RS232_TXD, // Row 0
@@ -62,10 +60,10 @@ keypad_t keypad;
 
 // Scan codes
 const uint16_t keypadToScancodes[16] = {
-   USB_KEYBOARD_KEY_1,     USB_KEYBOARD_KEY_2, USB_KEYBOARD_KEY_3,      USB_KEYBOARD_KEY_MINUS,
-   USB_KEYBOARD_KEY_4,     USB_KEYBOARD_KEY_5, USB_KEYBOARD_KEY_6,      USB_KEYBOARD_KEY_EQUAL,
-   USB_KEYBOARD_KEY_7,     USB_KEYBOARD_KEY_8, USB_KEYBOARD_KEY_9,      USB_KEYBOARD_KEY_SPACEBAR,
-   USB_KEYBOARD_KEY_ENTER, USB_KEYBOARD_KEY_0, USB_KEYBOARD_KEY_ESCAPE, USB_KEYBOARD_KEY_BACKSPACE,
+   USB_KEY_1,         USB_KEY_2, USB_KEY_3,     USB_KEY_A,
+   USB_KEY_4,         USB_KEY_5, USB_KEY_6,     USB_KEY_B,
+   USB_KEY_7,         USB_KEY_8, USB_KEY_9,     USB_KEY_C,
+   USB_KEY_BACKSPACE, USB_KEY_0, USB_KEY_ENTER, USB_KEY_D,
 };
 
 /*==================[external functions definition]==========================*/

@@ -58,15 +58,15 @@
 
 /*==================[internal data definition]===============================*/
 
+// This global variable holds the tick count
+static tick_t tickCounter;
+
+static callBackFuncPtr_t tickHookFunction = NULL;
+static void* callBackFuncParams = NULL;
+
 /*==================[external data definition]===============================*/
 
-// This global variable holds the tick count
-volatile tick_t tickCounter;
-
-volatile tick_t tickRateMS;
-
-volatile callBackFuncPtr_t tickHookFunction = NULL;
-void* callBackFuncParams = NULL;
+tick_t tickRateMS; // Used by delay!!!
 
 /*==================[internal functions definition]==========================*/
 
