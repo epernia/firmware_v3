@@ -34,6 +34,8 @@
 #include "cdc_uart_endpoints.h"
 #include "cdc_uart.h"
 
+#include "sapi_uart.h"
+
 /*****************************************************************************
  * Private types/enumerations/variables
  ****************************************************************************/
@@ -140,6 +142,10 @@ static ErrorCode_t UCOM_bulk_hdlr(USBD_HANDLE_T hUsb, void *data, uint32_t event
 		if ((Chip_UART_GetIntsEnabled(LPC_UART) & UART_IER_THREINT) == 0) {
 			pUcom->txBuf_count = USBD_API->hw->ReadEP(hUsb, USB_CDC_OUT_EP, &pUcom->txBuf[0]);
 			pUcom->txBuf_uartIndex = 0;
+         
+         
+         
+         
 			/* kick start UART tranmission */
 			pUcom->txBuf_uartIndex = Chip_UART_Send(LPC_UART,
 													&pUcom->txBuf[g_uCOM.txBuf_uartIndex],
@@ -147,6 +153,10 @@ static ErrorCode_t UCOM_bulk_hdlr(USBD_HANDLE_T hUsb, void *data, uint32_t event
 			pUcom->txBuf_count -= pUcom->txBuf_uartIndex;
 			/* Enable UART transmit interrupt */
 			Chip_UART_IntEnable(LPC_UART, UART_IER_THREINT);
+         
+         
+         
+         
 		}
 		break;
 
@@ -340,7 +350,7 @@ static ErrorCode_t CDC_ep0_override_hdlr(USBD_HANDLE_T hUsb, void *data, uint32_
 //}
 
 /* UART to USB com port init routine */
-ErrorCode_t cdcUartInit( USBD_HANDLE_T hUsb, USB_CORE_DESCS_T *pDesc,
+ErrorCode_t cdcUartLpcInit( USBD_HANDLE_T hUsb, USB_CORE_DESCS_T *pDesc,
                          USBD_API_INIT_PARAM_T *pUsbParam ){
 
 	USBD_CDC_INIT_PARAM_T cdc_param;
@@ -391,7 +401,11 @@ ErrorCode_t cdcUartInit( USBD_HANDLE_T hUsb, USB_CORE_DESCS_T *pDesc,
 			ep_indx = ((USB_CDC_OUT_EP & 0x0F) << 1);
 			ret = USBD_API->core->RegisterEpHandler(hUsb, ep_indx, UCOM_bulk_hdlr, &g_uCOM);
 			/* Init UART port for bridging */
+
+         
 //			UCOM_UartInit();
+
+
 			/* Set the line coding values as per UART Settings */
 			pCDC = (USB_CDC_CTRL_T *) g_uCOM.hCdc;
 			pCDC->line_coding.dwDTERate = 115200;
@@ -405,3 +419,61 @@ ErrorCode_t cdcUartInit( USBD_HANDLE_T hUsb, USB_CORE_DESCS_T *pDesc,
 
 	return ret;
 }
+
+
+//-------------------------------------------------------------
+
+// UART Initialization
+void cdcUartInit( uint32_t baudRate )
+{
+   
+}
+
+// Blocking, Write 1 byte to TX FIFO
+void cdcUartWriteByte( const uint8_t value )
+{
+   
+}
+
+//-------------------------------------------------------------
+
+// Send directly to buffer
+
+// Read from RX FIFO
+uint8_t cdcUartRxRead( void )
+{
+   return 0;
+}
+// Write in TX FIFO
+void cdcUartTxWrite( uint8_t value )
+{
+   
+}
+
+//-------------------------------------------------------------
+// Interrupts
+//-------------------------------------------------------------
+
+#ifdef SAPI_USE_INTERRUPTS
+
+// UART Global Interrupt Enable/Disable
+void cdcUartInterrupt( bool_t enable )
+{
+   
+}
+
+// UART Interrupt event Enable and set a callback
+void cdcUartCallbackSet( uartEvents_t event, callBackFuncPtr_t callbackFunc, 
+                         void* callbackParam )
+{
+   
+}
+                 
+// UART Interrupt event Disable
+void cdcUartCallbackClr( uartEvents_t event )
+{
+   
+}
+
+#endif /* SAPI_USE_INTERRUPTS */
+//-------------------------------------------------------------

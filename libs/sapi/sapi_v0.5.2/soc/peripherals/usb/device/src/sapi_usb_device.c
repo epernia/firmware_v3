@@ -187,7 +187,7 @@ bool_t usbDeviceInit( UsbSubClass_t subclass ){
          ret = usbDeviceLpcInit(&desc, &usb_param);
       
          /* Init UCOM - USB to UART bridge interface */
-         ret = cdcUartInit(g_hUsb, &desc, &usb_param);
+         ret = cdcUartLpcInit(g_hUsb, &desc, &usb_param);
       
          if (ret == LPC_OK) {
             /* Make sure USB and UART IRQ priorities are same (5) for this example */
@@ -295,6 +295,3 @@ static void usbDeviceLpcInterruptInit( void ){
 }
 
 // @ LPC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-// @ LPC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-

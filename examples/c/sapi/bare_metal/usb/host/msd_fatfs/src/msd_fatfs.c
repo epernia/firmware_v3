@@ -1,108 +1,107 @@
 /*
-    SDCard/USB Mass Storage Wrappers - Test and usage example
-    Copyright 2018 Santiago Germino (royconejo@gmail.com)
-    
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are met:
+ SDCard/USB Mass Storage Wrappers - Test and usage example
+ Copyright 2018 Santiago Germino (royconejo@gmail.com)
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
 
-    1.  Redistributions of source code must retain the above copyright notice,
-        this list of conditions and the following disclaimer.
+ 1.  Redistributions of source code must retain the above copyright notice,
+     this list of conditions and the following disclaimer.
 
-    2.  Redistributions in binary form must reproduce the above copyright
-        notice, this list of conditions and the following disclaimer in the
-        documentation and/or other materials provided with the distribution.
+ 2.  Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in the
+     documentation and/or other materials provided with the distribution.
 
-    3.  Neither the name of the copyright holder nor the names of its
-        contributors may be used to endorse or promote products derived from
-        this software without specific prior written permission.
+ 3.  Neither the name of the copyright holder nor the names of its
+     contributors may be used to endorse or promote products derived from
+     this software without specific prior written permission.
 
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-    ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-    LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-    INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-    CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-    POSSIBILITY OF SUCH DAMAGE.
-    
-    ----------------------------------------------------------------------------
-    sgermino 28/08/2018:
-    
-    Utilizar los wrappers "sdcard" y "usbms" es solo una forma conveniente de 
-    usar los dispositivos de FatFs que actualmente soporta este firmware. La 
-    ventaja es que permiten tener nocion del estado actual del dispositivo y 
-    se realiza un montaje automatico (f_mount) apenas es posible y un desmontaje
-    automatico de la unidad cuando esta se extrae.
-    
-    La segunda opcion, utilizar las APIs FSSDC y FSUSB (las que usa internamente
-    este firmware para el driver de los dispositivos en FatFs) requiere 
-    configurar un callback para notificarse de esos estados y realizar el 
-    mount/unmount de forma manual.
-    
-    La tercera opcion es utilizar FatFs directamente. Al realizar un f_mount()
-    sobre USB: o SDC:, el driver de FatFs intentara inicializar el dispositivo
-    usando las APIs FSUSB o FSSDC. El problema (y la razon de la existencia de 
-    los wrappers) es que al llamar a f_mount no se conoce el estado actual del 
-    dispositivo. Lo mas probable es que el montaje falle sin conocer la
-    verdadera causa, que puede no ser un error. Por ejemplo, en el caso de USB,
-    el pendrive puede insertarse o removerse en cualquier momento.
-    Y existe una demora importante entre que se inserta y esta disposible para
-    ser montado. Del mismo modo, se debe desmontar el dispositivo en FatFs 
-    apenas este se extraiga.
-    
-    En este ejemplo, comentar la definicion de EXAMPLE_TEST_{SDCARD/USBMS}_
-    WRAPPER para activar o desactivar el uso y testeo del wrapper elegido.
-    ----------------------------------------------------------------------------
-    ----------------------------------------------------------------------------
-    Pasos para ejecutar este ejemplo:
-    
-    1) Preparar un pendrive formateado en FAT16, FAT32 o exFAT.
-    2) Idem tarjeta de memoria. 
-    (Todos los pendrives y tarjetas deberian funcionar directamente a menos que
-     se los haya formateado en un sistema de archivos raro)
-    
-    3) Conectar la Edu-CIAA, compilar y flashear este programa.
-    4) Desconectar la Edu-CIAA!
-    5) Conectar el SD Card reader como se muestar en la figura "SD SPI.png".
-    
-    6) Reconectar la Edu-CIAA.
-        Las luces LED_1/2/3 indican progreso:
-    
-        LED_1: supero inicializacion.
-        LED_2: dispositivos montados.
-        LED_3: test finalizado.
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+ 
+ ----------------------------------------------------------------------------
+ sgermino 28/08/2018:
+ 
+ Utilizar los wrappers "sdcard" y "usbms" es solo una forma conveniente de 
+ usar los dispositivos de FatFs que actualmente soporta este firmware. La 
+ ventaja es que permiten tener nocion del estado actual del dispositivo y 
+ se realiza un montaje automatico (f_mount) apenas es posible y un desmontaje
+ automatico de la unidad cuando esta se extrae.
+ 
+ La segunda opcion, utilizar las APIs FSSDC y FSUSB (las que usa internamente
+ este firmware para el driver de los dispositivos en FatFs) requiere 
+ configurar un callback para notificarse de esos estados y realizar el 
+ mount/unmount de forma manual.
+ 
+ La tercera opcion es utilizar FatFs directamente. Al realizar un f_mount()
+ sobre USB: o SDC:, el driver de FatFs intentara inicializar el dispositivo
+ usando las APIs FSUSB o FSSDC. El problema (y la razon de la existencia de 
+ los wrappers) es que al llamar a f_mount no se conoce el estado actual del 
+ dispositivo. Lo mas probable es que el montaje falle sin conocer la
+ verdadera causa, que puede no ser un error. Por ejemplo, en el caso de USB,
+ el pendrive puede insertarse o removerse en cualquier momento.
+ Y existe una demora importante entre que se inserta y esta disposible para
+ ser montado. Del mismo modo, se debe desmontar el dispositivo en FatFs 
+ apenas este se extraiga.
+ 
+ En este ejemplo, comentar la definicion de EXAMPLE_TEST_{SDCARD/USBMS}_
+ WRAPPER para activar o desactivar el uso y testeo del wrapper elegido.
+ ----------------------------------------------------------------------------
+ ----------------------------------------------------------------------------
+ Pasos para ejecutar este ejemplo:
+ 
+ 1) Preparar un pendrive formateado en FAT16, FAT32 o exFAT.
+ 2) Idem tarjeta de memoria. 
+ (Todos los pendrives y tarjetas deberian funcionar directamente a menos que
+  se los haya formateado en un sistema de archivos raro)
+ 
+ 3) Conectar la Edu-CIAA, compilar y flashear este programa.
+ 4) Desconectar la Edu-CIAA!
+ 5) Conectar el SD Card reader como se muestar en la figura "SD SPI.png".
+ 
+ 6) Reconectar la Edu-CIAA.
+     Las luces LED_1/2/3 indican progreso:
+ 
+     LED_1: supero inicializacion.
+     LED_2: dispositivos montados.
+     LED_3: test finalizado.
+     
+ Finalmente, el led RGB Verde indica que el test fue exitoso. El ledo RGB
+ Rojo indica que hubo un error.
+     
+ 6) Este programa envia mucha informacion de estado por el puerto serie.
+    Conectar una terminal al puerto serie USB de la Edu-CIAA (gralmente 
+    /dev/ttyUSB1 en linux)
+ ----------------------------------------------------------------------------
+ ----------------------------------------------------------------------------
+ FAQ:
+     Q: Por que no se muestran todos los estados USB o SDCARD?
+     A: Varios estados ocurren en el INIT del wrapper, antes del bucle en
+        donde se pollea al wrapper. Si realmente fuese necesario mostrar
+        (enterarse) de los estados apenas ocurren, lo mejor seria no usar los
+        wrappers, sino directamente las APIs FSSDC y FSUSB seteando nuestros 
+        propios callbacks:
         
-    Finalmente, el led RGB Verde indica que el test fue exitoso. El ledo RGB
-    Rojo indica que hubo un error.
+        FSSDC_SetStatusUpdateCallback()
+        FSUSB_SetStatusUpdateCallback()
         
-    6) Este programa envia mucha informacion de estado por el puerto serie.
-       Conectar una terminal al puerto serie USB de la Edu-CIAA (gralmente 
-       /dev/ttyUSB1 en linux)
-    ----------------------------------------------------------------------------
-    ----------------------------------------------------------------------------
-    FAQ:
-        Q: Por que no se muestran todos los estados USB o SDCARD?
-        A: Varios estados ocurren en el INIT del wrapper, antes del bucle en
-           donde se pollea al wrapper. Si realmente fuese necesario mostrar
-           (enterarse) de los estados apenas ocurren, lo mejor seria no usar los
-           wrappers, sino directamente las APIs FSSDC y FSUSB seteando nuestros 
-           propios callbacks:
-           
-           FSSDC_SetStatusUpdateCallback()
-           FSUSB_SetStatusUpdateCallback()
-           
-        Q: En la consola veo mensajes de "FSUSB:", de donde salen? Como los
-           desactivo?
-        A: Son mensajes de debug de la API FSUSB, usando DEBUGSTR() definido en
-           board_api.h. Para desactivarlos hay que compilar sin definir
-           "DEBUG_ENABLE" (ver el config.mk de este proyecto).
-    ----------------------------------------------------------------------------
+     Q: En la consola veo mensajes de "FSUSB:", de donde salen? Como los
+        desactivo?
+     A: Son mensajes de debug de la API FSUSB, usando DEBUGSTR() definido en
+        board_api.h. Para desactivarlos hay que compilar sin definir
+        "DEBUG_ENABLE" (ver el config.mk de este proyecto).
+ ----------------------------------------------------------------------------
 */
 
-#include "sapi_sdcard.h"
 #include "sapi_usbms.h"
 #include "sapi.h"
 
@@ -112,70 +111,15 @@
     #error No olvidar USE_LPCUSBLIB=y en config.mk!
 #endif
 
-#define EXAMPLE_TEST_SDCARD_WRAPPER
-#define EXAMPLE_TEST_USBMS_WRAPPER
-
-#if !defined(EXAMPLE_TEST_SDCARD_WRAPPER) && !defined(EXAMPLE_TEST_USBMS_WRAPPER)
-    #error Se debe probar al menos un wrapper!
-#endif
-
-// Wrappers para manejar dispositivos USB Mass Storage y tarjeta SD
-sdcard_t sdcard;
+// Wrapper para manejar el dispositivo USB Mass Storage
 usbms_t usbms;
 
 // Se guarda el ultimo estado para enviar un mensaje solo cuando el estado 
 // cambie.
-sdcardStatus_t sdcardUltimoEstado = -1;
 usbmsStatus_t usbmsUltimoEstado = -1;
 
 
 void diskTickHook ( void *ptr );
-
-
-static void mostrarEstadoTarjetaSD( void )
-{
-    // El estado actual es distinto al ultimo mostrado?
-    if ( sdcardUltimoEstado == sdcardStatus() )
-    {
-        // Es igual, no hay nada que hacer aca
-        return;
-    }
-    
-    // Es diferente, guardo y envio estado
-    sdcardUltimoEstado = sdcardStatus();
-    
-    switch( sdcardUltimoEstado )
-    {
-        case SDCARD_Status_Removed:
-            uartWriteString( UART_USB, "STATUS: Por favor inserte Tarjeta SD.\r\n" );
-            break;
-        
-        case SDCARD_Status_Inserted:
-            uartWriteString( UART_USB, "STATUS: Tarjeta SD insertada.\r\n" );
-            break;
-    
-        case SDCARD_Status_NativeMode:
-            uartWriteString( UART_USB, "STATUS: Configurando tarjeta SD.\r\n" );
-            break;
-            
-        case SDCARD_Status_Initializing:
-            uartWriteString( UART_USB, "STATUS: Iniciando tarjeta SD.\r\n" );
-            break;
-        
-        case SDCARD_Status_ReadyUnmounted:
-            uartWriteString( UART_USB, "STATUS: Tarjeta SD lista pero desmontada.\r\n" );
-            break;
-
-        case SDCARD_Status_ReadyMounted:
-            uartWriteString( UART_USB, "STATUS: Tarjeta SD lista y montada.\r\n" );
-            break;
-        
-        case SDCARD_Status_Error:
-            uartWriteString( UART_USB, "STATUS: Tarjeta SD en estado de Error.\r\n" );
-            break;
-    }
-}
-
 
 static void mostrarEstadoUSBMassStorage( void )
 {
@@ -378,46 +322,17 @@ int main( void )
         
     uartWriteString( UART_USB, "\r\n" );
     uartWriteString( UART_USB, "------------------------------------------------\r\n" );    
-    uartWriteString( UART_USB, "Bienvenido a la prueba de wrappers sdcard/usbms!\r\n" );
+    uartWriteString( UART_USB, "Bienvenido a la prueba de wrapper usbms!\r\n" );
     uartWriteString( UART_USB, "------------------------------------------------\r\n" ); 
     
     /*
-        Inicializa los wrappers sdcard y usbms.
- 
-        Una vez iniciados los wrappers, sus respectivos dispositivos (Tarjeta
-        SD y USB Mass Storage/Pendrive) seran iniciados y auto-montados apenas 
-        se inserten o conecten.
+        Inicializa el wrapper usbms. Una vez iniciados , sus respectivo 
+        dispositivos (USB Mass Storage/Pendrive) sera iniciado y auto-montado
+        apenas se inserten o conecten.
         
-        USB soporta attach y detach de dispositivos de manera dinamica. En el
-        caso de la tarjeta SD, se requiere que el lector este totalmente 
-        cableado y con una tarjeta SD insertada antes de llamar a sdcardInit!
-
-        Esto ultimo es una limitacion de los kits de lectura de tarjeta SD, ya
-        que casi ninguno viene con el switch de deteccion de presencia de 
-        tarjeta en el lector.
+        USB soporta attach y detach de dispositivos de manera dinamica.
     */
     
-    #ifdef EXAMPLE_TEST_SDCARD_WRAPPER
-    uartWriteString( UART_USB, "Iniciando sdcard con configuracion:\r\n" );
-    sprintf( msg, "  velocidad inicial %i Hz.\r\n", FSSDC_GetSlowClock() );
-    uartWriteString( UART_USB, msg );
-    sprintf( msg, "  velocidad de trabajo %i Hz.\r\n", FSSDC_GetFastClock() );    
-    uartWriteString( UART_USB, msg );  
-    if (sdcardInit( &sdcard ) == false)
-    {
-        uartWriteString( UART_USB, "Inicio de sdcard FALLO.\r\n**FIN**\r\n" );
-        while( 1 );
-    }
-    else {
-        uartWriteString( UART_USB, "Inicio de sdcard OK! Unidad FatFs '" );
-        uartWriteString( UART_USB, sdcardDriveName());
-        uartWriteString( UART_USB, "'.\r\n" );
-    }
-    #else
-    uartWriteString( UART_USB, "NO se probara sdcard.\r\n" );
-    #endif
-    
-    #ifdef EXAMPLE_TEST_USBMS_WRAPPER
     uartWriteString( UART_USB, "Iniciando usbms.\r\n" ); 
     if (usbmsInit( &usbms ) == false)
     {
@@ -429,9 +344,7 @@ int main( void )
         uartWriteString( UART_USB, usbmsDriveName());
         uartWriteString( UART_USB, "'.\r\n" );
     }
-    #else
-    uartWriteString( UART_USB, "NO se probara usbms.\r\n" );
-    #endif
+
     
     // Se paso la primer etapa con exito, enciende LED1
     gpioWrite( LED1, ON );
@@ -447,23 +360,12 @@ int main( void )
     uartWriteString( UART_USB, "Logueando STATUS de dipositivos...\r\n" ); 
     while( 1 )
     {        
-        // Muestra el estado actual de los dispositivos
-        #ifdef EXAMPLE_TEST_SDCARD_WRAPPER
-        mostrarEstadoTarjetaSD();
-        #else
-        sdcardUltimoEstado = SDCARD_Status_ReadyMounted;
-        #endif
-        
-        #ifdef EXAMPLE_TEST_USBMS_WRAPPER
+        // Muestra el estado actual del dispositivo
         mostrarEstadoUSBMassStorage();
-        #else
-        usbmsUltimoEstado = USBMS_Status_StorageReadyMounted;
-        #endif
-   
-        // Si ambos dispositivos ya estan iniciados y montados, salimos de este
+
+        // Si el dispositivo ya estan iniciado y montado, salimos de este
         // bucle y comenzamos los testeos sobre archivos utilizando FatFs
-        if( sdcardUltimoEstado == SDCARD_Status_ReadyMounted &&
-            usbmsUltimoEstado == USBMS_Status_StorageReadyMounted)
+        if( usbmsUltimoEstado == USBMS_Status_StorageReadyMounted)
         {
             break;            
         }
@@ -473,25 +375,17 @@ int main( void )
     gpioWrite( LED2, ON );
     
     // Se ejecutan los testeos de archivos en el nombre de unidad
-    // correspondiente a los dos dispositivos; "SDC:" para tarjeta SD y "USB:"
-    // para Mass Storage.
-    bool sdcardTestResult = true;
+    // correspondiente al dispositivo; "USB:" para Mass Storage.
     bool usbmsTestResult = true;
-    
-    #ifdef EXAMPLE_TEST_SDCARD_WRAPPER
-    sdcardTestResult = fatFsTest (sdcardDriveName());
-    #endif
-    
-    #ifdef EXAMPLE_TEST_USBMS_WRAPPER
+        
     usbmsTestResult  = fatFsTest (usbmsDriveName());
-    #endif
     
     // Se paso la ultima etapa, enciende LED3
     gpioWrite( LED3, ON );
     
-    // Si ambos resultados son positivos, se enciende led RGB verde, caso
+    // Si el resultados es positivo, se enciende led RGB verde, caso
     // contrario se enciende led RGB rojo.
-    if (sdcardTestResult && usbmsTestResult)
+    if (usbmsTestResult)
     {
         gpioWrite( LEDG, ON );
         uartWriteString( UART_USB, "--------\r\n" );        

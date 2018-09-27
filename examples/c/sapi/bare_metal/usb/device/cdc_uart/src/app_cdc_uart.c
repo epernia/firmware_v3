@@ -34,146 +34,95 @@
  * Date: 2018-26-09
  */
 
- 
+#include "sapi.h"         /* <= sAPI header */
+
+/* Callbacks de UART_USB - Declaraciones */
+void uartUsbReceiveCallback( void *unused );
+void uartUsbSendCallback( void *unused );
+
+/* Callbacks de CDC UART - Declaraciones */
+void cdcUartReceiveCallback( void *unused );
+void cdcUartSendCallback( void *unused );
+
+/* FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. */
 int main(void){
-   return 0;
+
+   /* ------------- INICIALIZACIONES ------------- */
+
+   /* Inicializar la placa */
+   boardConfig();
+
+   /* Inicializar la UART_USB junto con las interrupciones de Tx y Rx */
+   uartConfig(UART_USB, 115200);   
+   // Seteo un callback al evento de recepcion y habilito su interrupcion
+   uartCallbackSet(UART_USB, UART_RECEIVE, uartUsbReceiveCallback, NULL);
+   // Seteo un callback al evento de transmisor libre y habilito su interrupcion
+   uartCallbackSet(UART_USB, UART_TRANSMITER_FREE, uartUsbSendCallback, NULL);
+   // Habilito todas las interrupciones de UART_USB
+   uartInterrupt(UART_USB, true);
+   
+   /* Inicializar la UART_232 */
+   cdcUartConfig(115200);
+   // Seteo un callback al evento de recepcion y habilito su interrupcion
+   cdcUartCallbackSet(UART_RECEIVE, cdcUartReceiveCallback, NULL);
+   // Seteo un callback al evento de transmisor libre y habilito su interrupcion
+   cdcUartCallbackSet(UART_TRANSMITER_FREE, cdcUartSendCallback, NULL);   
+   // Habilito todas las interrupciones de UART_232
+   cdcUartInterrupt(true);
+
+   // Envío para identificar cual es cual y para arrancar la secuencia (si no
+   // hasta que no se envie un byte desde cada terminal no funciona)
+   uartWriteByte(UART_USB, 'u');
+   cdcUartWriteByte('2');
+
+   /* ------------- REPETIR POR SIEMPRE ------------- */
+
+   while(1) {
+      /* Sleep until next Interrupt happens */
+      sleepUntilNextInterrupt();
+   }
+
+   /* NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado
+      por ningun S.O. */
+   return 0 ;
 }
- 
-//    #include "sapi.h"         /* <= sAPI header */
-//    
-//    /* Callbacks - Declaraciones */
-//    
-//    void uartUsbReceiveCallback( void *unused );
-//    void uartUsbSendCallback( void *unused );
-//    
-//    void uart232ReceiveCallback( void *unused );
-//    void uart232SendCallback( void *unused );
-//    
-//    /* Callbacks de CDC UART - Declaraciones */
-//    //void cdcUartReceiveCallback( void *unused );
-//    //void cdcUartSendCallback( void *unused );
-//    
-//    /* FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. */
-//    int main(void){
-//    
-//       /* ------------- INICIALIZACIONES ------------- */
-//    
-//       /* Inicializar la placa */
-//       boardConfig();
-//    
-//       /* Inicializar la UART_USB junto con las interrupciones de Tx y Rx */
-//       uartConfig(UART_USB, 115200);   
-//       // Seteo un callback al evento de recepción y habilito su interrupcion
-//       uartRxInterruptCallbackSet(UART_USB, uartUsbReceiveCallback);
-//       uartRxInterruptSet(UART_USB, true);
-//       // Seteo un callback al evento de transmisor libre y habilito su interrupcion
-//       uartTxInterruptCallbackSet(UART_USB, uartUsbSendCallback);
-//       uartTxInterruptSet(UART_USB, true);
-//       // Habilito todas las interrupciones de UART_USB
-//       uartInterruptsSet(UART_USB, true);
-//       
-//       /* Inicializar la UART_232 */
-//       uartConfig(UART_232, 115200);
-//       // Seteo un callback al evento de recepción y habilito su interrupcion
-//       uartRxInterruptCallbackSet(UART_232, uart232ReceiveCallback);
-//       uartRxInterruptSet(UART_232, true);
-//       // Seteo un callback al evento de transmisor libre y habilito su interrupcion
-//       uartTxInterruptCallbackSet(UART_232, uart232SendCallback);
-//       uartTxInterruptSet(UART_232, true);
-//       // Habilito todas las interrupciones de UART_232
-//       uartInterruptsSet(UART_232, true);
-//       
-//       // Mando para identificar cual es cual y para arrancar la secuencia (si no
-//       // hasta que no se mande un byte desde cada terminal no funciona)
-//       uartWriteByte(UART_USB, 'u');
-//       uartWriteByte(UART_232, '2');
-//       
-//       
-//    
-//    //   /* Inicializar la CDC UART junto con las interrupciones de Tx y Rx */
-//    //   usbDeviceInit(USB_CDC_UART);
-//    //   // Seteo un callback al evento de recepción y habilito su interrupcion
-//    //   usbDeviceCdcUartRxInterruptCallbackSet(uartUSBReceiveCallback);
-//    //   usbDeviceCdcUartRxInterruptSet(true);
-//    //   // Seteo un callback al evento de transmisor libre y habilito su interrupcion
-//    //   usbDeviceCdcUartTxInterruptCallbackSet(uartUSBSendCallback);
-//    //   usbDeviceCdcUartTxInterruptSet(true);
-//    //   // Habilito todas las interrupciones de CDC UART
-//    //   usbDeviceCdcUartInterruptSet(true);
-//    
-//    
-//    
-//       /* ------------- REPETIR POR SIEMPRE ------------- */
-//    
-//       while(1) {
-//          /* Sleep until next Interrupt happens */
-//          sleepUntilNextInterrupt();
-//       }
-//    
-//       /* NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado
-//          por ningun S.O. */
-//       return 0 ;
-//    }
-//    
-//    /* Callbacks - Implementaciones */
-//    
-//    uint8_t dataToSendToUart232 = 0;
-//    bool_t dataToSendToUart232Pending = FALSE;
-//    
-//    // Recibo de la PC en la UART_USB
-//    void uartUsbReceiveCallback( void *unused )
-//    {
-//       dataToSendToUart232 = uartRxRead(UART_USB);
-//       dataToSendToUart232Pending = TRUE;
-//    }
-//    // Envio a la PC desde la UART_232
-//    void uart232SendCallback( void *unused )
-//    {
-//       if(dataToSendToUart232Pending){
-//          uartTxWrite(UART_232, dataToSendToUart232);
-//          dataToSendToUart232 = 0;
-//          dataToSendToUart232Pending = FALSE;
-//       }
-//    }
-//    
-//    uint8_t dataToSendToUartUsb = 0;
-//    bool_t dataToSendToUartUsbPending = FALSE;
-//    
-//    // Recibo de la PC en la UART_232
-//    void uart232ReceiveCallback( void *unused )
-//    {
-//       dataToSendToUartUsb = uartRxRead(UART_232);
-//       dataToSendToUartUsbPending = TRUE;
-//    }
-//    // Envio a la PC desde la UART_USB
-//    void uartUsbSendCallback( void *unused )
-//    {
-//       if(dataToSendToUartUsbPending){
-//          uartTxWrite(UART_USB, dataToSendToUartUsb);
-//          dataToSendToUartUsb = 0;
-//          dataToSendToUartUsbPending = FALSE;
-//       }
-//    }
-//    
-//    
-//    
-//    //uint8_t dataFromUartUsb = 0;
-//    //bool_t dataFromUartUsbPending = FALSE;
-//    //
-//    ///* Callbacks de CDC UART - Implementaciones*/
-//    //
-//    //void cdcUartReceiveCallback( void *unused )
-//    //{
-//    //   dataFromUartUsb = cdcUartRxRead(UART_USB);
-//    //   dataFromUartUsbPending = TRUE;
-//    //}
-//    //
-//    //void cdcUartSendCallback( void *unused )
-//    //{
-//    //   if(dataFromUartUsbPending){
-//    //      cdcUartTxWrite(dataFromUartUsb);
-//    //      dataFromUartUsb = 0;
-//    //      dataFromUartUsbPending = FALSE;
-//    //   }
-//    //}
-//    
+
+/* Callbacks - Implementaciones */
+
+uint8_t dataToSendToCdcUart = 0;
+bool_t dataToSendToCdcUartPending = FALSE;
+
+// Recibo de la PC en la UART_USB
+void uartUsbReceiveCallback( void *unused )
+{
+   dataToSendToCdcUart = uartRxRead(UART_USB);
+   dataToSendToCdcUartPending = TRUE;
+}
+// Envio a la PC desde la CDC_UART
+void cdcUartSendCallback( void *unused )
+{
+   if(dataToSendToCdcUartPending){
+      cdcUartTxWrite(dataToSendToCdcUart);
+      dataToSendToCdcUart = 0;
+      dataToSendToCdcUartPending = FALSE;
+   }
+}
+
+uint8_t dataToSendToUartUsb = 0;
+bool_t dataToSendToUartUsbPending = FALSE;
+
+// Recibo de la PC en la CDC_UART
+void cdcUartReceiveCallback( void *unused )
+{
+   dataToSendToUartUsb = cdcUartRxRead();
+   dataToSendToUartUsbPending = TRUE;
+}
+// Envio a la PC desde la UART_USB
+void uartUsbSendCallback( void *unused )
+{
+   if(dataToSendToUartUsbPending){
+      uartTxWrite(UART_USB, dataToSendToUartUsb);
+      dataToSendToUartUsb = 0;
+      dataToSendToUartUsbPending = FALSE;
+   }
+}
