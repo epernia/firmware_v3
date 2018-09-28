@@ -308,10 +308,7 @@ int main( void )
     // ---------- CONFIGURACIONES ------------------------------
     // Inicializar y configurar la plataforma
     boardConfig();
-    
-    // SPI configuration
-    spiConfig( SPI0 );
-    
+
     // Inicializar el conteo de Ticks con resolucion de 10ms,
     // con tickHook diskTickHook
     tickConfig( 10 );

@@ -156,8 +156,4 @@ clean:
 	@echo CLEAN
 	$(Q)rm -fR $(OBJECTS) $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(DEPS) $(OUT)
 
-#clean_all:
-#	@echo CLEAN ALL
-#	$(Q)find . -depth -type d -name out -exec rm -rf {} \;
-
 .PHONY: all size download erase debug clean
