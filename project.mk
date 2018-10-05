@@ -15,5 +15,5 @@
 # Project name
 #PROJECT_NAME = example
 
-PROJECT_PATH =
+PROJECT_PATH = 
 PROJECT_NAME = app
