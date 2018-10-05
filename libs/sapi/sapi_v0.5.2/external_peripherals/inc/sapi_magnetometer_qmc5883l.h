@@ -127,8 +127,9 @@ typedef struct {
    QMC5883L_gain_t gain; /* Gain Configuration Bits. These bits configure the gain for
                           * the device. The gain configuration is common for all
                           * channels.*/
-   QMC5883L_rate_t    rate;    /* Data Output Rate Bits. These bits set the rate at which data
-                                * is written to all three data output registers.*/
+
+   QMC5883L_rate_t rate; /* Data Output Rate Bits. These bits set the rate at which data
+                          * is written to all three data output registers.*/
    QMC5883L_mode_t mode;
 
 
@@ -138,9 +139,9 @@ typedef struct {
 
 /*==================[external functions declaration]=========================*/
 
-bool_t QMC5883LPrepareDefaultInit( QMC5883L_config_t * config );
-bool_t QMC5883LInit( QMC5883L_config_t config );
-bool_t QMC5883LRead( int16_t * x, int16_t * y, int16_t * z );
+bool_t qmc5883lPrepareDefaultInit( QMC5883L_config_t * config );
+bool_t qmc5883lInit( QMC5883L_config_t config );
+bool_t qmc5883lRead( int16_t * x, int16_t * y, int16_t * z );
 
 /*==================[cplusplus]==============================================*/
 

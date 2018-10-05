@@ -55,13 +55,21 @@ typedef struct {
 
 /*==================[internal data declaration]==============================*/
 
-static volatile callBackFuncPtr_t rxIsrCallbackUART0 = 0;
-static volatile callBackFuncPtr_t rxIsrCallbackUART2 = 0;
-static volatile callBackFuncPtr_t rxIsrCallbackUART3 = 0;
+#ifdef SAPI_USE_INTERRUPTS
+static callBackFuncPtr_t rxIsrCallbackUART0 = 0;
+static void* rxIsrCallbackUART0Params = NULL;
+static callBackFuncPtr_t rxIsrCallbackUART2 = 0;
+static void* rxIsrCallbackUART2Params = NULL;
+static callBackFuncPtr_t rxIsrCallbackUART3 = 0;
+static void* rxIsrCallbackUART3Params = NULL;
 
-static volatile callBackFuncPtr_t txIsrCallbackUART0 = 0;
-static volatile callBackFuncPtr_t txIsrCallbackUART2 = 0;
-static volatile callBackFuncPtr_t txIsrCallbackUART3 = 0;
+static callBackFuncPtr_t txIsrCallbackUART0 = 0;
+static void* txIsrCallbackUART0Params = NULL;
+static callBackFuncPtr_t txIsrCallbackUART2 = 0;
+static void* txIsrCallbackUART2Params = NULL;
+static callBackFuncPtr_t txIsrCallbackUART3 = 0;
+static void* txIsrCallbackUART3Params = NULL;
+#endif /* SAPI_USE_INTERRUPTS */
 
 static const uartLpcInit_t lpcUarts[] = {
 // { uartAddr, { txPort, txpin, txfunc }, { rxPort, rxpin, rxfunc }, uartIrqAddr  },
@@ -92,6 +100,7 @@ static const lpc4337ScuPin_t lpcUart485DirPin = {
 
 /*==================[internal functions declaration]=========================*/
 
+#ifdef SAPI_USE_INTERRUPTS
 static void uartProcessIRQ( uartMap_t uart );
 
 /*==================[internal functions definition]==========================*/
@@ -128,6 +137,7 @@ static void uartProcessIRQ( uartMap_t uart )
          (*txIsrCallbackUART3)(0);
    }
 }
+#endif /* SAPI_USE_INTERRUPTS */
 
 /*==================[external data declaration]==============================*/
 
@@ -367,69 +377,132 @@ bool_t receiveBytesUntilReceiveStringOrTimeoutBlocking(
 
 //-------------------------------------------------------------
 
-// UART RX Interrupt Enable/Disable
-void uartRxInterruptSet( uartMap_t uart, bool_t enable )
+
+// #define UART_IER_RBRINT      (1 << 0)	/*!< RBR Interrupt enable */
+// #define UART_IER_THREINT     (1 << 1)	/*!< THR Interrupt enable */
+// #define UART_IER_RLSINT      (1 << 2)	/*!< RX line status interrupt enable */
+// #define UART_IER_MSINT       (1 << 3)	/*!< Modem status interrupt enable - valid for 11xx, 17xx/40xx UART1, 18xx/43xx UART1  only */
+// #define UART_IER_CTSINT      (1 << 7)	/*!< CTS signal transition interrupt enable - valid for 17xx/40xx UART1, 18xx/43xx UART1 only */
+// #define UART_IER_ABEOINT     (1 << 8)	/*!< Enables the end of auto-baud interrupt */
+// #define UART_IER_ABTOINT     (1 << 9)	/*!< Enables the auto-baud time-out interrupt */
+// #define UART_IER_BITMASK     (0x307)	/*!< UART interrupt enable register bit mask  - valid for 13xx, 17xx/40xx UART0/2/3, 18xx/43xx UART0/2/3 only*/
+// #define UART1_IER_BITMASK    (0x30F)	/*!< UART1 interrupt enable register bit mask - valid for 11xx only */
+// #define UART2_IER_BITMASK    (0x38F)	/*!< UART2 interrupt enable register bit mask - valid for 17xx/40xx UART1, 18xx/43xx UART1 only */
+
+
+#ifdef SAPI_USE_INTERRUPTS
+
+// UART Global Interrupt Enable/Disable
+void uartInterrupt( uartMap_t uart, bool_t enable )
 {
    if( enable ) {
-      // Enable UART Receiver Buffer Register Interrupt
-      Chip_UART_IntEnable( lpcUarts[uart].uartAddr, UART_IER_RBRINT );
-      // Enable UART line status interrupt. LPC43xx User manual page 1118
-      NVIC_SetPriority( lpcUarts[uart].uartIrqAddr, 5 ); // FreeRTOS Requiere prioridad>=5 (número más alto, más baja prioridad) FreeROTS usa las prioridades hasta 5 inclusive.
+      // Interrupt Priority for UART channel
+      NVIC_SetPriority( lpcUarts[uart].uartIrqAddr, 5 ); // FreeRTOS Requiere prioridad >= 5 (numero mas alto, ma baja prioridad)
       // Enable Interrupt for UART channel
       NVIC_EnableIRQ( lpcUarts[uart].uartIrqAddr );
    } else {
-      // Disable UART Receiver Buffer Register Interrupt
-      Chip_UART_IntDisable( lpcUarts[uart].uartAddr, UART_IER_RBRINT );
       // Disable Interrupt for UART channel
       NVIC_DisableIRQ( lpcUarts[uart].uartIrqAddr );
    }
 }
 
-// UART TX Interrupt Enable/Disable
-void uartTxInterruptSet( uartMap_t uart, bool_t enable )
-{
-   if( enable ) {
-      // Enable THRE irq (TX)
-      Chip_UART_IntEnable( lpcUarts[uart].uartAddr, UART_IER_THREINT );
-      NVIC_EnableIRQ( lpcUarts[uart].uartIrqAddr );
-   } else {
-      // Disable THRE irq (TX)
-      Chip_UART_IntDisable( lpcUarts[uart].uartAddr, UART_IER_THREINT );
-      NVIC_DisableIRQ( lpcUarts[uart].uartIrqAddr );
+// UART Interrupt event Enable and set a callback
+void uartCallbackSet( uartMap_t uart, uartEvents_t event, 
+                      callBackFuncPtr_t callbackFunc, void* callbackParam )
+{   
+   uint32_t intMask;
+
+   switch(event){
+
+      case UART_RECEIVE:
+         // Enable UART Receiver Buffer Register Interrupt
+         //intMask = UART_IER_RBRINT;
+         
+         // Enable UART Receiver Buffer Register Interrupt and Enable UART line
+         //status interrupt. LPC43xx User manual page 1118
+         intMask = UART_IER_RBRINT | UART_IER_RLSINT;
+         
+         if( callbackFunc != 0 ) {
+            // Set callback
+            if( (uart == UART_GPIO) || (uart == UART_485) ){
+               rxIsrCallbackUART0 = callbackFunc;
+               rxIsrCallbackUART0Params = callbackParam;
+            }
+            if( (uart == UART_USB) || (uart == UART_ENET) ){
+               rxIsrCallbackUART2 = callbackFunc;
+               rxIsrCallbackUART2Params = callbackParam;
+            }            
+            if( uart == UART_232 ){
+               rxIsrCallbackUART3 = callbackFunc;
+               rxIsrCallbackUART3Params = callbackParam;
+            }
+         } else{
+            return;
+         }
+      break;
+
+      case UART_TRANSMITER_FREE:
+         // Enable THRE irq (TX)
+         intMask = UART_IER_THREINT;
+
+         if( callbackFunc != 0 ) {
+            
+            // Set callback
+            if( (uart == UART_GPIO) || (uart == UART_485) ){
+               txIsrCallbackUART0 = callbackFunc;
+               txIsrCallbackUART0Params = callbackParam;
+            }
+            if( (uart == UART_USB) || (uart == UART_ENET) ){
+               txIsrCallbackUART2 = callbackFunc;
+               txIsrCallbackUART2Params = callbackParam;
+            }            
+            if( uart == UART_232 ){
+               txIsrCallbackUART3 = callbackFunc;
+               txIsrCallbackUART3Params = callbackParam;
+            }
+         } else{
+            return;
+         }
+      break;
+
+      default:
+         return;
    }
+
+   // Enable UART Interrupt
+   Chip_UART_IntEnable(lpcUarts[uart].uartAddr, intMask);
+}
+                 
+// UART Interrupt event Disable
+void uartCallbackClr( uartMap_t uart, uartEvents_t event )
+{
+   uint32_t intMask;
+
+   switch(event){
+
+      case UART_RECEIVE:
+         // Enable UART Receiver Buffer Register Interrupt
+         //intMask = UART_IER_RBRINT;
+         
+         // Enable UART Receiver Buffer Register Interrupt and Enable UART line
+         //status interrupt. LPC43xx User manual page 1118
+         intMask = UART_IER_RBRINT | UART_IER_RLSINT;
+      break;
+      
+      case UART_TRANSMITER_FREE:
+         // Enable THRE irq (TX)
+         intMask = UART_IER_THREINT;
+      break;
+      
+      default:
+         return;
+   }
+
+   // Disable UART Interrupt
+   Chip_UART_IntDisable(lpcUarts[uart].uartAddr, intMask);
 }
 
-// UART RX Interrupt set callback function that is excecuted when event ocurrs
-void uartRxInterruptCallbackSet(
-   uartMap_t uart,                  // UART
-   callBackFuncPtr_t rxIsrCallback  // pointer to function
-)
-{
-   if( rxIsrCallback != 0 ) {
-      // Set callback
-      if( uart == UART_GPIO ) rxIsrCallbackUART0 = rxIsrCallback;
-      if( uart == UART_485  ) rxIsrCallbackUART0 = rxIsrCallback;
-      if( uart == UART_USB  ) rxIsrCallbackUART2 = rxIsrCallback;
-      if( uart == UART_ENET ) rxIsrCallbackUART2 = rxIsrCallback;
-      if( uart == UART_232  ) rxIsrCallbackUART3 = rxIsrCallback;
-   }
-}
-
-// UART TX Interrupt set callback function that is excecuted when event ocurrs
-void uartTxInterruptCallbackSet(
-   uartMap_t uart,                  // UART
-   callBackFuncPtr_t txIsrCallback  // pointer to function
-)
-{
-   if( txIsrCallback != 0 ) {
-      // Set callback
-      if( uart == UART_GPIO ) txIsrCallbackUART0 = txIsrCallback;
-      if( uart == UART_485  ) txIsrCallbackUART0 = txIsrCallback;
-      if( uart == UART_USB  ) txIsrCallbackUART2 = txIsrCallback;
-      if( uart == UART_ENET ) txIsrCallbackUART2 = txIsrCallback;
-      if( uart == UART_232  ) txIsrCallbackUART3 = txIsrCallback;
-   }
-}
+#endif /* SAPI_USE_INTERRUPTS */
 
 // disable tx and rx interrupt
 //Chip_UART_IntDisable( LPC_USART2,
@@ -483,6 +556,9 @@ void uartInit( uartMap_t uart, uint32_t baudRate )
    Chip_UART_Init( lpcUarts[uart].uartAddr );
    // Set Baud rate
    Chip_UART_SetBaud( lpcUarts[uart].uartAddr, baudRate );
+   
+   //Chip_UART_ConfigData(LPC_UART, (UART_LCR_WLEN8 | UART_LCR_SBS_1BIT));
+   
    // Restart FIFOS using FCR (FIFO Control Register).
    // Set Enable, Reset content, set trigger level
    Chip_UART_SetupFIFOS( lpcUarts[uart].uartAddr,
@@ -490,15 +566,21 @@ void uartInit( uartMap_t uart, uint32_t baudRate )
                          UART_FCR_TX_RS   |
                          UART_FCR_RX_RS   |
                          UART_FCR_TRG_LEV0 );
+	/*Chip_UART_SetupFIFOS(lpcUarts[uart].uartAddr, 
+                          (UART_FCR_FIFO_EN | UART_FCR_TRG_LEV2));*/
+   
    // Dummy read
    Chip_UART_ReadByte( lpcUarts[uart].uartAddr );
+   
    // Enable UART Transmission
    Chip_UART_TXEnable( lpcUarts[uart].uartAddr );
+   
    // Configure SCU UARTn_TXD pin
    Chip_SCU_PinMux( lpcUarts[uart].txPin.lpcScuPort,
                     lpcUarts[uart].txPin.lpcScuPin,
                     MD_PDN,
                     lpcUarts[uart].txPin.lpcScuFunc );
+                    
    // Configure SCU UARTn_RXD pin
    Chip_SCU_PinMux( lpcUarts[uart].rxPin.lpcScuPort,
                     lpcUarts[uart].rxPin.lpcScuPin,
@@ -559,7 +641,11 @@ void uartWriteByteArray( uartMap_t uart,
    }
 }
 
+
+
 /*==================[ISR external functions definition]======================*/
+
+#ifdef SAPI_USE_INTERRUPTS
 
 __attribute__ ((section(".after_vectors")))
 
@@ -583,5 +669,6 @@ void UART3_IRQHandler(void)
 {
    uartProcessIRQ( UART_232 );
 }
+#endif /* SAPI_USE_INTERRUPTS */
 
 /*==================[end of file]============================================*/

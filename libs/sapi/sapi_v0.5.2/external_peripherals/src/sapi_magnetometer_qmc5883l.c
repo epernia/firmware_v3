@@ -142,3 +142,21 @@ bool_t qmc5883lRead( int16_t * x, int16_t * y, int16_t * z )
 
    return(result); /** TODO: return value must reflect the result of the operation */
 }
+
+
+/** Calculo de angulo en el plano X Y (con eje Z coincidiendo con el cenit)
+  El angulo se calcula con respecto al eje Y es decir, 
+  un valor de    0 grados indica que el norte coincide con el eje  Y, 
+  un valor de   90 grados indica que el norte coincide con el eje  X,
+  un valor de  180 grados indica que el norte coincide con el eje -Y, 
+  un valor de  -90 grados indica que el norte coincide con el eje -X. 
+*/
+/*
+angulo = atan2( qmc5883l_y_raw,qmc5883l_x_raw ); //valor en radianes
+
+angulo = angulo * 180 / 3.14; //Convertir a grados
+
+consolePrintString("Angulo: ");
+consolePrintlnInt(angulo);
+consolePrintEnter();
+*/

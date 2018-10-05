@@ -5,7 +5,8 @@
 #include "sapi_datatypes.h"
 
 // Devices
-#include "sapi_usbd_keyboard.h"
+#include "usbd_keyboard.h"
+#include "cdc_uart.h"
 
 
 
@@ -25,7 +26,7 @@ typedef enum{
    USB_HID_MOUSE,      // Support for Device and Host
    USB_HID_KEYBOARD,   // Support for Device and Host
    USB_HID_GENERIC,    // Support for Device and Host
-   USB_CDC_SERIAL,     // Support for Device and Host
+   USB_CDC_UART,       // Support for Device and Host
    USB_MSC_DRIVE       // Support for Device and Host
 } UsbSubClass_t;
 

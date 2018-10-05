@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Build Status](https://travis-ci.com/epernia/cese-edu-ciaa-template.svg?branch=master)](https://travis-ci.com/epernia/cese-edu-ciaa-template)
+
 # CESE, FI-UBA project template for EDU-CIAA-NXP
 
 CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
@@ -10,7 +12,7 @@ CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 
 ## Available libraries:
 
-- LPCOpen v3.01
+- LPCOpen v3.02
 - sAPI r0.5.0.
 - FreeRTOS Kernel V10.0.1
 - Elm-Chan FatFS. Support for SD Cards (SSP) & Pendrives (USB MSD).
@@ -55,7 +57,7 @@ Included examples are:
  
 ### C language
  - **sAPI library**
-    - bare_metal
+    - Bare metal:
         - ```adc_dac```: ADC and DAC example.
         - bluetooth
             - ```hm10_uart_bridge```: Bluettoth HM10 module AT, tx and rx example.
@@ -96,19 +98,17 @@ Included examples are:
         - usb
             - ```usb_device_01_hid_keyboard```: USB Device. Board as USB Keyboard.
             - ```usb_device_02_cdc_virtualSerialPort```: USB Device. Using USB OTG as a virtual serial port.
-    - operating_systems
-        - coperative (see M.J. Pont's book at https://www.safetty.net/publications/pttes )
+    - Operating Systems:
+        - rtos_coperative (see M.J. Pont's book at https://www.safetty.net/publications/pttes )
             - ```scheduler_01_seos```: first cooperative scheduler
             - ```scheduler_02_seos_background_foreground```: second cooperative scheduler
             - ```seos_pont_2014_01_first_app```: third cooperative scheduler
-        - free_rtos
+        - rtos_freertos
             - dynamic_mem
                 - ```freeRTOS_01_blinky```
                 - ```freeRTOS_03_ChanFatFS_SPI_SdCard_ADC_log```: ADC logging in a SD/MicroSD Card (SPI connected) by using a FAT File System (ChanFS), freeRTOS and sAPI.
             - static_mem
                 - ```freeRTOS_01_blinky```
-    - statecharts
-        - ```statechart_bare_metal```
  - **LPC Open library**
     - bare_metal
         - ```blinky```

@@ -26,4 +26,4 @@ jobs:
         - sudo apt install --allow-unauthenticated gcc-arm-embedded
         - arm-none-eabi-gcc --version
       script:
-        - bash scripts/test-build-all.sh
+        - bash scripts/test/test-build-all.sh

@@ -232,6 +232,22 @@ static bool_t dht11_ProcessData(void)
    return TRUE;
 }
 
+
+static void format( float valor, char *dst, uint8_t pos ){
+	uint16_t val;
+	val = 10 * valor;
+	val = val % 1000;
+	dst[pos] = (val / 100) + '0';
+	pos++;
+	dst[pos] = (val % 100) / 10 + '0';
+	pos++;
+	dst[pos] = '.';
+	pos++;
+	dst[pos] = (val % 10)  + '0';
+	pos++;
+	dst[pos] = '\0';
+}
+
 void dht11Init( int32_t gpio )
 {
    dht11Pin = (int32_t)gpio;

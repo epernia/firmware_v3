@@ -76,6 +76,7 @@ extern "C" {
 #define HMC5883L_VALUE_ID_REG_C   0x33
 
 #define hmc5883lConfig hmc5883lInit
+#define hmc5883lPrepareDefaultConfig hmc5883lPrepareDefaultInit
 
 /*==================[typedef]================================================*/
 

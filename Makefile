@@ -32,7 +32,7 @@ OUT=$(PROJECT_PATH_AND_NAME)/out
 OBJECTS=$(CXXSRC:%.cpp=$(OUT)/%.o) $(ASRC:%.s=$(OUT)/%.o) $(SRC:%.c=$(OUT)/%.o)
 DEPS=$(OBJECTS:%.o=%.d)
 
-OOCD_SCRIPT=scripts/openocd.cfg
+OOCD_SCRIPT=scripts/openocd/lpc4337.cfg
 
 TARGET=$(OUT)/$(PROJECT_NAME).elf
 TARGET_BIN=$(basename $(TARGET)).bin

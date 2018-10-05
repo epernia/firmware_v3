@@ -4,7 +4,7 @@
 // @ LPC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 /*
- * @brief This file contains USB HID Keyboard example using USB ROM Drivers.
+ * @brief This file using USB ROM Drivers.
  *
  * @note
  * Copyright(C) NXP Semiconductors, 2013
@@ -33,8 +33,6 @@
  * copyright, permission, and disclaimer notice must appear in all copies of
  * this code.
  */
-
-#include "sapi.h"         /* <= sAPI header */
 
 #include <stdio.h>
 #include <string.h>
@@ -91,9 +89,11 @@ ErrorCode_t EP0_patch(USBD_HANDLE_T hUsb, void *data, uint32_t event)
  * @brief   Handle interrupt from USB
  * @return  Nothing
  */
+#ifndef USB_HOST_ONLY // Parche para envitar conflictos con biblioteca host
 void USB_IRQHandler(void){
    USBD_API->hw->ISR(g_hUsb);
 }
+#endif
 
 /* Find the address of interface descriptor for given class type. */
 USB_INTERFACE_DESCRIPTOR *find_IntfDesc(const uint8_t *pDesc, uint32_t intfClass)
@@ -128,9 +128,13 @@ USB_INTERFACE_DESCRIPTOR *find_IntfDesc(const uint8_t *pDesc, uint32_t intfClass
 
 // Private function declarations (prototypes) -------------------------------------------------
 
-static ErrorCode_t usbDeviceLpcInit( USBD_API_INIT_PARAM_T* usb_param );
-static void usbDeviceLpcInterruptPrioritySet( uint32_t priority ); // For now only used by cdc_uart
-static void usbDeviceLpcInterruptInit( void );
+static ErrorCode_t usbDeviceLpcInit(USB_CORE_DESCS_T* desc,
+                                    USBD_API_INIT_PARAM_T* usb_param);
+
+// For now only used by cdc_uart
+static void usbDeviceLpcInterruptPrioritySet( uint32_t priority ); 
+
+static void usbDeviceLpcInterruptInit( void ); 
 
 
 // Public function definitions ----------------------------------------------------------------
@@ -139,6 +143,7 @@ bool_t usbDeviceInit( UsbSubClass_t subclass ){
    
    ErrorCode_t ret = LPC_OK;
    USBD_API_INIT_PARAM_T usb_param;
+   USB_CORE_DESCS_T desc;
    
    switch(subclass){
       
@@ -152,7 +157,7 @@ bool_t usbDeviceInit( UsbSubClass_t subclass ){
       
          usb_param.max_num_ep = 2; // Keyboard has 2 endpoints
       
-         ret = usbDeviceLpcInit(&usb_param);
+         ret = usbDeviceLpcInit(&desc, &usb_param);
 
          // Configuration routine for HID USB Keyboard example
          ret = usbDeviceKeyboardInit(
@@ -174,19 +179,19 @@ bool_t usbDeviceInit( UsbSubClass_t subclass ){
       break;
       
       
-      case USB_CDC_SERIAL:
-         printf("USB_CDC_SERIAL\r\n");
+      case USB_CDC_UART:
+         printf("USB_CDC_UART\r\n");
       
          usb_param.max_num_ep = 4; // CDC Uart has 4 endpoints
       
-         ret = usbDeviceLpcInit(&usb_param);
+         ret = usbDeviceLpcInit(&desc, &usb_param);
       
          /* Init UCOM - USB to UART bridge interface */
- //        ret = UCOM_init(g_hUsb, &desc, &usb_param);
+         ret = cdcUartLpcInit(g_hUsb, &desc, &usb_param);
       
          if (ret == LPC_OK) {
-            /* Make sure USB and UART IRQ priorities are same (1) for this example */
-            usbDeviceLpcInterruptPrioritySet(1);
+            /* Make sure USB and UART IRQ priorities are same (5) for this example */
+            usbDeviceLpcInterruptPrioritySet(5); // FreeRTOS Requiere prioridad>=5
             usbDeviceLpcInterruptInit();      
             return TRUE;   
          }
@@ -218,9 +223,9 @@ bool_t usbDeviceInit( UsbSubClass_t subclass ){
  * controller instance (specified by \em usb_reg_base field)
  * to which this instance of stack is attached.
  */
-static ErrorCode_t usbDeviceLpcInit( USBD_API_INIT_PARAM_T* usb_param ){
+static ErrorCode_t usbDeviceLpcInit(USB_CORE_DESCS_T* desc,
+                                    USBD_API_INIT_PARAM_T* usb_param){
 
-   USB_CORE_DESCS_T desc;
    ErrorCode_t ret = LPC_OK;
    USB_CORE_CTRL_T *pCtrl;
 
@@ -244,25 +249,25 @@ static ErrorCode_t usbDeviceLpcInit( USBD_API_INIT_PARAM_T* usb_param ){
    usb_param->max_num_ep = max_num_ep;
 
    /* Set the USB descriptors */
-   desc.device_desc = (uint8_t *) USB_DeviceDescriptor;
-   desc.string_desc = (uint8_t *) USB_StringDescriptor;
+   desc->device_desc = (uint8_t *) USB_DeviceDescriptor;
+   desc->string_desc = (uint8_t *) USB_StringDescriptor;
 
    #ifdef USE_USB0
-      desc.high_speed_desc = USB_HsConfigDescriptor;
-      desc.full_speed_desc = USB_FsConfigDescriptor;
-      desc.device_qualifier = (uint8_t *) USB_DeviceQualifier;
+      desc->high_speed_desc = USB_HsConfigDescriptor;
+      desc->full_speed_desc = USB_FsConfigDescriptor;
+      desc->device_qualifier = (uint8_t *) USB_DeviceQualifier;
    #else
       /* Note, to pass USBCV test full-speed only devices should have both
        * descriptor arrays point to same location and device_qualifier set
        * to 0.
        */
-      desc.high_speed_desc = USB_FsConfigDescriptor;
-      desc.full_speed_desc = USB_FsConfigDescriptor;
-      desc.device_qualifier = 0;
+      desc->high_speed_desc = USB_FsConfigDescriptor;
+      desc->full_speed_desc = USB_FsConfigDescriptor;
+      desc->device_qualifier = 0;
    #endif
 
    /* USB Initialization */
-   ret = USBD_API->hw->Init(&g_hUsb, &desc, usb_param);
+   ret = USBD_API->hw->Init(&g_hUsb, desc, usb_param);
 
    if (ret == LPC_OK) {      
       /* WORKAROUND for artf45032 ROM driver BUG:
@@ -279,7 +284,7 @@ static ErrorCode_t usbDeviceLpcInit( USBD_API_INIT_PARAM_T* usb_param ){
 }
 
 static void usbDeviceLpcInterruptPrioritySet( uint32_t priority ){
-   NVIC_SetPriority( LPC_USB_IRQ, priority ); // @Eric - En el de keyboard no modifica la prioridad de la IRQ
+   NVIC_SetPriority( LPC_USB_IRQ, priority );
 }
 
 static void usbDeviceLpcInterruptInit( void ){
@@ -290,6 +295,3 @@ static void usbDeviceLpcInterruptInit( void ){
 }
 
 // @ LPC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-// @ LPC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
