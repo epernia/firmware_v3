@@ -33,7 +33,7 @@
  */
 
 /*
- * Date: 2011-11-17
+ * Date: 2017-11-17
  */
 
 /* 
@@ -58,79 +58,51 @@ HC-SR04 connections:
      EDU-CIAA-NXP GND <--> GND HCSR04
 */
 
-/*==================[inclusions]=============================================*/
+/*===========================================================================*/
 
-#include "sapi.h"       // <= sAPI header
-#include "sapi_ultrasonic_hcsr04.h"
+#include "sapi.h"        // <= Inclusion de la Biblioteca sAPI
 
-/*==================[macros and definitions]=================================*/
-
-CONSOLE_PRINT_ENABLE
-
-/*==================[internal data declaration]==============================*/
-
-/*==================[internal functions declaration]=========================*/
-
-/*==================[internal data definition]===============================*/
-
-/*==================[external data definition]===============================*/
-
-/*==================[internal functions definition]==========================*/
-
-/*==================[external functions definition]==========================*/
-
-/* FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. */
-int main(void)
+// FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
+int main( void )
 {
+   // ---------- CONFIGURACIONES ------------------------------
 
-	uint32_t distanceInInchs, distanceInCms;
-	/* ------------- INICIALIZACIONES ------------- */
+   boardConfig(); // Inicializar y configurar la plataforma
+   uartConfig( UART_USB, 115200 ); // Inicializar periferico UART_USB
 
-	/* Inicializar la placa */
-	boardConfig();
-
-	/* Inicializar UART_USB como salida de consola */
-	consolePrintConfigUart( UART_USB, 115200 );
-
-	/* Inicializar el sensor ultrasonico #0 */
-	ultrasonicSensorConfig(ULTRASONIC_SENSOR_0, ULTRASONIC_SENSOR_ENABLE);
+	// Inicializar el sensor ultrasonico HC-SR04
+	ultrasonicSensorConfig( ULTRASONIC_SENSOR_0, ULTRASONIC_SENSOR_ENABLE );
 
 	/* Configurar PWM */
 	pwmConfig( 0, PWM_ENABLE );
 	pwmConfig( PWM7, PWM_ENABLE_OUTPUT );
 
-	/* Delay inicial */
-	delay(100);
+	delay(100); // Retardo inicial de 100 ms
+   
+   // Variables enteras de 32 bits para guardar la distancia en pulgadas
+   // y centimetros
+	uint32_t distanceInInches, distanceInCms;
+   
 	/* ------------- REPETIR POR SIEMPRE ------------- */
-	while(1)
+	while(TRUE)
 	{
-		/* Obtenemos la distancia actual medida por el sensor en pulgadas */
-		distanceInInchs = ultrasonicSensorGetDistance(ULTRASONIC_SENSOR_0, INCH);
-		/* Obtenemos la distancia actual medida por el sensor en centimetros */
+		// Obtenemos la distancia actual medida por el sensor en pulgadas
+		distanceInInches = ultrasonicSensorGetDistance(ULTRASONIC_SENSOR_0, INCH);
+      
+		// Obtenemos la distancia actual medida por el sensor en centimetros
 		distanceInCms = ultrasonicSensorGetDistance(ULTRASONIC_SENSOR_0, CM);
 
-		/* Actualizamos el valor del PWM asociado al LED1 para ajustar su intensidad luminica con la distancia en pulgadas */
-		pwmWrite( PWM7, distanceInInchs );
+		// Actualizamos el valor del PWM asociado al LED1 para ajustar su
+      // intensidad luminica con la distancia en pulgadas
+		pwmWrite( PWM7, distanceInInches );
 
-		/* Imprimimos por consola las distancias medidas en pulgada y centimetros */
-		consolePrintString("Distance: ");
-		
-      consolePrintInt(distanceInCms);
-		consolePrintString("cm");
+		// Reportamos las distancias medidas en centimetros y pulgadas
+		printf( "Distance: %d cm, %d \".\r\n", distanceInCms, distanceInInches );
       
-		consolePrintString(" or ");
-      
-		consolePrintInt(distanceInInchs);
-      consolePrintString("\".");
-		consolePrintEnter();
-      
-		delay(50);
+		delay(1000); // Espero 1 s hasta la proxima lectura (minimo 50 ms)
 	}
-
-	/* NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado
-	  por ningun S.O. */
-	return 0 ;
+   // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa se ejecuta
+   // directamente sobre un microcontrolador y no es llamado por ningun
+   // Sistema Operativo, como en el caso de un programa para PC.
+   return 0;
 }
-
-
-/*==================[end of file]============================================*/

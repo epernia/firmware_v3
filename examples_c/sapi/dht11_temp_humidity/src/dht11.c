@@ -29,128 +29,69 @@ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
 CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
- */
+*/
 
 // First version date: 2017-11-13
 
-/* 
+/*
 DHT11 connections:
                                                 DHT11
-                                           +--------------+         
+                                           +--------------+
              EDU-CIAA-NXP +3.3V <--> 1 ----| +++  +++  +++|
-   EDU-CIAA-NXP GPIO1 (pull-up) <--> 2 ----| +++  +++  +++|       
+   EDU-CIAA-NXP GPIO1 (pull-up) <--> 2 ----| +++  +++  +++|
                  (SIN CONEXION) <--> 3 ----| +++  +++  +++|
                EDU-CIAA-NXP GND <--> 4 ----| +++  +++  +++|
                                            +--------------+
 
                                            DHT11 on a board
                                           +----------------+
-                                          |    +-----------+--+         
+                                          |    +-----------+--+
              EDU-CIAA-NXP GPIO1 <--> S ----o --| +++  +++  +++|
-             EDU-CIAA-NXP +3.3V <--> + ----o --| +++  +++  +++|       
+             EDU-CIAA-NXP +3.3V <--> + ----o --| +++  +++  +++|
               EDU-CIAA-NXP GND  <--> - ----o --| +++  +++  +++|
                                           |  --| +++  +++  +++|
                                           |    +-----------+--+
                                           +----------------+
 */
 
-/*==================[inclusiones]============================================*/
+/*===========================================================================*/
 
-#include "sapi.h"        // <= Biblioteca sAPI
-
-/*==================[definiciones y macros]==================================*/
-
-// UART list:
-//  - UART_USB or UART_ENET
-//  - UART_232
-//  - UART_GPIO or UART_485
-
-#define UART_DEBUG UART_USB
-
-/*==================[definiciones de datos internos]=========================*/
-
-//CONSOLE_PRINT_ENABLE
-DEBUG_PRINT_ENABLE
-
-/*==================[definiciones de datos externos]=========================*/
-
-/*==================[declaraciones de funciones internas]====================*/
-
-static void format( float valor, char *dst, uint8_t pos );
-
-/*==================[declaraciones de funciones externas]====================*/
-
-/*==================[funcion principal]======================================*/
+#include "sapi.h"        // <= Inclusion de la Biblioteca sAPI
 
 // FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
-int main( void ){
-
+int main( void )
+{
    // ---------- CONFIGURACIONES ------------------------------
 
-   // Inicializar y configurar la plataforma
-   boardConfig();
+   boardConfig(); // Inicializar y configurar la plataforma
+   uartConfig( UART_USB, 115200 ); // Inicializar periferico UART_USB
 
-   // Inicializar UART_USB como salida de consola
-   debugPrintConfigUart( UART_DEBUG, 115200 );
-   
-	char buffout[64];
-	float hum = 0, temp = 0;
-   
-   dht11Init(GPIO1);
+   dht11Init( GPIO1 ); // Inicializo el sensor DHT11
+
+   // Variables para almacenar humedad y temperatura
+   float humidity = 0, temperature = 0;
 
    // ---------- REPETIR POR SIEMPRE --------------------------
-   while( TRUE )
-   {
-		if( dht11Read( &hum, &temp ) ) {
-         
-			gpioWrite( LEDG, ON );
-			gpioWrite( LEDR, OFF );
-         
-			debugPrintString( "Temperatura: ");
-			format( temp, buffout, 0 );
-			debugPrintString( buffout );
-			debugPrintlnString( " grados C." );
-
-			debugPrintString( "Humedad: ");
-			format( hum, buffout, 0 );
-			debugPrintString( buffout );
-			debugPrintlnString( " %." );
-         
-			debugPrintEnter();
-
-		} else {
-			gpioWrite( LEDG, OFF );
-			gpioWrite( LEDR, ON );
-         
-			debugPrintlnString( "Error al leer DHT11." );         
-			debugPrintEnter();
-		}   
-		delay(1000);
+   while( TRUE ) {
+      // Lectura del sensor DHT11, devuelve true si pudo leer correctamente
+      if( dht11Read(&humidity, &temperature) ) {
+         // Si leyo bien prendo el LEDG y enciendo el LEDR
+         gpioWrite( LEDG, ON );
+         gpioWrite( LEDR, OFF );
+         // Informo los valores de los sensores
+         printf( "Temperatura: %.2f grados C.\r\n", temperature );
+         printf( "Humedad: %.2f  %.\r\n\r\n", humidity );
+      } else {
+         // Si leyo mal apago el LEDG y enciendo el LEDR
+         gpioWrite( LEDG, OFF );
+         gpioWrite( LEDR, ON );
+         // Informo el error de lectura
+         printf( "Error al leer DHT11.\r\n\r\n", temp );
+      }
+      delay(1000); // Espero 1 segundo.
    }
-
    // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa se ejecuta
-   // directamenteno sobre un microcontroladore y no es llamado por ningun
+   // directamente sobre un microcontrolador y no es llamado por ningun
    // Sistema Operativo, como en el caso de un programa para PC.
    return 0;
 }
-
-/*==================[definiciones de funciones internas]=====================*/
-
-static void format( float valor, char *dst, uint8_t pos ){
-	uint16_t val;
-	val = 10 * valor;
-	val = val % 1000;
-	dst[pos] = (val / 100) + '0';
-	pos++;
-	dst[pos] = (val % 100) / 10 + '0';
-	pos++;
-	dst[pos] = '.';
-	pos++;
-	dst[pos] = (val % 10)  + '0';
-	pos++;
-	dst[pos] = '\0';
-}
-
-/*==================[definiciones de funciones externas]=====================*/
-
-/*==================[fin del archivo]========================================*/
