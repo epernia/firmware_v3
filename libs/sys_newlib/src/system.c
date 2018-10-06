@@ -2,10 +2,26 @@
 #include <errno.h>
 #include <signal.h>
 
-#include <board.h>
+#define WEAK __attribute__ ((weak))
+#define WEAK_INIT __attribute__ ((weak, constructor))
 
 #define UNUSED(x) (void)x
 #define SET_ERR(e) (r->_errno = e)
+
+WEAK void __stdio_putchar(int c);
+WEAK int __stdio_getchar();
+WEAK_INIT void __stdio_init();
+
+void __stdio_init() {
+}
+
+void __stdio_putchar(int c) {
+   UNUSED(c);
+}
+
+int __stdio_getchar() {
+   return -1;
+}
 
 void _exit(int code) {
    register int __params__ __asm__("r0") = code;
@@ -141,21 +157,17 @@ _ssize_t _read_r(struct _reent *r, int fd, void *b, size_t n) {
 */
 _ssize_t _read_r(struct _reent *r, int fd, void *b, size_t n) {
   size_t i = 0;
-  char c = 0;
   switch (fd) {
   case 0:
   case 1:
   case 2:
       while( i < n ){
-         c = (char)Board_UARTGetChar();
-         if( c != 255 ){
-            if( c != '\r' && c != '\n' ){
-               ((char*) b)[i] = c;
-               i++;
-            }else{
-               ((char*) b)[i] = c;
-               i++;
-               c = (char)Board_UARTGetChar(); // read anotherone to prevent \r\n
+         int c = __stdio_getchar();
+         if( c != -1 ){
+            ((char*) b)[i++] = (char) c;
+            if( c == '\r' || c == '\n' ){
+               // read anotherone to prevent \r\n
+               (void) __stdio_getchar();
                return i;
             }
          }
@@ -219,7 +231,7 @@ _ssize_t _write_r(struct _reent *r, int fd, const void *b, size_t n) {
    case 1:
    case 2:
        for (i = 0; i < n; i++)
-           Board_UARTPutChar(((char*) b)[i]);
+           __stdio_putchar(((char*) b)[i]);
        return n;
    default:
        SET_ERR(ENODEV);

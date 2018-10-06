@@ -1,24 +1,21 @@
 ifeq ($(USE_LPCOPEN),y)
 
+BOARD?=edu_ciaa_nxp
+
 DEFINES+=__USE_LPCOPEN
+DEFINES+=CHIP_LPC43XX
 
 LPCOPEN_BASE=libs/lpc_open
 
-SRC+=$(wildcard $(LPCOPEN_BASE)/lpc_board_edu_ciaa_nxp/src/*.c)
-INCLUDES+=-I$(LPCOPEN_BASE)/lpc_board_edu_ciaa_nxp/inc
+SRC+=$(wildcard $(LPCOPEN_BASE)/boards/src/*.c)
+SRC+=$(wildcard $(LPCOPEN_BASE)/boards/$(BOARD)/src/*.c)
+INCLUDES+=-I$(LPCOPEN_BASE)/boards/$(BOARD)/inc
+INCLUDES+=-I$(LPCOPEN_BASE)/boards/inc
 
-SRC+=$(wildcard $(LPCOPEN_BASE)/lpc_chip_43xx/core/common/src/*.c)
-SRC+=$(wildcard $(LPCOPEN_BASE)/lpc_chip_43xx/core/core_m0/src/*.c)
-SRC+=$(wildcard $(LPCOPEN_BASE)/lpc_chip_43xx/core/core_m4/src/*.c)
+SRC+=$(wildcard $(LPCOPEN_BASE)/lpc_chip_43xx/src/*.c)
 
-INCLUDES+=-I$(LPCOPEN_BASE)/lpc_chip_43xx/core/common/inc
-INCLUDES+=-I$(LPCOPEN_BASE)/lpc_chip_43xx/core/core_m0/inc
-INCLUDES+=-I$(LPCOPEN_BASE)/lpc_chip_43xx/core/core_m4/inc
-
-SRC+=$(wildcard $(LPCOPEN_BASE)/lpc_chip_43xx/peripherals/src/*.c)
-
-INCLUDES+=-I$(LPCOPEN_BASE)/lpc_chip_43xx/peripherals/inc
-INCLUDES+=-I$(LPCOPEN_BASE)/lpc_chip_43xx/peripherals/usbd_rom
+INCLUDES+=-I$(LPCOPEN_BASE)/lpc_chip_43xx/inc
+INCLUDES+=-I$(LPCOPEN_BASE)/lpc_chip_43xx/usbd_rom
 
 endif
 
@@ -33,4 +30,3 @@ LDSCRIPT=lpc4337.ld
 
 SRC+=$(wildcard $(LPCOPEN_BASE)/lpc_startup/src/*.c) 
 INCLUDES+=-I$(LPCOPEN_BASE)/lpc_startup/inc
-

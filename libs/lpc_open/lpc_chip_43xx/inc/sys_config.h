@@ -1,6 +1,4 @@
 /*
- * @brief FPU init code
- *
  * @note
  * Copyright(C) NXP Semiconductors, 2012
  * All rights reserved.
@@ -29,30 +27,13 @@
  * this code.
  */
 
-#ifndef __FPU_INIT_H_
-#define __FPU_INIT_H_
+#ifndef __SYS_CONFIG_H_
+#define __SYS_CONFIG_H_
 
-/**
- * @defgroup CHIP_FPU_CMX CHIP: FPU initialization
- * @ingroup CHIP_Common
- * Cortex FPU initialization
- * @{
- */
+#if __ARM_ARCH == 7
+#define LPC43XX_CORE_M4
+#elif __ARM_ARCH == 6
+#define LPC43XX_CORE_M0APP
+#endif
 
-/**
- * @brief	Early initialization of the FPU
- * @return	Nothing
- */
-void fpuInit(void);
-
-/**
- * @}
- */
-
-#endif /* __FPU_INIT_H_ */
-
-
-
-
-
-
+#endif /* __SYS_CONFIG_H_ */

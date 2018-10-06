@@ -43,7 +43,7 @@
 /** @defgroup LPC_Types_Public_Types LPC Public Types
  * @{
  */
-#if 0
+
 /**
  * @brief Boolean Type definition
  */
@@ -59,7 +59,6 @@
  */
 #if !defined(__cplusplus)
 // typedef enum {false = 0, true = !false} bool;
-#endif
 #endif
 
 /**

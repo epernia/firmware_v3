@@ -1,6 +1,8 @@
 /*
+ * @brief Common SystemInit function for LPC18xx/LPC43xx chips
+ *
  * @note
- * Copyright(C) NXP Semiconductors, 2012
+ * Copyright(C) NXP Semiconductors, 2013
  * All rights reserved.
  *
  * @par
@@ -27,19 +29,16 @@
  * this code.
  */
 
-#ifndef __SYS_CONFIG_H_
-#define __SYS_CONFIG_H_
+#include <board.h>
 
-/* LPC43xx chip family */
-#define CHIP_LPC43XX
+void SystemInit(void)
+{
+   extern void *g_pfnVectors;
+   SCB->VTOR = (unsigned int) &g_pfnVectors;
 
-/* LPC43xx M0 Core type */
-#define LPC43XX_CORE_M0APP
+   if (SCB_GetFPUType() > 0)
+      SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));  /* set CP10 and CP11 Full Access */
 
-#endif /* __SYS_CONFIG_H_ */
-
-
-
-
-
-
+   /* Board specific SystemInit */
+   Board_SystemInit();
+}

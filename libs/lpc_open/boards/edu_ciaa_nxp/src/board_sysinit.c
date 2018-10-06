@@ -33,7 +33,7 @@
     Please see board.c for comments on this implementation.
 */
 
-#include "board.h"
+#include <board.h>
 
 /* The System initialization code is called prior to the application and
    initializes the board for run-time operation. Board initialization

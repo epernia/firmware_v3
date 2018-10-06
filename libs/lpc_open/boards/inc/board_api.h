@@ -32,7 +32,7 @@
 #ifndef __BOARD_API_H_
 #define __BOARD_API_H_
 
-#include "lpc_types.h"
+#include <lpc_types.h>
 #include <stdio.h>
 
 #ifdef __cplusplus

@@ -1,9 +1,8 @@
 #ifndef __BOARD_H__
 #define __BOARD_H__
 
-#include "chip.h"
-#include "board_api.h"
-
+#include <chip.h>
+#include <board_api.h>
 
 #ifdef __cplusplus
 extern "C" {

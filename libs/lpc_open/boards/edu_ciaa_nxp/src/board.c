@@ -302,3 +302,15 @@ uint16_t Board_ADC_ReadEnd()
     curADCChannel = 0xFF;
     return data;
 }
+
+void __stdio_putchar(int c) {
+   Board_UARTPutChar(c);
+}
+
+int __stdio_getchar() {
+   return Board_UARTGetChar();;
+}
+
+void __stdio_init() {
+   Board_Debug_Init();
+}
