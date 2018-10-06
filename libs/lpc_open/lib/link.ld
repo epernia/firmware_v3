@@ -1,7 +1,7 @@
 INCLUDE mem.ld
 INCLUDE libs.ld
 
-ENTRY(ResetISR)
+ENTRY(Reset_Handler)
 
 SECTIONS
 {
@@ -22,6 +22,7 @@ SECTIONS
         FILL(0xff)
         __vectors_start__ = ABSOLUTE(.) ;
         KEEP(*(.isr_vector))
+        KEEP(*(.isr_vendor_vector))
 
         /* Global Section Table */
         . = ALIGN(4) ;
@@ -270,7 +271,7 @@ SECTIONS
     PROVIDE(_vStackTop = __top_RamLoc32 - 0);
     PROVIDE(__valid_user_code_checksum = 0 -
          (_vStackTop
-         + (ResetISR + 1)
+         + (Reset_Handler + 1)
          + (NMI_Handler + 1)
          + (HardFault_Handler + 1)
          + (( DEFINED(MemManage_Handler) ? MemManage_Handler : 0 ) + 1)   /* MemManage_Handler may not be defined */
