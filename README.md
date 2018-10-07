@@ -12,9 +12,11 @@ CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 
 ## Available libraries:
 
+- CMSIS-5.5.0-dev0 
 - LPCOpen v3.02
-- sAPI r0.5.0.
+- sAPI v0.5.2
 - FreeRTOS Kernel V10.0.1
+- LPCUSBlib
 - Elm-Chan FatFS. Support for SD Cards (SSP) & Pendrives (USB MSD).
 
 ## Supported boards
