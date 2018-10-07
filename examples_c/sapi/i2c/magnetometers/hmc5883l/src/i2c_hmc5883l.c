@@ -66,7 +66,7 @@ int main( void )
    int16_t hmc5883l_y_raw;
    int16_t hmc5883l_z_raw;
 
-   // ------------- REPETIR POR SIEMPRE ------------- 
+   // ---------- REPETIR POR SIEMPRE --------------------------
    while(TRUE) {
 
       // Leer magnetometro

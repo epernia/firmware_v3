@@ -83,7 +83,7 @@ int main( void )
    // y centimetros
 	uint32_t distanceInInches, distanceInCms;
    
-	/* ------------- REPETIR POR SIEMPRE ------------- */
+   // ---------- REPETIR POR SIEMPRE --------------------------
 	while(TRUE)
 	{
 		// Obtenemos la distancia actual medida por el sensor en pulgadas
