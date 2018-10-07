@@ -86,7 +86,7 @@ int main( void )
          gpioWrite( LEDG, OFF );
          gpioWrite( LEDR, ON );
          // Informo el error de lectura
-         printf( "Error al leer DHT11.\r\n\r\n", temp );
+         printf( "Error al leer DHT11.\r\n\r\n");
       }
       delay(1000); // Espero 1 segundo.
    }
