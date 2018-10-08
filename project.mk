@@ -15,5 +15,5 @@
 # Project name
 #PROJECT_NAME = blinky
 
-PROJECT_PATH = 
-PROJECT_NAME = app
+PROJECT_PATH = examples_c/sapi/rtos_cooperative
+PROJECT_NAME = seos_pont_task_parameters

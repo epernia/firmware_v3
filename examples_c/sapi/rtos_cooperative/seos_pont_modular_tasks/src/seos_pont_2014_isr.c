@@ -136,7 +136,7 @@ void schedulerStart( tick_t tickRateMs ){
       "enganchada" a una interrupcion */
 
    // Inicializar el conteo de Ticks con resolucion de 1ms, con tickHook
-   if( tickInit( 1 ) ){
+   if( tickInit( tickRateMs ) ){
 //      serialDebugPrintLnString( "Comienzo del planificador." );
       tickCallbackSet( schedulerUpdate, NULL );
    }

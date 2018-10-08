@@ -79,17 +79,14 @@ int main( void ){
 
 void tarea1( void* ptr ){
    gpioToggle( LEDB );
-   return 0;
 }
 
 void tarea2( void* ptr ){
    gpioToggle( LED1 );
-   return 0;
 }
 
 void tarea3( void* ptr ){
    gpioToggle( LED2 );
-   return 0;
 }
 
 /*==================[fin del archivo]========================================*/

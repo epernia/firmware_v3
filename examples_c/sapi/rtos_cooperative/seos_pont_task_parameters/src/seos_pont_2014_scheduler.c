@@ -36,7 +36,7 @@
 
 /*==================[inclusions]=============================================*/
 
-#include "cooperativeOs_scheduler.h"   // <= own header
+#include "seos_pont_2014_scheduler.h"  // <= own header
 #include "sapi.h"                      // <= sAPI header
 
 /*==================[macros and definitions]=================================*/
@@ -82,7 +82,7 @@ void schedulerDispatchTasks( void ){
 
       if (schedulerTasks[index].runMe > 0){
 
-         (*schedulerTasks[index].pTask)(0); // Run the task
+         (*schedulerTasks[index].pTask)(schedulerTasks[index].taskParam); // Run the task
          schedulerTasks[index].runMe -= 1;  // Reset/reduce runMe flag
 
          // Periodic tasks will automatically run again
@@ -137,6 +137,7 @@ Causes the function Do_X() to be executed regularly, every 1000 ticks.
 Task will be first executed at T = 300 ticks, then 1300, 2300, etc.
 -*------------------------------------------------------------------*/
 int32_t schedulerAddTask( callBackFuncPtr_t pFunction, //void (* pFunction)(void),
+                          void* TASKPARAM,
                           const int32_t DELAY,
                           const int32_t PERIOD
                         ){
@@ -161,6 +162,7 @@ int32_t schedulerAddTask( callBackFuncPtr_t pFunction, //void (* pFunction)(void
    schedulerTasks[index].pTask  = pFunction;
    schedulerTasks[index].delay  = DELAY;
    schedulerTasks[index].period = PERIOD;
+   schedulerTasks[index].taskParam = TASKPARAM;
    schedulerTasks[index].runMe  = 0;
 
    return index; // return position of task (to allow later deletion)
@@ -194,6 +196,7 @@ int8_t schedulerDeleteTask( int32_t taskIndex ){
    schedulerTasks[taskIndex].delay = (int32_t)0;
    schedulerTasks[taskIndex].period = (int32_t)0;
    schedulerTasks[taskIndex].runMe = (int8_t)0;
+   schedulerTasks[taskIndex].taskParam = 0;
    return returnCode; // return status
 }
 

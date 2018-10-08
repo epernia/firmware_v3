@@ -36,10 +36,10 @@
 
 /*==================[inclusions]=============================================*/
 
-#include "cooperativeOs_isr.h"       // <= own header
-#include "cooperativeOs_scheduler.h" // <= dispatcher and task management header
+#include "seos_pont_2014_isr.h"       // <= own header
+#include "seos_pont_2014_scheduler.h" // <= dispatcher and task management header
 
-#include "sapi.h"                    // <= sAPI header
+#include "sapi.h"                     // <= sAPI header
 
 /*==================[macros and definitions]=================================*/
 
@@ -136,7 +136,7 @@ void schedulerStart( tick_t tickRateMs ){
       "enganchada" a una interrupcion */
 
    // Inicializar el conteo de Ticks con resolucion de 1ms, con tickHook
-   if( tickInit( 1 ) ){
+   if( tickInit( tickRateMs ) ){
 //      serialDebugPrintLnString( "Comienzo del planificador." );
       tickCallbackSet( schedulerUpdate, NULL );
    }

@@ -34,12 +34,12 @@
 
 /* Date: 2016-08-16 */
 
-#ifndef _COOPERATIVE_OS_SCHEDULER_H_
-#define _COOPERATIVE_OS_SCHEDULER_H_
+#ifndef _COOPERATIVE_OS_ISR_H_
+#define _COOPERATIVE_OS_ISR_H_
 
 /*==================[inclusions]=============================================*/
 
-#include "sapi.h"         /* <= sAPI header */
+#include "sapi.h"   // <= sAPI header
 
 /*==================[cplusplus]==============================================*/
 
@@ -49,47 +49,21 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-/* The maximum number of tasks required at any one time during the execution
-   of the program. MUST BE ADJUSTED FOR EACH NEW PROJECT */
-#ifndef SCHEDULER_MAX_TASKS
-   #define SCHEDULER_MAX_TASKS   (10)
-#endif
-
 /*==================[typedef]================================================*/
-
-/* Store in DATA area, if possible, for rapid access.
-   Total memory per task is 7 bytes. */
-typedef struct{
-   // Pointer to the task (must be a 'void (void)' function)
-   callBackFuncPtr_t pTask;  // void (* pTask)(void);
-   // Delay (ticks) until the function will (next) be run
-   // - see schedulerAddTask() for further details
-   int32_t delay;
-   // Interval (ticks) between subsequent runs.
-   // - see schedulerAddTask() for further details
-   int32_t period;
-   // Incremented (by scheduler) when task is due to execute
-   int32_t runMe;
-} sTask_t;
 
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
-// FUNCION que contiene el despachador de tareas.
-void schedulerDispatchTasks( void );
+// FUNCION que inicializa el planificador de tareas.
+void schedulerInit( void );
 
-// FUNCION que añade una tarea al planificador.
-int32_t schedulerAddTask( callBackFuncPtr_t pFunction, //void (* pFunction)(void),
-                          const int32_t DELAY,
-                          const int32_t PERIOD
-                        );
+// FUNCION que inicializa la interrupcion que ejecuta el planificador de
+// tareas.
+void schedulerStart( tick_t );
 
-// FUNCION que remueve una tarea del planificador.
-int8_t schedulerDeleteTask( int32_t taskIndex );
-
-// FUNCION que reporta el estado del sistema.
-void schedulerReportStatus( void );
+// FUNCION que contiene el planificador de tareas.
+void schedulerUpdate( void *ptr );
 
 /*==================[cplusplus]==============================================*/
 
@@ -98,4 +72,4 @@ void schedulerReportStatus( void );
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _COOPERATIVE_OS_SCHEDULER_H_ */
+#endif /* #ifndef _COOPERATIVE_OS_ISR_H_ */
