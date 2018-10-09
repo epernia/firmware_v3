@@ -104,9 +104,14 @@ $(OUT)/%.o: %.s
 	@mkdir -p $(dir $@)
 	$(Q)$(CC) -MMD $(CFLAGS) -c -o $@ $<
 
-$(TARGET): $(OBJECTS)
+$(OUT)/linker-params: $(OBJECTS)
+	@echo LD params
+	@mkdir -p $(dir $@)
+	$(Q)echo "$(LDFLAGS) $(OBJECTS)" > $@
+
+$(TARGET): $(OUT)/linker-params
 	@echo LD $@...
-	$(Q)$(LD) $(LDFLAGS) -o $@ $(OBJECTS)
+	$(Q)$(LD) -o $@ @$(OUT)/linker-params
 
 $(TARGET_BIN): $(TARGET)
 	$(Q)$(OBJCOPY) -v -O binary $< $@
