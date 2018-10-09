@@ -1,26 +1,22 @@
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Build Status](https://travis-ci.com/epernia/cese-edu-ciaa-template.svg?branch=master)](https://travis-ci.com/epernia/cese-edu-ciaa-template)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Build Status](https://travis-ci.com/epernia/cese-edu-ciaa-template.svg?branch=master)](https://travis-ci.com/epernia/cese-edu-ciaa-template) (Travis CI status)
 
 # CESE, FI-UBA project template for EDU-CIAA-NXP
 
 CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 
-## Travis CI status
-
-![](https://travis-ci.com/martinribelotta/cese-edu-ciaa-template.svg?branch=master)
-
 ## IMPORTANT
 
 **This environment is under construction!!**
 
-**Always use the [released versions](../../releases) because in these all examples are tested and the API documentation is consistent. The master branch may contain inconsistencies because this environment is currently under development.**
+**Always use the [released versions](../../releases) because in these all examples are tested and the API documentation is consistent. The master branch may contain inconsistencies because this environment is currently under development. See the Travis CI tag above to know the status of this repository.**
 
 ## Available libraries:
 
-- CMSIS-5.5.0-dev0 
-- LPCOpen v3.02
-- sAPI v0.5.2
-- FreeRTOS Kernel V10.0.1
-- LPCUSBlib
+- CMSIS 5.4.0 (Core and DSP).
+- LPCOpen v3.02.
+- sAPI v0.5.2.
+- FreeRTOS Kernel V10.0.1.
+- LPCUSBlib.
 - Elm-Chan FatFS. Support for SD Cards (SSP) & Pendrives (USB MSD).
 
 ## Supported boards
