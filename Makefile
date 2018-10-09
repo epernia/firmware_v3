@@ -43,6 +43,7 @@ TARGET_NM=$(basename $(TARGET)).names.csv
 INCLUDE_FLAGS=$(foreach m, $(MODULES), -I$(m)/inc) -I$(PROJECT_PATH_AND_NAME)/inc $(INCLUDES)
 DEFINES_FLAGS=$(foreach m, $(DEFINES), -D$(m))
 OPT_FLAGS=-ggdb3 -O$(OPT) -ffunction-sections -fdata-sections
+LIBSDEPS=$(addprefix $(OUT)/, $(addsuffix .a, $(basename $(foreach l, $(LIBS), $(foreach m, $(MODULES), $(wildcard $(m)/lib/lib$(l).hexlib) ) ))))
 
 COMMON_FLAGS=$(ARCH_FLAGS) $(DEFINES_FLAGS) $(INCLUDE_FLAGS) $(OPT_FLAGS)
 
@@ -50,7 +51,9 @@ CFLAGS=$(COMMON_FLAGS) -std=c99
 CXXFLAGS=$(COMMON_FLAGS) -fno-rtti -fno-exceptions -std=c++11
 
 LDFLAGS=$(ARCH_FLAGS)
-LDFLAGS+=$(foreach m, $(MODULES), -L$(m)/lib)
+LDFLAGS+=$(addprefix -L, $(foreach m, $(MODULES), $(wildcard $(m)/lib)))
+LDFLAGS+=$(addprefix -L, $(wildcard $(dir $(LIBSDEPS))))
+LDFLAGS+=$(addprefix -l, $(LIBS))
 LDFLAGS+=-Tlink.ld
 LDFLAGS+=-nostartfiles -Wl,-gc-sections -Wl,-Map=$(TARGET_MAP) -Wl,--cref
 
@@ -104,12 +107,24 @@ $(OUT)/%.o: %.s
 	@mkdir -p $(dir $@)
 	$(Q)$(CC) -MMD $(CFLAGS) -c -o $@ $<
 
-$(TARGET): $(OBJECTS)
+$(OUT)/%.a: %.hexlib
+	@echo DEBLOB $(notdir $<)
+	@mkdir -p $(dir $@)
+	$(Q)$(OBJCOPY) -I ihex -O binary $< $@
+
+$(OUT)/linker-params: $(OBJECTS) $(LIBSDEPS) Makefile
+	@echo LD params
+	@mkdir -p $(dir $@)
+	$(Q)echo "-Wl,-( $(OBJECTS) -Wl,-) $(LDFLAGS)" > $@
+
+$(TARGET): $(OUT)/linker-params
 	@echo LD $@...
-	$(Q)$(LD) $(LDFLAGS) -o $@ $(OBJECTS)
+	$(Q)$(LD) -o $@ @$(OUT)/linker-params
 
 $(TARGET_BIN): $(TARGET)
-	$(Q)$(OBJCOPY) -v -O binary $< $@
+	@echo COPY $(notdir $<) TO $(notdir $@)
+	@mkdir -p $(dir $@)
+	$(Q)$(OBJCOPY) -O binary $< $@
 
 $(TARGET_LST): $(TARGET)
 	@echo LIST

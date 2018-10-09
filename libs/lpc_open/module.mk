@@ -4,6 +4,7 @@ BOARD?=edu_ciaa_nxp
 
 DEFINES+=__USE_LPCOPEN
 DEFINES+=CHIP_LPC43XX
+DEFINES+=ARM_MATH_CM4
 
 LPCOPEN_BASE=libs/lpc_open
 
@@ -23,7 +24,10 @@ DEFINES+=CORE_M4 __USE_NEWLIB
 ARCH_FLAGS=-mcpu=cortex-m4 -mthumb
 
 ifeq ($(USE_FPU),y)
+DEFINES+=__FPU_PRESENT=1U
 ARCH_FLAGS+=-mfloat-abi=hard -mfpu=fpv4-sp-d16
+else
+DEFINES+=__FPU_PRESENT=OU
 endif
 
 LDSCRIPT=lpc4337.ld
