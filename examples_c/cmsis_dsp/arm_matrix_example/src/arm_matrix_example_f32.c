@@ -89,6 +89,8 @@
 
 /** \example arm_matrix_example_f32.c
   */
+  
+#include "sapi.h"
 
 #include "arm_math.h"
 #include "math_helper.h"
@@ -145,7 +147,8 @@ float32_t snr;
 
 int32_t main(void)
 {
-
+   boardConfig();
+   
   arm_matrix_instance_f32 A;      /* Matrix A Instance */
   arm_matrix_instance_f32 AT;     /* Matrix AT(A transpose) instance */
   arm_matrix_instance_f32 ATMA;   /* Matrix ATMA( AT multiply with A) instance */
@@ -211,10 +214,12 @@ int32_t main(void)
   if ( snr > SNR_THRESHOLD)
   {
     status = ARM_MATH_SUCCESS;
+     gpioWrite(LEDG, ON);
   }
   else
   {
     status = ARM_MATH_TEST_FAILURE;
+     gpioWrite(LEDR, ON);
   }
 
 
