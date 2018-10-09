@@ -15,8 +15,5 @@
 # Project name
 #PROJECT_NAME = blinky
 
-#PROJECT_PATH = 
-#PROJECT_NAME = app
-
-PROJECT_PATH = examples_c/maths
-PROJECT_NAME = arm_matrix_example
+PROJECT_PATH = 
+PROJECT_NAME = app
