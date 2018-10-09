@@ -15,5 +15,5 @@
 # Project name
 #PROJECT_NAME = blinky
 
-PROJECT_PATH = 
-PROJECT_NAME = app
+#PROJECT_PATH = 
+#PROJECT_NAME = app
