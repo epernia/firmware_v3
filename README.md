@@ -4,6 +4,10 @@
 
 CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 
+## Travis CI status
+
+![](https://travis-ci.com/martinribelotta/cese-edu-ciaa-template.svg?branch=master)
+
 ## IMPORTANT
 
 **This environment is under construction!!**
