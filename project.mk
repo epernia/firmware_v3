@@ -17,3 +17,14 @@
 
 #PROJECT_PATH = 
 #PROJECT_NAME = app
+
+#PROJECT_PATH = examples_c/sapi
+#PROJECT_NAME = dht11_temp_humidity
+#PROJECT_NAME = hcsr04_ultrasonic_sensor
+
+#PROJECT_PATH = examples_c/sapi/i2c/magnetometers
+#PROJECT_NAME = hmc5883l
+#PROJECT_NAME = qmc5883l
+
+PROJECT_PATH = examples_dsp
+PROJECT_NAME = arm_matrix
