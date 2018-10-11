@@ -1,5 +1,5 @@
 /* 
-Copyright 2015-2017, Eric Pernia.
+Copyright 2017, Eric Pernia.
 All rights reserved.
 
 This file is part sAPI library for microcontrollers.
@@ -56,6 +56,7 @@ CONSOLE_PRINT_ENABLE
 
 /*==================[funcion principal]======================================*/
 
+// Definir caracteres personalizados: https://omerk.github.io/lcdchargen/
 
 // Caracter personalizado carita feliz :)
 const char smile[8] = {
@@ -176,7 +177,6 @@ int main( void ){
 
    // Inicializar UART_USB como salida de consola
    consolePrintConfigUart( UART_USB, 115200 );
-
 
    // Inicializar LCD de 16x2 (caracteres x lineas) con cada caracter de 5x2 pixeles
    lcdInit( 16, 2, 5, 8 );
