@@ -1,4 +1,4 @@
-/* Copyright 2015-2016, Eric Pernia.
+/* Copyright 2015, Eric Pernia.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -57,7 +57,7 @@ extern volatile tick_t tickRateMS;
 
 /* ---- Inaccurate Blocking Delay ---- */
 
-void delayInaccurate(tick_t delay_ms)
+void delayInaccurateMs(tick_t delay_ms)
 {
    volatile tick_t i;
    volatile tick_t delay;
