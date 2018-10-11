@@ -48,11 +48,21 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
+/* LCD library configuration - Begin */
+   
+// LCD Delay HAL
+#define lcdDelay_ms(duration)       delayInaccurateMs(duration)
+#define lcdDelay_us(duration)       delayInaccurateUs(duration) //delayUs(duration)
+#define lcdCommandDelay()           lcdDelay_us(LCD_CMD_WAIT_US)
+
+// LCD GPIO HAL
+#define lcdInitPinAsOutput(pin)     gpioInit( (pin), GPIO_OUTPUT );
+#define lcdPinWrite( pin, value )   gpioWrite( (pin), (value) )
+   
 // Configure LCD pins
 #define LCD_HD44780_RS   LCDRS   // RS = 0 to select command register, RS = 1 to select data register
 #define LCD_HD44780_EN   LCDEN   // Enable
-#define LCD_HD44780_RW   0       // R/W = 0 for write, R/W = 1 for read
-
+#define LCD_HD44780_RW   0       // R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND)
 #define LCD_HD44780_D7   LCD4
 #define LCD_HD44780_D6   LCD3
 #define LCD_HD44780_D5   LCD2
@@ -62,21 +72,15 @@ extern "C" {
 #define LCD_EN_PULSE_WAIT_US   25    // 25 us
 #define LCD_LOW_WAIT_US        25    // 25 us
 #define LCD_HIGH_WAIT_US       100   // 100 us
-
 #define LCD_CMD_WAIT_US        45    // Wait time for every command 45 us, except:
 #define LCD_CLR_DISP_WAIT_MS   3     // - Clear Display 1.52 ms
 #define LCD_RET_HOME_WAIT_MS   3     // - Return Home  1.52 ms
-// - Read Busy flag and address 0 us
+#define LCD_RBUSY_ADDR_WAIT_US 0     // - Read Busy flag and address 0 us
+#define LCD_STARTUP_WAIT_MS    1000  // 1000 ms
 
-#define LCD_STARTUP_WAIT_MS    1000  // 3000 ms
-
-// LCD delay HAL
-#define lcdDelay_ms(duration)       delayInaccurateMs(duration)
-#define lcdDelay_us(duration)       delayInaccurateUs(duration) //delayUs(duration)
-#define lcdCommandDelay()           lcdDelay_us(LCD_CMD_WAIT_US)
-#define lcdInitPinAsOutput(pin)     gpioInit( (pin), GPIO_OUTPUT );
-#define lcdPinWrite( pin, value )   gpioWrite( (pin), (value) )
-
+/* LCD library configuration - End */
+   
+// For backward compatibility
 #define lcdConfig lcdInit
 
 /*==================[typedef]================================================*/
