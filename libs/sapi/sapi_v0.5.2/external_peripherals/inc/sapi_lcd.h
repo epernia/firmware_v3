@@ -71,7 +71,7 @@ extern "C" {
 #define LCD_STARTUP_WAIT_MS    1000  // 3000 ms
 
 // LCD delay HAL
-#define lcdDelay_ms(duration)       delay(duration)
+#define lcdDelay_ms(duration)       delayInaccurateMs(duration)
 #define lcdDelay_us(duration)       delayInaccurateUs(duration) //delayUs(duration)
 #define lcdCommandDelay()           lcdDelay_us(LCD_CMD_WAIT_US)
 #define lcdInitPinAsOutput(pin)     gpioInit( (pin), GPIO_OUTPUT );
