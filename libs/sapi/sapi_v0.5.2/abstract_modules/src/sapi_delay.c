@@ -87,6 +87,7 @@ void delay(tick_t duration)
    while ( (tick_t)(tickRead() - startTime) < duration/tickRateMS );
 }
 
+/*
 void delayUs(tick_t delay_us)
 {
 
@@ -97,7 +98,7 @@ void delayUs(tick_t delay_us)
       timeElapsedUs = cyclesCounterToUs( cyclesCounterRead() - startCycles );
    }
 }
-
+*/
 
 /* ---- Non Blocking Delay ---- */
 
