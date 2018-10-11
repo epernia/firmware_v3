@@ -1,4 +1,4 @@
-/* Copyright 2015-2016, Eric Pernia.
+/* Copyright 2015, Eric Pernia.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -67,12 +67,11 @@ typedef struct{
 /*==================[external functions declaration]=========================*/
 
 /* ---- Inaccurate Delay ---- */
-void delayInaccurate( tick_t delay );
+void delayInaccurateMs( tick_t delay_ms );
 void delayInaccurateUs(tick_t delay_us);
 
 /* ---- Blocking Delay ---- */
 void delay( tick_t delay );
-void delayUs(tick_t delay_us);
 
 /* ---- Non Blocking Delay ---- */
 void delayInit( delay_t * delay, tick_t duration );
