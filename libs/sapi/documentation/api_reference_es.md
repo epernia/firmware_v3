@@ -52,7 +52,8 @@ Utilizando este tipo de datos define la finción Nula que no hace nada y Retorna
 siempre TRUE, esta se utiliza para evitar errores de NULL POINTER.
 
 ```c
-bool_t sapiNullFuncPtr(void *);```
+bool_t sapiNullFuncPtr(void *);
+```
 - Parámetro: ``void *`` No usado.
 - Retorna: ``bool_t``Retorna siempre TRUE.
 
@@ -67,31 +68,27 @@ EDU-CIAA-NXP:
 
 - P1 header
 
-```c
-T_FIL0, T_FIL1, T_FIL2, T_FIL3, 
-T_COL0,  T_COL1, T_COL2, 
-CAN_TD, CAN_RD, 
-RS232_TXD, RS232_RXD
+``T_FIL0, T_FIL1, T_FIL2, T_FIL3,``
+``T_COL0,  T_COL1, T_COL2,``
+``CAN_TD, CAN_RD,``
+``RS232_TXD, RS232_RXD``
 
-GPIO25, GPIO26, GPIO27, GPIO28, 
-GPIO29, GPIO30, GPIO31, 
-GPIO32, GPIO33, 
-GPIO34, GPIO35
-```
+``GPIO25, GPIO26, GPIO27, GPIO28,``
+``GPIO29, GPIO30, GPIO31,``
+``GPIO32, GPIO33,``
+``GPIO34, GPIO35``
 
 - P2 header
 
-```c
-GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8
-LCD1, LCD2, LCD3, LCD4, LCDEN, LCDRS,
-SPI_MISO, SPI_MOSI,
-ENET_TXD0, ENET_TXD1, ENET_TXEN, ENET_RXD0, ENET_RXD1, ENET_MDIO, ENET_CRS_DV, ENET_MDC,
+``GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8``
+``LCD1, LCD2, LCD3, LCD4, LCDEN, LCDRS,``
+``SPI_MISO, SPI_MOSI,``
+``ENET_TXD0, ENET_TXD1, ENET_TXEN, ENET_RXD0, ENET_RXD1, ENET_MDIO, ENET_CRS_DV, ENET_MDC,``
 
-GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8
-GPIO9, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14,
-GPIO15, GPIO16,
-GPIO17, GPIO18, GPIO19, GPIO20, GPIO21, GPIO22, GPIO23, GPIO24,
-```
+``GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8``
+``GPIO9, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14,``
+``GPIO15, GPIO16,``
+``GPIO17, GPIO18, GPIO19, GPIO20, GPIO21, GPIO22, GPIO23, GPIO24,``
 
 - Switches
 
@@ -105,10 +102,8 @@ GPIO17, GPIO18, GPIO19, GPIO20, GPIO21, GPIO22, GPIO23, GPIO24,
 
 CIAA-NXP:
 
-```c
-DI0,   DI1,   DI2,   DI3,   DI4,   DI5,   DI6,   DI7,
-DO0,   DO1,   DO2,   DO3,   DO4,   DO5,   DO6,   DO7
-```
+``DI0,   DI1,   DI2,   DI3,   DI4,   DI5,   DI6,   DI7,``
+``DO0,   DO1,   DO2,   DO3,   DO4,   DO5,   DO6,   DO7``
 
 **ADC Map**
 
@@ -168,16 +163,18 @@ Posibles configuraciones:
 
 **Lectura de Entrada**
 
-``bool_t gpioRead( gpioMap_t pin );``
-
+```c
+bool_t gpioRead( gpioMap_t pin );
+```
 - Parámetro: ``gpioMap_t pin`` pin a leer (ver GPIO Map).
 - Retorna: ``bool_t`` valor de la entrada.
 
 
 **Escritura de Salida**
 
-``bool_t gpioWrite( gpioMap_t pin, bool_t value );``
-
+```c
+bool_t gpioWrite( gpioMap_t pin, bool_t value );
+```
 - Parámetro: ``gpioMap_t pin`` pin a escribir (ver GPIO Map).
 - Parámetro: ``bool_t value`` valor a escribir en el pin.
 - Retorna: ``bool_t`` FALSE en caso de errores.
@@ -187,8 +184,9 @@ Posibles configuraciones:
 
 **Configuración de interrupción periódica**
 
-``bool_t tickConfig(tick_t tickRateMSvalue, sAPI_FuncPtr_t tickHook );``
-
+```c
+bool_t tickConfig(tick_t tickRateMSvalue, sAPI_FuncPtr_t tickHook );
+```
 - Parámetro: ``tick_t tickRateMSvalue`` cada cuantos ms ocurre un tick.
 - Parámetro: ``sAPI_FuncPtr_t tickHook`` función a ejecutar en cada tick.
 - Retorna: ``bool_t`` TRUE en en caso correcto o FALSE en caso de errores.
@@ -206,8 +204,9 @@ Si no se desea ejecutar ninguna función debe poner en cero este parámetro.
 
 **Leer la variable del conteo actual de ticks**
 
-``tick_t tickRead( void );``
-
+```c
+tick_t tickRead( void );
+```
 - Parámetro: ``void`` sin parámetro.
 - Retorna: ``tick_t`` el valor actual del contador de ticks.
 
@@ -216,8 +215,9 @@ milisegundos.
 
 **Escribir la variable del conteo actual de ticks**
 
-``void tickWrite( tick_t ticks );``
-
+```c
+void tickWrite( tick_t ticks );
+```
 - Parámetro: ``tick_t ticks`` el nuevo valor a setear del contador de ticks.
 - Retorna: ``void``
 
@@ -237,16 +237,21 @@ Todos los tiempos de parámetros están en milisegundos.
 
 Define la constante ``#define INACCURATE_TO_MS 20400`` y contiene las funciones:
 
-**Retardo inexacto bloqueante** ``void delayInaccurate( tick_t delay_ms );``
+**Retardo inexacto bloqueante**
 
+```c
+void delayInaccurate( tick_t delay_ms );
+```
 - Parámetros: ``tick_t delay_ms`` tiempo de duración del retardo en ms.
 - Retorna: ``void``
 
 Utiliza un bloque for bloqueante que tiene una constante calculada "a ojo"
 (INACCURATE_TO_MS) para perder muchos ciclos de reloj y lograr hacer un retado.
 
-**Retardo bloqueante** ``void delay ( tick_t time );``
-
+**Retardo bloqueante**
+```c
+void delay ( tick_t time );
+```
 - Parámetros: ``tick_t time``
 - Retorna: ``void``
 
@@ -265,19 +270,22 @@ Define el tipo de datos estructurado ``delay_t``
 
 Contiene las funciones:
 
-``void delayConfig( delay_t* delay, tick_t duration );``
-
+```c
+void delayConfig( delay_t* delay, tick_t duration );
+```
 - Parámetro: ``delay_t * delay`` dirección de memoria de una variable del tipo delay_t.
 - Parámetro: ``tick_t duration`` tiempo de duración del retardo en ms.
 - Retorna: ``void``
 
-``bool_t delayRead( delay_t* delay );``
-
+```c
+bool_t delayRead( delay_t* delay );
+```
 - Parámetro: ``delay_t* delay`` dirección de memoria de una variable del tipo delay_t.
 - Retorna: ``bool_t`` TRUE cuando el delay se cumplió, FALSE en caso contrario.
 
-``void delayWrite( delay_t* delay, tick_t duration );``
-
+```c
+void delayWrite( delay_t* delay, tick_t duration );
+```
 - Parámetro: ``delay_t* delay`` dirección de memoria de una variable del tipo delay_t.
 - Parámetro: ``tick_t duration`` tiempo de duración del retardo en ms.
 - Retorna: ``void``
@@ -287,16 +295,22 @@ Uso:
 
 Se utiliza declarando una variable de estructura del tipo delay_t, por ejemplo:
 
-``delay_t myDelay;``
+```c
+delay_t myDelay;
+```
 
 Luego, se configura inicialmente pasando como parámetro la variable recién
 declarada
 
-``delayConfig( &myDelay, 500 );``
+```c
+delayConfig( &myDelay, 500 );
+```
 
 Se detecta con un bloque if si se cumplió el delay leyéndolo con
 
-``delayRead( &myDelay );``
+```c
+delayRead( &myDelay );
+```
 
 La primera vez que se ejecuta delayRead activa el mismo. delayRead devuelve TRUE
 cuando se completo y se vuelve a relanzar automáticamente.
@@ -312,8 +326,9 @@ Manejo de conversor analógico-digital.
 
 **Configuración inicial de conversor analógico-digital**
 
-``void adcConfig( adcConfig_t config );``
-
+```c
+void adcConfig( adcConfig_t config );
+```
 - Parámetro: ``adcConfig_t config`` configuración.
 - Retorna: ``void``.
 
@@ -324,8 +339,9 @@ Posibles configuraciones:
 
 **Lectura de Entrada analógica**
 
-``uint16_t adcRead( adcMap_t analogInput );``
-
+```c
+uint16_t adcRead( adcMap_t analogInput );
+```
 - Parámetro: ``adcMap_t analogInput`` pin a leer (ver ADC Map).
 - Retorna: ``uint16_t`` el valor actual de la entrada analógica.
 
@@ -336,8 +352,9 @@ Manejo de conversor digital-analógico.
 
 **Configuración inicial de conversor digital-analógico**
 
-``void dacConfig( dacConfig_t config );``
-
+```c
+void dacConfig( dacConfig_t config );
+```
 - Parámetro: ``dacConfig_t config`` configuración.
 - Retorna: ``void``.
 
@@ -348,8 +365,9 @@ Posibles configuraciones:
 
 **Escritura de Salida analógica**
 
-``void dacWrite( dacMap_t analogOutput, uint16_t value );``
-
+```c
+void dacWrite( dacMap_t analogOutput, uint16_t value );
+```
 - Parámetro: ``dacMap_t analogOutput`` pin a escribir (ver DAC Map).
 - Parámetro: ``uint16_t value`` valor del pin a escribir.
 - Retorna: ``void``.
@@ -361,8 +379,9 @@ Manejo del periférico de comunicación UART (puerto serie asincrónico).
 
 **Configuración**
 
-``void uartConfig( uartMap_t uart, uint32_t baudRate )``
-
+```c
+void uartConfig( uartMap_t uart, uint32_t baudRate )
+```
 - Parámetro: ``uartMap_t uart`` UART a configurar (ver UART MAP).
 - Parámetro: ``uint32_t baudRate`` tasa de  bits.
 - Retorna: ``void``.
@@ -371,24 +390,27 @@ Posibles configuraciones de baudRate: ``9600, 57600, 115200, etc.``
 
 **Recibir Byte**
 
-``bool_t uartReadByte( uartMap_t uart, uint8_t* receivedByte );``
-
+```c
+bool_t uartReadByte( uartMap_t uart, uint8_t* receivedByte );
+```
 - Parámetro: ``uartMap_t uart`` UART a configurar (ver UART Map).
 - Parámetro: ``uint8_t* byte`` Dirección de memoria a donde se escribirá el dato recibido en caso de que haya un dato para recibir.
 - Retorna: ``bool_t`` TRUE si recibió un dato, FALSE en caso contrario.
 
 **Enviar Byte**
 
-``void uartWriteByte( uartMap_t uart, uint8_t byte );``
-
+```c
+void uartWriteByte( uartMap_t uart, uint8_t byte );
+```
 - Parámetro: ``uartMap_t uart`` UART a configurar (ver UART Map).
 - Parámetro: ``uint8_t byte`` Byte a enviar.
 - Retorna: ``void``.
 
 **Enviar String**
 
-``void uartWriteString( uartMap_t uart, char* str );``
-
+```c
+void uartWriteString( uartMap_t uart, char* str );
+```
 - Parámetro: ``uartMap_t uart`` UART a configurar (ver UART Map).
 - Parámetro: ``char* str`` String a enviar, puede ser un literal, por ejemplo "hola", o un vector de uint8_t terminado en 0 o '\0' (caracter NULL).
 - Retorna: ``void``.
@@ -400,8 +422,9 @@ Manejo del periférico bus comunicación I2C (Inter Integrated Circuits).
 
 **Configuración**
 
-``bool_t i2cConfig( i2cMap_t i2cNumber, uint32_t clockRateHz );``
-
+```c
+bool_t i2cConfig( i2cMap_t i2cNumber, uint32_t clockRateHz );
+```
 - Parámetro: ``i2cMap_t i2cNumber`` I2C a configurar (ver I2C Map).
 - Parámetro: ``uint32_t clockRateHz`` configuración de velocidad del bus I2C.
 - Retorna: ``bool_t`` TRUE si la configuración es correcta.
@@ -410,15 +433,16 @@ Posibles configuraciones de clockRateHz: 100000, etc.
 
 **Lectura**
 
-``bool_t i2cRead( i2cMap_t  i2cNumber,
-                  uint8_t  i2cSlaveAddress,
-                  uint8_t* dataToReadBuffer,
-                  uint16_t dataToReadBufferSize,
-                  bool_t   sendWriteStop,
-                  uint8_t* receiveDataBuffer,
-                  uint16_t receiveDataBufferSize,
-                  bool_t   sendReadStop );``
-
+```c
+bool_t i2cRead( i2cMap_t  i2cNumber,
+                uint8_t  i2cSlaveAddress,
+                uint8_t* dataToReadBuffer,
+                uint16_t dataToReadBufferSize,
+                bool_t   sendWriteStop,
+                uint8_t* receiveDataBuffer,
+                uint16_t receiveDataBufferSize,
+                bool_t   sendReadStop );
+```
 - Parámetro: ``i2cMap_t i2cNumber`` I2C a leer (ver I2C Map).
 - Parámetro: ``uint8_t i2cSlaveAddress`` Dirección del sensor conectado por I2C a leer.
 - Parámetro: ``uint8_t* dataToReadBuffer`` puntero al buffer con los bytes a escribir para indicar que se debe leer.
@@ -431,12 +455,13 @@ Posibles configuraciones de clockRateHz: 100000, etc.
 
 **Escritura**
 
-``bool_t i2cWrite( i2cMap_t  i2cNumber,
-                   uint8_t  i2cSlaveAddress,
-                   uint8_t* transmitDataBuffer,
-                   uint16_t transmitDataBufferSize,
-                   bool_t   sendWriteStop );``
-
+```c
+bool_t i2cWrite( i2cMap_t  i2cNumber,
+                 uint8_t  i2cSlaveAddress,
+                 uint8_t* transmitDataBuffer,
+                 uint16_t transmitDataBufferSize,
+                 bool_t   sendWriteStop );
+```
 - Parámetro: ``i2cMap_t i2cNumber`` ID de periférico I2C a escribir (ver I2C Map). Actualmente funciona únicamente el I2C0.
 - Parámetro: ``uint8_t i2cSlaveAddress`` Dirección del sensor conectado por I2C a escribir.
 - Parámetro: ``uint8_t* transmitDataBuffer`` puntero al buffer donde se encuentran los datos a escribir.
@@ -450,8 +475,9 @@ Manejo de modos de bajo consumo del microcontrolador.
 
 **Dormir hasta que ocurra la próxima interrupción**
 
-``void sleepUntilNextInterrupt( void );``
-
+```c
+void sleepUntilNextInterrupt( void );
+```
 - Parámetro: ninguno.
 - Retorna: nada.
 
@@ -462,8 +488,9 @@ Manejo del periférico RTC (reloj de tiempo real).
 
 **Configuración**
 
-``bool_t rtcConfig( rtc_t * rtc );``
-
+```c
+bool_t rtcConfig( rtc_t * rtc );
+```
 - Parámetro: ``rtc_t * rtc`` Puntero a estructura de configuración del tipo RTC_t.
 - Retorna: ``bool_t`` TRUE si la configuración es correcta.
 
@@ -479,15 +506,17 @@ La estructura del tipo ``RTC_t`` contiene los parámetros:
 
 **Lectura de fecha y hora**
 
-``bool_t rtcRead( rtc_t * rtc );``
-
+```c
+bool_t rtcRead( rtc_t * rtc );
+```
 - Parámetro: ``rtc_t * rtc`` Puntero a estructura del tipo RTC_t donde se guarda la fecha y hora.
 - Retorna: ``bool_t`` TRUE.
 
 **Establecer la fecha y hora**
 
-``bool_t rtcWrite( rtc_t * rtc );``
-
+```c
+bool_t rtcWrite( rtc_t * rtc );
+```
 - Parámetro: ``rtc_t * rtc`` Puntero a estructura del tipo RTC_t con la nueva fecha y hora a setear.
 - Retorna: ``bool_t`` TRUE.
 
@@ -499,8 +528,9 @@ utiliza internamente el periférico SCT para generar los PWM.
 
 **Configuración**
 
-``bool_t pwmConfig( pwmMap_t pwmNumber, pwmConfig_t config);``
-
+```c
+bool_t pwmConfig( pwmMap_t pwmNumber, pwmConfig_t config);
+```
 - Parámetro: ``pwmMap_t pwmNumber`` pin a configurar como salida PWM (ver PWM Map).
 - Parámetro: ``uint8_t config`` configuración.
 - Retorna: ``bool_t`` TRUE si la configuración es correcta.
@@ -514,15 +544,17 @@ Posibles configuraciones:
 
 **Lectura del ciclo de trabajo (duty cycle) de la salida PWM**
 
-``uint8_t pwmRead( pwmMap_t pwmNumber );``
-
+```c
+uint8_t pwmRead( pwmMap_t pwmNumber );
+```
 - Parámetro: ``pwmMap_t pwmNumber`` salida PWM a leer el ciclo de trabajo.
 - Retorna: ``uint8_t`` el ciclo de trabajo de la salida PWM.
 
  **Establecer el ciclo de trabajo de la salida PWM**
 
-``bool_t pwmWrite( pwmMap_t pwmNumber, uint8_t percent );``
-
+```c
+bool_t pwmWrite( pwmMap_t pwmNumber, uint8_t percent );
+```
 - Parámetro: ``pwmMap_t pwmNumber`` salida PWM a leer el ciclo de trabajo.
 - Parámetro: ``uint8_t percent`` valor de ciclo de trabajo a setear en la salida PWM.
 - Retorna: ``bool_t`` TRUE.
@@ -535,8 +567,9 @@ generar estas salidas.
 
 **Configuración**
 
-``bool_t servoConfig( servoMap_t servoNumber, servoConfig_t config );``
-
+```c
+bool_t servoConfig( servoMap_t servoNumber, servoConfig_t config );
+```
 - Parámetro: ``servoMap_t servoNumber`` pin a configurar como salida Servo (ver Servo Map).
 - Parámetro: ``servoConfig_t config`` configuración.
 - Retorna: ``bool_t`` TRUE si la configuración es correcta.
@@ -550,15 +583,17 @@ Posibles configuraciones:
 
 **Lectura del valor angular actual de la salida Servo**
 
-``uint16_t servoRead( servoMap_t servoNumber);``
-
+```c
+uint16_t servoRead( servoMap_t servoNumber);
+```
 - Parámetro: ``servoMap_t servoNumber`` pin como salida Servo a leer.
 - Retorna: ``uint16_t`` el valor angular actual de la salida Servo (de 0 a 180°).
 
 **Establecer el valor angular de la salida Servo**
 
-``bool_t servoWrite( servoMap_t servoNumber, uint16_t angle );``
-
+```c
+bool_t servoWrite( servoMap_t servoNumber, uint16_t angle );
+```
 - Parámetro: ``servoMap_t servoNumber`` pin como salida Servo a escribir.
 - Parámetro: ``uint16_t angle`` valor angular a establecer en la salida Servo (de 0 a 180°).
 - Retorna: ``bool_t`` TRUE.
@@ -570,8 +605,9 @@ Posibles configuraciones:
 
 Configurar los pines conectados al display 7 segmentos como salida:
 
-``void display7SegmentPinConfig( gpioMap_t* display7SegmentPins );``
-
+```c
+void display7SegmentPinConfig( gpioMap_t* display7SegmentPins );
+```
 - Parámetro: ``gpioMap_t* display7SegmentPins`` puntero a un vector con los 8 pines conectados al display 7 segmentos, deben estar en el orden *a* a *h*.
 - Retorna: nada.
 
@@ -579,22 +615,24 @@ Configurar los pines conectados al display 7 segmentos como salida:
 
 Ejemplo:
 
-``uint8_t display7Segment[8] = {
-    GPIO5, // Segment 'a'
-    GPIO7, // Segment 'b'
-    GPIO6, // Segment 'c'
-    GPIO1, // Segment 'd'
-    GPIO2, // Segment 'e'
-    GPIO4, // Segment 'f'
-    GPIO3, // Segment 'g'
-    GPIO8  // Segment 'h' or 'dp'
- };``
-
+```c
+uint8_t display7Segment[8] = {
+   GPIO5, // Segment 'a'
+   GPIO7, // Segment 'b'
+   GPIO6, // Segment 'c'
+   GPIO1, // Segment 'd'
+   GPIO2, // Segment 'e'
+   GPIO4, // Segment 'f'
+   GPIO3, // Segment 'g'
+   GPIO8  // Segment 'h' or 'dp'
+ };
+```
 
 Testear en que orden están conectados los pines a los segmentos *a* a *h*:
 
-``void display7SegmentTestPins( gpioMap_t* display7SegmentPins, gpioMap_t pin );``
-
+```c
+void display7SegmentTestPins( gpioMap_t* display7SegmentPins, gpioMap_t pin );
+```
 - Parámetro: ``gpioMap_t* display7SegmentPins`` puntero a un vector con los 8 pines conectados al display 7 segmentos, deben estar en el orden *a* a *h*.
 - Parámetro: ``gpioMap_t pin`` un pin aparte que indica cuando escribe el segmento *a* para iniciar la secuencia de la *a* a *h*. Por ejemplo, LEDB.
 - Retorna: nada.
@@ -617,28 +655,31 @@ Mediante esta función se puede completar la siguiente tabla que indica a qué p
 
 Escribe un símbolo en el display 7 segmentos.
 
-``void display7SegmentWrite( gpioMap_t* display7SegmentPins, uint8_t symbolIndex );``
-
+```c
+void display7SegmentWrite( gpioMap_t* display7SegmentPins, uint8_t symbolIndex );
+```
 - Parámetro: ``gpioMap_t* display7SegmentPins`` puntero a un vector con los 8 pines conectados al display 7 segmentos, deben estar en el orden *a* a *h*.
 - Parámetro: ``uint8_t symbolIndex`` índice del valor a mostrar de la tabla de símbolos.
 - Retorna: nada.
 
 Tabla de símbolos:
 
-``0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 
+```c
+ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
  a, b, c, d, e, f,
  A, C, E, H, J, L, P, U
- ., DISPLAY_OFF``
-
+ ., DISPLAY_OFF
+```
 
 ### Teclado matricial
 
 **Configuración**
 
-``bool_t keypadConfig( keypad_t* keypad,
-                      gpioMap_t* keypadRowPins, uint8_t keypadRowSize,
-                      gpioMap_t* keypadColPins, uint8_t keypadColSize );``
-
+```c
+bool_t keypadConfig( keypad_t* keypad,
+                     gpioMap_t* keypadRowPins, uint8_t keypadRowSize,
+                     gpioMap_t* keypadColPins, uint8_t keypadColSize );
+```
 - Parámetro: ``keypad_t* keypad`` puntero a estructura del teclado matricial donde se almacenan todos los parámetros necesarios del mismo.
 - Parámetro: ``gpioMap_t* keypadRowPins`` puntero a vector que contiene la lista de pines conectados a las filas del teclado matricial.
 - Parámetro: ``uint8_t keypadRowSize`` cantidad de filas del teclado matricial.
@@ -652,37 +693,43 @@ Ejemplo:
 
 - Variable del teclado
 
-      ``keypad_t keypad;``
-
+```c
+keypad_t keypad;
+```
 
 - Filas a configuar como Salidas
 
-      ``uint8_t keypadRowPins1[4] = {
-          RS232_TXD, // Row 0
-          CAN_RD,    // Row 1
-          CAN_TD,    // Row 2
-          T_COL1     // Row 3
-       };``
-
+```c
+uint8_t keypadRowPins1[4] = {
+   RS232_TXD, // Row 0
+   CAN_RD,    // Row 1
+   CAN_TD,    // Row 2
+   T_COL1     // Row 3
+};
+```
 
 - Columnas a configurar como Entradas con pull-up (MODO = GPIO_INPUT_PULLUP)
 
-      ``uint8_t keypadColPins1[4] = {
-          T_FIL0,    // Column 0
-          T_FIL3,    // Column 1
-          T_FIL2,    // Column 2
-          T_COL0     // Column 3
-       };``
-
+```c
+uint8_t keypadColPins1[4] = {
+   T_FIL0,    // Column 0
+   T_FIL3,    // Column 1
+   T_FIL2,    // Column 2
+   T_COL0     // Column 3
+};
+```
 
 - Función de configuración
 
-      ``keypadConfig( &keypad, keypadRowPins1, 4, keypadColPins1, 4 );``
+```c
+keypadConfig( &keypad, keypadRowPins1, 4, keypadColPins1, 4 );
+```
 
 **Lectura de teclado matricial**
 
-``bool_t keypadRead( keypad_t* keypad, uint16_t* key );``
-
+```c
+bool_t keypadRead( keypad_t* keypad, uint16_t* key );
+```
 - Parámetro: ``keypad_t* keypad`` puntero a estructura del teclado matricial.
 - Parámetro: ``uint16_t* key`` puntero a variable donde escribe la tecla leida del teclado matricial.
 - Retorna: ``bool_t`` TRUE si hay tecla leida o FALSE en caso contrario.
@@ -695,13 +742,15 @@ Este sensor se conecta mediante I2C.
 
 **Configuración**
 
-``bool_t hmc5883lPrepareDefaultConfig( HMC5883L_config_t* config );``
-
+```c
+bool_t hmc5883lPrepareDefaultConfig( HMC5883L_config_t* config );
+```
 - Parámetro: ``HMC5883L_config_t *config`` puntero a estructura del tipo HMC5883L_config_t a donde se cargarán los valores por defecto de configuración.
 - Retorna: ``bool_t`` TRUE.
 
-``bool_t hmc5883lConfig( HMC5883L_config_t config );``
-
+```c
+bool_t hmc5883lConfig( HMC5883L_config_t config );
+```
 - Parámetro: ``HMC5883L_config_t *config`` estructura del tipo HMC5883L_config_t desde donde se cargarán los valores de configuración.
 - Retorna: ``bool_t`` TRUE si la configuración es correcta.
 
@@ -745,15 +794,17 @@ La estructura del tipo ``HMC5883L_config_t`` contiene:
 
 **Prueba de lectura del magnetómetro**
 
-``bool_t hmc5883lIsAlive( void );``
-
+```c
+bool_t hmc5883lIsAlive( void );
+```
 - Parámetro: ``void`` ninguno.
 - Retorna: ``bool_t`` TRUE si puede comunicarse con el sensor.
 
 **Lectura del valor del magnetómetro en (x,y,z)**
 
-``bool_t hmc5883lRead( int16_t* x, int16_t* y, int16_t* z );``
-
+```c
+bool_t hmc5883lRead( int16_t* x, int16_t* y, int16_t* z );
+```
 - Parámetro: ``int16_t * x`` puntero entero de 16 bits con signo donde se guardará el valor leído del sensor HMC5883L en la componente x.
 - Parámetro: ``int16_t * y`` puntero entero de 16 bits con signo donde se guardará el valor leído del sensor HMC5883L en la componente y.
 - Parámetro: ``int16_t * z`` puntero entero de 16 bits con signo donde se guardará el valor leído del sensor HMC5883L en la componente z.
@@ -763,14 +814,11 @@ La estructura del tipo ``HMC5883L_config_t`` contiene:
 
 Creación y manejo de Buffers Ciculares.
 
-
-- Parámetro: ``HMC5883L_config_t *config`` puntero a estructura del tipo HMC5883L_config_t a donde se cargarán los valores por defecto de configuración.
-- Retorna: ``bool_t`` TRUE.
-- Retorna: nada.
-
 **Crear el buffer (macro)**
 
-``circularBufferNew( buffName, elementSize, amountOfElements );``
+```c
+circularBufferNew( buffName, elementSize, amountOfElements );
+```
 - Parámetro: ``buffName`` nombre del buffer.
 - Parámetro: ``elementSize`` Tamaño en bytes de cada elemento que guardará el buffer.
 - Parámetro: ``amountOfElements`` cantidad de elementos que podra almacenar el buffer.
@@ -780,7 +828,10 @@ Esta macro realiza lo mismo que se puede declarar de forma manual:
 uint8_t buffName_BufferMemory[ (amountOfElements + 1)*elementSize ];``
 
 Ejemplo:
-``circularBufferNew( nombreBuffer, tamañoEnBytesDeCadaElemento, CantidadMaximaDeElementosQuePuedeAlmacenar );``
+
+```c
+circularBufferNew( nombreBuffer, tamañoEnBytesDeCadaElemento, CantidadMaximaDeElementosQuePuedeAlmacenar );
+```
 
 **Estructura circularBuffer_t**
 
@@ -796,44 +847,62 @@ Ejemplo:
 
 **Inicializar el buffer (macro)**
 
-``circularBufferInit( *buffName, elementSize, amountOfElements );``
+```c
+circularBufferInit( *buffName, elementSize, amountOfElements );
+```
 - Parámetro: ``buffName`` nombre del buffer pasado por referencia.
 - Parámetro: ``elementSize`` Tamaño en bytes de cada elemento que guardará el buffer.
 - Parámetro: ``amountOfElements`` cantidad de elementos que podra almacenar el buffer.
 
 Ejemplo:
-``circularBufferInit( &nombreBuffer, tamañoEnBytesDeCadaElemento, CantidadMaximaDeElementosQuePuedeAlmacenar );``
+
+```c
+circularBufferInit( &nombreBuffer, tamañoEnBytesDeCadaElemento, CantidadMaximaDeElementosQuePuedeAlmacenar );
+```
 
 **Usar un buffer declarado en otro archivo (macro)**
 
 Esto es necesario si quiero usar el buffer y el mismo fue creado con circularBufferNew()  de forma global.
 
-``circularBufferUse( nombreBuffer );``
+```c
+circularBufferUse( buffName );
+```
 
 Ejemplo:
-``circularBufferUse( nombreBuffer );``
+```c
+circularBufferUse( nombreBuffer );
+```
 
 **Escribir un dato en el buffer**
 
-``circularBufferStatus_t circularBufferWrite( circularBuffer_t* buffer, uint8_t *dataByte );``
+```c
+circularBufferStatus_t circularBufferWrite( circularBuffer_t* buffer, uint8_t *dataByte );
+```
 - Parámetro: ``circularBuffer_t* buffer`` Buffer a escribir pasado por referencia.
 - Parámetro: ``uint8_t *dataByte`` Dato a escribir pasado por referencia.
 - Retorna: ``circularBufferStatus_t`` Estado del buffer.
 
 Ejemplo:
-``uint8_t dato = 8;
-circularBufferWrite( &nombreBuffer, &dato );``
+
+```c
+uint8_t dato = 8;
+circularBufferWrite( &nombreBuffer, &dato );
+```
 
 **Leer un dato en el buffer**
 
-``circularBufferStatus_t circularBufferRead( circularBuffer_t* buffer, uint8_t *dataByte );``
+```c
+circularBufferStatus_t circularBufferRead( circularBuffer_t* buffer, uint8_t *dataByte );
+```
 - Parámetro: ``circularBuffer_t* buffer`` Buffer a leer pasado por referencia.
 - Parámetro: ``uint8_t *dataByte`` Dato donde guardar lo leido del Buffer pasado por referencia.
 - Retorna: ``circularBufferStatus_t`` Estado del buffer.
 
 Ejemplo:
-``uint8_t dato = 0;
-circularBufferRead( &nombreBuffer, &dato );``
+```c
+uint8_t dato = 0;
+circularBufferRead( &nombreBuffer, &dato );
+```
 
 **Condiciones de buffer lleno y vacío**
 
@@ -848,7 +917,7 @@ Retornan el estado del buffer cuando se pide leer o escribir un dato:
 
 - ``CIRCULAR_BUFFER_NORMAL`` Escribió o leyo correctamente el dato.
 - ``CIRCULAR_BUFFER_EMPTY`` No pudo leer el dato porque el buffer está vacío.
-vCIRCULAR_BUFFER_FULL`` No pudo escribir el dato porque el buffer está lleno.``
+- ``CIRCULAR_BUFFER_FULL`` No pudo escribir el dato porque el buffer está lleno.
 
 De esta forma podemos chequear si se leyó o escribió con un if():
 
