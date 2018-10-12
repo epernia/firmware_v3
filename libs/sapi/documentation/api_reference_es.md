@@ -68,42 +68,40 @@ EDU-CIAA-NXP:
 
 - P1 header
 
-``T_FIL0, T_FIL1, T_FIL2, T_FIL3,``
-``T_COL0,  T_COL1, T_COL2,``
-``CAN_TD, CAN_RD,``
-``RS232_TXD, RS232_RXD``
+    ``T_FIL0, T_FIL1, T_FIL2, T_FIL3,``
+    ``T_COL0,  T_COL1, T_COL2,``
+    ``CAN_TD, CAN_RD,``
+    ``RS232_TXD, RS232_RXD``
 
-``GPIO25, GPIO26, GPIO27, GPIO28,``
-``GPIO29, GPIO30, GPIO31,``
-``GPIO32, GPIO33,``
-``GPIO34, GPIO35``
+    ``GPIO25, GPIO26, GPIO27, GPIO28,``
+    ``GPIO29, GPIO30, GPIO31,``
+    ``GPIO32, GPIO33,``
+    ``GPIO34, GPIO35``
 
 - P2 header
 
-``GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8``
-``LCD1, LCD2, LCD3, LCD4, LCDEN, LCDRS,``
-``SPI_MISO, SPI_MOSI,``
-``ENET_TXD0, ENET_TXD1, ENET_TXEN, ENET_RXD0, ENET_RXD1, ENET_MDIO, ENET_CRS_DV, ENET_MDC,``
+    ``GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8``
+    ``LCD1, LCD2, LCD3, LCD4, LCDEN, LCDRS,``
+    ``SPI_MISO, SPI_MOSI,``
+    ``ENET_TXD0, ENET_TXD1, ENET_TXEN, ENET_RXD0, ENET_RXD1, ENET_MDIO, ENET_CRS_DV, ENET_MDC,``
 
-``GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8``
-``GPIO9, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14,``
-``GPIO15, GPIO16,``
-``GPIO17, GPIO18, GPIO19, GPIO20, GPIO21, GPIO22, GPIO23, GPIO24,``
+    ``GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8``
+    ``GPIO9, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14,``
+    ``GPIO15, GPIO16,``
+    ``GPIO17, GPIO18, GPIO19, GPIO20, GPIO21, GPIO22, GPIO23, GPIO24,``
 
 - Switches
 
-``TEC1,  TEC2,  TEC3,  TEC4``
-
+    ``TEC1,  TEC2,  TEC3,  TEC4``
 
 - Leds
 
-``LED1,  LED2,  LED3,  LEDR,  LEDG,  LEDB``
+    ``LED1,  LED2,  LED3,  LEDR,  LEDG,  LEDB``
 
 
 CIAA-NXP:
-
-``DI0,   DI1,   DI2,   DI3,   DI4,   DI5,   DI6,   DI7,``
-``DO0,   DO1,   DO2,   DO3,   DO4,   DO5,   DO6,   DO7``
+    ``DI0,   DI1,   DI2,   DI3,   DI4,   DI5,   DI6,   DI7,``
+    ``DO0,   DO1,   DO2,   DO3,   DO4,   DO5,   DO6,   DO7``
 
 **ADC Map**
 
@@ -824,13 +822,18 @@ circularBufferNew( buffName, elementSize, amountOfElements );
 - Parámetro: ``amountOfElements`` cantidad de elementos que podra almacenar el buffer.
 
 Esta macro realiza lo mismo que se puede declarar de forma manual:
-``circularBuffer_t buffName;
-uint8_t buffName_BufferMemory[ (amountOfElements + 1)*elementSize ];``
+
+```c
+circularBuffer_t buffName;
+uint8_t buffName_BufferMemory[ (amountOfElements + 1)*elementSize ];
+```
 
 Ejemplo:
 
 ```c
-circularBufferNew( nombreBuffer, tamañoEnBytesDeCadaElemento, CantidadMaximaDeElementosQuePuedeAlmacenar );
+circularBufferNew( nombreBuffer,
+                   tamañoEnBytesDeCadaElemento,
+                   CantidadMaximaDeElementosQuePuedeAlmacenar );
 ```
 
 **Estructura circularBuffer_t**
@@ -857,18 +860,27 @@ circularBufferInit( *buffName, elementSize, amountOfElements );
 Ejemplo:
 
 ```c
-circularBufferInit( &nombreBuffer, tamañoEnBytesDeCadaElemento, CantidadMaximaDeElementosQuePuedeAlmacenar );
+circularBufferInit( &nombreBuffer,
+                    tamañoEnBytesDeCadaElemento,
+                    CantidadMaximaDeElementosQuePuedeAlmacenar );
 ```
 
 **Usar un buffer declarado en otro archivo (macro)**
 
-Esto es necesario si quiero usar el buffer y el mismo fue creado con circularBufferNew()  de forma global.
+Esto es necesario si quiero usar el buffer y el mismo fue creado con ``circularBufferNew()``  de forma global.
 
 ```c
 circularBufferUse( buffName );
 ```
 
+Esta macro realiza lo mismo que se puede declarar de forma manual:
+
+```c
+extern circularBuffer_t buffName;
+```
+
 Ejemplo:
+
 ```c
 circularBufferUse( nombreBuffer );
 ```
