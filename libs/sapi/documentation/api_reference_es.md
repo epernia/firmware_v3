@@ -64,29 +64,31 @@ EDU-CIAA-NXP:
 
 - P1 header
 
-	``T_FIL0, T_FIL1, T_FIL2, T_FIL3, 
+```c
+	 T_FIL0, T_FIL1, T_FIL2, T_FIL3, 
 	 T_COL0,  T_COL1, T_COL2, 
 	 CAN_TD, CAN_RD, 
-	 RS232_TXD, RS232_RXD``
+	 RS232_TXD, RS232_RXD
 
-	``GPIO25, GPIO26, GPIO27, GPIO28, 
+	 GPIO25, GPIO26, GPIO27, GPIO28, 
 	 GPIO29, GPIO30, GPIO31, 
 	 GPIO32, GPIO33, 
-	 GPIO34, GPIO35``
-
+	 GPIO34, GPIO35
+```
 
 - P2 header
 
-	``GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8
+```c
+	 GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8
 	 LCD1, LCD2, LCD3, LCD4, LCDEN, LCDRS,
 	 SPI_MISO, SPI_MOSI,
-	 ENET_TXD0, ENET_TXD1, ENET_TXEN, ENET_RXD0, ENET_RXD1, ENET_MDIO, ENET_CRS_DV, ENET_MDC,``
+	 ENET_TXD0, ENET_TXD1, ENET_TXEN, ENET_RXD0, ENET_RXD1, ENET_MDIO, ENET_CRS_DV, ENET_MDC,
 
-	``GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8
+	 GPIO0, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, GPIO6, GPIO7, GPIO8
 	 GPIO9, GPIO10, GPIO11, GPIO12, GPIO13, GPIO14,
 	 GPIO15, GPIO16,
-	 GPIO17, GPIO18, GPIO19, GPIO20, GPIO21, GPIO22, GPIO23, GPIO24,``
-
+	 GPIO17, GPIO18, GPIO19, GPIO20, GPIO21, GPIO22, GPIO23, GPIO24,
+```
 
 - Switches
 
@@ -100,8 +102,10 @@ EDU-CIAA-NXP:
 
 CIAA-NXP:
 
-``DI0,   DI1,   DI2,   DI3,   DI4,   DI5,   DI6,   DI7,
- DO0,   DO1,   DO2,   DO3,   DO4,   DO5,   DO6,   DO7``
+```c
+        DI0,   DI1,   DI2,   DI3,   DI4,   DI5,   DI6,   DI7,
+        DO0,   DO1,   DO2,   DO3,   DO4,   DO5,   DO6,   DO7
+```
 
 **ADC Map**
 
@@ -831,31 +835,37 @@ circularBufferRead( &nombreBuffer, &dato );``
 
 Las funciones:
 
-``circularBufferWrite( &nombreBuffer, &dato );
-circularBufferRead( &nombreBuffer, &dato );``
+```c
+circularBufferWrite( &nombreBuffer, &dato );
+circularBufferRead( &nombreBuffer, &dato );
+```
 
 Retornan el estado del buffer cuando se pide leer o escribir un dato:
 
-``CIRCULAR_BUFFER_NORMAL Escribió o leyo correctamente el dato.
-CIRCULAR_BUFFER_EMPTY No pudo leer el dato porque el buffer está vacío.
-CIRCULAR_BUFFER_FULL No pudo escribir el dato porque el buffer está lleno.``
+- ``CIRCULAR_BUFFER_NORMAL`` Escribió o leyo correctamente el dato.
+- ``CIRCULAR_BUFFER_EMPTY`` No pudo leer el dato porque el buffer está vacío.
+vCIRCULAR_BUFFER_FULL`` No pudo escribir el dato porque el buffer está lleno.``
 
 De esta forma podemos chequear si se leyó o escribió con un if():
 
-``if( CIRCULAR_BUFFER_EMPTY == circularBufferRead( &nombreBuffer, &dato ) ){
+```c
+if( CIRCULAR_BUFFER_EMPTY == circularBufferRead( &nombreBuffer, &dato ) ){
    // No leyo nada... Informar error o ignorar
 } else{
    // leyo, hacer algo con el dato leido
-}``
+}
+```
 
 Alternativamente se puede ignorar el valor retornado y setear una función de callback en caso de errores. De esta forma si al llamar a estas funciones hay un error se llama al callback correspondiente. Para setear los callbacks se usan las funciones:
 
-``circularBufferEmptyBufferCallbackSet( &nombreBuffer, cuandoBufferVacio );
-circularBufferFullBufferCallbackSet( &nombreBuffer, cuandoBufferLleno );``
+```c
+circularBufferEmptyBufferCallbackSet( &nombreBuffer, cuandoBufferVacio );
+circularBufferFullBufferCallbackSet( &nombreBuffer, cuandoBufferLleno );
+```
 
 Las funciones de callback tienen que retornar void y recibir como parámetro un puntero a void, ejemplo:
 
-``
+```c
 void cuandoBufferLleno(void* unused){
     // ...
 }
@@ -863,7 +873,7 @@ void cuandoBufferLleno(void* unused){
 void cuandoBufferVacio(void* unused){
     // ...
 }
-``
+```
 
 ## Archivos que componen la biblioteca
 
