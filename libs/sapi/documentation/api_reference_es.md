@@ -751,7 +751,119 @@ La estructura del tipo ``HMC5883L_config_t`` contiene:
 - Parámetro: ``int16_t * z`` puntero entero de 16 bits con signo donde se guardará el valor leído del sensor HMC5883L en la componente z.
 - Retorna: ``bool_t`` TRUE si puede leer correctamente el sensor magnetómetro.
 
+### sAPI Circular Buffer
 
+Creación y manejo de Buffers Ciculares.
+
+
+- Parámetro: ``HMC5883L_config_t *config`` puntero a estructura del tipo HMC5883L_config_t a donde se cargarán los valores por defecto de configuración.
+- Retorna: ``bool_t`` TRUE.
+- Retorna: nada.
+
+**Crear el buffer (macro)**
+
+``circularBufferNew( buffName, elementSize, amountOfElements );``
+- Parámetro: ``buffName`` nombre del buffer.
+- Parámetro: ``elementSize`` Tamaño en bytes de cada elemento que guardará el buffer.
+- Parámetro: ``amountOfElements`` cantidad de elementos que podra almacenar el buffer.
+
+Esta macro realiza lo mismo que se puede declarar de forma manual:
+``circularBuffer_t buffName;
+uint8_t buffName_BufferMemory[ (amountOfElements + 1)*elementSize ];``
+
+Ejemplo:
+``circularBufferNew( nombreBuffer, tamañoEnBytesDeCadaElemento, CantidadMaximaDeElementosQuePuedeAlmacenar );``
+
+**Estructura circularBuffer_t**
+
+``circularBuffer_t`` es una estructura que contiene:
+- ``uint8_t* memoryAddress;`` Puntero al vector donde guarda los datos el buffer.
+- ``uint32_t amountOfElements;`` Cantidad máxima de elementos en el Buffer.
+- ``uint32_t elementSize;`` Tamaño en bytes de cada elemento en el Buffer.
+- ``uint32_t readIndex;`` Índice de lectura del Buffer.
+- ``uint32_t writeIndex;`` Índice de escritura del Buffer.
+- ``circularBufferStatus_t status;``  Estado del Buffer.
+- ``callBackFuncPtr_t emptyBufferCallback;`` Puntero a función que se ejecuta cuando Buffer vacío.
+- ``callBackFuncPtr_t fullBufferCalback;`` Puntero a función que se ejecuta cuando Buffer lleno.
+
+**Inicializar el buffer (macro)**
+
+``circularBufferInit( *buffName, elementSize, amountOfElements );``
+- Parámetro: ``buffName`` nombre del buffer pasado por referencia.
+- Parámetro: ``elementSize`` Tamaño en bytes de cada elemento que guardará el buffer.
+- Parámetro: ``amountOfElements`` cantidad de elementos que podra almacenar el buffer.
+
+Ejemplo:
+``circularBufferInit( &nombreBuffer, tamañoEnBytesDeCadaElemento, CantidadMaximaDeElementosQuePuedeAlmacenar );``
+
+**Usar un buffer declarado en otro archivo (macro)**
+
+Esto es necesario si quiero usar el buffer y el mismo fue creado con circularBufferNew()  de forma global.
+
+``circularBufferUse( nombreBuffer );``
+
+Ejemplo:
+``circularBufferUse( nombreBuffer );``
+
+**Escribir un dato en el buffer**
+
+``circularBufferStatus_t circularBufferWrite( circularBuffer_t* buffer, uint8_t *dataByte );``
+- Parámetro: ``circularBuffer_t* buffer`` Buffer a escribir pasado por referencia.
+- Parámetro: ``uint8_t *dataByte`` Dato a escribir pasado por referencia.
+- Retorna: ``circularBufferStatus_t`` Estado del buffer.
+
+Ejemplo:
+``uint8_t dato = 8;
+circularBufferWrite( &nombreBuffer, &dato );``
+
+**Leer un dato en el buffer**
+
+``circularBufferStatus_t circularBufferRead( circularBuffer_t* buffer, uint8_t *dataByte );``
+- Parámetro: ``circularBuffer_t* buffer`` Buffer a leer pasado por referencia.
+- Parámetro: ``uint8_t *dataByte`` Dato donde guardar lo leido del Buffer pasado por referencia.
+- Retorna: ``circularBufferStatus_t`` Estado del buffer.
+
+Ejemplo:
+``uint8_t dato = 0;
+circularBufferRead( &nombreBuffer, &dato );``
+
+**Condiciones de buffer lleno y vacío**
+
+Las funciones:
+
+``circularBufferWrite( &nombreBuffer, &dato );
+circularBufferRead( &nombreBuffer, &dato );``
+
+Retornan el estado del buffer cuando se pide leer o escribir un dato:
+
+``CIRCULAR_BUFFER_NORMAL Escribió o leyo correctamente el dato.
+CIRCULAR_BUFFER_EMPTY No pudo leer el dato porque el buffer está vacío.
+CIRCULAR_BUFFER_FULL No pudo escribir el dato porque el buffer está lleno.``
+
+De esta forma podemos chequear si se leyó o escribió con un if():
+
+``if( CIRCULAR_BUFFER_EMPTY == circularBufferRead( &nombreBuffer, &dato ) ){
+   // No leyo nada... Informar error o ignorar
+} else{
+   // leyo, hacer algo con el dato leido
+}``
+
+Alternativamente se puede ignorar el valor retornado y setear una función de callback en caso de errores. De esta forma si al llamar a estas funciones hay un error se llama al callback correspondiente. Para setear los callbacks se usan las funciones:
+
+``circularBufferEmptyBufferCallbackSet( &nombreBuffer, cuandoBufferVacio );
+circularBufferFullBufferCallbackSet( &nombreBuffer, cuandoBufferLleno );``
+
+Las funciones de callback tienen que retornar void y recibir como parámetro un puntero a void, ejemplo:
+
+``
+void cuandoBufferLleno(void* unused){
+    // ...
+}
+
+void cuandoBufferVacio(void* unused){
+    // ...
+}
+``
 
 ## Archivos que componen la biblioteca
 
