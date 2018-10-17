@@ -230,6 +230,9 @@ void Timer_SetCompareMatch( uint8_t timerNumber,
 }
 
 /*==================[ISR external functions definition]======================*/
+
+#ifdef SAPI_USE_INTERRUPTS
+
 /*
  * @Brief:   Executes the functions passed by parameter in the Timer_init,
  *   at the chosen frequencies
@@ -297,5 +300,7 @@ void TIMER3_IRQHandler( void )
       }
    }
 }
+
+#endif /* SAPI_USE_INTERRUPTS */
 
 /*==================[end of file]============================================*/

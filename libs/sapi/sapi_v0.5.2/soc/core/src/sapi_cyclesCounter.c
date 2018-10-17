@@ -47,9 +47,10 @@
 /** Registros correspondientes al nucleo. Probados con Cortex-M3 y Cortex-M4. */
 
 //Registro para configurar el contador de ciclos de clock.
-volatile uint32_t * DWT_CTRL   = (uint32_t *)0xE0001000;
+//volatile uint32_t* DWT_CTRL   = (uint32_t*)0xE0001000;
+
 //Registro donde se cuentan los ciclos de clock.
-volatile uint32_t * DWT_CYCCNT = (uint32_t *)0xE0001004;
+//volatile uint32_t* DWT_CYCCNT = (uint32_t*)0xE0001004;
 
 /*==================[internal functions declaration]=========================*/
 
@@ -72,7 +73,7 @@ bool_t cyclesCounterInit( uint32_t clockSpeed )
    //Asigna  a la variable local ClockSpeed el valor recibido como argumento.
    ClockSpeed = clockSpeed;
    //Iniciar el contador de ciclos de clock.
-   *DWT_CTRL  |= 1;
+   DWT_CTRL  |= 1; // *DWT_CTRL  |= 1;
    return TRUE;
 }
 
@@ -80,10 +81,12 @@ bool_t cyclesCounterInit( uint32_t clockSpeed )
  * Funcion para leer el registro con la cuenta de ciclos de clock.
  * @return el valor del contador de ciclos de clock.
  */
+/*
 uint32_t cyclesCounterRead( void )
 {
    return *DWT_CYCCNT;
 }
+*/
 
 /**
  * Resetea el contador de ciclos de clock.
@@ -92,11 +95,30 @@ uint32_t cyclesCounterRead( void )
  * se debe llamar a la funcion cyclesCounterRead(). Asi se
  * obtendra la cantidad de ciclos que pasaron.
  */
+/*
 void cyclesCounterReset( void )
 {
    //resetea el contador de ciclos de clock
    *DWT_CYCCNT = 0;
 }
+*/
+
+
+
+/**
+ * Funcion que convierte el valor en ciclos a nano segundos.
+ * Para que esta cuenta se realice correctamente, se tuvo que haber
+ * llamado previamente a la funcion cyclesCounterInit (CLOCK_SPEED);
+ * @param cycles la cantidad de ciclos.
+ * @return el valor convertido a nano segundos.
+ */
+float cyclesCounterToNs( uint32_t cycles )
+{
+   float valueInNanoSeconds = 0.0;
+   valueInNanoSeconds = (float)cycles/((float)ClockSpeed/1000000000.0);
+   return valueInNanoSeconds;
+}
+
 
 /**
  * Funcion que convierte el valor en ciclos a micro segundos.
@@ -107,8 +129,8 @@ void cyclesCounterReset( void )
  */
 float cyclesCounterToUs( uint32_t cycles )
 {
-   float valueInMicroSeconds = 0;
-   valueInMicroSeconds = (float)cycles/(ClockSpeed/1000000);
+   float valueInMicroSeconds = 0.0;
+   valueInMicroSeconds = (float)cycles/((float)ClockSpeed/1000000.0);
    return valueInMicroSeconds;
 }
 
@@ -121,8 +143,8 @@ float cyclesCounterToUs( uint32_t cycles )
  */
 float cyclesCounterToMs( uint32_t cycles )
 {
-   float valueInMilliSeconds = 0;
-   valueInMilliSeconds = (float)cycles/(ClockSpeed/1000);
+   float valueInMilliSeconds = 0.0;
+   valueInMilliSeconds = (float)cycles/((float)ClockSpeed/1000.0);
    return valueInMilliSeconds;
 }
 

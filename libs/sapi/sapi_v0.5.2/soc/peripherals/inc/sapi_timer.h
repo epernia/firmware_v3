@@ -110,6 +110,8 @@ void Timer_DisableCompareMatch( uint8_t timerNumber, uint8_t compareMatchNumber 
 void Timer_SetCompareMatch( uint8_t timerNumber, uint8_t compareMatchNumber, uint32_t ticks );
 
 /*==================[ISR external functions declaration]=====================*/
+
+#ifdef SAPI_USE_INTERRUPTS
 /*
  * @Brief:   Executes the functions passed by parameter in the Timer_init,
  *   at the chosen frequencies
@@ -118,6 +120,8 @@ void TIMER0_IRQHandler(void);
 void TIMER1_IRQHandler(void);
 void TIMER2_IRQHandler(void);
 void TIMER3_IRQHandler(void);
+
+#endif /* SAPI_USE_INTERRUPTS */
 
 /*==================[cplusplus]==============================================*/
 

@@ -52,9 +52,21 @@ extern "C" {
 /*==================[macros]=================================================*/
 
 // TODO: Check CPU core speed using SystemCoreClock
-#define EDU_CIAA_NXP_CLOCK_SPEED	204000000
+#define EDU_CIAA_NXP_CLOCK_SPEED   204000000
 
-#define cyclesCounterConfig cyclesCounterInit
+#define cyclesCounterConfig        cyclesCounterInit
+
+// Registro DWT_CTRL para configurar el contador de ciclos de clock.
+#define DWT_CTRL   (HW_REG_32_RW(0xE0001000))
+
+// Registro DWT_CYCCNT donde se cuentan los ciclos de clock.
+#define DWT_CYCCNT   (HW_REG_32_RW(0xE0001004))
+
+// Read Cycles Counter
+#define cyclesCounterRead()        DWT_CYCCNT
+
+// Reset Cycles Counter
+#define cyclesCounterReset()       (DWT_CYCCNT = 0)
 
 /*==================[typedef]================================================*/
 
@@ -66,9 +78,7 @@ extern "C" {
 
 bool_t cyclesCounterInit( uint32_t clockSpeed );
 
-uint32_t cyclesCounterRead( void );
-
-void cyclesCounterReset( void );
+float cyclesCounterToNs( uint32_t cycles );
 
 float cyclesCounterToUs( uint32_t cycles );
 

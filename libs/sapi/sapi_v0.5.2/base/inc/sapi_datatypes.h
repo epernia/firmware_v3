@@ -74,6 +74,28 @@ extern "C" {
 #define TRUE   (!FALSE)
 #endif
 
+
+// From: https://es.coursera.org/lecture/embedded-software-hardware/9-register-definition-files-6pqVq
+
+//  __I Defines 'read only' permissions: volatile const
+//  __O Defines 'write only' permissions: volatile
+// __IO Defines 'read / write' permissions: volatile
+
+#define HW_REG_8_R(x)     (*((__I  uint8_t *)(x)))
+#define HW_REG_16_R(x)    (*((__I uint16_t *)(x)))
+#define HW_REG_32_R(x)    (*((__I uint32_t *)(x)))
+
+#define HW_REG_8_W(x)     (*((__O  uint8_t *)(x)))
+#define HW_REG_16_W(x)    (*((__O uint16_t *)(x)))
+#define HW_REG_32_W(x)    (*((__O uint32_t *)(x)))
+
+#define HW_REG_8_RW(x)    (*((__IO  uint8_t *)(x)))
+#define HW_REG_16_RW(x)   (*((__IO uint16_t *)(x)))
+#define HW_REG_32_RW(x)   (*((__IO uint32_t *)(x)))
+
+// Example:
+//#define REG_NAME   (HW_REG_32_RW(0x4544555))
+
 /*==================[typedef]================================================*/
 
 /* Define Boolean Data Type */

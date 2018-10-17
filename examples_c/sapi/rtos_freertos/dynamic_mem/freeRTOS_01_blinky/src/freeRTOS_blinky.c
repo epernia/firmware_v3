@@ -103,13 +103,23 @@ int main(void)
 void myTask( void* taskParmPtr )
 {
    // ---------- CONFIGURACIONES ------------------------------
+   printf( "Blinky con freeRTOS y sAPI.\r\n" );
+
+   gpioWrite( LED1, ON );
+   // Envia la tarea al estado bloqueado durante 1 s (delay)
+   vTaskDelay( 1000 / portTICK_RATE_MS );
+   gpioWrite( LED1, OFF ); 
+
+   // Tarea periodica cada 500 ms
+   portTickType xPeriodicity =  500 / portTICK_RATE_MS;
+   portTickType xLastWakeTime = xTaskGetTickCount();
+   
    // ---------- REPETIR POR SIEMPRE --------------------------
    while(TRUE) {
-      // Intercambia el estado del LEDB
       gpioToggle( LEDB );
-      debugPrintlnString( "Blink!" );
-      // Envia la tarea al estado bloqueado durante 500ms
-      vTaskDelay( 500 / portTICK_RATE_MS );
+      printf( "Blink!\r\n" );
+      // Envia la tarea al estado bloqueado durante xPeriodicity (delay periodico)
+      vTaskDelayUntil( &xLastWakeTime, xPeriodicity );
    }
 }
 

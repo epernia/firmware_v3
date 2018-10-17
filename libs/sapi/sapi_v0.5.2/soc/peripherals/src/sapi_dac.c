@@ -64,7 +64,10 @@ void dacInit( dacInit_t config )
 
    case DAC_ENABLE:
       /* Initialize the DAC peripheral */
-      Chip_DAC_Init(LPC_DAC);
+      //Chip_DAC_Init(LPC_DAC);
+      Chip_Clock_EnableOpts(CLK_APB3_DAC, true, true, 1);
+      /* Set update rate to 400 KHz */
+      Chip_DAC_SetBias(LPC_DAC, DAC_MAX_UPDATE_RATE_400kHz);
 
       /* Enables the DMA operation and controls DMA timer */
       Chip_DAC_ConfigDAConverterControl(LPC_DAC, DAC_DMA_ENA);
@@ -90,7 +93,6 @@ void dacInit( dacInit_t config )
  */
 void dacWrite( dacMap_t analogOutput, uint16_t value )
 {
-
    if( analogOutput == AO ) {
       if( value > 1023 ) {
          value = 1023;
