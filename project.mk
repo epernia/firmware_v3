@@ -9,7 +9,7 @@
 # Project name
 #PROJECT_NAME = blinky
 
-# ---------- xample of path outside this file folder ------------------
+# ---------- Example of path outside this file folder ------------------
 # Project path
 #PROJECT_PATH = ../examples
 # Project name
@@ -17,6 +17,3 @@
 
 PROJECT_PATH = 
 PROJECT_NAME = app
-
-PROJECT_PATH = examples_c/sapi/mobile/sim808
-PROJECT_NAME = at_uart_bridge
