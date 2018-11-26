@@ -53,3 +53,7 @@ dkms.conf
 
 out/
 .build-log
+
+# Eclipse files
+.settings/
+.cproject
