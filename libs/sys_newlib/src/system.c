@@ -1,3 +1,5 @@
+#ifndef USE_SEMIHOST
+
 #include <reent.h>
 #include <errno.h>
 #include <signal.h>
@@ -246,3 +248,5 @@ int _gettimeofday_r(struct _reent *r, struct timeval *__tp, void *__tzp) {
    SET_ERR(ENOSYS);
    return -1;
 }
+
+#endif

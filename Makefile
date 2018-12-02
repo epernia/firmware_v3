@@ -62,6 +62,7 @@ LDFLAGS+=--specs=nano.specs
 endif
 
 ifeq ($(SEMIHOST),y)
+DEFINES+=USE_SEMIHOST
 LDFLAGS+=--specs=rdimon.specs
 endif
 
@@ -146,14 +147,29 @@ $(TARGET_NM): $(TARGET)
 size: $(TARGET)
 	$(Q)$(SIZE) $<
 
-download: $(TARGET_BIN)
-	@echo DOWNLOAD
+.download_flash: $(TARGET_BIN)
+	@echo DOWNLOAD to FLASH
 	$(Q)$(OOCD) -f $(OOCD_SCRIPT) \
 		-c "init" \
 		-c "halt 0" \
 		-c "flash write_image erase unlock $< 0x1A000000 bin" \
 		-c "reset run" \
 		-c "shutdown" 2>&1
+
+.download_ram: $(TARGET_BIN)
+	@echo DOWNLOAD to RAM
+	$(Q)$(OOCD) -f $(OOCD_SCRIPT) \
+			 -c "init" \
+			 -c "halt 0" \
+			 -c "load_image $< 0x20000000 bin" \
+			 -c "reset run" \
+			 -c "shutdown" 2>&1
+
+ifeq ($(LOAD_INRAM),y)
+download: .download_ram
+else
+download: .download_flash
+endif
 
 erase:
 	@echo ERASE
@@ -167,6 +183,16 @@ debug:
 	@echo DEBUG
 	$(Q)$(OOCD) -f $(OOCD_SCRIPT) 2>&1
 
+run: $(TARGET)
+	$(Q)$(OOCD) -f $(OOCD_SCRIPT) &
+	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) \
+		-ex "target remote :3333" \
+		-ex "mon arm semihosting enable" \
+		-ex "mon reset halt" \
+		-ex "load" \
+		-ex "continue"
+		-ex "quit"
+	
 clean:
 	@echo CLEAN
 	$(Q)rm -fR $(OBJECTS) $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(DEPS) $(OUT)
