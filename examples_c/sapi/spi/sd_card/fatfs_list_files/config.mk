@@ -19,3 +19,4 @@ FREERTOS_HEAP_TYPE=5
 # Let FSSDC/FSUSB print their own status messages by DEBUGSTR()
 DEFINES+=DEBUG_ENABLE
 
+LOAD_INRAM=n

@@ -30,7 +30,11 @@ else
 DEFINES+=__FPU_PRESENT=OU
 endif
 
-LDSCRIPT=lpc4337.ld
+ifeq ($(LOAD_INRAM),y)
+LDSCRIPT=flat.ld
+else
+LDSCRIPT=link.ld
+endif
 
 SRC+=$(wildcard $(LPCOPEN_BASE)/lpc_startup/src/*.c) 
 INCLUDES+=-I$(LPCOPEN_BASE)/lpc_startup/inc

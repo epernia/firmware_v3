@@ -1,8 +1,6 @@
 /*
  * Copyright (C) 2018 by Martin Alejandro Ribelotta
  */
- 
-#include <cmsis.h>
 
 #define WEAK __attribute__ ((weak))
 #define ALIAS(f) __attribute__ ((weak, alias (#f)))
@@ -24,6 +22,12 @@ WEAK void SVC_Handler(void);
 WEAK void DebugMon_Handler(void);
 WEAK void PendSV_Handler(void);
 WEAK void SysTick_Handler(void);
+
+WEAK void initialise_monitor_handles(void);
+
+void initialise_monitor_handles(void)
+{
+}
 
 __attribute__ ((used,section(".isr_vector")))
 void (* const g_pfnVectors[])(void) = {
@@ -70,7 +74,7 @@ extern unsigned int __bss_section_table;
 extern unsigned int __bss_section_table_end;
 
 void Reset_Handler(void) {
-    __disable_irq();
+    __asm__ volatile("cpsid i");
 
     volatile unsigned int *RESET_CONTROL = (unsigned int *) 0x40053100;
     *(RESET_CONTROL + 0) = 0x10DF1000;
@@ -81,7 +85,7 @@ void Reset_Handler(void) {
     for (irqpendloop = 0; irqpendloop < 8; irqpendloop++) {
         *(NVIC_ICPR + irqpendloop) = 0xFFFFFFFF;
     }
-    __enable_irq();
+    __asm__ volatile("cpsie i");
 
     unsigned int LoadAddr, ExeAddr, SectionLen;
     unsigned int *SectionTableAddr;
@@ -102,9 +106,10 @@ void Reset_Handler(void) {
     SystemInit();
 
     __libc_init_array();
+    initialise_monitor_handles();
     main();
     while (1) {
-        __WFI();
+        __asm__ volatile("wfi");
     }
 }
 
