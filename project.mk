@@ -17,6 +17,3 @@
 
 PROJECT_PATH = 
 PROJECT_NAME = app
-
-PROJECT_PATH = examples_c/sapi/usb/device
-PROJECT_NAME = cdc_uart
