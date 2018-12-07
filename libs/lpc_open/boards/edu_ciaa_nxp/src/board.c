@@ -239,13 +239,14 @@ void Board_Init(void)
 {
    DEBUGINIT();
    Chip_GPIO_Init (LPC_GPIO_PORT);
+   
+   Board_GPIO_Init();
+   Board_ADC_Init();
+   Board_SPI_Init();
+   Board_I2C_Init();
 
    Board_LED_Init();
    Board_TEC_Init();
-   Board_SPI_Init();
-   Board_GPIO_Init();
-   Board_I2C_Init();
-   Board_ADC_Init();
 
    #ifdef USE_RMII
    Chip_ENET_RMIIEnable(LPC_ETHERNET);

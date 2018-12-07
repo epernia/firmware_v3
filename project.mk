@@ -17,3 +17,12 @@
 
 PROJECT_PATH = 
 PROJECT_NAME = app
+
+PROJECT_PATH = examples_c/minut_unit_tests
+PROJECT_NAME = hello
+
+PROJECT_PATH = examples_c/minut_unit_tests/semihosting_inram_tests
+PROJECT_NAME = hello
+
+PROJECT_PATH = examples_c/
+PROJECT_NAME = semihost_stdio

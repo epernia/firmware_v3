@@ -185,14 +185,14 @@ debug:
 
 run: $(TARGET)
 	$(Q)$(OOCD) -f $(OOCD_SCRIPT) &
-	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) \
-		-ex "target remote :3333" \
-		-ex "mon arm semihosting enable" \
-		-ex "mon reset halt" \
-		-ex "load" \
-		-ex "continue"
-		-ex "quit"
-	
+	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
+
+.hwtest: $(TARGET)
+	$(Q)$(OOCD) -f $(OOCD_SCRIPT) > $(TARGET).log &
+	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
+	$(Q)cat $(TARGET).log
+	[ $(cat $(TARGET).log" | grep FAIL -o | wc -w) == 0 ] && exit 0 || exit 1
+
 clean:
 	@echo CLEAN
 	$(Q)rm -fR $(OBJECTS) $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(DEPS) $(OUT)
