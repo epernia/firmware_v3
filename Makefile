@@ -187,10 +187,12 @@ run: $(TARGET)
 	$(Q)$(OOCD) -f $(OOCD_SCRIPT) &
 	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
 
+#	$(Q)sleep 2 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
 #	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
+
 hwtest: $(TARGET)
 	$(Q)$(OOCD) -f $(OOCD_SCRIPT) > $(TARGET).log &
-	$(Q)sleep 3 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
+	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
 	$(Q)cat $(TARGET).log
 	$(Q)cat $(TARGET).log | grep FAIL -o >/dev/null && exit 1 || exit 0
 
