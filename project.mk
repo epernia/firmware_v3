@@ -24,5 +24,8 @@ PROJECT_NAME = hello
 PROJECT_PATH = examples_c/minut_unit_tests/semihosting_inram_tests
 PROJECT_NAME = hello
 
-PROJECT_PATH = examples_c/
+PROJECT_PATH = examples_c
 PROJECT_NAME = semihost_stdio
+
+PROJECT_PATH = test_hardware
+PROJECT_NAME = hello
