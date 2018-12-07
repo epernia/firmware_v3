@@ -1,0 +1,10 @@
+Open On-Chip Debugger 0.10.0
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+adapter speed: 2000 kHz
+none separate
+cortex_m reset_config vectreset
+Error: couldn't bind tcl to socket: Address already in use
+scripts/openocd/gdbinit:1: Error in sourced command file:
+Remote communication error.  Target disconnected.: Conexión reinicializada por la máquina remota.

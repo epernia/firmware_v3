@@ -23,7 +23,7 @@ do
    P_PATH=$(dirname ${D})
    OUT_STDOUT=${OUT}/${P_NAME}.stdout
    OUT_STDERR=${OUT}/${P_NAME}.stderr
-   printf "[%02d of %02d] \e[36m%-32s\e[0m BUILD " ${COUNT} ${N} [${P_NAME}]
+   printf "[%02d of %02d] \e[36m%-32s\e[0m BUILD   " ${COUNT} ${N} [${P_NAME}]
    make -C ${BASE} \
       PROJECT_PATH=${P_PATH} \
       PROJECT_NAME=${P_NAME} \
@@ -34,7 +34,7 @@ do
    make -C ${BASE} \
       PROJECT_PATH=${P_PATH} \
       PROJECT_NAME=${P_NAME} \
-      .test > ${OUT_STDOUT} 2>${OUT_STDERR} \
+      hwtest > ${OUT_STDOUT} 2>${OUT_STDERR} \
          && (echo -e "[\e[32mPASS\e[0m]"; echo "${D}" >> ${OUT_GLOBAL_PASS}) \
          || (echo -e "[\e[31mFAIL\e[0m]"; echo "${D}" >> ${OUT_GLOBAL_FAIL})
    make -C ${BASE} \

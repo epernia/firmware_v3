@@ -5,7 +5,7 @@ MEMORY
   FLATRAM (rwx) : ORIGIN = 0x20000000, LENGTH = 64K
 }
 
-ENTRY(ResetISR)
+ENTRY(Reset_Handler)
 
 SECTIONS
 {
@@ -108,7 +108,7 @@ SECTIONS
     PROVIDE(_vStackTop = ORIGIN(FLATRAM) + LENGTH(FLATRAM) );
     PROVIDE(__valid_user_code_checksum = 0 -
          (_vStackTop
-         + (ResetISR + 1)
+         + (Reset_Handler + 1)
          + (NMI_Handler + 1)
          + (HardFault_Handler + 1)
          + (( DEFINED(MemManage_Handler) ? MemManage_Handler : 0 ) + 1)   /* MemManage_Handler may not be defined */

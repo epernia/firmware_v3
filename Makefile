@@ -54,8 +54,8 @@ LDFLAGS=$(ARCH_FLAGS)
 LDFLAGS+=$(addprefix -L, $(foreach m, $(MODULES), $(wildcard $(m)/lib)))
 LDFLAGS+=$(addprefix -L, $(wildcard $(dir $(LIBSDEPS))))
 LDFLAGS+=$(addprefix -l, $(LIBS))
-LDFLAGS+=-Tlink.ld
-LDFLAGS+=-nostartfiles -Wl,-gc-sections -Wl,-Map=$(TARGET_MAP) -Wl,--cref
+LDFLAGS+=-T$(LDSCRIPT)
+LDFLAGS+=-Wl,-gc-sections -Wl,-Map=$(TARGET_MAP) -Wl,--cref
 
 ifeq ($(USE_NANO),y)
 LDFLAGS+=--specs=nano.specs
@@ -187,11 +187,12 @@ run: $(TARGET)
 	$(Q)$(OOCD) -f $(OOCD_SCRIPT) &
 	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
 
-.hwtest: $(TARGET)
+#	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
+hwtest: $(TARGET)
 	$(Q)$(OOCD) -f $(OOCD_SCRIPT) > $(TARGET).log &
-	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
+	$(Q)sleep 3 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
 	$(Q)cat $(TARGET).log
-	[ $(cat $(TARGET).log" | grep FAIL -o | wc -w) == 0 ] && exit 0 || exit 1
+	$(Q)cat $(TARGET).log | grep FAIL -o >/dev/null && exit 1 || exit 0
 
 clean:
 	@echo CLEAN
