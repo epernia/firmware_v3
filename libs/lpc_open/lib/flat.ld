@@ -14,6 +14,7 @@ SECTIONS
         FILL(0xff)
         __vectors_start__ = ABSOLUTE(.) ;
         KEEP(*(.isr_vector))
+        KEEP(*(.isr_vendor_vector))
 
         /* Global Section Table */
         . = ALIGN(4) ;
@@ -25,6 +26,9 @@ SECTIONS
         LONG(  SIZEOF(.bss));
         __bss_section_table_end = .;
         __section_table_end = . ;
+        /* End of Global Section Table */
+
+
         *(.after_vectors*)
     } >FLATRAM
     . = ALIGN(4);
@@ -71,6 +75,18 @@ SECTIONS
     __exidx_end = .;
 
     _etext = .;
+
+
+    /* MAIN DATA SECTION */
+
+
+    .uninit_RESERVED : ALIGN(4)
+    {
+        KEEP(*(.bss.$RESERVED*))
+        . = ALIGN(4) ;
+        _end_uninit_RESERVED = .;
+    } > FLATRAM
+
 
    /* Main DATA section (RamLoc32) */
    .data : ALIGN(4)

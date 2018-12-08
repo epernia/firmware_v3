@@ -55,7 +55,7 @@ LDFLAGS+=$(addprefix -L, $(foreach m, $(MODULES), $(wildcard $(m)/lib)))
 LDFLAGS+=$(addprefix -L, $(wildcard $(dir $(LIBSDEPS))))
 LDFLAGS+=$(addprefix -l, $(LIBS))
 LDFLAGS+=-T$(LDSCRIPT)
-LDFLAGS+=-Wl,-gc-sections -Wl,-Map=$(TARGET_MAP) -Wl,--cref
+LDFLAGS+=-nostartfiles -Wl,-gc-sections -Wl,-Map=$(TARGET_MAP) -Wl,--cref
 
 ifeq ($(USE_NANO),y)
 LDFLAGS+=--specs=nano.specs
