@@ -1,5 +1,3 @@
-#ifndef USE_SEMIHOST
-
 #include <reent.h>
 #include <errno.h>
 #include <signal.h>
@@ -9,6 +7,8 @@
 
 #define UNUSED(x) (void)x
 #define SET_ERR(e) (r->_errno = e)
+
+#ifndef USE_SEMIHOST
 
 WEAK void __stdio_putchar(int c);
 WEAK int __stdio_getchar();
@@ -189,18 +189,6 @@ int _rename_r(struct _reent *r, const char *oldf, const char *newf) {
    return -1;
 }
 
-void *_sbrk_r(struct _reent *r, ptrdiff_t incr) {
-   extern int _pvHeapStart;
-   static void *heap_end;
-   void *prev_heap_end;
-   if (heap_end == 0) {
-       heap_end = &_pvHeapStart;
-   }
-   prev_heap_end = heap_end;
-   heap_end += incr;
-   return prev_heap_end;
-}
-
 int _stat_r(struct _reent *r, const char *name, struct stat *s) {
    UNUSED(name);
    UNUSED(s);
@@ -250,3 +238,15 @@ int _gettimeofday_r(struct _reent *r, struct timeval *__tp, void *__tzp) {
 }
 
 #endif
+
+void *_sbrk_r(struct _reent *r, ptrdiff_t incr) {
+   extern int _pvHeapStart;
+   static void *heap_end;
+   void *prev_heap_end;
+   if (heap_end == 0) {
+       heap_end = &_pvHeapStart;
+   }
+   prev_heap_end = heap_end;
+   heap_end += incr;
+   return prev_heap_end;
+}

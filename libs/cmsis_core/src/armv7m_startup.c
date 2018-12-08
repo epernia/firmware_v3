@@ -66,7 +66,11 @@ void bss_init(unsigned int start, unsigned int len) {
         *pulDest++ = 0;
 }
 
-//void _init(void) {}
+WEAK void _fini(void);
+void _fini(void) {}
+
+WEAK void _init(void);
+void _init(void) {}
 
 extern unsigned int __data_section_table;
 extern unsigned int __data_section_table_end;
