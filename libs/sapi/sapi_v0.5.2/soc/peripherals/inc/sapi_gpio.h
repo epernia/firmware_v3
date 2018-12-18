@@ -49,7 +49,12 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-#define gpioConfig gpioInit
+#define gpioConfig  gpioInit
+#define pinInit     gpioInit
+#define pinRead     gpioRead
+#define pinWrite    gpioWrite
+#define pinValueGet gpioRead
+#define pinValueSet gpioWrite
 
 /*==================[typedef]================================================*/
 
