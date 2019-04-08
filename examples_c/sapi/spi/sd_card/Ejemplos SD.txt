@@ -1,0 +1,219 @@
+Ejemplo: escribir un archivo de texto en una tarjeta SD
+=======================================================
+
+PROJECT_PATH = examples_c/sapi/spi/sd_card
+PROJECT_NAME = fatfs_wite_file
+
+
+Si no hay SD insertada
+----------------------
+
+FSSDC: [InitSPI] New card status: Inserted.
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+
+
+Se puede ver que si falla la inicializacion reintenta 5 veces más...
+
+Enciende el LEDR para indicar que falló al intentar grabar el archivo.
+
+Con SD insertada
+----------------
+
+FSSDC: [InitSPI] New card status: Inserted.
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Initializing.
+FSSDC: [Init] New card status: Ready (Fast Clock).
+
+Enciende el LEDG para indicar que grabó correctamente el archivo.
+
+Graba el archivo "hola.txt" cuyo contenido es:
+
+Hola mundo
+Hola mundo
+Hola mundo
+Hola mundo
+Hola mundo
+
+
+Nóte que el archivo ocupa 60 bytes, esto es 1 byte por cada caracter, contando con 5 líneas de 12 caracteres (recordar contar los \r y \n de cada línea).
+
+===============================================================================
+
+Ejemplo: escribir archivo en una tarjeta SD con time-stamp usando RTC
+=====================================================================
+
+PROJECT_PATH = examples_c/sapi/spi/sd_card
+PROJECT_NAME = fatfs_log_time_stamp
+
+
+Si no hay SD insertada
+----------------------
+
+Inicializando
+FSSDC: [InitSPI] New card status: Inserted.
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+Inicializamos RTC
+RTC listo
+0000-01-01 00:00:00
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+Error al abrir el archivo
+2018-08-16 20:10:00
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+Error al abrir el archivo
+2018-08-16 20:10:01
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+Error al abrir el archivo
+2018-08-16 20:10:02
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+Error al abrir el archivo
+2018-08-16 20:10:03
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+Error al abrir el archivo
+2018-08-16 20:10:04
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+Error al abrir el archivo
+2018-08-16 20:10:05
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+Error al abrir el archivo
+
+Se puede ver que si falla la inicializacion se queda reintentando cada 1 segundo...
+También se puede ver que hasta el primer reintento el RTC aún no estaba configurado correctamente.
+
+Enciende el LEDR para indicar que falló al intentar grabar el archivo.
+
+
+Con SD insertada
+----------------
+
+Inicializando
+FSSDC: [InitSPI] New card status: Inserted.
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Initializing.
+FSSDC: [Init] New card status: Ready (Fast Clock).
+Inicializamos RTC
+RTC listo
+2018-08-16 20:10:00
+Escribio correctamente
+
+Enciende el LEDG para indicar que grabó correctamente el archivo.
+Queda grabando muestras con timestamp cada 1 segundo informando el estado de grabación:
+
+2018-08-16 20:10:01
+Escribio correctamente
+2018-08-16 20:10:02
+Escribio correctamente
+2018-08-16 20:10:03
+Escribio correctamente
+2018-08-16 20:10:04
+Escribio correctamente
+2018-08-16 20:10:05
+Escribio correctamente
+
+...
+
+Si se remueve la tarjeta SD informa cada 1 segundo (enciende el LEDR, se ven juntos LEDG y LEDR):
+
+2018-08-16 20:10:06
+Error al abrir el archivo
+2018-08-16 20:10:07
+Error al abrir el archivo
+2018-08-16 20:10:08
+Error al abrir el archivo
+
+...
+
+
+Si se vuelve a insertar la SD sigue dando error al abrir el archivo.
+
+El archivo que graba se llama "log.txt" cuyo contenido es:
+
+Hola mundo 2018-08-16 20:10:00
+Hola mundo 2018-08-16 20:10:01
+Hola mundo 2018-08-16 20:10:02
+Hola mundo 2018-08-16 20:10:03
+Hola mundo 2018-08-16 20:10:04
+Hola mundo 2018-08-16 20:10:05
+Hola mundo 2018-08-16 20:10:06
+Hola mundo 2018-08-16 20:10:07
+Hola mundo 2018-08-16 20:10:08
+Hola mundo 2018-08-16 20:10:09
+
+...
+
+
+Nóte que el archivo ocupa 60 bytes, esto es 1 byte por cada caracter, contando con 5 líneas de 12 caracteres (recordar contar los \r y \n de cada línea).
+
+
+===============================================================================
+
+Ejemplo: Listar archivos y carpetas de una tarjeta SD
+=====================================================
+
+PROJECT_PATH = examples_c/sapi/spi/sd_card
+PROJECT_NAME = fatfs_list_files
+
+
+Si no hay SD insertada
+----------------------
+
+FSSDC: [InitSPI] New card status: Inserted.
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Error (Not Initialized).
+
+Reintenta una sola vez
+
+Con SD insertada
+----------------
+
+FSSDC: [InitSPI] New card status: Inserted.
+FSSDC: [Init] Initialization begins.
+FSSDC: [Init] New card status: Native Mode.
+FSSDC: [Init] New card status: Initializing.
+FSSDC: [Init] New card status: Ready (Fast Clock).
+//log.txt
+//hola.txt
+//System Volume Information
+/WPSettings.dat
+//System Volume Information
+/IndexerVolumeGuid
+
+Se ven los 2 archivos que tiene la SD: "log.txt" y "hola.txt", junto con archivos ocultos internos de Windows.

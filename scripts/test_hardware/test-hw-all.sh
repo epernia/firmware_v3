@@ -31,10 +31,6 @@ do
          && (echo -e "[\e[32mPASS\e[0m]"; echo "${D}" >> ${OUT_GLOBAL_PASS}) \
          || (echo -e "[\e[31mFAIL\e[0m]"; echo "${D}" >> ${OUT_GLOBAL_FAIL})
    printf "[%02d of %02d] \e[36m%-32s\e[0m HW-TEST " ${COUNT} ${N} [${P_NAME}]
-   echo "make -C ${BASE} \
-      PROJECT_PATH=${P_PATH} \
-      PROJECT_NAME=${P_NAME} \
-      hwtest > ${OUT_STDOUT} 2>${OUT_STDERR}"
    make -C ${BASE} \
       PROJECT_PATH=${P_PATH} \
       PROJECT_NAME=${P_NAME} \
