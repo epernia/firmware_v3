@@ -171,6 +171,12 @@ else
 download: .download_flash
 endif
 
+.PHONY: newproject
+newproject:
+	@echo New project wizard starting...
+	@sh scripts/create_project.sh
+	@echo done.
+
 erase:
 	@echo ERASE
 	$(Q)$(OOCD) -f $(OOCD_SCRIPT) \
