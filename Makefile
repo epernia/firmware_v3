@@ -1,46 +1,46 @@
-# -------- Project path and name default values ------------------------
-# Project path
-# relative to this folder, leave void if the project is in this folder
-PROJECT_PATH =
-# Project name
-PROJECT_NAME = app
-# -------- Project path and name from an external projec.mk file -------
--include project.mk
+# -------- Program path and name default values ------------------------
+# Program path
+# relative to this folder, leave void if the program is in this folder
+PROGRAM_PATH = examples/c
+# Program name
+PROGRAM_NAME = app
+# -------- Program path and name from an external projec.mk file -------
+-include program.mk
 
-# Compose project path and name
-ifeq ($(PROJECT_PATH),)
-PROJECT_PATH_AND_NAME=$(PROJECT_NAME)
+# Compose program path and name
+ifeq ($(PROGRAM_PATH),)
+PROGRAM_PATH_AND_NAME=$(PROGRAM_NAME)
 else
-PROJECT_PATH_AND_NAME=$(PROJECT_PATH)/$(PROJECT_NAME)
+PROGRAM_PATH_AND_NAME=$(PROGRAM_PATH)/$(PROGRAM_NAME)
 endif
 
-# -------- Include config.mk file fom project --------------------------
-include $(PROJECT_PATH_AND_NAME)/config.mk
+# -------- Include config.mk file fom program --------------------------
+include $(PROGRAM_PATH_AND_NAME)/config.mk
 # ----------------------------------------------------------------------
 
 MODULES=$(sort $(dir $(wildcard libs/*/)))
-SRC=$(wildcard $(PROJECT_PATH_AND_NAME)/src/*.c)
+SRC=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.c)
 SRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.c))
 
-CXXSRC=$(wildcard $(PROJECT_PATH_AND_NAME)/src/*.cpp)
+CXXSRC=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.cpp)
 CXXSRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.cpp))
 
-ASRC=$(wildcard $(PROJECT_PATH_AND_NAME)/src/*.s)
+ASRC=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.s)
 ASRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.s))
 
-OUT=$(PROJECT_PATH_AND_NAME)/out
+OUT=$(PROGRAM_PATH_AND_NAME)/out
 OBJECTS=$(CXXSRC:%.cpp=$(OUT)/%.o) $(ASRC:%.s=$(OUT)/%.o) $(SRC:%.c=$(OUT)/%.o)
 DEPS=$(OBJECTS:%.o=%.d)
 
 OOCD_SCRIPT=scripts/openocd/lpc4337.cfg
 
-TARGET=$(OUT)/$(PROJECT_NAME).elf
+TARGET=$(OUT)/$(PROGRAM_NAME).elf
 TARGET_BIN=$(basename $(TARGET)).bin
 TARGET_LST=$(basename $(TARGET)).lst
 TARGET_MAP=$(basename $(TARGET)).map
 TARGET_NM=$(basename $(TARGET)).names.csv
 
-INCLUDE_FLAGS=$(foreach m, $(MODULES), -I$(m)/inc) -I$(PROJECT_PATH_AND_NAME)/inc $(INCLUDES)
+INCLUDE_FLAGS=$(foreach m, $(MODULES), -I$(m)/inc) -I$(PROGRAM_PATH_AND_NAME)/inc $(INCLUDES)
 DEFINES_FLAGS=$(foreach m, $(DEFINES), -D$(m))
 OPT_FLAGS=-ggdb3 -O$(OPT) -ffunction-sections -fdata-sections
 LIBSDEPS=$(addprefix $(OUT)/, $(addsuffix .a, $(basename $(foreach l, $(LIBS), $(foreach m, $(MODULES), $(wildcard $(m)/lib/lib$(l).hexlib) ) ))))
@@ -171,11 +171,8 @@ else
 download: .download_flash
 endif
 
-.PHONY: newproject
-newproject:
-	@echo New project wizard starting...
-	@sh scripts/create_project.sh
-	@echo done.
+new_program:
+	@sh scripts/program/new_program.sh
 
 erase:
 	@echo ERASE
@@ -203,4 +200,4 @@ clean:
 	@echo CLEAN
 	$(Q)rm -fR $(OBJECTS) $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(DEPS) $(OUT)
 
-.PHONY: all size download erase debug clean
+.PHONY: all size download erase debug clean new_program

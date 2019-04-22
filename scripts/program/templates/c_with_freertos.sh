@@ -1,0 +1,1 @@
+echo "Load template: c_with_freertos.sh"
