@@ -1,3 +1,7 @@
+#!/bin/sh
+mkdir -p ${PB}/src
+mkdir -p ${PB}/inc
+
 PROGRAM_NAME_UPPER=$(echo $PROGRAM_NAME | tr '[:lower:]' '[:upper:]')
 
 #$LICENSE_PATH
@@ -28,7 +32,7 @@ EOF
 
 if [ -f "$LICENSE_PATH/license_file_header.sh" ]
 then
-	source "$LICENSE_PATH/license_file_header.sh"
+	. "$LICENSE_PATH/license_file_header.sh"
 else
 	echo "Error, license_file_header.sh not found."
 	FILE_HEADER=""
@@ -59,7 +63,8 @@ int main( void )
 
    // ----- Repeat for ever -------------------------
    while( true ) {
-      
+      gpioToggle(LED);
+      delay(500);
    }
 
    // YOU NEVER REACH HERE, because this program runs directly or on a

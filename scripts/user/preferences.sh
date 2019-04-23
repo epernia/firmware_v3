@@ -1,3 +1,4 @@
+#!/bin/sh
 USER_PREFERENCES_FILE="user_preferences.cfg"
 USER_PREFERENCES_PATH=$B/scripts/user/$USER_PREFERENCES_FILE
 
@@ -13,7 +14,7 @@ else
 	GITHUB_LICENSES_FILE_NAMES=$(ls $GITHUB_LICENSES_PATH)
 	for eachfile in $GITHUB_LICENSES_FILE_NAMES
 	do
-		LICENSES_LIST="$LICENSES_LIST|$(echo $(echo $eachfile | cut -d '.' -f 1))"
+		LICENSES_LIST="$LICENSES_LIST|$(echo $(echo $eachfile | rev | cut -c5- | rev))"
 	done
 
 	FORM_USER_PREFERENCES=$(zenity --forms --title="Author" \

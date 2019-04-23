@@ -5,8 +5,8 @@
 # All rights reserved.
 
 BASE=$(readlink -f $(dirname $(readlink -f $0))/../../)
-TESTSRC=${BASE}/test_hardware
-OUT=${BASE}/.test-hw-log
+TESTSRC=${BASE}/test/test_hardware
+OUT=${BASE}/test/test-hw.log
 
 #rm -fr ${OUT}
 mkdir -p ${OUT}

@@ -49,12 +49,6 @@ const pinInitGpioLpc4337_t gpioPinsInit[] = {
 
    /*{ {PinNamePortN ,PinNamePinN}, PinFUNC, {GpioPortN, GpioPinN} }*/
 
-   /* --------------------------------------------------------------- */
-   /*                           EDU-CIAA-NXP                          */
-   /* --------------------------------------------------------------- */
-   /*                             Snap  sAPI   Connector  Serigraphy  */
-   /* --------------------------------------------------------------- */
-
    // { {1,15}, FUNC0, {0, 2} },   /*  0   DIO0    CON2_09   ENET_RXD0   */
 
    // { {1, 4}, FUNC0, {0,11} },   /*  1   DIO1    CON2_21   SPI_MOSI    */
@@ -100,90 +94,94 @@ const pinInitGpioLpc4337_t gpioPinsInit[] = {
    // { {4, 1}, FUNC0, {2, 1} },   /* 35   DIO35   CON1_36   T_FIL1      */
 
 
-   { {4, 1}, FUNC0, {2, 1} },   /*   0   CON1_36   T_FIL1           */
-   { {7, 5}, FUNC0, {3,13} },   /*   1   CON1_34   T_COL2           */
+   /* --------------------------------------------------------------- */
+   /*                           EDU-CIAA-NXP                          */
+   /* --------------------------------------------------------------- */
 
-   { {1, 5}, FUNC0, {1, 8} },   /*   2   CON1_39   T_COL0           */
-   { {4, 2}, FUNC0, {2, 2} },   /*   3   CON1_37   T_FIL2           */
-   { {4, 3}, FUNC0, {2, 3} },   /*   4   CON1_35   T_FIL3           */
-   { {4, 0}, FUNC0, {2, 0} },   /*   5   CON1_33   T_FIL0           */
-   { {7, 4}, FUNC0, {3,12} },   /*   6   CON1_31   T_COL1           */
+   { {1, 0}, FUNC0, {0, 4} },   // BUTTON    TEC1
+   { {2, 2}, FUNC4, {5, 2} },   // LED       LEDB
+   
+   { {4, 1}, FUNC0, {2, 1} },   // CON1_36   T_FIL1
+   { {7, 5}, FUNC0, {3,13} },   // CON1_34   T_COL2
 
-   { {3, 2}, FUNC4, {5, 9} },   /*   7   CON1_29   CAN_TD           */
-   { {3, 1}, FUNC4, {5, 8} },   /*   8   CON1_27   CAN_RD           */
+   { {1, 5}, FUNC0, {1, 8} },   // CON1_39   T_COL0
+   { {4, 2}, FUNC0, {2, 2} },   // CON1_37   T_FIL2
+   { {4, 3}, FUNC0, {2, 3} },   // CON1_35   T_FIL3
+   { {4, 0}, FUNC0, {2, 0} },   // CON1_33   T_FIL0
+   { {7, 4}, FUNC0, {3,12} },   // CON1_31   T_COL1
 
-   { {2, 3}, FUNC4, {5, 3} },   /*   9   CON1_25   RS232_TXD        */
-   { {2, 4}, FUNC4, {5, 4} },   /*  10   CON1_23   RS232_RXD        */
+   { {3, 2}, FUNC4, {5, 9} },   // CON1_29   CAN_TD
+   { {3, 1}, FUNC4, {5, 8} },   // CON1_27   CAN_RD
 
-   { {6,12}, FUNC0, {2, 8} },   /*  11   CON2_40   GPIO8            */
-   { {6,11}, FUNC0, {3, 7} },   /*  12   CON2_38   GPIO7            */
-   { {6, 9}, FUNC0, {3, 5} },   /*  13   CON2_36   GPIO5            */
-   { {6, 7}, FUNC4, {5,15} },   /*  14   CON2_34   GPIO3            */
-   { {6, 4}, FUNC0, {3, 3} },   /*  15   CON2_32   GPIO1            */
+   { {2, 3}, FUNC4, {5, 3} },   // CON1_25   RS232_TXD
+   { {2, 4}, FUNC4, {5, 4} },   // CON1_23   RS232_RXD
 
-   { {4, 4}, FUNC0, {2, 4} },   /*  16   CON2_30   LCD1             */
-   { {4, 5}, FUNC0, {2, 5} },   /*  17   CON2_28   LCD2             */
-   { {4, 6}, FUNC0, {2, 6} },   /*  18   CON2_26   LCD3             */
-   { {4, 8}, FUNC4, {5,12} },   /*  19   CON2_24   LCDRS            */
-   { {4,10}, FUNC4, {5,14} },   /*  20   CON2_22   LCD4             */
+   { {6,12}, FUNC0, {2, 8} },   // CON2_40   GPIO8
+   { {6,11}, FUNC0, {3, 7} },   // CON2_38   GPIO7
+   { {6, 9}, FUNC0, {3, 5} },   // CON2_36   GPIO5
+   { {6, 7}, FUNC4, {5,15} },   // CON2_34   GPIO3
+   { {6, 4}, FUNC0, {3, 3} },   // CON2_32   GPIO1
 
-   { {1, 3}, FUNC0, {0,10} },   /*  21   CON2_18   SPI_MISO         */
+   { {4, 4}, FUNC0, {2, 4} },   // CON2_30   LCD1
+   { {4, 5}, FUNC0, {2, 5} },   // CON2_28   LCD2
+   { {4, 6}, FUNC0, {2, 6} },   // CON2_26   LCD3
+   { {4, 8}, FUNC4, {5,12} },   // CON2_24   LCDRS
+   { {4,10}, FUNC4, {5,14} },   // CON2_22   LCD4
 
-   { {1,20}, FUNC0, {0,15} },   /*  22   CON2_16   ENET_TXD1        */
-   { {1,18}, FUNC0, {0,13} },   /*  23   CON2_14   ENET_TXD0        */
-   { {1,17}, FUNC0, {0,12} },   /*  24   CON2_12   ENET_MDIO        */
-   { {1,16}, FUNC0, {0, 3} },   /*  25   CON2_10   ENET_CRS_DV      */
-   { {7, 7}, FUNC0, {3,15} },   /*  26   CON2_08   ENET_MDC         */
-   { {0, 1}, FUNC0, {0, 1} },   /*  27   CON2_06   ENET_TXEN        */
-   { {0, 0}, FUNC0, {0, 0} },   /*  28   CON2_04   ENET_RXD1        */
+   { {1, 3}, FUNC0, {0,10} },   // CON2_18   SPI_MISO
 
-   { {6,10}, FUNC0, {3, 6} },   /*  29   CON2_35   GPIO6            */
-   { {6, 8}, FUNC4, {5,16} },   /*  30   CON2_33   GPIO4            */
-   { {6, 5}, FUNC0, {3, 4} },   /*  31   CON2_31   GPIO2            */
-   { {6, 1}, FUNC0, {3, 0} },   /*  32   CON2_29   GPIO0            */
+   { {1,20}, FUNC0, {0,15} },   // CON2_16   ENET_TXD1
+   { {1,18}, FUNC0, {0,13} },   // CON2_14   ENET_TXD0
+   { {1,17}, FUNC0, {0,12} },   // CON2_12   ENET_MDIO
+   { {1,16}, FUNC0, {0, 3} },   // CON2_10   ENET_CRS_DV
+   { {7, 7}, FUNC0, {3,15} },   // CON2_08   ENET_MDC
+   { {0, 1}, FUNC0, {0, 1} },   // CON2_06   ENET_TXEN
+   { {0, 0}, FUNC0, {0, 0} },   // CON2_04   ENET_RXD1
 
-   { {4, 9}, FUNC4, {5,13} },   /*  33   CON2_23   LCDEN            */
+   { {6,10}, FUNC0, {3, 6} },   // CON2_35   GPIO6
+   { {6, 8}, FUNC4, {5,16} },   // CON2_33   GPIO4
+   { {6, 5}, FUNC0, {3, 4} },   // CON2_31   GPIO2
+   { {6, 1}, FUNC0, {3, 0} },   // CON2_29   GPIO0
 
-   { {1, 4}, FUNC0, {0,11} },   /*  34   CON2_21   SPI_MOSI         */
+   { {4, 9}, FUNC4, {5,13} },   // CON2_23   LCDEN
 
-   { {1,15}, FUNC0, {0, 2} },   /*  35   CON2_09   ENET_RXD0        */
+   { {1, 4}, FUNC0, {0,11} },   // CON2_21   SPI_MOSI
 
+   { {1,15}, FUNC0, {0, 2} },   // CON2_09   ENET_RXD0
 
-   { {1, 0}, FUNC0, {0, 4} },   /* 36   TEC1    TEC_1                 */
-   { {1, 1}, FUNC0, {0, 8} },   /* 37   TEC2    TEC_2                 */
-   { {1, 2}, FUNC0, {0, 9} },   /* 38   TEC3    TEC_3                 */
-   { {1, 6}, FUNC0, {1, 9} },   /* 39   TEC4    TEC_4                 */
+   { {1, 0}, FUNC0, {0, 4} },   // TEC1      TEC_1
+   { {1, 1}, FUNC0, {0, 8} },   // TEC2      TEC_2
+   { {1, 2}, FUNC0, {0, 9} },   // TEC3      TEC_3
+   { {1, 6}, FUNC0, {1, 9} },   // TEC4      TEC_4
 
-   { {2, 0}, FUNC4, {5, 0} },   /* 43   LEDR    LED0_R                */
-   { {2, 1}, FUNC4, {5, 1} },   /* 44   LEDG    LED0_G                */
-   { {2, 2}, FUNC4, {5, 2} },   /* 45   LEDB    LED0_B                */
-   { {2,10}, FUNC0, {0,14} },   /* 40   LED1    LED1                  */
-   { {2,11}, FUNC0, {1,11} },   /* 41   LED2    LED2                  */
-   { {2,12}, FUNC0, {1,12} },   /* 42   LED3    LED3                  */
+   { {2, 0}, FUNC4, {5, 0} },   // LEDR      LED0_R
+   { {2, 1}, FUNC4, {5, 1} },   // LEDG      LED0_G
+   { {2, 2}, FUNC4, {5, 2} },   // LEDB      LED0_B
+   { {2,10}, FUNC0, {0,14} },   // LED1      LED1
+   { {2,11}, FUNC0, {1,11} },   // LED2      LED2
+   { {2,12}, FUNC0, {1,12} },   // LED3      LED3
 
    /* --------------------------------------------------------------- */
    /*                             CIAA-NXP                            */
    /* --------------------------------------------------------------- */
-   /*                             Snap  sAPI   Connector  Serigraphy  */
-   /* --------------------------------------------------------------- */
 
-   { {4, 0}, FUNC0, {2, 0} },   /* 46   DI0     BORN_24   DIN0        */
-   { {4, 1}, FUNC0, {2, 1} },   /* 47   DI1     BORN_25   DIN1        */
-   { {4, 2}, FUNC0, {2, 2} },   /* 48   DI2     BORN_26   DIN2        */
-   { {4, 3}, FUNC0, {2, 3} },   /* 49   DI3     BORN_27   DIN3        */
-   { {7, 3}, FUNC0, {3,11} },   /* 50   DI4     BORN_28   DIN4        */
-   { {7, 4}, FUNC0, {3,12} },   /* 51   DI5     BORN_29   DIN5        */
-   { {7, 5}, FUNC0, {3,13} },   /* 52   DI6     BORN_30   DIN6        */
-   { {7, 6}, FUNC0, {3,14} },   /* 53   DI7     BORN_31   DIN7        */
+   { {4, 0}, FUNC0, {2, 0} },   // DI0     BORN_24    DIN0
+   { {4, 1}, FUNC0, {2, 1} },   // DI1     BORN_25    DIN1
+   { {4, 2}, FUNC0, {2, 2} },   // DI2     BORN_26    DIN2
+   { {4, 3}, FUNC0, {2, 3} },   // DI3     BORN_27    DIN3
+   { {7, 3}, FUNC0, {3,11} },   // DI4     BORN_28    DIN4
+   { {7, 4}, FUNC0, {3,12} },   // DI5     BORN_29    DIN5
+   { {7, 5}, FUNC0, {3,13} },   // DI6     BORN_30    DIN6
+   { {7, 6}, FUNC0, {3,14} },   // DI7     BORN_31    DIN7
 
-   { {2, 1}, FUNC4, {5, 1} },   /* 54   DO0     BORN_14   DOUT0       */
-   { {4, 6}, FUNC0, {2, 6} },   /* 55   DO1     BORN_06   DOUT1       */
-   { {4, 5}, FUNC0, {2, 5} },   /* 56   DO2     BORN_08   DOUT2       */
-   { {4, 4}, FUNC0, {2, 4} },   /* 57   DO3     BORN_10   DOUT3       */
-   { {4, 8}, FUNC4, {5,12} },   /* 58   DO4     BORN_14   DOUT4       */
-   { {4, 9}, FUNC4, {5,13} },   /* 59   DO5     BORN_15   DOUT5       */
-   { {4,10}, FUNC4, {5,14} },   /* 60   DO6     BORN_16   DOUT6       */
-   { {1, 5}, FUNC0, {1, 8} }    /* 61   DO7     BORN_17   DOUT7       */
+   { {2, 1}, FUNC4, {5, 1} },   // DO0     BORN_14    DOUT0
+   { {4, 6}, FUNC0, {2, 6} },   // DO1     BORN_06    DOUT1
+   { {4, 5}, FUNC0, {2, 5} },   // DO2     BORN_08    DOUT2
+   { {4, 4}, FUNC0, {2, 4} },   // DO3     BORN_10    DOUT3
+   { {4, 8}, FUNC4, {5,12} },   // DO4     BORN_14    DOUT4
+   { {4, 9}, FUNC4, {5,13} },   // DO5     BORN_15    DOUT5
+   { {4,10}, FUNC4, {5,14} },   // DO6     BORN_16    DOUT6
+   { {1, 5}, FUNC0, {1, 8} },   // DO7     BORN_17    DOUT7
 };
 
 /*==================[external data definition]===============================*/

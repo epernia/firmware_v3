@@ -19,7 +19,7 @@ GITHUB_LICENSES_PATH=$LICENSE_PATH/licenses
 
 if [ -f $PREFERENCES_PATH ]
 then
-	source $PREFERENCES_PATH
+	. $PREFERENCES_PATH
 else
 	echo "$PREFERENCES_FILE script not found."
 fi
@@ -59,12 +59,10 @@ case $? in
 		PROGRAM_TEMPLATE=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 3)
 
 		PB=${B}/$PROGRAMS_FOLDER/$PROGRAM_NAME
-		mkdir -p ${PB}/src
-		mkdir -p ${PB}/inc
 
 		if [ -f "$LICENSE_PATH/license_file.sh" ]
 		then
-			source "$LICENSE_PATH/license_file.sh"
+			. "$LICENSE_PATH/license_file.sh"
 		else
 			echo "Error, license_file.sh not found."
 			FILE_HEADER=""
@@ -72,7 +70,7 @@ case $? in
 
 		if [ -f "$TEMPLATES_PATH/$PROGRAM_TEMPLATE.sh" ]
 		then
-			source "$TEMPLATES_PATH/$PROGRAM_TEMPLATE.sh"
+			. "$TEMPLATES_PATH/$PROGRAM_TEMPLATE.sh"
 			echo "Program created on folder: $PROGRAMS_FOLDER:"
 			echo " - Name: $PROGRAM_NAME"
 			echo " - Version: $PROGRAM_VERSION"

@@ -77,16 +77,15 @@ typedef struct {
  * This way the user sets "servos", while using gpio outputs internally so the gpioWrite()
  * function can be easily used*/
 static const uint8_t servoMap[ SERVO_TOTALNUMBER ] = {
-   /* Servo name | DIOMap name | Name in the board*/
-   /* SERVO0 */ T_FIL1, /* T_FIL1 */
-   /* SERVO1 */ T_COL0, /* T_COL0 */
-   /* SERVO2 */ T_FIL2, /* T_FIL2 */
-   /* SERVO3 */ T_FIL3, /* T_FIL3 */
-   /* SERVO4 */ GPIO8,  /* GPIO8  */
-   /* SERVO5 */ LCD1,   /* LCD1   */
-   /* SERVO6 */ LCD2,   /* LCD2   */
-   /* SERVO7 */ LCD3,   /* LCD3   */
-   /* SERVO8 */ GPIO2   /* GPIO2  */
+   T_FIL1, // SERVO0
+   T_COL0, // SERVO1
+   T_FIL2, // SERVO2
+   T_FIL3, // SERVO3
+   GPIO8,  // SERVO4
+   LCD1,   // SERVO5
+   LCD2,   // SERVO6
+   LCD3,   // SERVO7
+   GPIO2   // SERVO8
 };
 
 /*when the user adds a servo with servoAttach the list updates with the servo number*/
@@ -116,7 +115,6 @@ static attachedServo_t AttachedServoList[ SERVO_TOTALNUMBER ] = {
 */
 uint32_t valueToMicroseconds( uint8_t value )
 {
-
    return (SERVO_MINUPTIME_PERIOD+(value*SERVO_MAXUPTIME_PERIOD)/180);
 }
 
@@ -127,7 +125,6 @@ uint32_t valueToMicroseconds( uint8_t value )
  */
 void timer1CompareMatch0func( void* ptr )
 {
-
    uint8_t servoListPosition= 0;
 
    for(servoListPosition=0; servoListPosition<3; servoListPosition++) {
@@ -186,7 +183,6 @@ void timer2CompareMatch3func( void* ptr )
 
 void timer3CompareMatch0func( void* ptr )
 {
-
    uint8_t servoListPosition= 6;
 
    for(servoListPosition=6; servoListPosition<9; servoListPosition++) {
@@ -303,7 +299,6 @@ bool_t servoDetach( servoMap_t servoNumber )
  */
 bool_t servoInit( servoMap_t servoNumber, servoInit_t config )
 {
-
    bool_t ret_val = 1;
 
    switch(config) {
@@ -340,7 +335,6 @@ bool_t servoInit( servoMap_t servoNumber, servoInit_t config )
  */
 uint8_t servoIsAttached( servoMap_t servoNumber )
 {
-
    uint8_t position = 0, positionInList = 0;
    while ( (position < SERVO_TOTALNUMBER) &&
            (servoNumber != AttachedServoList[position].servo) ) {
@@ -364,7 +358,6 @@ uint8_t servoIsAttached( servoMap_t servoNumber )
  */
 uint16_t servoRead( servoMap_t servoNumber )
 {
-
    uint8_t position = 0, value = 0;
    position = servoIsAttached(servoNumber);
 
@@ -384,7 +377,6 @@ uint16_t servoRead( servoMap_t servoNumber )
  */
 bool_t servoWrite( servoMap_t servoNumber, uint16_t angle )
 {
-
    bool_t success = FALSE;
    uint8_t position = 0;
 

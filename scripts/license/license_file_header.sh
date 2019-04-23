@@ -1,3 +1,4 @@
+#!/bin/sh
 TODAY=$(date +'%Y/%m/%d')
 YEAR="$(echo $TODAY | cut -d '/' -f 1)"
 
@@ -30,7 +31,7 @@ then
 FILE_HEADER="$FILE_HEADER
  * Copyright (c) $YEAR, $AUTHOR_LINE
  * All rights reserved.
- * License: $LICENSE"
+ * License: $LICENSE (see LICENSE.txt)"
 else
 FILE_HEADER="$FILE_HEADER
  * Author: $AUTHOR_LINE"
