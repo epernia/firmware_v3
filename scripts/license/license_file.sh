@@ -1,5 +1,4 @@
 #!/bin/sh
-mkdir -p ${PB}
 TODAY=$(date +'%Y/%m/%d')
 YEAR="$(echo $TODAY | cut -d '/' -f 1)"
 
@@ -16,8 +15,6 @@ YEAR="$(echo $TODAY | cut -d '/' -f 1)"
 #$PROGRAM_TEMPLATE
 
 GITHUB_LICENSE_FILE="$GITHUB_LICENSES_PATH/$LICENSE.txt"
-
-#tail -n +$(echo $(cat $GITHUB_LICENSE_FILE| grep -n -E -e '^---$'|cut -f 1 -d ':'|tail -1)+1|bc) $GITHUB_LICENSE_FILE
 
 GITHUB_LICENSE_FILE=$(tail -n +$(($(echo $(cat $GITHUB_LICENSE_FILE| grep -n -E -e '^---$'|cut -f 1 -d ':'|tail -1)+2))) $GITHUB_LICENSE_FILE)
 

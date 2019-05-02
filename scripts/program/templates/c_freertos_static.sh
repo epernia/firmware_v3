@@ -1,4 +1,9 @@
 #!/bin/sh
+
+# BSD 3-Clause License
+# Copyright (c) 2019, Eric Pernia and Martin Ribelotta
+# All rights reserved.
+
 mkdir -p ${PB}/src
 mkdir -p ${PB}/inc
 

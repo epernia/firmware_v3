@@ -15,7 +15,5 @@
 
 # ---------- Your paths: -----------------------------------------------
 
-# Program path
-PROGRAM_PATH = examples/c/
-# Program name
-PROGRAM_NAME = app
+PROGRAM_PATH = _programs
+PROGRAM_NAME = EricPernia

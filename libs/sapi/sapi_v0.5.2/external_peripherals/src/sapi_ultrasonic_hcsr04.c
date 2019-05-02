@@ -266,6 +266,7 @@ float ultrasonicSensorGetDistance(ultrasonicSensorMap_t aSensor, unitMap_t anUni
 /*
  * @Brief:   GPIO Echo interrupt handler for each sensor
  */
+#ifdef SAPI_USE_INTERRUPTS
 #ifndef OVERRIDE_SAPI_HCSR04_GPIO_IRQ
 void GPIO0_IRQHandler(void)
 {
@@ -281,5 +282,6 @@ void GPIO2_IRQHandler(void)
 {
    serveInterrupt(2);
 }
+#endif
 #endif
 /*==================[end of file]============================================*/

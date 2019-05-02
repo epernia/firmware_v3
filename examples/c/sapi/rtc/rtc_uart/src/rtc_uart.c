@@ -108,7 +108,7 @@ void showDateAndTime( rtc_t * rtc ){
 
    /* Conversion de entero a ascii con base decimal */
    itoa( (int) (rtc->year), (char*)uartBuff, 10 ); /* 10 significa decimal */
-   /* Envio el año */
+   /* Send year */
    if( (rtc->year)<10 )
       uartWriteByte( UART_USB, '0' );
    uartWriteString( UART_USB, uartBuff );

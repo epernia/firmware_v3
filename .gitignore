@@ -51,9 +51,15 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-out/
-.build-log
-
 # Eclipse files
 .settings/
 .cproject
+.project
+
+# Program output folders
+out/
+.build-log
+
+# User folders
+_eric_programs/
+user_preferences.cfg

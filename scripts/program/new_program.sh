@@ -1,4 +1,9 @@
 #!/bin/sh
+
+# BSD 3-Clause License
+# Copyright (c) 2019, Martin Ribelotta and Eric Pernia
+# All rights reserved.
+
 SB=$(dirname $(readlink -f $0))
 # Script folder 
 
@@ -58,31 +63,70 @@ case $? in
 		PROGRAM_VERSION=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 2)
 		PROGRAM_TEMPLATE=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 3)
 
-		PB=${B}/$PROGRAMS_FOLDER/$PROGRAM_NAME
-
-		if [ -f "$LICENSE_PATH/license_file.sh" ]
+		if [ "$PROGRAMS_FOLDER" != "" ]
 		then
-			. "$LICENSE_PATH/license_file.sh"
+			PB=${B}/$PROGRAMS_FOLDER/$PROGRAM_NAME
 		else
-			echo "Error, license_file.sh not found."
-			FILE_HEADER=""
+			PB=${B}/$PROGRAM_NAME
+		fi		
+      mkdir -p ${PB}
+
+		if [ "$LICENSE" != "none" ]
+		then
+			if [ -f "$LICENSE_PATH/license_file.sh" ]
+			then
+				. "$LICENSE_PATH/license_file.sh"
+			else
+				echo "Error, license_file.sh not found."
+			fi
 		fi
 
 		if [ -f "$TEMPLATES_PATH/$PROGRAM_TEMPLATE.sh" ]
 		then
 			. "$TEMPLATES_PATH/$PROGRAM_TEMPLATE.sh"
-			echo "Program created on folder: $PROGRAMS_FOLDER:"
+
+			if [ "$PROGRAMS_FOLDER" != "" ]
+			then
+				echo "Program created on folder: $PROGRAMS_FOLDER"
+			else
+				echo "Program created on folder: $B"
+			fi         
 			echo " - Name: $PROGRAM_NAME"
 			echo " - Version: $PROGRAM_VERSION"
 			echo " - Template: $PROGRAM_TEMPLATE"
 		else
 			echo "Error, template not found. Please relaunch and select a template."
 		fi
-#cat <<EOF > ${B}/program.mk.tmp
-#PROGRAM_PATH = ${PROGRAMS_FOLDER}
-#PROGRAM_NAME = ${PROGRAM_NAME}
-#EOF
+
+      # Append to program.mk file
+		#echo "" >> ${B}/program.mk
+		#echo "PROGRAM_PATH = ${PROGRAMS_FOLDER}" >> ${B}/program.mk
+		#echo "PROGRAM_NAME = ${PROGRAM_NAME}" >> ${B}/program.mk
+
+cat <<EOF > ${B}/program.mk
+#==============================================================================
+# This file select a program to compile with make
+#==============================================================================
+
+# ---------- Example of path inside this file folder -------------------
+# Program path
+#(relative to this folder, leave void if the program is in this folder)
+#PROGRAM_PATH = examples_c/sapi/gpio
+# Program name
+#PROGRAM_NAME = blinky
+
+# ---------- Example of path outside this file folder ------------------
+#PROGRAM_PATH = ../examples
+#PROGRAM_NAME = blinky
+
+# ---------- Your paths: -----------------------------------------------
+
+PROGRAM_PATH = ${PROGRAMS_FOLDER}
+PROGRAM_NAME = ${PROGRAM_NAME}
+EOF
 #mv -b ${B}/program.mk.tmp ${B}/program.mk
+
+		echo "Selected as program to compile in program.mk"
 		;;
 	1)
 		echo "Aborted by user."

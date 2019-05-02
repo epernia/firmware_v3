@@ -1,4 +1,9 @@
 #!/bin/sh
+
+# BSD 3-Clause License
+# Copyright (c) 2019, Eric Pernia and Martin Ribelotta
+# All rights reserved.
+
 mkdir -p ${PB}/src
 
 PROGRAM_NAME_UPPER=$(echo $PROGRAM_NAME | tr '[:lower:]' '[:upper:]')

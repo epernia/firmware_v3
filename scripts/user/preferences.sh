@@ -1,15 +1,22 @@
 #!/bin/sh
+
+# BSD 3-Clause License
+# Copyright (c) 2019, Eric Pernia and Martin Ribelotta
+# All rights reserved.
+
 USER_PREFERENCES_FILE="user_preferences.cfg"
 USER_PREFERENCES_PATH=$B/scripts/user/$USER_PREFERENCES_FILE
 
 if [ -f $USER_PREFERENCES_PATH ]
 then
 	echo "User preferences found in file: $USER_PREFERENCES_PATH"
-	source $USER_PREFERENCES_PATH
+	. $USER_PREFERENCES_PATH
 else
 	echo "User preferences not found."
 	echo "Please complete your information. Starting window..."
 
+#Github licenses, downloaded from:
+#https://github.com/github/choosealicense.com/tree/gh-pages/_licenses
    LICENSES_LIST="none"
 	GITHUB_LICENSES_FILE_NAMES=$(ls $GITHUB_LICENSES_PATH)
 	for eachfile in $GITHUB_LICENSES_FILE_NAMES
@@ -31,6 +38,16 @@ else
 			AUTHOR_FULL_NAME=$(echo $FORM_USER_PREFERENCES | cut -d '|' -f 2)
 			AUTHOR_EMAIL=$(echo $FORM_USER_PREFERENCES | cut -d '|' -f 3)
 			LICENSE=$(echo $FORM_USER_PREFERENCES | cut -d '|' -f 4)
+
+			if [ "$PROGRAMS_FOLDER" == "" ]
+			then
+				echo "Programs will save in $SB"
+			fi
+
+			if [ "$LICENSE" == "" ]
+			then
+				LICENSE="none"
+			fi
 
 cat <<EOF > $USER_PREFERENCES_PATH
 # Folder to save your programs
