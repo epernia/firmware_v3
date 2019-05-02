@@ -196,14 +196,20 @@ run: $(TARGET)
 	$(Q)$(OOCD) -f $(OOCD_SCRIPT) &
 	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
 
+clean:
+	@echo CLEAN
+	$(Q)rm -fR $(OBJECTS) $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(DEPS) $(OUT)
+
+info:
+	LANG=C $(MAKE) -B -p  -r -n
+
+test_build_all:
+	@sh scripts/test/test-build-all.sh
+
 hwtest: $(TARGET)
 	$(Q)$(OOCD) -f $(OOCD_SCRIPT) > $(TARGET).log &
 	$(Q)sleep 3 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
 	$(Q)cat $(TARGET).log
 	$(Q)cat $(TARGET).log | grep FAIL -o >/dev/null && exit 1 || exit 0
-
-clean:
-	@echo CLEAN
-	$(Q)rm -fR $(OBJECTS) $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(DEPS) $(OUT)
 
 .PHONY: all size download erase debug clean new_program select_program
