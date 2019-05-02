@@ -30,8 +30,8 @@ CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 
 ## Usage
 
-Make sure you have an ```arm-none-eabi-*``` toolchain configured in your ```PATH```. If you don't have it, download [GCC ARM Embedded](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm).
-Make sure you have an ```openocd``` configured in your ```PATH```.
+- Make sure you have an ```arm-none-eabi-*``` toolchain configured in your ```PATH```. If you don't have it, download [GCC ARM Embedded](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm).
+- Make sure you have an ```openocd``` configured in your ```PATH```.
 
 ### Select a program to compile
 
