@@ -39,7 +39,7 @@ CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 - Define ```PROGRAM_NAME```  and ```PROGRAM_PATH``` variables in ```program.mk``` according to the program you want to compile (PROGRAM_PATH is relative to this folder, leave void if the program is inside this folder).
 
 ```program.mk``` example default values:
-```
+```makefile
 PROGRAM_PATH = examples/c
 PROGRAM_NAME = app
 ```
@@ -81,7 +81,7 @@ int main( void )
 Also you can use a file named ```config.mk```, where you may configure which libraries you include and compiler options.
 
 ```config.mk``` example and default values:
-```
+```makefile
 # Compile options
 VERBOSE=n
 OPT=g
