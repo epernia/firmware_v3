@@ -90,6 +90,8 @@ else
 Q=@
 endif
 
+# Build program
+
 all: $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(TARGET_NM) size
 
 -include $(foreach m, $(MODULES), $(wildcard $(m)/module.mk))
@@ -147,8 +149,12 @@ $(TARGET_NM): $(TARGET)
 	@echo NAME
 	$(Q)$(NM) -nAsSCp $< > $@
 
+# Build program size
+
 size: $(TARGET)
 	$(Q)$(SIZE) $<
+
+# Download a program into board
 
 .download_flash: $(TARGET_BIN)
 	@echo DOWNLOAD to FLASH
@@ -174,11 +180,7 @@ else
 download: .download_flash
 endif
 
-new_program:
-	@sh scripts/program/new_program.sh
-
-select_program:
-	@sh scripts/program/select_program.sh
+# Erase Flash memory
 
 erase:
 	@echo ERASE
@@ -188,28 +190,47 @@ erase:
 		-c "flash erase_sector 0 0 last" \
 		-c "shutdown" 2>&1
 
-debug:
-	@echo DEBUG
-	$(Q)$(OOCD) -f $(OOCD_SCRIPT) 2>&1
-
-run: $(TARGET)
-	$(Q)$(OOCD) -f $(OOCD_SCRIPT) &
-	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
+# Remove compilation generated files
 
 clean:
 	@echo CLEAN
 	$(Q)rm -fR $(OBJECTS) $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(DEPS) $(OUT)
 
-info:
+# Debug with Embedded IDE
+
+.debug:
+	@echo DEBUG
+	$(Q)$(OOCD) -f $(OOCD_SCRIPT) 2>&1
+
+.run: $(TARGET)
+	$(Q)$(OOCD) -f $(OOCD_SCRIPT) &
+	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
+
+# Information
+
+.info:
 	LANG=C $(MAKE) -B -p  -r -n
 
-test_build_all:
+# Tests
+
+# Build all programs
+.test_build_all:
 	@sh scripts/test/test-build-all.sh
 
-hwtest: $(TARGET)
+# Run Hardware tests
+.hardware_test: $(TARGET)
 	$(Q)$(OOCD) -f $(OOCD_SCRIPT) > $(TARGET).log &
 	$(Q)sleep 3 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
 	$(Q)cat $(TARGET).log
 	$(Q)cat $(TARGET).log | grep FAIL -o >/dev/null && exit 1 || exit 0
 
-.PHONY: all size download erase debug clean new_program select_program
+# New program generator
+new_program:
+	@sh scripts/program/new_program.sh
+
+# Select program to compile
+select_program:
+	@sh scripts/program/select_program.sh
+
+
+.PHONY: all size download erase clean new_program select_program
