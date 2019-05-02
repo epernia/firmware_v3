@@ -60,6 +60,6 @@ dkms.conf
 out/
 .build-log
 
-# User folders
+# User file and folders
 _eric_programs/
 user_preferences.cfg
