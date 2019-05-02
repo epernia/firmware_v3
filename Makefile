@@ -17,8 +17,18 @@ else
 PROGRAM_PATH_AND_NAME=$(PROGRAM_PATH)/$(PROGRAM_NAME)
 endif
 
+# -------- config.mk default values -----------------------------------
+# Compile options
+VERBOSE=n
+OPT=g
+USE_NANO=y
+SEMIHOST=n
+USE_FPU=y
+# Libraries
+USE_LPCOPEN=y
+USE_SAPI=y
 # -------- Include config.mk file fom program --------------------------
-include $(PROGRAM_PATH_AND_NAME)/config.mk
+-include $(PROGRAM_PATH_AND_NAME)/config.mk
 # ----------------------------------------------------------------------
 
 MODULES=$(sort $(dir $(wildcard libs/*/)))
