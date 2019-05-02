@@ -31,23 +31,34 @@ CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 ## Usage
 
 Make sure you have an ```arm-none-eabi-*``` toolchain configured in your ```PATH```. If you don't have it, download [GCC ARM Embedded](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm).
+Make sure you have an ```openocd``` configured in your ```PATH```.
+
+### Select a program to compile
+
+- Create a ```program.mk``` text file inside this folder.
 - Define ```PROGRAM_NAME```  and ```PROGRAM_PATH``` variables in ```program.mk``` according to the program you want to compile (PROGRAM_PATH is relative to this folder, leave void if the program is inside this folder).
 - Compile with ```make```.
 - Clean with ```make clean```.
 
-Make sure you have an ```openocd``` configured in your ```PATH```.
+Note: If you have ```zenity``` installed (sudo apt-get install zenity), you can use:
+- ```make select_program``` to select graphically a program.
+
+### Download
+
 - Download to target via OpenOCD with ```make download```.
 
-## Create a new program
+### Create a new program
 
 Each program consist in a folder (with a non-spaces name) that includes inside 2 folders, one named ```src``` (here go, .c, .cpp or .s source code files), and another one named ```inc``` (here go, .h or .hpp source header files) and one file named ```config.mk```, where you may configure which libraries you include and compiler options.
 
-## Add a new library
+Note: If you have ```zenity``` installed (sudo apt-get install zenity), you can use:
+- ```make new_program``` to create graphically a program using program templates.
+
+### Create a new global library
 
 The ```libs``` folder allow you to include 2 types of libraries:
 - Simplie library. Consist in a folder (with a non-spaces name) that includes inside 2 folders, one named ```src``` (here go .c, .cpp or .s source code files), and another one named ```inc``` (here go .h or .hpp header files). This kind of library compiles automaticaly by the Makefile.
 - Advanced library. Consist in a library whit a complex folder and files strcuture, i.e. LibUSB. This case reuire make your own makefile. You can inspire from sAPI makefile to do that.
-
 
 ## Examples
 
