@@ -63,3 +63,4 @@ out/
 # User file and folders
 _eric_programs/
 user_preferences.cfg
+program.mk
