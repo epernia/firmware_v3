@@ -40,6 +40,12 @@ CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 - Compile with ```make```.
 - Clean with ```make clean```.
 
+Example (default values if you not create a ```program.mk``` file):
+```
+PROGRAM_PATH = examples\c
+PROGRAM_NAME = app
+```
+
 Note: If you have ```zenity``` installed (sudo apt-get install zenity), you can use:
 - ```make select_program``` to select graphically a program.
 
