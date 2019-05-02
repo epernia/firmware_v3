@@ -37,32 +37,80 @@ CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 
 - Create a ```program.mk``` text file inside this folder.
 - Define ```PROGRAM_NAME```  and ```PROGRAM_PATH``` variables in ```program.mk``` according to the program you want to compile (PROGRAM_PATH is relative to this folder, leave void if the program is inside this folder).
-- Compile with ```make```.
-- Clean with ```make clean```.
 
-Example (default values if you not create a ```program.mk``` file):
+```program.mk``` example:
 ```
-PROGRAM_PATH = examples\c
+PROGRAM_PATH = examples/c
 PROGRAM_NAME = app
 ```
 
 Note: If you have ```zenity``` installed (sudo apt-get install zenity), you can use:
 - ```make select_program``` to select graphically a program.
 
-### Download
+### Compile and download
 
+- Compile with ```make```.
 - Download to target via OpenOCD with ```make download```.
+- Clean compilation with ```make clean```.
 
 ### Create a new program
 
-Each program consist in a folder (with a non-spaces name) that includes inside 2 folders, one named ```src``` (here go, .c, .cpp or .s source code files), and another one named ```inc``` (here go, .h or .hpp source header files) and one file named ```config.mk```, where you may configure which libraries you include and compiler options.
+Each program consist in a folder (with a non-spaces name) that includes inside 2 folders, one named ```src``` (here go, .c, .cpp or .s source code files), and another one named ```inc``` (here go, .h or .hpp source header files). 
+
+```program.c``` example:
+```c
+#include "sapi.h"
+int main( void )
+{
+   boardInit();
+   while(1){
+      gpioToggle(LED);
+      delay(200);
+   }
+}
+```
+
+```program.h``` example:
+```c
+#ifndef __ARCHIVO_H_
+#define __ARCHIVO_H_
+   // Your public declarations...
+#endif
+```
+
+Also is required one file named ```config.mk```, where you may configure which libraries you include and compiler options.
+
+```config.mk``` example:
+```
+# Compile options
+VERBOSE=n
+OPT=g
+USE_NANO=y
+SEMIHOST=n
+USE_FPU=y
+# Libraries
+USE_LPCOPEN=y
+USE_SAPI=y
+```
+
+Program complete structure is:
+
+```
++program
++--config.mk
++--+src
+|  +--program.c
++--+inc
+   +--program.h
+```
 
 Note: If you have ```zenity``` installed (sudo apt-get install zenity), you can use:
 - ```make new_program``` to create graphically a program using program templates.
 
 ### Create a new global library
 
-The ```libs``` folder allow you to include 2 types of libraries:
+The ```libs``` folder include libraries that can be used fom any program (global libraries).
+The ```Makefile``` allow you to include 2 types of libraries:
 - Simplie library. Consist in a folder (with a non-spaces name) that includes inside 2 folders, one named ```src``` (here go .c, .cpp or .s source code files), and another one named ```inc``` (here go .h or .hpp header files). This kind of library compiles automaticaly by the Makefile.
 - Advanced library. Consist in a library whit a complex folder and files strcuture, i.e. LibUSB. This case reuire make your own makefile. You can inspire from sAPI makefile to do that.
 
