@@ -31,7 +31,7 @@ CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 ## Usage
 
 Make sure you have an ```arm-none-eabi-*``` toolchain configured in your ```PATH```. If you don't have it, download [GCC ARM Embedded](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm).
-- Define ```PROGRAM_NAME```  and ```PROGRAM_PATH``` variables in ```program.mk``` according to the program you want to compile (PROGRAM_PATH is relative to this folder, leave void if the project is in this folder).
+- Define ```PROGRAM_NAME```  and ```PROGRAM_PATH``` variables in ```program.mk``` according to the program you want to compile (PROGRAM_PATH is relative to this folder, leave void if the program is inside this folder).
 - Compile with ```make```.
 - Clean with ```make clean```.
 
