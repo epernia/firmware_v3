@@ -25,14 +25,18 @@ else
 	PROGRAM_FOLDER_FOR_FORM="$B"
 fi
 
+PROG_LIST=$(find ${B} -name config.mk -exec dirname '{}' \; | sed "s|${B}/||")
+
 echo ""
 echo "Select program to compile wizard is starting..."
+#FORM_SELECT_PROGRAM=${B}/$(zenity --list --title="Select program" --column="Project path" $PROG_LIST)
 FORM_SELECT_PROGRAM=$(zenity --file-selection --directory \
                         --title="Select a program folder" \
                         --filename="$B/$PROGRAMS_FOLDER/" )
-echo ""
+RET=$?
+echo "${FORM_SELECT_PROGRAM}"
 
-case $? in
+case $RET in
 	0)
 		#if is a real program folder (includes a config.mk file)
 		if [ -f $FORM_SELECT_PROGRAM/config.mk ]
@@ -43,26 +47,9 @@ case $? in
       case "$FORM_SELECT_PROGRAM" in
           *"$REPO_FOLDER"*)
             PROGRAM="$(basename $FORM_SELECT_PROGRAM)"
-
-            PROG_STR_LEN=$(echo -n $PROGRAM | wc -m)
-            LEN=$((PROG_STR_LEN + 1))
-            # PATH ABSOLUTO
-            PROGRAMS_FOLDER=${FORM_SELECT_PROGRAM:0: -LEN}
-
-            # PATH RELATIVO
-            
-            PROGRAMS_FOLDER=${PROGRAMS_FOLDER##*$REPO_FOLDER}
-            PROGRAMS_FOLDER_STR_LEN=$(echo -n $PROGRAMS_FOLDER | wc -m)
-            PROGRAMS_FOLDER=${PROGRAMS_FOLDER:1:PROGRAMS_FOLDER_STR_LEN}
-
-#dir="/from/here/to/there.txt"
-#echo $dir
-#dir="$(dirname $dir)"   # Returns "/from/hear/to"
-#echo $dir
-#dir="$(basename $dir)"  # Returns just "to"
-#echo $dir
-
-cat <<EOF > ${B}/program.mk
+            PROGRAM_PATH=$(dirname $FORM_SELECT_PROGRAM)
+            PROGRAMS_FOLDER=${PROGRAM_PATH#${B}/}
+            cat <<EOF > ${B}/program.mk
 #==============================================================================
 # This file select a program to compile with make
 #==============================================================================
