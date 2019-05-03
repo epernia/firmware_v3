@@ -4,6 +4,8 @@
 # Copyright (c) 2019, Eric Pernia and Martin Ribelotta
 # All rights reserved.
 
+#set -x
+
 SB=$(dirname $(readlink -f $0))
 # Script folder 
 
@@ -33,7 +35,11 @@ echo "Select program to compile wizard is starting..."
 FORM_SELECT_PROGRAM=$(zenity --file-selection --directory \
                         --title="Select a program folder" \
                         --filename="$B/$PROGRAMS_FOLDER/" )
+
 RET=$?
+
+FORM_SELECT_PROGRAM=$(readlink -f ${FORM_SELECT_PROGRAM})
+
 echo "${FORM_SELECT_PROGRAM}"
 
 case $RET in
