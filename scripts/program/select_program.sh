@@ -31,6 +31,7 @@ PROG_LIST=$(find ${B} -name config.mk -exec dirname '{}' \; | sed "s|${B}/||")
 
 echo ""
 echo "Select program to compile wizard is starting..."
+echo ""
 #FORM_SELECT_PROGRAM=${B}/$(zenity --list --title="Select program" --column="Project path" $PROG_LIST)
 FORM_SELECT_PROGRAM=$(zenity --file-selection --directory \
                         --title="Select a program folder" \
@@ -39,8 +40,6 @@ FORM_SELECT_PROGRAM=$(zenity --file-selection --directory \
 RET=$?
 
 FORM_SELECT_PROGRAM=$(readlink -f ${FORM_SELECT_PROGRAM})
-
-echo "${FORM_SELECT_PROGRAM}"
 
 case $RET in
 	0)
