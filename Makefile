@@ -206,6 +206,10 @@ clean:
 	@echo CLEAN
 	$(Q)rm -fR $(OBJECTS) $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(DEPS) $(OUT)
 
+clean_all:
+	@echo CLEAN ALL
+	@sh scripts/program/clean_all.sh
+
 # Debug with Embedded IDE
 
 .debug:
