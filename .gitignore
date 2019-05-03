@@ -61,6 +61,6 @@ out/
 .build-log
 
 # User file and folders
-_eric_programs/
+_programs/
 user_preferences.cfg
 program.mk
