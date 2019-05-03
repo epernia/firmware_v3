@@ -104,41 +104,41 @@ int main(void){
    /* Buffer */
    static char uartBuff[10];
 
-   uartWriteByte( UART_USB, 'h' - 32 );   /* Envía 'H' */
-   uartWriteByte( UART_USB, 'A' + 32 );   /* Envía 'a' */
+   uartWriteByte( UART_USB, 'h' - 32 );   /* Envia 'H' */
+   uartWriteByte( UART_USB, 'A' + 32 );   /* Envia 'a' */
 
    /* Enviar un Enter */
-   uartWriteByte( UART_USB, '\r' ); /* Envía '\r', retorno de carro */
-   uartWriteByte( UART_USB, '\n' ); /* Envía '\n', nueva línea      */
+   uartWriteByte( UART_USB, '\r' ); /* Envia '\r', retorno de carro */
+   uartWriteByte( UART_USB, '\n' ); /* Envia '\n', nueva linea      */
 
-   uartWriteByte( UART_USB, dato1 + 48 ); /* Envía '1' */
-   uartWriteByte( UART_USB, ' ' );        /* Envía ' ' */
-   uartWriteByte( UART_USB, '1' );        /* Envía '1' */
-   uartWriteByte( UART_USB, 32 );         /* Envía ' ' */
+   uartWriteByte( UART_USB, dato1 + 48 ); /* Envia '1' */
+   uartWriteByte( UART_USB, ' ' );        /* Envia ' ' */
+   uartWriteByte( UART_USB, '1' );        /* Envia '1' */
+   uartWriteByte( UART_USB, 32 );         /* Envia ' ' */
 
-   /* Convertir un número entero de 2 dígitos ASCII y enviar */
-   uartWriteByte( UART_USB, (dato2/10) + 48 ); /* Envía '7' */
-   uartWriteByte( UART_USB, (dato2%10) + 48 ); /* Envía '8' */
+   /* Convertir un numero entero de 2 di�gitos ASCII y enviar */
+   uartWriteByte( UART_USB, (dato2/10) + 48 ); /* Envia '7' */
+   uartWriteByte( UART_USB, (dato2%10) + 48 ); /* Envia '8' */
 
    uartWriteString( UART_USB, "\r\n" ); /* Enviar un Enter */
 
-   uartWriteByte( UART_USB, 'H' );  /* Envía 'H' */
-   uartWriteByte( UART_USB, 'o' );  /* Envía 'o' */
-   uartWriteByte( UART_USB, 'l' );  /* Envía 'l' */
-   uartWriteByte( UART_USB, 'a' );  /* Envía 'a' */
-   uartWriteByte( UART_USB, '\r' ); /* Envía '\r', retorno de carro */
-   uartWriteByte( UART_USB, '\n' ); /* Envía '\n', nueva línea      */
+   uartWriteByte( UART_USB, 'H' );  /* Envia 'H' */
+   uartWriteByte( UART_USB, 'o' );  /* Envia 'o' */
+   uartWriteByte( UART_USB, 'l' );  /* Envia 'l' */
+   uartWriteByte( UART_USB, 'a' );  /* Envia 'a' */
+   uartWriteByte( UART_USB, '\r' ); /* Envia '\r', retorno de carro */
+   uartWriteByte( UART_USB, '\n' ); /* Envia '\n', nueva linea      */
 
-   uartWriteString( UART_USB, "Chau\r\n" ); /* Envía "Chau\r\n" */
+   uartWriteString( UART_USB, "Chau\r\n" ); /* Envi�a "Chau\r\n" */
 
    char miTexto[] = "Hola de nuevo\r\n";
 
-   uartWriteString( UART_USB, miTexto ); /* Envía "Hola de nuevo\r\n" */
+   uartWriteString( UART_USB, miTexto ); /* Envi�a "Hola de nuevo\r\n" */
 
    miTexto[0] = 'h';
-   uartWriteString( UART_USB, miTexto ); /* Envía "hola de nuevo\r\n" */
+   uartWriteString( UART_USB, miTexto ); /* Envia "hola de nuevo\r\n" */
 
-   /* Conversión de muestra entera a ascii con base decimal usando itoa() */
+   /* Conversion de muestra entera a ascii con base decimal usando itoa() */
    itoa( dato3, uartBuff, 10 ); /* base 10 significa decimal */
    uartWriteString( UART_USB, uartBuff );
 
@@ -150,7 +150,7 @@ int main(void){
       /* Si recibe un byte de la UART_USB lo guardarlo en la variable dato. */
       if(  uartReadByte( UART_USB, &dato ) ){
 
-         /* Se reenvíael dato a la UART_USB realizando un eco de lo que llega */
+         /* Se reenvia el dato a la UART_USB realizando un eco de lo que llega */
          uartWriteByte( UART_USB, dato );
       }
 
