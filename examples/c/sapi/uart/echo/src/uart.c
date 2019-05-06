@@ -151,7 +151,7 @@ int main(void){
       if(  uartReadByte( UART_USB, &dato ) ){
 
          /* Se reenvia el dato a la UART_USB realizando un eco de lo que llega */
-         uartWriteByte( UART_USB, dato );
+         uartWriteByte( UART_USB, intToString(dato) );
       }
 
    }
