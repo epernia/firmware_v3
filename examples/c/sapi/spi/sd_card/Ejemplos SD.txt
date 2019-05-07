@@ -1,8 +1,8 @@
 Ejemplo: escribir un archivo de texto en una tarjeta SD
 =======================================================
 
-PROJECT_PATH = examples_c/sapi/spi/sd_card
-PROJECT_NAME = fatfs_wite_file
+PROGRAM_PATH = examples_c/sapi/spi/sd_card
+PROGRAM_NAME = fatfs_write_file
 
 
 Si no hay SD insertada
@@ -29,9 +29,9 @@ FSSDC: [Init] New card status: Native Mode.
 FSSDC: [Init] New card status: Error (Not Initialized).
 
 
-Se puede ver que si falla la inicializacion reintenta 5 veces más...
+Se puede ver que si falla la inicializacion reintenta 5 veces mas...
 
-Enciende el LEDR para indicar que falló al intentar grabar el archivo.
+Enciende el LEDR para indicar que fallo al intentar grabar el archivo.
 
 Con SD insertada
 ----------------
@@ -42,7 +42,7 @@ FSSDC: [Init] New card status: Native Mode.
 FSSDC: [Init] New card status: Initializing.
 FSSDC: [Init] New card status: Ready (Fast Clock).
 
-Enciende el LEDG para indicar que grabó correctamente el archivo.
+Enciende el LEDG para indicar que grabo correctamente el archivo.
 
 Graba el archivo "hola.txt" cuyo contenido es:
 
@@ -53,15 +53,16 @@ Hola mundo
 Hola mundo
 
 
-Nóte que el archivo ocupa 60 bytes, esto es 1 byte por cada caracter, contando con 5 líneas de 12 caracteres (recordar contar los \r y \n de cada línea).
+Note que el archivo ocupa 60 bytes, esto es 1 byte por cada caracter, contando
+con 5 lineas de 12 caracteres (recordar contar los \r y \n de cada linea).
 
 ===============================================================================
 
 Ejemplo: escribir archivo en una tarjeta SD con time-stamp usando RTC
 =====================================================================
 
-PROJECT_PATH = examples_c/sapi/spi/sd_card
-PROJECT_NAME = fatfs_log_time_stamp
+PROGRAM_PATH = examples_c/sapi/spi/sd_card
+PROGRAM_NAME = fatfs_log_time_stamp
 
 
 Si no hay SD insertada
@@ -184,8 +185,8 @@ Nóte que el archivo ocupa 60 bytes, esto es 1 byte por cada caracter, contando 
 Ejemplo: Listar archivos y carpetas de una tarjeta SD
 =====================================================
 
-PROJECT_PATH = examples_c/sapi/spi/sd_card
-PROJECT_NAME = fatfs_list_files
+PROGRAM_PATH = examples_c/sapi/spi/sd_card
+PROGRAM_NAME = fatfs_list_files
 
 
 Si no hay SD insertada
