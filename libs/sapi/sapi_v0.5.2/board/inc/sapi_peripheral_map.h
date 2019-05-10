@@ -72,7 +72,7 @@ typedef struct {
 
 /* Defined for sapi_gpio.h */
 typedef enum {
-   BUTTON = 0,
+   BTN = 0,
    LED = 1,
 
    /* EDU-CIAA-NXP */

@@ -7,42 +7,21 @@
 
 // The maximum number of tasks required at any one time during the execution
 // of the program. MUST BE ADJUSTED FOR EACH NEW PROJECT
-#define SCHEDULER_MAX_TASKS   (3)
+#define SCHEDULER_MAX_TASKS   (10)
 
-/*==================[inlcusiones]============================================*/
+#include "sapi.h"      // <= sAPI
+#include "seos_pont.h" // <= Simple Embedded Operating Sistem (cooperative)
+#include "task1.h"     // <= Task 1
+#include "task2.h"     // <= Task 2
+#include "task3.h"     // <= Task 3
 
-//#include "cooperative_os_scheduler_03_seos_Pont2014.h"   // <= own header (optional)
-#include "sapi.h"        // <= sAPI header
-
-#include "seos_pont_2014_isr.h"       // <= dispatcher and task management header
-#include "seos_pont_2014_scheduler.h" // <= scheduler and system initialization header
-
-#include "task1.h"
-#include "task2.h"
-#include "task3.h"
-
-/*==================[definiciones y macros]==================================*/
-
-/*==================[definiciones de datos internos]=========================*/
-
-/*==================[definiciones de datos externos]=========================*/
-
-/*==================[declaraciones de funciones internas]====================*/
-
-/*==================[declaraciones de funciones externas]====================*/
-
-/*==================[funcion principal]======================================*/
-
-// FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
 int main( void ){
 
    // ---------- CONFIGURACIONES ------------------------------
    // Inicializar y configurar la plataforma
-   boardConfig();
+   boardInit();
 
    task1_Init();
-   task2_Init();
-   task3_Init();
 
    // FUNCION que inicializa el planificador de tareas
    schedulerInit();
@@ -53,13 +32,9 @@ int main( void ){
                      0,            // offset de ejecucion en ticks
                      100           // periodicidad de ejecucion en ticks
                    );
-
-   // Se agrega la tarea tarea2 al planificador
-   schedulerAddTask( task2_Update, 0, 1, 500 );
-
-   // Se agrega la tarea tarea3 al planificador
-   schedulerAddTask( task3_Update, 0, 2, 1000 );
-
+   
+   schedulerAddTask( task2_Update, 0, 1, 200 );
+   schedulerAddTask( task3_Update, 0, 2, 300 );
 
    // FUNCION que inicializa la interrupcion que ejecuta el planificador de
    // tareas con tick cada 1ms.
@@ -81,9 +56,3 @@ int main( void ){
    // Sistema Operativo, como en el caso de un programa para PC.
    return 0;
 }
-
-/*==================[definiciones de funciones internas]=====================*/
-
-/*==================[definiciones de funciones externas]=====================*/
-
-/*==================[fin del archivo]========================================*/
