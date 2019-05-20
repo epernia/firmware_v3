@@ -34,9 +34,9 @@ void taskUart( void* taskParam )
 
    txByte = Read_Char_From_Buffer();
 
-   // Si el txByte es distinto de 0 envío lo que me llego
+   // Si el txByte es distinto de 0 envio lo que me llego
    if( txByte != 0 ){
-      // Envío un byte si el canal está libre
+      // Envio un byte si el canal esta libre
       uartWriteByte( UART_USB, txByte );
    }
 }

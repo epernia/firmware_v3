@@ -59,7 +59,7 @@ void taskClock( void* taskParam )
    Reloj_string[13] = CharMap[seg/10];
    Reloj_string[14] = CharMap[seg%10];
 
-   // Lo env√≠o al Buffer
+   // Lo envi≠o al Buffer
    Write_String_To_Buffer(Reloj_string);
 }
 

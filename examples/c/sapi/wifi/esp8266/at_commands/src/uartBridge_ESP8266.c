@@ -99,11 +99,11 @@ void imprimirMensajeDeBienvenida( void ){
       "> Version del Firmware: AT+GMR\r\n" );
    uartWriteString( UART_USB, "> Resetear el modulo: AT+RST\r\n" );
    
-   
+/*   
    AT+CWMODE?
    
    AT+CWMODE=3
-   
+*/   
    
    uartWriteString( UART_USB,
       "> Listar todas las redes disponibles: AT+CWLAP\r\n" );
