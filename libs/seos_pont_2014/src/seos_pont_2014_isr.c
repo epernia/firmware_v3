@@ -92,7 +92,7 @@ determined by the timer settings in the 'init' function.
 This version is triggered by Timer 2 interrupts:
 timer is automatically reloaded.
 -*------------------------------------------------------------------*/
-void schedulerUpdate( void *ptr ){
+void schedulerUpdate( void *ptr ){ // Planificador (me lo llama la interrupcion periodica de Systick)
 
    int32_t index;
    //serialDebugPrintLnString( "schedulerUpdate." );

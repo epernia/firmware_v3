@@ -112,7 +112,7 @@ Note: If you have ```zenity``` installed (sudo apt-get install zenity), you can 
 The ```libs``` folder include libraries that can be used fom any program (global libraries).
 The ```Makefile``` allow you to include 2 types of libraries:
 - Simple library. Consist in a folder (with a non-spaces name) that includes inside 2 folders, one named ```src``` (here go .c, .cpp or .s source code files), and another one named ```inc``` (here go .h or .hpp header files). This kind of library compiles automaticaly by the Makefile.
-- Advanced library. Consist in a library whit a complex folder and files strcuture, i.e. LibUSB. This case reuire make your own makefile. You can inspire from sAPI makefile to do that.
+- Advanced library. Consist in a library whit a complex folder and files strcuture, i.e. LibUSB. This case require make your own makefile. You can inspire from sAPI makefile to do that.
 
 ## Examples
 

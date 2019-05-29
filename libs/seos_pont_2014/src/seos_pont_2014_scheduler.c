@@ -74,7 +74,7 @@ This is the 'dispatcher' function. When a task (function)
 is due to run, schedulerDispatchTasks() will run it.
 This function must be called (repeatedly) from the main loop.
 -*------------------------------------------------------------------*/
-void schedulerDispatchTasks( void ){
+void schedulerDispatchTasks( void ){ // Despachador (corre en el main)
 
    int32_t index;
    // Dispatches (runs) the next task (if one is ready)

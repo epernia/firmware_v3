@@ -45,7 +45,7 @@ int main( void ){
 
    // Se agrega la tarea tarea1 al planificador
    schedulerAddTask( tarea1, // funcion de tarea a agregar
-                     0,         // parametro de la tarea
+                     0,      // parametro de la tarea
                      0,      // offset de ejecucion en ticks
                      100     // periodicidad de ejecucion en ticks
                    );

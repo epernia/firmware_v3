@@ -67,7 +67,7 @@ ESP01 (ESP8266) connections:
 
 /*==================[macros and definitions]=================================*/
 
-#define BAUD_RATE 115200 // Baudrate por defecto del ESP8266
+#define BAUD_RATE 9600 // Baudrate por defecto del ESP8266
 
 /*==================[internal data declaration]==============================*/
 
@@ -130,7 +130,7 @@ int main(void){
 
    /* Inicializar las UART a 115200 baudios */
    uartConfig( UART_USB, BAUD_RATE );
-   uartConfig( UART_232, 9600 );
+   uartConfig( UART_232, BAUD_RATE );
 
    uint8_t dato  = 0;
    

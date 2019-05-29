@@ -178,7 +178,7 @@ int main(void)
             stdioPrintf(UART_USB, "\n\rPeticion respondida al cliente HTTP %d.", esp8266GetConnectionId());
             gpioToggle(LEDG);
          } else {
-            stdioPrintf(UART_USB, "\n\rPeticion respondida al cliente HTTP %d.", esp8266GetConnectionId());
+            stdioPrintf(UART_USB, "\n\rPeticion no respondida al cliente HTTP %d.", esp8266GetConnectionId());
             gpioToggle(LEDR);
          }
 
