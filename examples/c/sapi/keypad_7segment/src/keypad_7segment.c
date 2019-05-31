@@ -83,7 +83,7 @@ int main(void){
            -----
        e /     / c
         /  d  /
-        -----    O h = dp (decimal pint).
+        -----    O h = dp (decimal point).
 
    */
    uint8_t display7Segment[8] = {

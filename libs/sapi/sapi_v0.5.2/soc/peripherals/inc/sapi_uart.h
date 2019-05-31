@@ -156,6 +156,12 @@ void uartCallbackSet( uartMap_t uart, uartEvents_t event,
 // UART Interrupt event Disable
 void uartCallbackClr( uartMap_t uart, uartEvents_t event );
 
+// UART Set Pending Interrupt. Useful to force first character in tx transmission
+void uartSetPendingInterrupt(uartMap_t uart);
+
+// UART Clear Pending Interrupt.
+void uartClearPendingInterrupt(uartMap_t uart);
+
 /*==================[ISR external functions declaration]======================*/
 
 /* 0x28 0x000000A0 - Handler for ISR UART0 (IRQ 24) */

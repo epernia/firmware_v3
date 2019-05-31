@@ -501,6 +501,17 @@ void uartCallbackClr( uartMap_t uart, uartEvents_t event )
    // Disable UART Interrupt
    Chip_UART_IntDisable(lpcUarts[uart].uartAddr, intMask);
 }
+ 
+// UART Set Pending Interrupt. Useful to force first character in tx transmission
+void uartSetPendingInterrupt(uartMap_t uart) {
+   NVIC_SetPendingIRQ(lpcUarts[uart].uartIrqAddr);
+}
+
+// UART Clear Pending Interrupt.
+void uartClearPendingInterrupt(uartMap_t uart) {
+   NVIC_ClearPendingIRQ(lpcUarts[uart].uartIrqAddr);
+} 
+
 
 #endif /* SAPI_USE_INTERRUPTS */
 
