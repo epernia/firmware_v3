@@ -334,7 +334,7 @@ bool_t esp01ConnectToWifiAP( char* wiFiSSID, char* wiFiPassword ){
    debugPrintlnString( "\"..." );
 
    consolePrintString( "AT+CWJAP=\"" );
-   consolePrintString( wiFiSSID );
+   consolePrintString( wiFiSSID );0
    consolePrintString( "\",\"" );
    consolePrintString( wiFiPassword );
    consolePrintString( "\"\r\n" );
