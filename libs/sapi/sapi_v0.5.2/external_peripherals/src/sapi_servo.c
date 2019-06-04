@@ -77,15 +77,43 @@ typedef struct {
  * This way the user sets "servos", while using gpio outputs internally so the gpioWrite()
  * function can be easily used*/
 static const uint8_t servoMap[ SERVO_TOTALNUMBER ] = {
-   T_FIL1, // SERVO0
-   T_COL0, // SERVO1
-   T_FIL2, // SERVO2
-   T_FIL3, // SERVO3
-   GPIO8,  // SERVO4
-   LCD1,   // SERVO5
-   LCD2,   // SERVO6
-   LCD3,   // SERVO7
-   GPIO2   // SERVO8
+   
+   // Configure GPIO pins for each board
+   #if BOARD==ciaa_nxp
+      //       Servo name
+      LED,  // SERVO0
+      LED,  // SERVO1
+      LED,  // SERVO2
+      LED,  // SERVO3
+      LED,  // SERVO4
+      LED,  // SERVO5
+      LED,  // SERVO6
+      LED,  // SERVO7
+      LED   // SERVO8
+
+   #elif BOARD==edu_ciaa_nxp
+      //       Servo name
+      T_FIL1,  // SERVO0
+      T_COL0,  // SERVO1
+      T_FIL2,  // SERVO2
+      T_FIL3,  // SERVO3
+      GPIO8,   // SERVO4
+      LCD1,    // SERVO5
+      LCD2,    // SERVO6
+      LCD3,    // SERVO7
+      GPIO2    // SERVO8
+
+   #elif BOARD==ciaa_z3r0
+      #error CIAA-Z3R0
+
+   #elif BOARD==pico_ciaa
+      #error PicoCIAA
+
+   #else
+      #error BOARD compile variable must be defined
+
+   #endif
+
 };
 
 /*when the user adds a servo with servoAttach the list updates with the servo number*/

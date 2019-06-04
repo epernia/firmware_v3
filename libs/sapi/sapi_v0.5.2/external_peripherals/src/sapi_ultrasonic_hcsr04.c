@@ -79,10 +79,30 @@ typedef struct {
 /*==================[internal data definition]===============================*/
 
 static ultrasonicSensor_t ultrasonicSensors[ULTRASONIC_SENSOR_NUMBER] = {
-   /*position | Sensor number | echoRiseTime | echoFallTime | lastEchoWidth | echoGpio | enabled | irqConfig (irqChannel, GpioPort, GpioPin) */
-   /*0*/	{ULTRASONIC_SENSOR_0 , 0 , 0 , 0 , GPIO2 , ULTRASONIC_SENSOR_DISABLE, { 0, { 3, 4 } } },
-   /*1*/	{ULTRASONIC_SENSOR_1 , 0 , 0 , 0 , GPIO4 , ULTRASONIC_SENSOR_DISABLE, { 1, { 5, 16 } } },
-   /*2*/	{ULTRASONIC_SENSOR_2 , 0 , 0 , 0 , GPIO6 , ULTRASONIC_SENSOR_DISABLE, { 2, { 3, 6 }  } }
+
+   // Configure GPIO pins for each board
+   #if BOARD==ciaa_nxp
+      // Sensor number | echoRiseTime | echoFallTime | lastEchoWidth | echoGpio | enabled | irqConfig (irqChannel, GpioPort, GpioPin) | position */
+      {ULTRASONIC_SENSOR_0 , 0 , 0 , 0 , BTN , ULTRASONIC_SENSOR_DISABLE, { 0, { 3, 4 } } },  // 0
+      {ULTRASONIC_SENSOR_1 , 0 , 0 , 0 , BTN , ULTRASONIC_SENSOR_DISABLE, { 1, { 5, 16 } } }, // 1
+      {ULTRASONIC_SENSOR_2 , 0 , 0 , 0 , BTN , ULTRASONIC_SENSOR_DISABLE, { 2, { 3, 6 }  } }  // 2
+
+   #elif BOARD==edu_ciaa_nxp
+      // Sensor number | echoRiseTime | echoFallTime | lastEchoWidth | echoGpio | enabled | irqConfig (irqChannel, GpioPort, GpioPin) | position */
+      {ULTRASONIC_SENSOR_0 , 0 , 0 , 0 , GPIO2 , ULTRASONIC_SENSOR_DISABLE, { 0, { 3, 4 } } },  // 0
+      {ULTRASONIC_SENSOR_1 , 0 , 0 , 0 , GPIO4 , ULTRASONIC_SENSOR_DISABLE, { 1, { 5, 16 } } }, // 1
+      {ULTRASONIC_SENSOR_2 , 0 , 0 , 0 , GPIO6 , ULTRASONIC_SENSOR_DISABLE, { 2, { 3, 6 }  } }  // 2
+
+   #elif BOARD==ciaa_z3r0
+      #error CIAA-Z3R0
+
+   #elif BOARD==pico_ciaa
+      #error PicoCIAA
+
+   #else
+      #error BOARD compile variable must be defined
+
+   #endif
 };
 
 static ultrasonicSensorMap_t ultrasonicSensorsIrqMap[ULTRASONIC_SENSOR_NUMBER] = {

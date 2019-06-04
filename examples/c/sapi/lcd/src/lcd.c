@@ -182,7 +182,7 @@ int main( void ){
    lcdInit( 16, 2, 5, 8 );
 
    // Cargar el caracter a CGRAM
-   // El primer parámetro es el código del caracter (0 a 7).
+   // El primer parametro es el codigo del caracter (0 a 7).
    // El segundo es el puntero donde se guarda el bitmap (el array declarado
    // anteriormente)
    lcdCreateChar( 0, tempChar );
@@ -199,52 +199,50 @@ int main( void ){
    char tempString[] = "25";
    char humString[] = "50";
    char vieString[] = "10";
+   
+   lcdCursorSet( OFF ); // Apaga el cursor
+   lcdClear();          // Borrar la pantalla
 
    // ---------- REPETIR POR SIEMPRE --------------------------
    while( TRUE )
    {
-      lcdClear(); // Borrar la pantalla
-
-      lcdGoToXY( 1, 1 ); // Poner cursor en 1, 1
-
+      lcdGoToXY( 0, 0 ); // Poner cursor en 0, 0
       lcdSendStringRaw( "Tmp" );
       lcdData(0);
-
       lcdSendStringRaw( " Hum" );
       lcdData(1);
-
       lcdSendStringRaw( " Vie" );
       lcdData(2);
 
-      lcdGoToXY( 1, 2 );  // Poner cursor en 1, 2
-
+      lcdGoToXY( 0, 1 );
       lcdSendStringRaw( tempString );
       lcdData(7);
       lcdSendStringRaw( "C" );
 
-      lcdGoToXY( 6, 2 );  // Poner cursor en 7, 2
+      lcdGoToXY( 5, 1 );
       lcdSendStringRaw( humString );
       lcdSendStringRaw( "%" );
 
-      lcdGoToXY( 11, 2 ); // Poner cursor en 13, 2
+      lcdGoToXY( 10, 1 );
       lcdSendStringRaw( vieString );
       lcdSendStringRaw( "km/h" );
 
       delay(3000);
 
       lcdClear(); // Borrar la pantalla
-      lcdGoToXY( 1, 1 ); // Poner cursor en 1, 1
+      lcdGoToXY( 0, 0 );
       lcdData(3);
       lcdData(4);
       lcdData(5);
       lcdData(6);
 
-      delay(2000);
+      delay(1000);
 
+      lcdClear(); // Borrar la pantalla
    }
 
    // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa se ejecuta
-   // directamenteno sobre un microcontroladore y no es llamado por ningun
+   // directamente sobre un microcontroladore y no es llamado por ningun
    // Sistema Operativo, como en el caso de un programa para PC.
    return 0;
 }

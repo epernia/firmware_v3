@@ -63,18 +63,33 @@ bool_t spiInit( spiMap_t spi )
 
    if( spi == SPI0 ) {
 
-      /* Set up clock and power for SSP1 module */
-      // Configure SSP SSP1 pins
-      Chip_SCU_PinMuxSet(0xf, 4, (SCU_MODE_PULLUP | SCU_MODE_FUNC0)); // CLK0
-      Chip_SCU_PinMuxSet(0x1, 3, (SCU_MODE_PULLUP | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS | SCU_MODE_FUNC5)); // MISO1
-      Chip_SCU_PinMuxSet(0x1, 4, (SCU_MODE_PULLUP | SCU_MODE_FUNC5)); // MOSI1
+      // Configure SPI pins for each board
 
-      Chip_SCU_PinMuxSet(0x6, 1, (SCU_MODE_PULLUP | SCU_MODE_FUNC0)); // CS1 configured as GPIO
-      Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, 3, 0);
+      #if BOARD==ciaa_nxp||edu_ciaa_nxp
+         /* Set up clock and power for SSP1 module */
+         // Configure SSP SSP1 pins
+         Chip_SCU_PinMuxSet( 0xF, 4, (SCU_MODE_PULLUP | SCU_MODE_FUNC0)); // SSP1_SCK
+         Chip_SCU_PinMuxSet( 0x1, 3, (SCU_MODE_PULLUP | SCU_MODE_INBUFF_EN | SCU_MODE_ZIF_DIS | SCU_MODE_FUNC5)); // SSP1_MISO
+         Chip_SCU_PinMuxSet( 0x1, 4, (SCU_MODE_PULLUP | SCU_MODE_FUNC5)); // SSP1_MOSI
 
-      // Initialize SSP Peripheral
-      Chip_SSP_Init( LPC_SSP1 );
-      Chip_SSP_Enable( LPC_SSP1 );
+         // Initialize SSP Peripheral
+         Chip_SSP_Init( LPC_SSP1 );
+         Chip_SSP_Enable( LPC_SSP1 );
+      #endif
+
+      #if BOARD==ciaa_nxp
+         Chip_SCU_PinMuxSet( 0x6, 7, (SCU_MODE_PULLUP | SCU_MODE_FUNC4) ); // Pin for SPI SS configured as GPIO output with pull-up
+         Chip_GPIO_SetPinDIROutput( LPC_GPIO_PORT, 5, 15 );
+      #elif BOARD==edu_ciaa_nxp
+         Chip_SCU_PinMuxSet( 0x6, 1, (SCU_MODE_PULLUP | SCU_MODE_FUNC0)); // Pin for SPI SS configured as GPIO output with pull-up
+         Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, 3, 0);
+      #elif BOARD==ciaa_z3r0
+         #error CIAA-Z3R0
+      #elif BOARD==pico_ciaa
+         #error PicoCIAA
+      #else
+         #error BOARD compile variable must be defined
+      #endif
 
    } else {
       retVal = FALSE;

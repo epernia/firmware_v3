@@ -56,7 +56,7 @@
 
 /**
  * C++ version 0.4 char* style "itoa":
- * Written by Lukás Chmela
+ * Written by Lukas Chmela
  * Released under GPLv3.
 
  */

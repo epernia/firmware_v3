@@ -1,6 +1,6 @@
 ifeq ($(USE_LPCOPEN),y)
 
-BOARD?=edu_ciaa_nxp
+#BOARD?=edu_ciaa_nxp
 
 DEFINES+=__USE_LPCOPEN
 DEFINES+=CHIP_LPC43XX

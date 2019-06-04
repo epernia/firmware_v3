@@ -124,10 +124,10 @@ static ErrorCode_t Keyboard_SetReport( USBD_HANDLE_T hHid,
           *  then turn on LED#2.
           */
          if (**pBuffer & 0x01) {
-            gpioWrite( LEDB, ON );
+            gpioWrite( LED, ON );
          }
          else {
-            gpioWrite( LEDB, OFF);
+            gpioWrite( LED, OFF);
          }
       break;
 

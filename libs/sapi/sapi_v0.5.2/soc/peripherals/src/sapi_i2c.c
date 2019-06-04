@@ -261,7 +261,7 @@ static bool_t i2cHardwareInit( i2cMap_t i2cNumber, uint32_t clockRateHz )
 {
 
    // Configuracion de las lineas de SDA y SCL de la placa
-   Chip_SCU_I2C0PinConfig( I2C0_STANDARD_FAST_MODE );
+   Chip_SCU_I2C0PinConfig( I2C0_STANDARD_FAST_MODE ); // Equal for CIAA-NXP and EDU-CIAA-NXP on I2C0
 
    // Inicializacion del periferico
    Chip_I2C_Init( i2cNumber );

@@ -47,9 +47,11 @@ extern "C" {
 #endif
 
 /*==================[macros]=================================================*/
+   
+//define LCD_HD44780_I2C_PCF8574T // For LCD connected via I2C PCF8574T I/O expander
 
 /* LCD library configuration - Begin */
-   
+
 // LCD Delay HAL
 #define lcdDelay_ms(duration)       delayInaccurateMs(duration)
 #define lcdDelay_us(duration)       delayInaccurateUs(duration) //delayUs(duration)
@@ -60,13 +62,15 @@ extern "C" {
 #define lcdPinWrite( pin, value )   gpioWrite( (pin), (value) )
    
 // Configure LCD pins
-#define LCD_HD44780_RS   LCDRS   // RS = 0 to select command register, RS = 1 to select data register
-#define LCD_HD44780_EN   LCDEN   // Enable
-#define LCD_HD44780_RW   0       // R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND)
-#define LCD_HD44780_D7   LCD4
-#define LCD_HD44780_D6   LCD3
-#define LCD_HD44780_D5   LCD2
-#define LCD_HD44780_D4   LCD1
+//#define LCD_HD44780_D7          LCD4   // Data bit 7.
+//#define LCD_HD44780_D6          LCD3   // Data bit 4.
+//#define LCD_HD44780_D5          LCD2   // Data bit 5.
+//#define LCD_HD44780_D4          LCD1   // Data bit 4.
+//#define LCD_HD44780_BACKLIGHT   GPIO0  // Backlight.
+//#define LCD_HD44780_EN          LCDEN  // Enable bit.
+//#define LCD_HD44780_RW          0      // Read/Write bit. R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND).
+//#define LCD_HD44780_RS          LCDRS  // Register select bit. RS = 0 to select command register, RS = 1 to select data register.
+
 
 // LCD delay Times
 #define LCD_EN_PULSE_WAIT_US   25    // 25 us
@@ -82,6 +86,99 @@ extern "C" {
    
 // For backward compatibility
 #define lcdConfig lcdInit
+
+
+
+// When the display powers up, it is configured as follows:
+//
+// 1. Display clear
+// 2. Function set:
+//    DL = 1; 8-bit interface data
+//    N = 0; 1-line display
+//    F = 0; 5x8 dot character font
+// 3. Display on/off control:
+//    D = 0; Display off
+//    C = 0; Cursor off
+//    B = 0; Blinking off
+// 4. Entry mode set:
+//    I/D = 1; Increment by 1
+//    S = 0; No shift
+//
+// Note, however, that resetting the Arduino doesn't reset the LCD, so we
+// can't assume that its in that state when a sketch starts (and the
+// LiquidCrystal constructor is called).
+
+// commands
+#define LCD_CLEARDISPLAY        0x01
+#define LCD_RETURNHOME          0x02
+#define LCD_ENTRYMODESET        0x04
+#define LCD_DISPLAYCONTROL      0x08
+#define LCD_CURSORSHIFT         0x10
+#define LCD_FUNCTIONSET         0x20
+#define LCD_SETCGRAMADDR        0x40
+#define LCD_SETDDRAMADDR        0x80
+
+// flags for display entry mode
+#define LCD_ENTRYRIGHT          0x00
+#define LCD_ENTRYLEFT           0x02
+#define LCD_ENTRYSHIFTINCREMENT 0x01
+#define LCD_ENTRYSHIFTDECREMENT 0x00
+
+// flags for display on/off control
+#define LCD_DISPLAYON           0x04
+#define LCD_DISPLAYOFF          0x00
+#define LCD_CURSORON            0x02
+#define LCD_CURSOROFF           0x00
+#define LCD_BLINKON             0x01
+#define LCD_BLINKOFF            0x00
+
+// flags for display/cursor shift
+#define LCD_DISPLAYMOVE         0x08
+#define LCD_CURSORMOVE          0x00
+#define LCD_MOVERIGHT           0x04
+#define LCD_MOVELEFT            0x00
+
+// flags for function set
+#define LCD_8BITMODE            0x10
+#define LCD_4BITMODE            0x00
+#define LCD_2LINE               0x08
+#define LCD_1LINE               0x00
+#define LCD_5x10DOTS            0x04
+#define LCD_5x8DOTS             0x00
+
+
+// Configure LCD I2C Pin positions
+
+#define LCD_HD44780_D7          7 // Data bit 7.
+#define LCD_HD44780_D6          6 // Data bit 4.
+#define LCD_HD44780_D5          5 // Data bit 5.
+#define LCD_HD44780_D4          4 // Data bit 4.
+#define LCD_HD44780_BACKLIGHT   3 // Backlight. LCD backlight anode.
+#define LCD_HD44780_EN          2 // Enable bit.
+#define LCD_HD44780_RW          1 // Read/Write bit. R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND).
+#define LCD_HD44780_RS          0 // Register select bit. RS = 0 to select command register, RS = 1 to select data register.
+
+//uint32_t lcdHd44780Gpios[8] = 
+
+typedef enum{
+   PCF8574T_P0 = (1<<0),
+   PCF8574T_P1 = (1<<1),
+   PCF8574T_P2 = (1<<2),
+   PCF8574T_P3 = (1<<3),
+   PCF8574T_P4 = (1<<4),
+   PCF8574T_P5 = (1<<5),
+   PCF8574T_P6 = (1<<6),
+   PCF8574T_P7 = (1<<7),
+} pcf8574T_gpio_t;
+
+typedef enum{
+   PCF8574_GPIO_INPUT = 1,
+   PCF8574_GPIO_OUTPUT = 0,
+} pcf8574T_gpioDirection_t;
+
+// Set the LCD address to 0x27 for a 16 chars and 2 line display
+//LiquidCrystal_I2C lcd(0x27, 16, 2)
+
 
 /*==================[typedef]================================================*/
 
@@ -109,7 +206,6 @@ enum enLCDCursorModes {
 /*==================[external functions declaration]=========================*/
 
 void lcdCommand( uint8_t cmd );
-
 void lcdData( uint8_t data );
 
 void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
@@ -118,10 +214,16 @@ void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
 void lcdGoToXY( uint8_t x, uint8_t y );
 
 void lcdClear( void );
-
-void lcdSendStringRaw( char* str );
+void lcdCursorSet( bool_t status );
 
 void lcdCreateChar( uint8_t charnum, const char* chardata );
+
+void lcdSendStringRaw( char* str );
+void lcdSendString( char* str );
+void lcdSendEnter( void );
+
+#define lcdSendStringLn(str)   lcdSendString(str); \
+                               lcdSendEnter()
 
 /*==================[cplusplus]==============================================*/
 

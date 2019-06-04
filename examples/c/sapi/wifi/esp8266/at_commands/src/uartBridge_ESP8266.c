@@ -81,9 +81,13 @@ ESP01 (ESP8266) connections:
 
 /*==================[external functions definition]==========================*/
 
-void imprimirMensajeDeBienvenida( void ){
-
-   /* Imprimo el mensaje de bienvenida */
+void imprimirMensajeDeBienvenida( void )
+{
+   /*   
+   AT+CWMODE?
+   AT+CWMODE=3
+   */ 
+   // Imprimo el mensaje de bienvenida
    uartWriteString( UART_USB,
       "Bievenido al asistente de configuracion del modulo ESP8266\r\n" );
    uartWriteString( UART_USB,
@@ -98,13 +102,6 @@ void imprimirMensajeDeBienvenida( void ){
    uartWriteString( UART_USB,
       "> Version del Firmware: AT+GMR\r\n" );
    uartWriteString( UART_USB, "> Resetear el modulo: AT+RST\r\n" );
-   
-/*   
-   AT+CWMODE?
-   
-   AT+CWMODE=3
-*/   
-   
    uartWriteString( UART_USB,
       "> Listar todas las redes disponibles: AT+CWLAP\r\n" );
    uartWriteString( UART_USB,

@@ -42,7 +42,7 @@ void uartUsbReceiveCallback( void *unused );
 void uartUsbSendCallback( void *unused );
 
 /* Declaraciones variables */
-uint8_t *dataToSend = "Hello World\r\n";
+uint8_t *dataToSend = "Hello World. Hello World.\r\n";
 uint8_t *pDataToSend;
 bool_t toSend = false;
 

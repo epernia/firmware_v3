@@ -35,37 +35,153 @@
 
 /*==================[inlcusiones]============================================*/
 
-#include "sapi_lcd.h"    // <= su propio archivo de cabecera (opcional)
+#include "sapi_lcd.h"
 
 /*==================[definiciones y macros]==================================*/
 
 /*==================[definiciones de datos internos]=========================*/
 
+typedef struct {
+   uint16_t lineWidth;
+   uint16_t amountOfLines;
+   uint16_t charWidth;
+   uint16_t charHeight;
+   uint8_t x;
+   uint8_t y;
+} lcd_t;
+
 /*==================[definiciones de datos externos]=========================*/
+
+static lcd_t lcd;
 
 /*==================[declaraciones de funciones internas]====================*/
 
-static void lcdEnablePulse( void );
+static uint8_t lcdDataValue = 0;
+static uint8_t lcdEnStatus = OFF;
+static uint8_t lcdRsStatus = OFF;
+static uint8_t lcdBacklightStatus = 0;
 
+static void lcdI2cWritePins( uint8_t _data );
+static void lcdPinSet( uint8_t pin, bool_t status );
+
+static void lcdEnablePulse( void );
 static void lcdSendNibble( uint8_t nibble );
 
 /*==================[declaraciones de funciones externas]====================*/
 
 /*==================[definiciones de funciones internas]=====================*/
 
+
+#define PCF8574T_I2C_A0           1 // 1 connected to VDD, 0 to VSS
+#define PCF8574T_I2C_A1           1 // 1 connected to VDD, 0 to VSS
+#define PCF8574T_I2C_A2           1 // 1 connected to VDD, 0 to VSS
+
+#define PCF8574T_I2C_BASE         0x20 // 0x40(fixed)
+#define PCF8574T_I2C_ADDRESS      ( PCF8574T_I2C_BASE | ((PCF8574T_I2C_A2)<<2) | ((PCF8574T_I2C_A1)<<1) | PCF8574T_I2C_A0 ) 
+
+static uint8_t pcf8574TGpioPortDirections = 0x00;
+static uint8_t pcf8574TGpioPortValue = 0x00;
+static uint8_t pcf8574TI2cAddress = PCF8574T_I2C_ADDRESS;
+
+
+
+static void pcf8574TInit( uint8_t i2c, uint8_t i2cAddress );
+static void pcf8574TGpioPortInit( uint8_t directions );
+static void pcf8574TGpioPortWrite( uint8_t portValue );
+static uint8_t pcf8574TGpioPortRead( void );
+static void pcf8574TGpioInit( pcf8574T_gpio_t pin, 
+                              pcf8574T_gpioDirection_t direction );
+static bool_t pcf8574TGpioRead( pcf8574T_gpio_t pin );
+static void pcf8574TGpioWrite( pcf8574T_gpio_t pin, bool_t value );
+
+
+static void pcf8574TInit( uint8_t i2c, uint8_t i2cAddress ){
+   
+   pcf8574TI2cAddress = i2cAddress;   
+   i2cInit( I2C0, 100000 );
+   
+   pcf8574TGpioPortInit( 0x00 ); // Init all GPIOs as outputs
+   pcf8574TGpioPortWrite( 0x00 ); // Init all as zeros
+   /*
+   while(true){      
+      pcf8574TGpioPortWrite( 0x00 );
+      delay(2000);
+      pcf8574TGpioPortWrite( 0xFF );
+      delay(2000);      
+   }
+   */
+}
+
+static void pcf8574TGpioPortInit( uint8_t directions ){
+   pcf8574TGpioPortDirections = directions;
+   i2cWrite( I2C0, pcf8574TI2cAddress, &directions, 1, TRUE );
+}
+
+static void pcf8574TGpioPortWrite( uint8_t portValue ){  
+   pcf8574TGpioPortValue = portValue;
+   // Or with pcf8574TGpioPortDirections to keep pins initialized as inputs
+   uint8_t transmitDataBuffer = portValue | pcf8574TGpioPortDirections;
+   i2cWrite( I2C0, pcf8574TI2cAddress, &transmitDataBuffer, 1, TRUE );
+}
+
+static uint8_t pcf8574TGpioPortRead( void ){
+   //uint8_t dataToReadBuffer[1] = { 0 };
+   uint8_t receiveDataBuffer = 0;
+   i2cRead( I2C0, QMC5883L_ADD,
+            NULL, 0, TRUE,
+            &receiveDataBuffer, 1, TRUE );
+}
+
+static void pcf8574TGpioInit( pcf8574T_gpio_t pin, 
+                              pcf8574T_gpioDirection_t direction ){
+   uint8_t directions = pcf8574TGpioPortDirections;
+   if( direction ){
+      directions |= (1<<pin);
+   } else{
+      directions &= ~(1<<pin);
+   }
+   pcf8574TGpioPortInit( directions );   
+}
+
+static bool_t pcf8574TGpioRead( pcf8574T_gpio_t pin ){
+   return pcf8574TGpioPortRead() & (1<<pin);
+}
+
+static void pcf8574TGpioWrite( pcf8574T_gpio_t pin, bool_t value ){
+   uint8_t portValue = pcf8574TGpioPortValue;
+   if( value ){
+      portValue |= (1<<pin);
+   } else{
+      portValue &= ~(1<<pin);
+   }
+   pcf8574TGpioPortWrite( portValue );
+}
+
+
+
+static void lcdPinSet( uint8_t pin, bool_t status )
+{
+   #ifdef LCD_HD44780_I2C_PCF8574T
+   pcf8574TGpioWrite( pin, status );
+   #else
+   gpioWrite( pin, status );
+   #endif
+}
+
 static void lcdEnablePulse( void )
 {
-   lcdPinWrite( LCD_HD44780_EN, ON );     // EN = 1 for H-to-L pulse
-   lcdDelay_us( LCD_EN_PULSE_WAIT_US );   // Wait to make EN wider
-   lcdPinWrite( LCD_HD44780_EN, OFF );    // EN = 0 for H-to-L pulse
+   lcdPinSet( LCD_HD44780_EN, ON );       // EN = 1 for H-to-L pulse
+   lcdDelay_us( LCD_EN_PULSE_WAIT_US );   // Wait to make EN wider //lcdDelay_us(1);
+   lcdPinSet( LCD_HD44780_EN, OFF );      // EN = 0 for H-to-L pulse
+   //lcdDelay_us(50); // commands need > 37us to settle
 }
 
 static void lcdSendNibble( uint8_t nibble )
 {
-   lcdPinWrite( LCD_HD44780_D7, ( nibble & 0x80 ) );
-   lcdPinWrite( LCD_HD44780_D6, ( nibble & 0x40 ) );
-   lcdPinWrite( LCD_HD44780_D5, ( nibble & 0x20 ) );
-   lcdPinWrite( LCD_HD44780_D4, ( nibble & 0x10 ) );
+   lcdPinSet( LCD_HD44780_D7, ( nibble & 0x80 ) );
+   lcdPinSet( LCD_HD44780_D6, ( nibble & 0x40 ) );
+   lcdPinSet( LCD_HD44780_D5, ( nibble & 0x20 ) );
+   lcdPinSet( LCD_HD44780_D4, ( nibble & 0x10 ) );
 }
 
 /*==================[definiciones de funciones externas]=====================*/
@@ -74,8 +190,8 @@ void lcdCommand( uint8_t cmd )
 {
    lcdSendNibble( cmd & 0xF0 );          // Send high nibble to D7-D4
 
-   lcdPinWrite( LCD_HD44780_RS, OFF );   // RS = 0 for command
-   lcdPinWrite( LCD_HD44780_RW, OFF );   // RW = 0 for write
+   lcdPinSet( LCD_HD44780_RS, OFF );   // RS = 0 for command
+   lcdPinSet( LCD_HD44780_RW, OFF );   // RW = 0 for write
 
    lcdEnablePulse();
    lcdDelay_us( LCD_LOW_WAIT_US );       // Wait
@@ -88,8 +204,8 @@ void lcdData( uint8_t data )
 {
    lcdSendNibble( data & 0xF0 );         // Send high nibble to D7-D4
 
-   lcdPinWrite( LCD_HD44780_RS, ON );    // RS = 1 for data
-   lcdPinWrite( LCD_HD44780_RW, OFF );   // RW = 0 for write
+   lcdPinSet( LCD_HD44780_RS, ON );    // RS = 1 for data
+   lcdPinSet( LCD_HD44780_RW, OFF );   // RW = 0 for write
 
    lcdEnablePulse();
 
@@ -100,21 +216,33 @@ void lcdData( uint8_t data )
 void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
               uint16_t charWidth, uint16_t charHeight )
 {
+   lcd.lineWidth = lineWidth;
+   lcd.amountOfLines = amountOfLines;
+   lcd.charWidth = charWidth;
+   lcd.charHeight = charHeight;
+   lcd.x = 0;
+   lcd.y = 0;
+   
+   #ifdef LCD_HD44780_I2C_PCF8574T
+   // Init I2C
+   pcf8574TInit( I2C0, PCF8574T_I2C_ADDRESS );
+   lcdPinSet( LCD_HD44780_BACKLIGHT, ON );
+   //delay(1000);
+   #else
    // Configure LCD Pins as Outputs
    lcdInitPinAsOutput( LCD_HD44780_RS );
    lcdInitPinAsOutput( LCD_HD44780_RW );
    lcdInitPinAsOutput( LCD_HD44780_EN );
-
    lcdInitPinAsOutput( LCD_HD44780_D4 );
    lcdInitPinAsOutput( LCD_HD44780_D5 );
    lcdInitPinAsOutput( LCD_HD44780_D6 );
    lcdInitPinAsOutput( LCD_HD44780_D7 );
+   #endif
 
    // Configure LCD for 4-bit mode
-   lcdPinWrite( LCD_HD44780_RW, OFF );   // RW = 0
-   lcdPinWrite( LCD_HD44780_RS, OFF );   // RS = 0
-
-   lcdPinWrite( LCD_HD44780_EN, OFF );   // EN = 0
+   lcdPinSet( LCD_HD44780_RW, OFF );     // RW = 0
+   lcdPinSet( LCD_HD44780_RS, OFF );     // RS = 0
+   lcdPinSet( LCD_HD44780_EN, OFF );     // EN = 0
 
    lcdDelay_ms( LCD_STARTUP_WAIT_MS );   // Wait for stable power
 
@@ -137,19 +265,31 @@ void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
    lcdCommandDelay();                    // Wait
 
    lcdDelay_ms( 1 );                     // Wait
+   
+   lcdGoToXY( 0, 0 );
 }
 
 void lcdGoToXY( uint8_t x, uint8_t y )
 {
    uint8_t firstCharAdress[] = { 0x80, 0xC0, 0x94, 0xD4 };   // See table 12-5
-   lcdCommand( firstCharAdress[ y - 1 ] + x - 1 );
+   //lcdCommand( firstCharAdress[ y - 1 ] + x - 1 ); // Start in {x,y} = {1,1}
+   lcdCommand( firstCharAdress[y] + x );             // Start in {x,y} = {0,0}
    lcdDelay_us( LCD_HIGH_WAIT_US );      // Wait
+   lcd.x = x;
+   lcd.y = y;
 }
 
 void lcdClear( void )
 {
    lcdCommand( 0x01 );                   // Command 0x01 for clear LCD
    lcdDelay_ms(LCD_CLR_DISP_WAIT_MS);    // Wait
+}
+
+void lcdCursorSet( bool_t status )
+{
+   // FIXME: use status var!!!
+  lcdCommand( 0b00001100 );             // Command for cursor OFF
+  lcdDelay_ms(LCD_CLR_DISP_WAIT_MS);    // Wait
 }
 
 void lcdSendStringRaw( char* str )
@@ -172,5 +312,40 @@ void lcdCreateChar( uint8_t charnum, const char* chardata )
    delay(1);
 }
 
+
+void lcdSendString( char* str )
+{
+   uint8_t i = 0;
+
+   while( str[i] != 0 ) {
+
+      if( lcd.x >= lcd.lineWidth ){
+         lcd.x = 0;
+         lcd.y++;
+         lcdGoToXY( lcd.x, lcd.y );
+      }
+
+      if( lcd.y >= lcd.amountOfLines ){
+         delay(5000);
+         lcdClear();
+         lcd.x = 0;
+         lcd.y = 0;
+         lcdGoToXY( lcd.x, lcd.y );
+      }
+
+      lcdData( str[i] );
+      i++;
+      lcd.x++;
+   }
+}
+
+void lcdSendEnter( void ){
+   lcd.x = 0;
+   lcd.y++;
+   if( lcd.y >= lcd.amountOfLines ){
+      lcd.y = 0;
+   }
+   lcdGoToXY( lcd.x, lcd.y );
+}
 
 /*==================[fin del archivo]========================================*/

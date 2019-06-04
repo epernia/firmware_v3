@@ -71,36 +71,82 @@ typedef struct {
 /* ------- Begin EDU-CIAA-NXP Peripheral Map ------ */
 
 /* Defined for sapi_gpio.h */
+
 typedef enum {
-   BTN = 0,
-   LED = 1,
 
-   /* EDU-CIAA-NXP */
-   // P1 header
-   T_FIL1,    T_COL2,    T_COL0,    T_FIL2,      T_FIL3,  T_FIL0,     T_COL1,
-   CAN_TD,    CAN_RD,    RS232_TXD, RS232_RXD,
-   // P2 header
-   GPIO8,     GPIO7,     GPIO5,     GPIO3,       GPIO1,
-   LCD1,      LCD2,      LCD3,      LCDRS,       LCD4,
-   SPI_MISO,
-   ENET_TXD1, ENET_TXD0, ENET_MDIO, ENET_CRS_DV, ENET_MDC, ENET_TXEN, ENET_RXD1,
-   GPIO6,     GPIO4,     GPIO2,     GPIO0,
-   LCDEN,
-   SPI_MOSI,
-   ENET_RXD0,
-   // Switches
-   TEC1,  TEC2,  TEC3,  TEC4,
-   // Leds
-   LEDR,  LEDG,  LEDB,  LED1,  LED2,  LED3,
+   // Configure GPIO pins for each board
+   #if BOARD==ciaa_nxp
 
-   /* CIAA-NXP */
-   DI0,   DI1,   DI2,   DI3,   DI4,   DI5,   DI6,   DI7,
-   DO0,   DO1,   DO2,   DO3,   DO4,   DO5,   DO6,   DO7,
+      // Born
+      DI0,   DI1,   DI2,   DI3,   DI4,   DI5,   DI6,   DI7,
+      DO0,   DO1,   DO2,   DO3,   DO4,   DO5,   DO6,   DO7,
+   
+      // P12 header
+      GPIO0, GPIO1, GPIO2, GPIO3, GPIO7, GPIO8, 
+   
+      // P14 header
+      SPI_MISO, SPI_MOSI, SPI_CS,
+
+      //#error CIAA-NXP
+
+   #elif BOARD==edu_ciaa_nxp
+
+      // P1 header
+      T_FIL1,    T_COL2,    T_COL0,    T_FIL2,      T_FIL3,  T_FIL0,     T_COL1,
+      CAN_TD,    CAN_RD,    RS232_TXD, RS232_RXD,
+
+      // P2 header
+      GPIO8,     GPIO7,     GPIO5,     GPIO3,       GPIO1,
+      LCD1,      LCD2,      LCD3,      LCDRS,       LCD4,
+      SPI_MISO,
+      ENET_TXD1, ENET_TXD0, ENET_MDIO, ENET_CRS_DV, ENET_MDC, ENET_TXEN, ENET_RXD1,
+      GPIO6,     GPIO4,     GPIO2,     GPIO0,
+      LCDEN,
+      SPI_MOSI,
+      ENET_RXD0,
+
+      // Switches
+      // 36   37     38     39
+      TEC1,  TEC2,  TEC3,  TEC4,
+
+      // Leds
+      // 40   41     42     43     44     45
+      LEDR,  LEDG,  LEDB,  LED1,  LED2,  LED3,
+
+      //#error EDU-CIAA-NXP
+
+   #elif BOARD==ciaa_z3r0
+      #error CIAA-Z3R0
+
+   #elif BOARD==pico_ciaa
+      #error PicoCIAA
+
+   #else
+      #error BOARD compile variable must be defined
+
+   #endif
 
 } gpioMap_t;
 
-#define CIAA_BOARD_BUTTON   TEC1
-#define CIAA_BOARD_LED      LEDB
+// Configure GPIO pins for each board
+#if BOARD==ciaa_nxp
+   #define BTN   DI0
+   #define LED   DO0
+
+#elif BOARD==edu_ciaa_nxp
+   #define BTN   TEC1
+   #define LED   LEDB
+
+#elif BOARD==ciaa_z3r0
+   #error CIAA-Z3R0
+
+#elif BOARD==pico_ciaa
+   #error PicoCIAA
+
+#else
+   #error BOARD compile variable must be defined
+
+#endif
 
 
 /* Defined for sapi_adc.h */
@@ -171,8 +217,6 @@ typedef uint8_t i2cMap_t;
 typedef enum {
    SPI0
 } spiMap_t;
-
-/* ------- End EDU-CIAA-NXP Peripheral Map -------- */
 
 /*==================[external data declaration]==============================*/
 
