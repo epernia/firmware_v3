@@ -87,7 +87,7 @@ typedef enum {
       // P14 header
       SPI_MISO, SPI_MOSI, SPI_CS,
 
-      //#error CIAA-NXP
+      #error CIAA-NXP
 
    #elif BOARD==edu_ciaa_nxp
 
@@ -113,7 +113,7 @@ typedef enum {
       // 40   41     42     43     44     45
       LEDR,  LEDG,  LEDB,  LED1,  LED2,  LED3,
 
-      //#error EDU-CIAA-NXP
+      #error EDU-CIAA-NXP
 
    #elif BOARD==ciaa_z3r0
       #error CIAA-Z3R0
@@ -121,11 +121,13 @@ typedef enum {
    #elif BOARD==pico_ciaa
       #error PicoCIAA
 
+   #elif BOARD==ciaa_7st
+      #error CIAA-7-ST
+
    #else
       #error BOARD compile variable must be defined
 
    #endif
-
 } gpioMap_t;
 
 // Configure GPIO pins for each board

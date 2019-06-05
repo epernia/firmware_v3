@@ -1,6 +1,6 @@
 ifeq ($(USE_LPCOPEN),y)
 
-#BOARD?=edu_ciaa_nxp
+BOARD ?= edu_ciaa_nxp
 
 DEFINES+=__USE_LPCOPEN
 DEFINES+=CHIP_LPC43XX
@@ -8,7 +8,6 @@ DEFINES+=ARM_MATH_CM4
 
 LPCOPEN_BASE=libs/lpc_open
 
-SRC+=$(wildcard $(LPCOPEN_BASE)/boards/src/*.c)
 SRC+=$(wildcard $(LPCOPEN_BASE)/boards/$(BOARD)/src/*.c)
 INCLUDES+=-I$(LPCOPEN_BASE)/boards/$(BOARD)/inc
 INCLUDES+=-I$(LPCOPEN_BASE)/boards/inc
