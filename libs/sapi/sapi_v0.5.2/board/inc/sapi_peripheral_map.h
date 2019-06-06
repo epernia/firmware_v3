@@ -72,29 +72,31 @@ typedef struct {
 
 /* Defined for sapi_gpio.h */
 
+//#define BOARD edu_ciaa_nxp
+
 typedef enum {
 
    // Configure GPIO pins for each board
-   #if BOARD==ciaa_nxp
 
+   #if (BOARD == ciaa_sim_ia32)
+      #error CIAA-SIM_IA32 not supported yet!
+   #elif (BOARD == ciaa_sim_ia64)
+      #error CIAA-SIM_IA64 not supported yet!
+
+   #elif (BOARD == ciaa_nxp)
       // Born
       DI0,   DI1,   DI2,   DI3,   DI4,   DI5,   DI6,   DI7,
       DO0,   DO1,   DO2,   DO3,   DO4,   DO5,   DO6,   DO7,
-   
       // P12 header
       GPIO0, GPIO1, GPIO2, GPIO3, GPIO7, GPIO8, 
-   
       // P14 header
       SPI_MISO, SPI_MOSI, SPI_CS,
+      //#error CIAA-NXP
 
-      #error CIAA-NXP
-
-   #elif BOARD==edu_ciaa_nxp
-
+   #elif (BOARD == edu_ciaa_nxp)
       // P1 header
       T_FIL1,    T_COL2,    T_COL0,    T_FIL2,      T_FIL3,  T_FIL0,     T_COL1,
       CAN_TD,    CAN_RD,    RS232_TXD, RS232_RXD,
-
       // P2 header
       GPIO8,     GPIO7,     GPIO5,     GPIO3,       GPIO1,
       LCD1,      LCD2,      LCD3,      LCDRS,       LCD4,
@@ -104,52 +106,54 @@ typedef enum {
       LCDEN,
       SPI_MOSI,
       ENET_RXD0,
-
       // Switches
       // 36   37     38     39
       TEC1,  TEC2,  TEC3,  TEC4,
-
       // Leds
       // 40   41     42     43     44     45
       LEDR,  LEDG,  LEDB,  LED1,  LED2,  LED3,
+      //#error EDU-CIAA-NXP
 
-      #error EDU-CIAA-NXP
-
-   #elif BOARD==ciaa_z3r0
-      #error CIAA-Z3R0
-
-   #elif BOARD==pico_ciaa
-      #error PicoCIAA
-
-   #elif BOARD==ciaa_7st
-      #error CIAA-7-ST
-
-   #else
-      #error BOARD compile variable must be defined
-
+   #elif (BOARD == ciaa_fsl)
+      #error CIAA-FSL not supported yet!
+   #elif (BOARD == ciaa_pic)
+      #error CIAA-PIC not supported yet!
+   #elif (BOARD == pico_ciaa)
+      #error picoCIAA not supported yet!
+   #elif (BOARD == ciaa_leon3_fpga_nfp)
+      #error CIAA-LEON3-FPGA-NFP not supported yet!
+   #elif (BOARD == ciaa_z3r0)
+      #error CIAA-Z3R0 not supported yet!
+   #elif (BOARD == ciaa_7st)
+      #error CIAA-7-ST not supported yet!
    #endif
 } gpioMap_t;
 
 // Configure GPIO pins for each board
-#if BOARD==ciaa_nxp
+
+#if (BOARD == ciaa_sim_ia32)
+   #error CIAA-SIM_IA32 not supported yet!
+#elif (BOARD == ciaa_sim_ia64)
+   #error CIAA-SIM_IA64 not supported yet!
+#elif (BOARD == ciaa_nxp)
    #define BTN   DI0
    #define LED   DO0
-
-#elif BOARD==edu_ciaa_nxp
+#elif (BOARD == edu_ciaa_nxp)
    #define BTN   TEC1
    #define LED   LEDB
-
-#elif BOARD==ciaa_z3r0
-   #error CIAA-Z3R0
-
-#elif BOARD==pico_ciaa
-   #error PicoCIAA
-
-#else
-   #error BOARD compile variable must be defined
-
+#elif (BOARD == ciaa_fsl)
+   #error CIAA-FSL not supported yet!
+#elif (BOARD == ciaa_pic)
+   #error CIAA-PIC not supported yet!
+#elif (BOARD == pico_ciaa)
+   #error picoCIAA not supported yet!
+#elif (BOARD == ciaa_leon3_fpga_nfp)
+   #error CIAA-LEON3-FPGA-NFP not supported yet!
+#elif (BOARD == ciaa_z3r0)
+   #error CIAA-Z3R0 not supported yet!
+#elif (BOARD == ciaa_7st)
+   #error CIAA-7-ST not supported yet!
 #endif
-
 
 /* Defined for sapi_adc.h */
 typedef enum {

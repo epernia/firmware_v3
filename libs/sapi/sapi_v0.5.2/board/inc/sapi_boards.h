@@ -1,4 +1,4 @@
-/* Copyright 2015-2016, Eric Pernia.
+/* Copyright 2015-2019, Eric Pernia.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -31,17 +31,10 @@
  *
  */
 
-/* Date: 2015-09-23 */
-
-#ifndef _SAPI_DATATYPES_H_
-#define _SAPI_DATATYPES_H_
+#ifndef _SAPI_BOARDS_H_
+#define _SAPI_BOARDS_H_
 
 /*==================[inclusions]=============================================*/
-
-#include "stdint.h"
-#include "chip.h"
-#include "board.h"
-#include "sapi_boards.h"
 
 /*==================[cplusplus]==============================================*/
 
@@ -51,92 +44,48 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-/* Functional states */
-#ifndef ON
-#define ON     1
-#endif
-#ifndef OFF
-#define OFF    0
-#endif
+// BOARDs macro definitions
+#define ciaa_sim_ia32         1   // BOARD for ARCH=x86 CPUTYPE=ia32
+#define ciaa_sim_ia64         2   // BOARD for ARCH=x86 CPUTYPE=ia64
+#define ciaa_nxp              3   // BOARD for ARCH=cortexM4 CPUTYPE=lpc43xx
+#define edu_ciaa_nxp          4   // BOARD for ARCH=cortexM4 CPUTYPE=lpc43xx
+#define ciaa_fsl              5   // BOARD for ARCH=cortexM4 CPUTYPE=k60_120
+#define ciaa_pic              6   // BOARD for ARCH=mips CPUTYPE=pic32
+#define pico_ciaa             7   // BOARD for ARCH=cortexM4 CPUTYPE=lpc5410x
+#define ciaa_leon3_fpga_nfp   8   // BOARD for ARCH=sparcV8 CPUTYPE=leon3nfp
+#define ciaa_z3r0             9   // BOARD for ARCH=cortexM0plus CPUTYPE=egm32hg322
+#define ciaa_7st             10   // BOARD for ARCH=cortexM7 CPUTYPE=?
 
-/* Electrical states */
-#ifndef HIGH
-#define HIGH   1
-#endif
-#ifndef LOW
-#define LOW    0
-#endif
-
-/* Logical states */
-
-#ifndef FALSE
-#define FALSE  0
-#endif
-#ifndef TRUE
-#define TRUE   (!FALSE)
-#endif
-
-
-// From: https://es.coursera.org/lecture/embedded-software-hardware/9-register-definition-files-6pqVq
-
-//  __I Defines 'read only' permissions: volatile const
-//  __O Defines 'write only' permissions: volatile
-// __IO Defines 'read / write' permissions: volatile
-
-#define HW_REG_8_R(x)     (*((__I  uint8_t *)(x)))
-#define HW_REG_16_R(x)    (*((__I uint16_t *)(x)))
-#define HW_REG_32_R(x)    (*((__I uint32_t *)(x)))
-
-#define HW_REG_8_W(x)     (*((__O  uint8_t *)(x)))
-#define HW_REG_16_W(x)    (*((__O uint16_t *)(x)))
-#define HW_REG_32_W(x)    (*((__O uint32_t *)(x)))
-
-#define HW_REG_8_RW(x)    (*((__IO  uint8_t *)(x)))
-#define HW_REG_16_RW(x)   (*((__IO uint16_t *)(x)))
-#define HW_REG_32_RW(x)   (*((__IO uint32_t *)(x)))
-
-// Example:
-//#define REG_NAME   (HW_REG_32_RW(0x4544555))
+/*
+// Usage example:   
+#if (BOARD == ciaa_sim_ia32)
+   #error CIAA-SIM_IA32 not supported yet!
+#elif (BOARD == ciaa_sim_ia64)
+   #error CIAA-SIM_IA64 not supported yet!
+#elif (BOARD == ciaa_nxp)
+   #error CIAA-NXP not supported yet!
+#elif (BOARD == edu_ciaa_nxp)
+   #error EDU-CIAA-NXP not supported yet!
+#elif (BOARD == ciaa_fsl)
+   #error CIAA-FSL not supported yet!
+#elif (BOARD == ciaa_pic)
+   #error CIAA-PIC not supported yet!
+#elif (BOARD == pico_ciaa)
+   #error picoCIAA not supported yet!
+#elif (BOARD == ciaa_leon3_fpga_nfp)
+   #error CIAA-LEON3-FPGA-NFP not supported yet!
+#elif (BOARD == ciaa_z3r0)
+   #error CIAA-Z3R0 not supported yet!
+#elif (BOARD == ciaa_7st)
+   #error CIAA-7-ST not supported yet!
+#endif   
+*/
 
 /*==================[typedef]================================================*/
-
-/* Define Boolean Data Type */
-typedef uint8_t bool_t;
-
-/* Define real Data Types (floating point) */
-typedef float  real32_t;
-//typedef double real64_t; // In LPC4337 float = double (Floating Point single precision, 32 bits)
-
-/* Define Tick Data Type */
-typedef uint64_t tick_t;
-
-/*
- * Function Pointer definition
- * --------------------------------------
- * param:  void * - For passing arguments
- * return: bool_t - For Error Reports
- */
-typedef bool_t (*sAPI_FuncPtr_t)(void *);
-
-/*
- * Function Pointer definition
- * --------------------------------------
- * param:  void
- * return: void
- */
-typedef void (*callBackFuncPtr_t)(void *);
 
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
-
-/*
- * Null Function Pointer definition
- * --------------------------------------
- * param:  void * - Not used
- * return: bool_t - Return always true
- */
-bool_t sAPI_NullFuncPtr(void *);
 
 /*==================[cplusplus]==============================================*/
 
@@ -145,4 +94,4 @@ bool_t sAPI_NullFuncPtr(void *);
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_DATATYPES_H_ */
+#endif /* #ifndef _SAPI_BOARDS_H_ */

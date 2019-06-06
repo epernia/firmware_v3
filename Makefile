@@ -5,7 +5,6 @@
 BOARD = edu_ciaa_nxp
 # -------- Board from an external board.mk file ------------------------
 -include board.mk
-DEFINES+=BOARD=$(BOARD)
 # -------- Program path and name default values ------------------------
 # Program path
 # relative to this folder, leave void if the program is in this folder
@@ -61,7 +60,7 @@ DEFINES_FLAGS=$(foreach m, $(DEFINES), -D$(m))
 OPT_FLAGS=-ggdb3 -O$(OPT) -ffunction-sections -fdata-sections
 LIBSDEPS=$(addprefix $(OUT)/, $(addsuffix .a, $(basename $(foreach l, $(LIBS), $(foreach m, $(MODULES), $(wildcard $(m)/lib/lib$(l).hexlib) ) ))))
 
-COMMON_FLAGS=$(ARCH_FLAGS) $(DEFINES_FLAGS) $(INCLUDE_FLAGS) $(OPT_FLAGS)
+COMMON_FLAGS=$(ARCH_FLAGS) $(DEFINES_FLAGS) $(INCLUDE_FLAGS) $(OPT_FLAGS) -DBOARD=$(BOARD)
 
 CFLAGS=$(COMMON_FLAGS) -std=c99
 CXXFLAGS=$(COMMON_FLAGS) -fno-rtti -fno-exceptions -std=c++11
@@ -106,8 +105,9 @@ endif
 # Build program
 
 all: $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(TARGET_NM) size
+	@echo 
+	@echo Selected program: $(PROGRAM_PATH_AND_NAME)
 	@echo Selected board: $(BOARD)
-	@echo Selected program: $(PROGRAM_NAME)
 
 -include $(foreach m, $(MODULES), $(wildcard $(m)/module.mk))
 
