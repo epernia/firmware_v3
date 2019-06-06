@@ -136,11 +136,11 @@ typedef enum {
 #elif (BOARD == ciaa_sim_ia64)
    #error CIAA-SIM_IA64 not supported yet!
 #elif (BOARD == ciaa_nxp)
-   #define BTN   DI0
-   #define LED   DO0
+   #define BTN                 DI0
+   #define LED                 DO0
 #elif (BOARD == edu_ciaa_nxp)
-   #define BTN   TEC1
-   #define LED   LEDB
+   #define BTN                 TEC1
+   #define LED                 LEDB
 #elif (BOARD == ciaa_fsl)
    #error CIAA-FSL not supported yet!
 #elif (BOARD == ciaa_pic)
@@ -154,6 +154,8 @@ typedef enum {
 #elif (BOARD == ciaa_7st)
    #error CIAA-7-ST not supported yet!
 #endif
+#define CIAA_BOARD_BUTTON   BTN
+#define CIAA_BOARD_LED      LED
 
 /* Defined for sapi_adc.h */
 typedef enum {
