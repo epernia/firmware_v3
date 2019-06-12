@@ -55,6 +55,27 @@ extern "C" {
 /*==================[typedef]================================================*/
 
 typedef enum{
+   UART_PARITY_NONE = 0,
+   UART_PARITY_ODD = 0,
+   UART_PARITY_EVEN,
+} uartParity_t;
+
+typedef enum{
+   UART_STOP_BITS_1 = 1,
+   UART_STOP_BITS_2 = 2,
+   UART_STOP_BITS_1_5 = 3,
+} uartStopBits_t;
+
+typedef enum{
+   UART_DATA_BITS_5 = 5,
+   UART_DATA_BITS_6 = 6,
+   UART_DATA_BITS_7 = 7,
+   UART_DATA_BITS_8 = 8,
+   UART_DATA_BITS_9 = 9,
+} uartDataBits_t;
+
+
+typedef enum{
    UART_RECEIVE_STRING_CONFIG,
    UART_RECEIVE_STRING_RECEIVING,
    UART_RECEIVE_STRING_RECEIVED_OK,
@@ -128,6 +149,9 @@ void uartTxWrite( uartMap_t uart, uint8_t value );
 //-------------------------------------------------------------
 // UART Initialization
 void uartInit( uartMap_t uart, uint32_t baudRate );
+
+void uartInit2( uartMap_t uart, uint32_t baudRate, 
+                uint8_t dataBits, uint8_t parity, uint8_t stopBits );
 
 // Read 1 byte from RX FIFO, check first if exist aviable data
 bool_t uartReadByte( uartMap_t uart, uint8_t* receivedByte );

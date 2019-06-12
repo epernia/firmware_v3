@@ -71,7 +71,7 @@ void delayInaccurateMs( tick_t delay_ms );
 void delayInaccurateUs(tick_t delay_us);
 
 /* ---- Blocking Delay ---- */
-void delay( tick_t delay );
+void delay( tick_t duration_ms );
 
 /* ---- Non Blocking Delay ---- */
 void delayInit( delay_t * delay, tick_t duration );

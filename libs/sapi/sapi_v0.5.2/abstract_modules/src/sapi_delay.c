@@ -61,9 +61,7 @@ void delayInaccurateMs(tick_t delay_ms)
 {
    volatile tick_t i;
    volatile tick_t delay;
-
    delay = INACCURATE_TO_MS * delay_ms;
-
    for( i=delay; i>0; i-- );
 }
 
@@ -71,9 +69,7 @@ void delayInaccurateUs(tick_t delay_us)
 {
    volatile tick_t i;
    volatile tick_t delay;
-
    delay = (INACCURATE_TO_US_x10 * delay_us) / 10;
-
    for( i=delay; i>0; i-- );
 }
 
@@ -81,13 +77,16 @@ void delayInaccurateUs(tick_t delay_us)
 
 // delay( 1, DELAY_US );
 
-void delay(tick_t duration)
+void delay( tick_t duration_ms )
 {
    tick_t startTime = tickRead();
-   while ( (tick_t)(tickRead() - startTime) < duration/tickRateMS );
+   while ( (tick_t)(tickRead() - startTime) < duration_ms/tickRateMS );
 }
 
+
 /*
+
+// Solo funciona en modo debug
 void delayUs(tick_t delay_us)
 {
 
@@ -99,6 +98,7 @@ void delayUs(tick_t delay_us)
    }
 }
 */
+
 
 /* ---- Non Blocking Delay ---- */
 

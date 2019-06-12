@@ -76,7 +76,7 @@ void adcInit( adcInit_t config )
          /* Set sample rate to 200KHz */
          Chip_ADC_SetSampleRate( LPC_ADC0, &ADCSetup, ADC_MAX_SAMPLE_RATE/2 );
          /* Disable all channels */
-         Chip_ADC_EnableChannel( LPC_ADC0,ADC_CH1, DISABLE );
+         Chip_ADC_EnableChannel( LPC_ADC0, ADC_CH1, DISABLE );
          Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH1, DISABLE );
 
          Chip_ADC_EnableChannel( LPC_ADC0, ADC_CH2, DISABLE );
@@ -108,7 +108,7 @@ void adcInit( adcInit_t config )
  */
 uint16_t adcRead( adcMap_t analogInput )
 {
-   uint8_t lpcAdcChannel = 66 - analogInput;
+   uint8_t lpcAdcChannel = (uint8_t)analogInput;
    uint16_t analogValue = 0;
 
    // Enable channel

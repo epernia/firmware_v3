@@ -612,6 +612,68 @@ void uartInit( uartMap_t uart, uint32_t baudRate )
    }
 }
 
+// UART Initialization 2
+void uartInit2( uartMap_t uart, uint32_t baudRate, 
+                uint8_t dataBits, uint8_t parity, uint8_t stopBits )
+{
+   // Initialize UART
+   Chip_UART_Init( lpcUarts[uart].uartAddr );
+   // Set dataBits, stopBits and parity
+   
+   uint32_t config = 0;
+   config = (dataBits-5) | ((stopBits-1) << 2);
+   if( parity != UART_PARITY_NONE ){
+      config |= UART_LCR_PARITY_EN;
+      if( parity == UART_PARITY_EVEN ){
+         config |= UART_LCR_PARITY_EVEN;
+      }
+      if( parity == UART_PARITY_ODD ){
+         config |= UART_LCR_PARITY_ODD;
+      }
+   } else{
+      config |= UART_LCR_PARITY_DIS;
+   }   
+   // example: config = UART_LCR_WLEN8 | UART_LCR_SBS_1BIT | UART_LCR_PARITY_EN | UART_LCR_PARITY_EVEN;
+   Chip_UART_ConfigData( lpcUarts[uart].uartAddr, config );
+
+   // Set Baud rate
+   Chip_UART_SetBaud( lpcUarts[uart].uartAddr, baudRate );
+   // Restart FIFOS using FCR (FIFO Control Register).
+   // Set Enable, Reset content, set trigger level
+   Chip_UART_SetupFIFOS( lpcUarts[uart].uartAddr,
+                         UART_FCR_FIFO_EN |
+                         UART_FCR_TX_RS   |
+                         UART_FCR_RX_RS   |
+                         UART_FCR_TRG_LEV0 );
+   // Dummy read
+   Chip_UART_ReadByte( lpcUarts[uart].uartAddr );
+   // Enable UART Transmission
+   Chip_UART_TXEnable( lpcUarts[uart].uartAddr );
+   // Configure SCU UARTn_TXD pin
+   Chip_SCU_PinMux( lpcUarts[uart].txPin.lpcScuPort,
+                    lpcUarts[uart].txPin.lpcScuPin,
+                    MD_PDN,
+                    lpcUarts[uart].txPin.lpcScuFunc );
+   // Configure SCU UARTn_RXD pin
+   Chip_SCU_PinMux( lpcUarts[uart].rxPin.lpcScuPort,
+                    lpcUarts[uart].rxPin.lpcScuPin,
+                    MD_PLN | MD_EZI | MD_ZI,
+                    lpcUarts[uart].rxPin.lpcScuFunc );
+
+   // Specific configurations for RS485
+   if( uart == UART_485 ) {
+      // Specific RS485 Flags
+      Chip_UART_SetRS485Flags( LPC_USART0,
+                               UART_RS485CTRL_DCTRL_EN |
+                               UART_RS485CTRL_OINV_1     );
+      // UARTn_DIR extra pin for RS485
+      Chip_SCU_PinMux( lpcUart485DirPin.lpcScuPort,
+                       lpcUart485DirPin.lpcScuPin,
+                       MD_PDN,
+                       lpcUart485DirPin.lpcScuFunc );
+   }
+}
+
 // Read 1 byte from RX FIFO, check first if exist aviable data
 bool_t uartReadByte( uartMap_t uart, uint8_t* receivedByte )
 {
