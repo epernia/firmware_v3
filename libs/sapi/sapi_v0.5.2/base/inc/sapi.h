@@ -72,6 +72,8 @@
 #include "sapi_pwm.h"                    // Use sapi_sct and sapi_gpio modules
 #include "sapi_circularBuffer.h"         // It has no dependencies
 
+#include "sapi_button.h"                 // Use sapi_gpio module
+
 // External Peripheral Drivers
 
 #include "sapi_7_segment_display.h"      // Use sapi_gpio and sapi_delay modules
@@ -89,6 +91,7 @@
 #include "sapi_imu_mpu60X0.h"            // Use sapi_i2c module
 
 #include "sapi_ultrasonic_hcsr04.h"      //
+
 
 
 
