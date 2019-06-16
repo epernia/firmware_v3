@@ -21,9 +21,9 @@ jobs:
     - stage: test
       env: NAME="build all test"
       install:
-        - sudo add-apt-repository -y ppa:team-gcc-arm-embedded/ppa
-        - sudo apt update -qq || true
-        - sudo apt install --allow-unauthenticated gcc-arm-embedded
+        - wget https://github.com/gnu-mcu-eclipse/arm-none-eabi-gcc/releases/download/v8.2.1-1.7/gnu-mcu-eclipse-arm-none-eabi-gcc-8.2.1-1.7-20190524-0603-centos64.tgz -O /tmp/gcc.tar.gz
+        - sudo tar -xvf /tmp/gcc.tar.gz -C /opt
+        - export PATH=$PATH:/opt/gnu-mcu-eclipse/arm-none-eabi-gcc/8.2.1-1.7-20190524-0603/bin
         - arm-none-eabi-gcc --version
       script:
         - bash scripts/test/test-build-all.sh
