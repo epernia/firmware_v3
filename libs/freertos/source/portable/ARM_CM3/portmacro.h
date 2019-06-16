@@ -73,6 +73,7 @@ typedef unsigned long UBaseType_t;
 #define portSTACK_GROWTH			( -1 )
 #define portTICK_PERIOD_MS			( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT			8
+
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
@@ -233,10 +234,8 @@ portFORCE_INLINE static void vPortSetBASEPRI( uint32_t ulNewMaskValue )
 }
 /*-----------------------------------------------------------*/
 
-
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* PORTMACRO_H */
-
