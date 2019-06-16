@@ -210,6 +210,9 @@ erase:
 clean:
 	@echo CLEAN
 	$(Q)rm -fR $(OBJECTS) $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(DEPS) $(OUT)
+	@echo 
+	@echo Selected program: $(PROGRAM_PATH_AND_NAME)
+	@echo Selected board: $(BOARD)
 
 clean_all:
 	@echo CLEAN ALL

@@ -10,8 +10,13 @@ ALL=$(for f in $(find ${BASE} -name config.mk); do dirname $f; done |grep -v dep
 
 N=$(echo ${ALL} | wc -w)
 
+PROG_IDX=0
+
 for D in ${ALL}
 do
    rm -fR "$D/out"
    echo "clean $D/out"
+	PROG_IDX=`expr $PROG_IDX + 1`
 done
+
+echo "clean $PROG_IDX programas done."
