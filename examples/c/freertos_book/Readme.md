@@ -29,3 +29,7 @@ https://www.freertos.org/Documentation/RTOS_book.html
 - Example025: Using a task notification in place of a semaphore, method 2.
 
 Examples ported from FreeRTOS v8, to FreeRTOS v10 by Eric Pernia and Martin Ribelotta.
+
+More information at:
+
+https://aws.amazon.com/es/freertos/
