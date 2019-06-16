@@ -78,7 +78,7 @@
 
 #include "board.h"
 #if defined(DEBUG_ENABLE) && !defined(DEBUG_UART)
-    #error "Definir DEBUG_UART como LPC_USART{numero de UART}"
+#error "Definir DEBUG_UART como LPC_USART{numero de UART}"
 #endif
 
 
@@ -87,25 +87,24 @@ const uint32_t ExtRateIn = 0;
 const uint32_t OscRateIn = 12000000;
 
 
-struct gpio_t
-{
-    uint8_t port;
-    uint8_t pin;
+struct gpio_t {
+   uint8_t port;
+   uint8_t pin;
 };
 
 
 static const struct gpio_t GpioLeds[] = {
-    {5, 0}, {5, 1}, {5, 2}, {0, 14}, {1, 11}, {1, 12}
+   {5, 0}, {5, 1}, {5, 2}, {0, 14}, {1, 11}, {1, 12}
 };
 
 
 static const struct gpio_t GpioButtons[] = {
-    {0, 4}, {0, 8}, {0, 9}, {1, 9}
+   {0, 4}, {0, 8}, {0, 9}, {1, 9}
 };
 
 
 static const struct gpio_t GpioPorts[] = {
-    {3, 0}, {3, 3}, {3, 4}, {5,15}, {5,16}, {3, 5}, {3, 6}, {3, 7}, {2, 8}
+   {3, 0}, {3, 3}, {3, 4}, {5,15}, {5,16}, {3, 5}, {3, 6}, {3, 7}, {2, 8}
 };
 
 
@@ -119,119 +118,119 @@ static ADC_CHANNEL_T curADCChannel = 0xFF;
 
 static void Board_LED_Init()
 {
-    for (uint32_t i = 0; i < GPIO_LEDS_SIZE; ++i) {
-        const struct gpio_t *io = &GpioLeds[i];
-        Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, io->port, io->pin);
-        Chip_GPIO_SetPinState(LPC_GPIO_PORT, io->port, io->pin, false);
-    }
+   for (uint32_t i = 0; i < GPIO_LEDS_SIZE; ++i) {
+      const struct gpio_t *io = &GpioLeds[i];
+      Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, io->port, io->pin);
+      Chip_GPIO_SetPinState(LPC_GPIO_PORT, io->port, io->pin, false);
+   }
 }
 
 
 static void Board_TEC_Init()
 {
-    for (uint32_t i = 0; i < GPIO_BUTTONS_SIZE; ++i) {
-        const struct gpio_t *io = &GpioButtons[i];
-        Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, io->port, io->pin);
-    }
+   for (uint32_t i = 0; i < GPIO_BUTTONS_SIZE; ++i) {
+      const struct gpio_t *io = &GpioButtons[i];
+      Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, io->port, io->pin);
+   }
 }
 
 
 static void Board_GPIO_Init()
 {
-    for (uint32_t i = 0; i < GPIO_PORTS_SIZE; ++i) {
-        const struct gpio_t *io = &GpioPorts[i];
-        Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, io->port, io->pin);
-    }
+   for (uint32_t i = 0; i < GPIO_PORTS_SIZE; ++i) {
+      const struct gpio_t *io = &GpioPorts[i];
+      Chip_GPIO_SetPinDIRInput(LPC_GPIO_PORT, io->port, io->pin);
+   }
 }
 
 
 static void Board_I2C_Init()
 {
-    Chip_I2C_Init(I2C0);
-    Chip_SCU_I2C0PinConfig(BOARD_I2C_MODE);
-    Chip_I2C_SetClockRate(I2C0, BOARD_I2C_SPEED);
+   Chip_I2C_Init(I2C0);
+   Chip_SCU_I2C0PinConfig(BOARD_I2C_MODE);
+   Chip_I2C_SetClockRate(I2C0, BOARD_I2C_SPEED);
 }
 
 
 static void Board_SPI_Init()
 {
-    Chip_SSP_Init(LPC_SSP1);
-    Chip_SSP_Set_Mode(LPC_SSP1, BOARD_SPI_MODE);
-    Chip_SSP_SetFormat(LPC_SSP1, BOARD_SPI_BITS, BOARD_SPI_FORMAT,
-                       BOARD_SPI_POLARITY);
-    Chip_SSP_SetBitRate(LPC_SSP1, BOARD_SPI_SPEED);
-    Chip_SSP_Enable(LPC_SSP1);
+   Chip_SSP_Init(LPC_SSP1);
+   Chip_SSP_Set_Mode(LPC_SSP1, BOARD_SPI_MODE);
+   Chip_SSP_SetFormat(LPC_SSP1, BOARD_SPI_BITS, BOARD_SPI_FORMAT,
+                      BOARD_SPI_POLARITY);
+   Chip_SSP_SetBitRate(LPC_SSP1, BOARD_SPI_SPEED);
+   Chip_SSP_Enable(LPC_SSP1);
 }
 
 
 static void Board_ADC_Init()
 {
-    ADC_CLOCK_SETUP_T cs;
+   ADC_CLOCK_SETUP_T cs;
 
-    Chip_ADC_Init(LPC_ADC0, &cs);
-    Chip_ADC_SetSampleRate(LPC_ADC0, &cs, BOARD_ADC_SAMPLE_RATE);
-    Chip_ADC_SetResolution(LPC_ADC0, &cs, BOARD_ADC_RESOLUTION);
+   Chip_ADC_Init(LPC_ADC0, &cs);
+   Chip_ADC_SetSampleRate(LPC_ADC0, &cs, BOARD_ADC_SAMPLE_RATE);
+   Chip_ADC_SetResolution(LPC_ADC0, &cs, BOARD_ADC_RESOLUTION);
 }
 
 
 void Board_Debug_Init(void)
 {
-    Chip_UART_Init(DEBUG_UART);
-    Chip_UART_SetBaudFDR(DEBUG_UART, DEBUG_UART_BAUD_RATE);
-    Chip_UART_ConfigData(DEBUG_UART, DEBUG_UART_CONFIG);
-    Chip_UART_TXEnable(DEBUG_UART);
+   Chip_UART_Init(DEBUG_UART);
+   Chip_UART_SetBaudFDR(DEBUG_UART, DEBUG_UART_BAUD_RATE);
+   Chip_UART_ConfigData(DEBUG_UART, DEBUG_UART_CONFIG);
+   Chip_UART_TXEnable(DEBUG_UART);
 }
 
 
 void Board_UARTPutChar(char ch)
 {
-    while ( !(Chip_UART_ReadLineStatus(DEBUG_UART) & UART_LSR_THRE));
-    Chip_UART_SendByte(DEBUG_UART, (uint8_t) ch);
+   while ( !(Chip_UART_ReadLineStatus(DEBUG_UART) & UART_LSR_THRE));
+   Chip_UART_SendByte(DEBUG_UART, (uint8_t) ch);
 }
 
 
 int Board_UARTGetChar(void)
 {
-    if (Chip_UART_ReadLineStatus(DEBUG_UART) & UART_LSR_RDR) {
-       return (int) Chip_UART_ReadByte(DEBUG_UART);
-    }
-    return EOF;
+   if (Chip_UART_ReadLineStatus(DEBUG_UART) & UART_LSR_RDR) {
+      return (int) Chip_UART_ReadByte(DEBUG_UART);
+   }
+   return EOF;
 }
 
 
 void Board_UARTPutSTR(const char *str)
 {
-    while (*str != '\0') {
-        Board_UARTPutChar(*str++);
-    }
+   while (*str != '\0') {
+      Board_UARTPutChar(*str++);
+   }
 }
 
 
 void Board_LED_Set(uint8_t LEDNumber, bool On)
 {
-    if (LEDNumber >= GPIO_LEDS_SIZE) {
-        return;
-    }
+   if (LEDNumber >= GPIO_LEDS_SIZE) {
+      return;
+   }
 
-    const struct gpio_t *io = &GpioLeds[LEDNumber];
-    Chip_GPIO_SetPinState(LPC_GPIO_PORT, io->port, io->pin, On);
+   const struct gpio_t *io = &GpioLeds[LEDNumber];
+   Chip_GPIO_SetPinState(LPC_GPIO_PORT, io->port, io->pin, On);
 }
 
 
 bool Board_LED_Test(uint8_t LEDNumber)
 {
-    if (LEDNumber >= GPIO_LEDS_SIZE) {
-        return false;
-    }
+   if (LEDNumber >= GPIO_LEDS_SIZE) {
+      return false;
+   }
 
-    const struct gpio_t *io = &GpioLeds[LEDNumber];
-    return Chip_GPIO_GetPinState(LPC_GPIO_PORT, io->port, io->pin);
+   const struct gpio_t *io = &GpioLeds[LEDNumber];
+   return Chip_GPIO_GetPinState(LPC_GPIO_PORT, io->port, io->pin);
 }
 
 
 void Board_LED_Toggle(uint8_t LEDNumber)
 {
-    Board_LED_Set(LEDNumber, !Board_LED_Test(LEDNumber));
+   Board_LED_Set(LEDNumber, !Board_LED_Test(LEDNumber));
 }
 
 
@@ -239,7 +238,7 @@ void Board_Init(void)
 {
    DEBUGINIT();
    Chip_GPIO_Init (LPC_GPIO_PORT);
-   
+
    Board_GPIO_Init();
    Board_ADC_Init();
    Board_SPI_Init();
@@ -248,16 +247,19 @@ void Board_Init(void)
    Board_LED_Init();
    Board_TEC_Init();
 
-   #ifdef USE_RMII
+#ifdef USE_RMII
    Chip_ENET_RMIIEnable(LPC_ETHERNET);
-   #endif
+#endif
+
+   // Read clock settings and update SystemCoreClock variable
+   SystemCoreClockUpdate(); // @Eric
 }
 
 
 bool Board_TEC_GetStatus(uint8_t button)
 {
    if (button >= GPIO_BUTTONS_SIZE) {
-       return false;
+      return false;
    }
 
    return Chip_GPIO_GetPinState(LPC_GPIO_PORT, GpioButtons[button].port,
@@ -267,51 +269,54 @@ bool Board_TEC_GetStatus(uint8_t button)
 
 void Board_ADC_ReadBegin(ADC_CHANNEL_T channel)
 {
-    if (channel < ADC_CH0 || channel > ADC_CH3) {
-        return;
-    }
+   if (channel < ADC_CH0 || channel > ADC_CH3) {
+      return;
+   }
 
-    if (curADCChannel >= ADC_CH0 || curADCChannel <= ADC_CH3) {
-        Chip_ADC_EnableChannel (LPC_ADC0, curADCChannel, DISABLE);
-    }
+   if (curADCChannel >= ADC_CH0 || curADCChannel <= ADC_CH3) {
+      Chip_ADC_EnableChannel (LPC_ADC0, curADCChannel, DISABLE);
+   }
 
-    curADCChannel = channel;
+   curADCChannel = channel;
 
-    Chip_SCU_ADC_Channel_Config(0, channel);
-    Chip_ADC_EnableChannel(LPC_ADC0, channel, ENABLE);
-    Chip_ADC_SetBurstCmd(LPC_ADC0, DISABLE);
-    Chip_ADC_SetStartMode(LPC_ADC0, ADC_START_NOW, ADC_TRIGGERMODE_RISING);
+   Chip_SCU_ADC_Channel_Config(0, channel);
+   Chip_ADC_EnableChannel(LPC_ADC0, channel, ENABLE);
+   Chip_ADC_SetBurstCmd(LPC_ADC0, DISABLE);
+   Chip_ADC_SetStartMode(LPC_ADC0, ADC_START_NOW, ADC_TRIGGERMODE_RISING);
 }
 
 
 bool Board_ADC_ReadWait()
 {
-    return (Chip_ADC_ReadStatus(LPC_ADC0, curADCChannel, ADC_DR_DONE_STAT)
-            == RESET);
+   return (Chip_ADC_ReadStatus(LPC_ADC0, curADCChannel, ADC_DR_DONE_STAT)
+           == RESET);
 }
 
 
 uint16_t Board_ADC_ReadEnd()
 {
-    uint16_t data;
+   uint16_t data;
 
-    if (Chip_ADC_ReadValue(LPC_ADC0, curADCChannel, &data) != SUCCESS) {
-        data = 0xFFFF;
-    }
+   if (Chip_ADC_ReadValue(LPC_ADC0, curADCChannel, &data) != SUCCESS) {
+      data = 0xFFFF;
+   }
 
-    Chip_ADC_EnableChannel(LPC_ADC0, curADCChannel, DISABLE);
-    curADCChannel = 0xFF;
-    return data;
+   Chip_ADC_EnableChannel(LPC_ADC0, curADCChannel, DISABLE);
+   curADCChannel = 0xFF;
+   return data;
 }
 
-void __stdio_putchar(int c) {
+void __stdio_putchar(int c)
+{
    Board_UARTPutChar(c);
 }
 
-int __stdio_getchar() {
+int __stdio_getchar()
+{
    return Board_UARTGetChar();;
 }
 
-void __stdio_init() {
+void __stdio_init()
+{
    Board_Debug_Init();
 }
