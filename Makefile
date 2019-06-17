@@ -54,6 +54,8 @@ TARGET_BIN=$(basename $(TARGET)).bin
 TARGET_LST=$(basename $(TARGET)).lst
 TARGET_MAP=$(basename $(TARGET)).map
 TARGET_NM=$(basename $(TARGET)).names.csv
+TARGET_ELF=$(basename $(TARGET)).elf
+TARGET_AXF=$(basename $(TARGET)).axf
 
 INCLUDE_FLAGS=$(foreach m, $(MODULES), -I$(m)/inc) -I$(PROGRAM_PATH_AND_NAME)/inc $(INCLUDES)
 DEFINES_FLAGS=$(foreach m, $(DEFINES), -D$(m))
@@ -194,6 +196,16 @@ download: .download_ram
 else
 download: .download_flash
 endif
+
+# File conversions
+
+.axf_to_bin:
+	@echo Create $(PROGRAM_NAME).bin from $(PROGRAM_NAME).axf
+	arm-none-eabi-objcopy -O binary $(TARGET_AXF) $(TARGET_BIN)
+
+.elf_to_bin:
+	@echo Create $(PROGRAM_NAME).bin from $(PROGRAM_NAME).elf
+	arm-none-eabi-objcopy -O binary $(TARGET_ELF) $(TARGET_BIN)
 
 # Erase Flash memory
 

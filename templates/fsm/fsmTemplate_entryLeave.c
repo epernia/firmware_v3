@@ -1,7 +1,5 @@
-/* Copyright 2015, Pablo Ridolfi
+/* Copyright 2018, Eric Pernia.
  * All rights reserved.
- *
- * This file is part of Workspace.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,41 +29,83 @@
  *
  */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+// FSM DECLARATIONS
 
-/** \addtogroup pwm PWM example
- ** @{ */
+// FSM state names
+typedef enum{
+   STATE_INIT,
+   STATE_1,
+   STATE_2,
+   // ...
+   STATE_N
+} fsmState_t;
 
-/*==================[inclusions]=============================================*/
+// FSM functions
+void fsmError( void );
+void fsmInit( void );
+void fsmUpdate( void );
 
-/*==================[cplusplus]==============================================*/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
-/*==================[macros]=================================================*/
+// FSM IMPLEMENTATIONS
 
-#define DELAY_MS 500
+// Variable that hold the current state
+fsmState_t fsmState;
 
-/*==================[typedef]================================================*/
-
-/*==================[external data declaration]==============================*/
-
-/*==================[external functions declaration]=========================*/
-
-/** @brief main function
- * @return main function should never return
- */
-int main(void);
-
-/*==================[cplusplus]==============================================*/
-
-#ifdef __cplusplus
+// FSM Error Handler Function
+void fsmError( void )
+{
+   // Error handler, example, restart FSM:
+   // fsmState = STATE_INIT;
 }
-#endif
 
-/** @} doxygen end group definition */
-/*==================[end of file]============================================*/
-#endif /* #ifndef _MAIN_H_ */
+// FSM Initialize Function
+void fsmInit( void )
+{
+   // Example:
+   // boardInit();          // Initialize hardwaree
+   fsmState = STATE_INIT;   // Set initial state
+}
+
+// FSM Update Sate Function
+void fsmUpdate( void )
+{
+   static bool_t flagStateInit = FALSE;
+   static bool_t flagState1 = FALSE;
+   // ...
+   static bool_t flagStateN = FALSE;
+
+   switch( fsmState ){
+
+      case STATE_INIT:
+         // ...
+      break;
+
+      // ...
+
+      case STATE_N:
+      
+         /* ENTRY */
+         if( flagStateN == FALSE ){
+            flagStateN = TRUE;
+            // Code for entry...    
+         }
+         
+         /* UPDATE OUTPUTS */
+         // Code for update outputs... 
+         
+         /* CHECK TRANSITION CONDITIONS */
+         // Code for check transitions (some ifs)... 
+
+         /* LEAVE */
+         if( fsmState != STATE_N ){
+            flagStateN = FALSE;
+            // Code for leave...  
+         }
+      break;
+
+      default:
+         fsmError();
+      break;
+   }
+}
