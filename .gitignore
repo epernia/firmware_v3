@@ -64,4 +64,4 @@ out/
 _programs/
 user_preferences.cfg
 program.mk
-#board.mk
+board.mk
