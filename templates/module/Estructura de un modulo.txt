@@ -1,0 +1,68 @@
+Para un programa necesitamos como mínimo la siguiente estructura:
+
+Carpeta miPrograma
+   Archivo config.mk
+   Carpeta src
+       Archivo nombreProg.c
+
+Donde nombreProg.c debe definir la función main().
+
+Para un módulo (o biblioteca) necesitamos la sguiente estructura:
+
+   Carpeta inc
+       Archivo nombreModulo.h
+   Carpeta src
+       Archivo nombreModulo.c
+
+Los archivos del módulo contienen:
+
+En nombreModulo.h:
+
+Llave para evitar inclusion multiple
+{
+   Inclusiones de dependencias de funciones publicas
+   CPlusPlus (para cuando uso este modulo hecho en C desde C++)
+   {
+      Macros de definicion de constantes publicas
+      Macros "estilo funcion" publicas
+      Definiciones de tipos de datos publicos
+      Prototipos de funciones publicas
+      Prototipos de funciones publicas de interrupcion
+   }
+}
+
+En nombreModulo.c:
+
+Inclusión de su propia cabecera
+Inclusiones de dependencias de funciones privadas
+Macros de definicion de constantes privadas
+Macros estilo funcion privadas
+Definiciones de tipos de datos privados
+Definiciones de Variables globales publicas externas (usa extern no se pueden inicializar)
+Definiciones de Variables globales publicas (inicializar)
+Definiciones de Variables globales privadas (usa static, inicializar)
+Prototipos de funciones privadas
+Implementaciones de funciones publicas
+Implementaciones de funciones privadas
+
+
+El módulo se puede incluir dentro del programa en particular:
+
+Carpeta miPrograma
+   Archivo config.mk
+   Carpeta src
+       Archivo nombreProg.c
+       Archivo nombreModulo.c
+   Carpeta inc
+       Archivo nombreModulo.h
+
+O bien compartido entre diferentes programas si lo ponemos dentro de la carpeta libs:
+
+Carpeta libs
+   Carpeta miModulo
+      Carpeta src
+         Archivo nombreModulo.c
+      Carpeta inc
+         Archivo nombreModulo.h
+
+Con esta estructura el Makefile incluirá las bibliotecas deforma automática.

@@ -19,4 +19,4 @@ do
 	PROG_IDX=`expr $PROG_IDX + 1`
 done
 
-echo "clean $PROG_IDX programas done."
+echo "Clean builds for $PROG_IDX programas."

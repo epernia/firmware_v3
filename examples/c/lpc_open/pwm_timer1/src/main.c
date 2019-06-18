@@ -31,14 +31,6 @@
  *
  */
 
-/** @brief PWM example with Timer.
- *
- * PWM signal on Board LED 0, period 1ms, duty between 10% and 90%.
- */
-
- /** \addtogroup pwm PWM example
- ** @{ */
-
 /*==================[inclusions]=============================================*/
 
 #include "board.h"
@@ -50,19 +42,12 @@
 
 /*==================[internal functions declaration]=========================*/
 
-/** @brief hardware initialization function
- *	@return none
- */
 static void initHardware(void);
 
-/** @brief delay function
-* @param t desired milliseconds to wait
-*/
 static void pausems(uint32_t t);
 
 /*==================[internal data definition]===============================*/
 
-/** @brief used for delay counter */
 static uint32_t pausems_count;
 
 /*==================[external data definition]===============================*/
@@ -151,7 +136,5 @@ int main(void)
       Chip_TIMER_ClearMatch(LPC_TIMER1, 0);
    }
 }
-
-/** @} doxygen end group definition */
 
 /*==================[end of file]============================================*/
