@@ -219,7 +219,7 @@ void lcdCursorSet( bool_t status );
 void lcdCreateChar( uint8_t charnum, const char* chardata );
 
 void lcdSendStringRaw( char* str );
-void lcdSendString( char* str );
+bool_t lcdSendString( char* str );
 void lcdSendEnter( void );
 
 #define lcdSendStringLn(str)   lcdSendString(str); \
