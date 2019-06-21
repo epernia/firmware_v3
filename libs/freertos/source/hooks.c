@@ -22,7 +22,7 @@ WEAK void vAssertCalled( uint32_t ulLine, const char * const pcFile )
       }
    }
    taskEXIT_CRITICAL();
-   
+
 //   printf( "Stop in a while(1)\r\n\r\n" ); // @Eric
 //   while(1); // @Eric
 }
@@ -30,18 +30,18 @@ WEAK void vAssertCalled( uint32_t ulLine, const char * const pcFile )
 
 WEAK void vApplicationMallocFailedHook( void )
 {
-	// vApplicationMallocFailedHook() will only be called if
-	// configUSE_MALLOC_FAILED_HOOK is set to 1 in FreeRTOSConfig.h. It is a hook
-	// function that will get called if a call to pvPortMalloc() fails.
-	// pvPortMalloc() is called internally by the kernel whenever a task, queue,
-	// timer, event group, or semaphore is created.  It is also called by various
-	// parts of the demo application.  If heap_1.c, heap_2.c or heap_4.c are used,
-	// then the size of the heap available to pvPortMalloc() is defined by
-	// configTOTAL_HEAP_SIZE in FreeRTOSConfig.h, and the xPortGetFreeHeapSize()
-	// API function can be used to query the size of free heap space that remains.
-	// More information is provided in the book text.
+   // vApplicationMallocFailedHook() will only be called if
+   // configUSE_MALLOC_FAILED_HOOK is set to 1 in FreeRTOSConfig.h. It is a hook
+   // function that will get called if a call to pvPortMalloc() fails.
+   // pvPortMalloc() is called internally by the kernel whenever a task, queue,
+   // timer, event group, or semaphore is created.  It is also called by various
+   // parts of the demo application.  If heap_1.c, heap_2.c or heap_4.c are used,
+   // then the size of the heap available to pvPortMalloc() is defined by
+   // configTOTAL_HEAP_SIZE in FreeRTOSConfig.h, and the xPortGetFreeHeapSize()
+   // API function can be used to query the size of free heap space that remains.
+   // More information is provided in the book text.
    printf( "Application Malloc Failed Hook!\r\n" );
-	vAssertCalled( __LINE__, __FILE__ );
+   vAssertCalled( __LINE__, __FILE__ );
 }
 /*-----------------------------------------------------------*/
 
@@ -62,22 +62,22 @@ WEAK void vApplicationIdleHook( void )
    // allocated by the kernel to any task that has since been deleted.  More
    // information is provided in the book text.
    printf( "Application Idle Hook!\r\n" );
-	vAssertCalled( __LINE__, __FILE__ );
+   vAssertCalled( __LINE__, __FILE__ );
 }
 #endif /* 0 */
 /*-----------------------------------------------------------*/
 
 WEAK void vApplicationStackOverflowHook( TaskHandle_t pxTask, char *pcTaskName )
 {
-	//( void ) pcTaskName;
-	//( void ) pxTask;
+   //( void ) pcTaskName;
+   //( void ) pxTask;
 
-	// Run time stack overflow checking is performed if
-	// configCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2. This hook function is
-	// called if a stack overflow is detected. More information is provided in the
-	// book text.
-	printf( "\r\nApplication Stack Overflow!! on Task: %s\r\n", (char*)pcTaskName );
-	vAssertCalled( __LINE__, __FILE__ );
+   // Run time stack overflow checking is performed if
+   // configCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2. This hook function is
+   // called if a stack overflow is detected. More information is provided in the
+   // book text.
+   printf( "\r\nApplication Stack Overflow!! on Task: %s\r\n", (char*)pcTaskName );
+   vAssertCalled( __LINE__, __FILE__ );
 }
 /*-----------------------------------------------------------*/
 
@@ -89,6 +89,6 @@ WEAK void vApplicationTickHook( void )
    // code must not attempt to block, and only the interrupt safe FreeRTOS API
    // functions can be used (those that end in FromISR()).
    printf( "Application Tick Hook!\r\n" );
-	vAssertCalled( __LINE__, __FILE__ );
+   vAssertCalled( __LINE__, __FILE__ );
 }
 /*-----------------------------------------------------------*/
