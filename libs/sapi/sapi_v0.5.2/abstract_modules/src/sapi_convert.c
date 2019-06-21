@@ -171,7 +171,7 @@ static const double rounders[MAX_PRECISION + 1] = {
 
 // Ftoa implementation from:
 // https://github.com/antongus/stm32tpl/blob/master/ftoa.c
-char* float64ToString( float32_t value, char* result, int32_t precision )
+char* float64ToString( float value, char* result, int32_t precision )
 {
    char * ptr = result;
    char * p = ptr;
