@@ -136,12 +136,13 @@ char* intToString( int64_t value )
    return result;
 }
 
+/*
 char* floatToString( float value )
 {
    // -100000.00 a 100000.00
    char strBuff[10];
-   int64_t intPart = (int64_t)numFloat;
-   int64_t fracPart = (int64_t)(numFloat*100.0);
+   int64_t intPart = (int64_t)value;
+   int64_t fracPart = (int64_t)(value*100.0);
 
 
    int64ToString( intPart, strBuff, 10 );
@@ -152,6 +153,7 @@ char* floatToString( float value )
 
    return strBuff;
 }
+*/
 
 
 #define MAX_PRECISION   (10)
@@ -171,7 +173,7 @@ static const double rounders[MAX_PRECISION + 1] = {
 
 // Ftoa implementation from:
 // https://github.com/antongus/stm32tpl/blob/master/ftoa.c
-char* float64ToString( float value, char* result, int32_t precision )
+char* floatToString( float value, char* result, int32_t precision )
 {
    char * ptr = result;
    char * p = ptr;
