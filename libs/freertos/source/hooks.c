@@ -72,13 +72,14 @@ WEAK void vApplicationIdleHook( void )
 
 WEAK void vApplicationStackOverflowHook( TaskHandle_t pxTask, char *pcTaskName )
 {
-	( void ) pcTaskName;
-	( void ) pxTask;
+	//( void ) pcTaskName;
+	//( void ) pxTask;
 
 	// Run time stack overflow checking is performed if
 	// configCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2. This hook function is
 	// called if a stack overflow is detected. More information is provided in the
 	// book text.
+	printf( "\r\nApplication Stack Overflow!! on Task: %s\r\n", (char*)pcTaskName );
 	vAssertCalled( __LINE__, __FILE__ );
 }
 /*-----------------------------------------------------------*/
