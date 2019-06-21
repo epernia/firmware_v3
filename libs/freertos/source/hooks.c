@@ -13,7 +13,7 @@ WEAK void vAssertCalled( uint32_t ulLine, const char * const pcFile )
 
    taskENTER_CRITICAL();
    {
-      printf( "\r\nvAssertCalled()\r\n   ulLineNumber = %d\r\n   pcFileName = %s\r\n\r\n",
+      printf( "\r\nvAssertCalled()\r\n   LLine Number = %d\r\n   File Name = %s\r\n\r\n",
               ulLineNumber, pcFileName ); // @Eric
       while( ulSetNonZeroInDebuggerToReturn == 0 ) {
          // If you want to set out of this function in the debugger to see
@@ -22,14 +22,9 @@ WEAK void vAssertCalled( uint32_t ulLine, const char * const pcFile )
       }
    }
    taskEXIT_CRITICAL();
-
-   // Remove the potential for compiler warnings issued because the variables
-   // are set but not subsequently referenced.
-   ( void ) pcFileName;
-   ( void ) ulLineNumber;
    
-   printf( "Stop in a while(1)\r\n\r\n" ); // @Eric
-   while(1); // @Eric
+//   printf( "Stop in a while(1)\r\n\r\n" ); // @Eric
+//   while(1); // @Eric
 }
 /*-----------------------------------------------------------*/
 
@@ -45,6 +40,7 @@ WEAK void vApplicationMallocFailedHook( void )
 	// configTOTAL_HEAP_SIZE in FreeRTOSConfig.h, and the xPortGetFreeHeapSize()
 	// API function can be used to query the size of free heap space that remains.
 	// More information is provided in the book text.
+   printf( "Application Malloc Failed Hook!\r\n" );
 	vAssertCalled( __LINE__, __FILE__ );
 }
 /*-----------------------------------------------------------*/
@@ -65,6 +61,7 @@ WEAK void vApplicationIdleHook( void )
    // because it is the responsibility of the idle task to clean up memory
    // allocated by the kernel to any task that has since been deleted.  More
    // information is provided in the book text.
+   printf( "Application Idle Hook!\r\n" );
 	vAssertCalled( __LINE__, __FILE__ );
 }
 #endif /* 0 */
@@ -91,6 +88,7 @@ WEAK void vApplicationTickHook( void )
    // added here, but the tick hook is called from an interrupt context, so
    // code must not attempt to block, and only the interrupt safe FreeRTOS API
    // functions can be used (those that end in FromISR()).
+   printf( "Application Tick Hook!\r\n" );
 	vAssertCalled( __LINE__, __FILE__ );
 }
 /*-----------------------------------------------------------*/

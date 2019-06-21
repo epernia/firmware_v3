@@ -32,7 +32,7 @@ void initialise_monitor_handles(void)
 __attribute__ ((used,section(".isr_vector")))
 void (* const g_pfnVectors[])(void) = {
     &_vStackTop,                    // The initial stack pointer
-    Reset_Handler,                       // The reset handler
+    Reset_Handler,                  // The reset handler
     NMI_Handler,                    // The NMI handler
     HardFault_Handler,              // The hard fault handler
     MemManage_Handler,              // The MPU fault handler

@@ -227,7 +227,7 @@ void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
    // Init I2C
    pcf8574TInit( I2C0, PCF8574T_I2C_ADDRESS );
    lcdPinSet( LCD_HD44780_BACKLIGHT, ON );
-   //delay(1000);
+//   delay(100);
    #else
    // Configure LCD Pins as Outputs
    lcdInitPinAsOutput( LCD_HD44780_RS );
@@ -312,6 +312,13 @@ void lcdCreateChar( uint8_t charnum, const char* chardata )
    delay(1);
 }
 
+
+void lcdClearAndHome( void )
+{
+   lcdClear();
+   lcdGoToXY( 0, 0 ); // Poner cursor en 0, 0
+   //delay(100);
+}
 
 bool_t lcdSendString( char* str )
 {

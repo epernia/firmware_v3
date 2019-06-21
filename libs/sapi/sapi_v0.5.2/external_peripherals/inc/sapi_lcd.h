@@ -218,6 +218,8 @@ void lcdCursorSet( bool_t status );
 
 void lcdCreateChar( uint8_t charnum, const char* chardata );
 
+void lcdClearAndHome( void );
+
 void lcdSendStringRaw( char* str );
 bool_t lcdSendString( char* str );
 void lcdSendEnter( void );
