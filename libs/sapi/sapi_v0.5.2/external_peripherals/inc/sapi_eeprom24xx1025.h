@@ -90,13 +90,13 @@ extern "C" {
 /*==================[macros]=================================================*/
 
 // EEPROM24xx1025 total memory size in bytes
-#define EEPROM_1024_K_BIT              1024/8 // Memory size [bytes]
+#define EEPROM_1024_K_BIT              1024*1024/8 // Memory size [bytes]
 
 // EEPROM24xx1025 single page size (in bytes)
-#define EEPROM24xx1025_PAGE_SIZE       128   // [bytes per page]
+#define EEPROM24xx1025_PAGE_SIZE       128 // [bytes per page]
 
 // EEPROM24xx1025 I2C address
-#define EEPROM24xx1025_CTRL_CODE       0xA  // 0b1010 
+#define EEPROM24xx1025_CTRL_CODE       0xA // 0b1010 
 
 // Function aliases
 #define eeprom24xx1025ReadByte         eeprom24xx1025ReadRandom
@@ -148,6 +148,9 @@ uint8_t eeprom24xx1025I2cAddress( Eeprom24xx1025_t* eeprom, uint32_t address );
 // Enable or disable the peripheral energy and clock
 bool_t eeprom24xx1025PowerSet( Eeprom24xx1025_t* eeprom, bool_t power );
 
+// Amount of pages
+uint32_t eeprom24xx1025AmountOfPagesGet( Eeprom24xx1025_t* eeprom );
+
 //-----------------------------------------------------------------------------
 // INITIALIZATION
 //-----------------------------------------------------------------------------
@@ -167,7 +170,7 @@ bool_t eeprom24xx1025WriteByte( Eeprom24xx1025_t* eeprom,
                                 uint32_t memoryAddress, uint8_t byteToWrite );
 
 // Page Write
-bool_t eeprom24xx1025WritePage( Eeprom24xx1025_t* eeprom, uint32_t pageAddress,
+bool_t eeprom24xx1025WritePage( Eeprom24xx1025_t* eeprom, uint32_t page,
                                 uint8_t* byteBuffer, uint32_t byteBufferSize );
 
 //-----------------------------------------------------------------------------
@@ -178,19 +181,43 @@ bool_t eeprom24xx1025WritePage( Eeprom24xx1025_t* eeprom, uint32_t pageAddress,
 bool_t eeprom24xx1025ReadRandom( Eeprom24xx1025_t* eeprom, 
                                  uint32_t memoryAddress, uint8_t* readedByte );
 
+// Sequential Read
+bool_t eeprom24xx1025ReadSequential( Eeprom24xx1025_t* eeprom, uint32_t address,
+                                     uint8_t* byteBuffer, uint32_t byteBufferSize );
+
 //-----------------------------------------------------------------------------
 // EEPROM Test
 //-----------------------------------------------------------------------------
+
 /**
- * EEPROM Test
+ * EEPROM Test Write individual bytes
  * Performs a test on the 24xx1025 EEPROM memory.
  * @param uint8_t startingPage. The page where to start the test.
  * @param uint8_t* buff. The buffer to save in mamory.
  * @param uint8_t. The size of buffer (must be lower than page size).
  * @return bool_t. Whether the test was passed or not.
- * TODO: Implement this test with byte check
  */
-bool_t eeprom24xx1025Test( uint32_t startingPage, uint8_t* buff, uint8_t buffSize );
+bool_t eeprom24xx1025TestWriteBytes( uint32_t startingPage, 
+                                     uint8_t* buff, uint32_t buffSize );
+
+/**
+ * EEPROM Test Write a hole page
+ * Performs a test on the 24xx1025 EEPROM memory.
+ * @param uint8_t page. The page where save.
+ * @param uint8_t* buff. The buffer to save in mamory.
+ * @param uint8_t. The size of buffer (must be equal to page size).
+ * @return bool_t. Whether the test was passed or not.
+ */
+bool_t eeprom24xx1025TestWritePage( uint32_t page, 
+                                    uint8_t* buff, uint32_t buffSize );
+
+/**
+ * EEPROM Test Sequential read
+ * Performs a test on the 24xx1025 EEPROM memory.
+ */
+bool_t eeprom24xx1025TestReadSequential( uint32_t address, 
+                                         uint8_t* byteBuffer,
+                                         uint32_t byteBufferSize );
 
 /*==================[cplusplus]==============================================*/
 

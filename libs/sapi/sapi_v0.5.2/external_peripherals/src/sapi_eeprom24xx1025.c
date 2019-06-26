@@ -77,6 +77,12 @@ bool_t eeprom24xx1025DataReady( void )
    return TRUE;
 }
 
+// Amount of pages
+uint32_t eeprom24xx1025AmountOfPagesGet( Eeprom24xx1025_t* eeprom )
+{
+   return eeprom->memorySize / eeprom->pageSize;
+}
+
 //-----------------------------------------------------------------------------
 // INITIALIZATION
 //-----------------------------------------------------------------------------
@@ -167,26 +173,26 @@ bool_t eeprom24xx1025WriteByte( Eeprom24xx1025_t* eeprom,
 }
 
 
-// Page Write - NOT WORKING YET!!!!!
-bool_t eeprom24xx1025WritePage( Eeprom24xx1025_t* eeprom, uint32_t pageAddress,
+// Page Write
+bool_t eeprom24xx1025WritePage( Eeprom24xx1025_t* eeprom, uint32_t page,
                                 uint8_t* byteBuffer, uint32_t byteBufferSize )
 {
 
    bool_t retVal = TRUE; // True if OK
 
-   // Check buffer size
-   if( byteBufferSize > eeprom->pageSize ) {
+   // Check valid buffer size
+   if( byteBufferSize != eeprom->pageSize ) {
       return FALSE;
    }
 
-   // Check page address
-   //if( pageAddress > (eeprom->memorySize / eeprom->pageSize) ) { // PAGE_AMOUNT = MEMORY_SIZE / PAGE_SIZE
-   //   return FALSE;
-   //}
+   // Check valid page number
+   if( page >= eeprom24xx1025AmountOfPagesGet(eeprom) ) {
+      return FALSE;
+   }
 
    uint16_t i=0;
 
-   uint16_t memoryAddress = pageAddress * eeprom->pageSize;
+   uint16_t memoryAddress = page * eeprom->pageSize;
 
    uint8_t dataToWrite[ byteBufferSize+2 ]; // 2 bytes more for memory address
 
@@ -200,9 +206,9 @@ bool_t eeprom24xx1025WritePage( Eeprom24xx1025_t* eeprom, uint32_t pageAddress,
       dataToWrite[i+2] = byteBuffer[i];
    }
 
-   /* uint8_t i2cNumber, uint8_t  i2cSlaveAddress,
-      uint8_t* transmitDataBuffer, uint16_t transmitDataBufferSize,
-      bool_t sendWriteStop */
+   // uint8_t i2cNumber, uint8_t  i2cSlaveAddress,
+   // uint8_t* transmitDataBuffer, uint16_t transmitDataBufferSize,
+   // bool_t sendWriteStop
    retVal = i2cWrite( eeprom->i2c,
                       eeprom24xx1025I2cAddress( eeprom, memoryAddress ),
                       dataToWrite, (byteBufferSize+2), TRUE );
@@ -263,54 +269,42 @@ bool_t eeprom24xx1025ReadRandom( Eeprom24xx1025_t* eeprom,
 
 
 // Sequential Read
-bool_t eeprom24xx1025ReadSequential( Eeprom24xx1025_t* eeprom,
-                                     uint8_t* byteBuffer,
-                                     int32_t byteBufferSize )
+bool_t eeprom24xx1025ReadSequential( Eeprom24xx1025_t* eeprom, uint32_t address,
+                                     uint8_t* byteBuffer, uint32_t byteBufferSize )
 {
-   // TODO: Cmplete!
-   bool_t retVal = TRUE; // True if OK
-   return retVal; // read correct
-}
-
-/*---------------------------------------------------------------------------*/
-
-/*
-bool_t eeprom24xx1025Read( uint16_t memoryAddress,
-                          uint8_t* byteBuffer, uint16_t byteBufferSize ){
 
    bool_t retVal = TRUE; // True if OK
 
-   // Check memory address
-   if( memoryAddress > EEPROM24xx1025_MEMORY_SIZE ){
+   // Check valid buffer size
+   if( byteBufferSize > eeprom->memorySize / 2 ) {
       return FALSE;
    }
 
-   // Check buffer size
-   if( byteBufferSize > EEPROM24xx1025_MEMORY_SIZE ){
-      return FALSE;
-   }
-
-   uint16_t i=0;
+   // TODO: Check valid address
+   //if( address >= eeprom24xx1025AmountOfPagesGet(eeprom) ) {
+   //   return FALSE;
+   //}
 
    uint8_t addressToRead[ 2 ]; // 2 bytes for memory address
 
-   addressToRead[0] = (uint8_t)(memoryAddress>>1);        // Memory address High
-   addressToRead[1] = (uint8_t)(memoryAddress&&(0x00FF)); // Memory address Low
-*/
-/* uint8_t i2cNumber, uint8_t i2cSlaveAddress,
-   uint8_t* dataToReadBuffer, uint16_t dataToReadBufferSize,
-   bool_t sendWriteStop,
-   uint8_t* reciveDataBuffer, uint16_t reciveDataBufferSize,
-   bool_t sendReadStop */
-/*   retVal = i2cRead( EEPROM_I2C, eeprom24xx1025_i2cAddress,
-                     addressToRead, 2, TRUE,
+   // Memory address High
+   addressToRead[0] = EEPROM_ADDRESS_HIGH( address );
+   // Memory address Low
+   addressToRead[1] = EEPROM_ADDRESS_LOW( address );
+
+   // uint8_t i2cNumber, uint8_t i2cSlaveAddress,
+   // uint8_t* dataToReadBuffer, uint16_t dataToReadBufferSize,
+   // bool_t sendWriteStop,
+   // uint8_t* reciveDataBuffer, uint16_t reciveDataBufferSize,
+   // bool_t sendReadStop
+   retVal = i2cRead( eeprom->i2c,
+                     eeprom24xx1025I2cAddress( eeprom, address ),
+                     addressToRead, 2, FALSE,
                      byteBuffer, byteBufferSize, TRUE );
 
-   delay(5); // Twc - Write cycle time (byte or page)
-
-   return retVal; // read correct
+   return retVal; // Byte writed
 }
-*/
+
 
 //-----------------------------------------------------------------------------
 // EEPROM WRITE PROTECTION
@@ -329,14 +323,14 @@ bool_t eeprom24xx1025WriteProtectionGet( void )
 
 
 /**
- * EEPROM Test
+ * EEPROM Test Write individual bytes
  * Performs a test on the 24xx1025 EEPROM memory.
  * @param uint8_t startingPage. The page where to start the test.
  * @param uint8_t* buff. The buffer to save in mamory.
- * @param uint8_t. The size of buffer (must be lower than page size).
+ * @param uint32_t. The size of buffer (must be lower than page size).
  * @return bool_t. Whether the test was passed or not.
  */
-bool_t eeprom24xx1025Test( uint32_t startingPage, uint8_t* buff, uint8_t buffSize )
+bool_t eeprom24xx1025TestWriteBytes( uint32_t startingPage, uint8_t* buff, uint32_t buffSize )
 {
    uint8_t readByte = 0;
    uint32_t i = 0;
@@ -344,6 +338,99 @@ bool_t eeprom24xx1025Test( uint32_t startingPage, uint8_t* buff, uint8_t buffSiz
    boardInit();
 
    debugPrintConfigUart( UART_USB, 115200 );
+   debugPrintlnString( "\r\n----------- EEPROM Test Write individual bytes ----------\r\n" );
+   
+   i2cInit( I2C0, 100000 );
+   debugPrintlnString( "I2C initialization complete." );
+
+   Eeprom24xx1025_t eeprom24A1025I;
+
+   eeprom24xx1025Init( &eeprom24A1025I,
+                       I2C0, 0, 0,
+                       -1, -1, -1, -1,
+                       EEPROM24xx1025_PAGE_SIZE,
+                       EEPROM_1024_K_BIT );
+   debugPrintlnString( "\r\nEEPROM initialization complete." );
+
+   if( buffSize > eeprom24A1025I.pageSize ) {
+      debugPrintlnString( "\r\nEEPROM test Fail. Buffer size bigger than EEPROM page size." );
+      return FALSE;
+   }
+
+   eeprom24xx1025PowerSet( &eeprom24A1025I, ON );
+   debugPrintlnString( "\r\nEEPROM power on." );
+
+   // Test writing to page
+
+   uint32_t startingAddress = startingPage * eeprom24A1025I.pageSize;
+
+   for( i=0; i<buffSize; i++ ) {
+      if( eeprom24xx1025WriteByte( &eeprom24A1025I, startingAddress + i, buff[i] ) ) {
+      } else {
+         debugPrintString( "\r\nEEPROM test Fail. Error While trying to write at address: 0x" );
+         debugPrintHex( i, 8 );
+         debugPrintlnString( ".\r\n" );
+         return FALSE;
+      }
+   }
+
+   // Test reading from page
+
+   for( i=0; i<buffSize; i++ ) {
+      if( eeprom24xx1025ReadByte( &eeprom24A1025I, startingAddress + i, &readByte) ) {
+         if( readByte == buff[i] ) {
+            debugPrintChar( readByte );
+         } else {
+            debugPrintString( "\r\nEEPROM test Fail. Error comparing byte: " );
+            debugPrintChar( buff[i] );
+            debugPrintString( " with: " );
+            debugPrintChar( readByte );
+            debugPrintString( ", at address: 0x" );
+            debugPrintHex( i, 8 );
+            debugPrintlnString( "." );
+
+            eeprom24xx1025PowerSet( &eeprom24A1025I, OFF );
+            debugPrintlnString( "EEPROM power off.\r\n" );
+
+            return FALSE;
+         }
+      } else {
+         debugPrintString( "\r\nEEPROM test Fail. Error trying to read at address: 0x" );
+         debugPrintHex( i, 8 );
+         debugPrintlnString( "." );
+
+         eeprom24xx1025PowerSet( &eeprom24A1025I, OFF );
+         debugPrintlnString( "EEPROM power off.\r\n" );
+
+         return FALSE;
+      }
+   }
+
+   debugPrintlnString( "\r\nEEPROM test complete sucessfull." );
+
+   eeprom24xx1025PowerSet( &eeprom24A1025I, OFF );
+   debugPrintlnString( "EEPROM power off.\r\n" );
+
+   return TRUE;
+}
+
+/**
+ * EEPROM Test Write a hole page
+ * Performs a test on the 24xx1025 EEPROM memory.
+ * @param uint8_t page. The page where save.
+ * @param uint8_t* buff. The buffer to save in mamory.
+ * @param uint32_t. The size of buffer (must be equal to page size).
+ * @return bool_t. Whether the test was passed or not.
+ */
+bool_t eeprom24xx1025TestWritePage( uint32_t page, uint8_t* buff, uint32_t buffSize )
+{
+   uint8_t readByte = 0;
+   uint32_t i = 0;
+
+   boardInit();
+
+   debugPrintConfigUart( UART_USB, 115200 );
+   debugPrintlnString( "\r\n----------- EEPROM Test Write a hole page ---------------\r\n" );
 
    i2cInit( I2C0, 100000 );
    debugPrintlnString( "I2C initialization complete." );
@@ -357,36 +444,40 @@ bool_t eeprom24xx1025Test( uint32_t startingPage, uint8_t* buff, uint8_t buffSiz
                        EEPROM_1024_K_BIT );
    debugPrintlnString( "EEPROM initialization complete." );
 
-   if( buffSize > eeprom24A1025I.pageSize ) {
-      debugPrintlnString( "EEPROM test Fail. Buffer size bigger than EEPROM page size." );
+   // Check if buffer size equal to EEPROM page size
+   if( buffSize != eeprom24A1025I.pageSize ) {
+      debugPrintlnString( "\r\nEEPROM test Fail. Buffer size non equal than EEPROM page size." );
+      debugPrintString( "EEPROM page size: " );
+      debugPrintlnInt( eeprom24A1025I.pageSize );
+      debugPrintString( "Buffer page size: " );
+      debugPrintlnInt( buffSize );
+      debugPrintlnString( ".\r\n" );
       return FALSE;
    }
 
    eeprom24xx1025PowerSet( &eeprom24A1025I, ON );
-   debugPrintlnString( "EEPROM power on." );
+   debugPrintlnString( "\r\nEEPROM power on." );
 
    // Test writing to page
 
-   uint32_t startingAddress = startingPage * eeprom24A1025I.pageSize;
-
-   for( i=0; i<buffSize; i++ ) {
-      if( eeprom24xx1025WriteByte( &eeprom24A1025I, startingAddress + i, buff[i] ) ) {
-      } else {
-         debugPrintString( "EEPROM test Fail. Error While trying to write at address: 0x" );
-         debugPrintHex( i, 8 );
-         debugPrintlnString( "." );
-         return FALSE;
-      }
+   if( eeprom24xx1025WritePage( &eeprom24A1025I, page, buff, buffSize ) ) {
+   } else {
+      debugPrintString( "\r\nEEPROM test Fail. Error While trying to write at page: 0x" );
+      debugPrintHex( page, 32 );
+      debugPrintlnString( ".\r\n" );
+      return FALSE;
    }
 
    // Test reading from page
 
+   uint32_t startingAddress = page * eeprom24A1025I.pageSize;
+   
    for( i=0; i<buffSize; i++ ) {
       if( eeprom24xx1025ReadByte( &eeprom24A1025I, startingAddress + i, &readByte) ) {
          if( readByte == buff[i] ) {
             debugPrintChar( readByte );
          } else {
-            debugPrintString( "EEPROM test Fail. Error comparing byte: " );
+            debugPrintString( "\r\nEEPROM test Fail. Error comparing byte: " );
             debugPrintChar( buff[i] );
             debugPrintString( " with: " );
             debugPrintChar( readByte );
@@ -395,113 +486,91 @@ bool_t eeprom24xx1025Test( uint32_t startingPage, uint8_t* buff, uint8_t buffSiz
             debugPrintlnString( "." );
 
             eeprom24xx1025PowerSet( &eeprom24A1025I, OFF );
-            debugPrintlnString( "EEPROM power off." );
+            debugPrintlnString( "EEPROM power off.\r\n" );
 
             return FALSE;
          }
       } else {
-         debugPrintString( "EEPROM test Fail. Error trying to read at address: 0x" );
+         debugPrintString( "\r\nEEPROM test Fail. Error trying to read at address: 0x" );
          debugPrintHex( i, 8 );
          debugPrintlnString( "." );
 
          eeprom24xx1025PowerSet( &eeprom24A1025I, OFF );
-         debugPrintlnString( "EEPROM power off." );
+         debugPrintlnString( "EEPROM power off.\r\n" );
 
          return FALSE;
       }
    }
 
-   // Test writing to higher part
-
-   // Test reading from higher part
-
+   debugPrintlnString( "\r\nEEPROM test complete sucessfull." );
+   
    eeprom24xx1025PowerSet( &eeprom24A1025I, OFF );
-   debugPrintlnString( "EEPROM power off." );
-
-   debugPrintlnString( "EEPROM test complete sucessfull." );
+   debugPrintlnString( "EEPROM power off.\r\n" );
 
    return TRUE;
-
-   /*
-      magPowerSet( OFF ); // Jode la sguiente lectura:
-
-      // Random Read (Byte read)
-      myByte = 0;
-      if( eeprom24xx1025ReadRandom( 0x00FE, &myByte ) ){
-         consolePrintString( "Se leyo: 0x" );
-         consolePrintHex( myByte );
-         consolePrintlnString( ", en la direccion: 0x00FE." );
-      } else{
-         consolePrintlnString( "No se pudo leer EEPROM." );
-      }
-
-      magPowerSet( ON );// La proxima lectura lee bien:
-
-      // Random Read (Byte read)
-      myByte = 0;
-      if( eeprom24xx1025ReadRandom( 0x00FE, &myByte ) ){
-         consolePrintString( "Se leyo: 0x" );
-         consolePrintHex( myByte );
-         consolePrintlnString( ", en la direccion: 0x00FE." );
-      } else{
-         consolePrintlnString( "No se pudo leer EEPROM." );
-      }
-
-      consolePrintEnter();
-   */
 }
 
-/*---------------------------------------------------------------------------*/
+/**
+ * EEPROM Test Sequential read
+ * Performs a test on the 24xx1025 EEPROM memory.
+ */
+bool_t eeprom24xx1025TestReadSequential( uint32_t address, 
+                                         uint8_t* byteBuffer,
+                                         uint32_t byteBufferSize )
+{
 
-/*
+   boardInit();
 
-void eeprom24xx1025Read( uint16_t address,
-                        int theByteCount,
-                        uint8_t* theByteArray ){
+   debugPrintConfigUart( UART_USB, 115200 );
+   debugPrintlnString( "\r\n----------- EEPROM Test Sequential read -----------------\r\n" );
 
-   uint16_t i=0;
+   i2cInit( I2C0, 100000 );
+   debugPrintlnString( "I2C initialization complete." );
 
-   for( i = 0; i < theByteCount; i++ ){
-      Wire.beginTransmission(theDeviceAddress);
-      Wire.send((uint8_t)((address + i) >> 8));
-      Wire.send((uint8_t)((address + i) >> 0));
-      Wire.endTransmission();
-      delay(5);
-      Wire.requestFrom(theDeviceAddress, sizeof(uint8_t));
-      theByteArray[i] = Wire.receive();
+   Eeprom24xx1025_t eeprom24A1025I;
+
+   eeprom24xx1025Init( &eeprom24A1025I,
+                       I2C0, 0, 0,
+                       -1, -1, -1, -1,
+                       EEPROM24xx1025_PAGE_SIZE,
+                       EEPROM_1024_K_BIT );
+   debugPrintlnString( "EEPROM initialization complete." );
+
+   // Check if buffer size equal to EEPROM page size
+   if( byteBufferSize > eeprom24A1025I.memorySize / 2 ) {
+      debugPrintlnString( "\r\nEEPROM test Fail. Buffer more than half EEPROM memory size." );
+      debugPrintString( "EEPROM memory size / 2: " );
+      debugPrintlnInt( eeprom24A1025I.memorySize / 2 );
+      debugPrintString( "Buffer page size: " );
+      debugPrintlnInt( byteBufferSize );
+      debugPrintlnString( ".\r\n" );
+      return FALSE;
    }
+
+   eeprom24xx1025PowerSet( &eeprom24A1025I, ON );
+   debugPrintlnString( "\r\nEEPROM power on." );
+
+   // Test Sequential read
+
+   if( FALSE == eeprom24xx1025ReadSequential( &eeprom24A1025I, address,
+                                              byteBuffer, byteBufferSize ) ) {
+      debugPrintlnString( "\r\nEEPROM test Fail. Error trying to read sequential." );
+
+      eeprom24xx1025PowerSet( &eeprom24A1025I, OFF );
+      debugPrintlnString( "EEPROM power off.\r\n" );
+
+      return FALSE;
+   }
+
+   debugPrintlnString( "\r\nReaded:" );
+   debugPrintlnString( byteBuffer );
+   debugPrintlnString( "\r\nEEPROM test complete sucessfull." );
+   
+   eeprom24xx1025PowerSet( &eeprom24A1025I, OFF );
+   debugPrintlnString( "EEPROM power off.\r\n" );
+
+   return TRUE;
 }
-
-
-uint8_t eeprom24xx1025ReadByte( int theDeviceAddress, unsigned int theMemoryAddress ){
-   uint8_t theByteArray[sizeof(uint8_t)];
-   eeprom24xx1025Read(theDeviceAddress, theMemoryAddress, sizeof(uint8_t), theByteArray);
-   return (uint8_t)(((theByteArray[0] << 0)));
-}
-
-void eeprom24xx1025WriteByte( int theDeviceAddress, unsigned int theMemoryAddress, uint8_t theByte ){
-   uint8_t theByteArray[sizeof(uint8_t)] = {(uint8_t)(theByte >> 0)};
-   eeprom24xx1025Write(theDeviceAddress, theMemoryAddress, sizeof(uint8_t), theByteArray);
-}
-*/
-
-/*
-int eeprom24xx1025ReadInt(int theDeviceAddress, unsigned int theMemoryAddress) {
-   byte theByteArray[sizeof(int)];
-   WireEepromRead(theDeviceAddress, theMemoryAddress, sizeof(int), theByteArray);
-   return (int)(((theByteArray[0] << 8)) | (int)((theByteArray[1] << 0)));
-}
-*/
-/*
-void WireEepromWriteInt(int theDeviceAddress, unsigned int theMemoryAddress, int theInt) {
-   byte theByteArray[sizeof(int)] = {(byte)(theInt >> 8), (byte)(theInt >> 0)};
-   eeprom24xx1025Write(theDeviceAddress, theMemoryAddress, sizeof(int), theByteArray);
-}
-*/
-
-
-/*---------------------------------------------------------------------------*/
-
 
 /*==================[ISR external functions definition]======================*/
 
