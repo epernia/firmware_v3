@@ -177,6 +177,11 @@ bool_t eeprom24xx1025WritePage( Eeprom24xx1025_t* eeprom, uint32_t page,
 // READ OPERATIONS
 //-----------------------------------------------------------------------------
 
+// Current Address Read
+bool_t eeprom24xx1025ReadCurrentAddress( Eeprom24xx1025_t* eeprom,
+                                         uint32_t memoryAddress,
+                                         uint8_t* readedByte );
+                                         
 // Random Read
 bool_t eeprom24xx1025ReadRandom( Eeprom24xx1025_t* eeprom, 
                                  uint32_t memoryAddress, uint8_t* readedByte );
@@ -190,8 +195,7 @@ bool_t eeprom24xx1025ReadSequential( Eeprom24xx1025_t* eeprom, uint32_t address,
 //-----------------------------------------------------------------------------
 
 /**
- * EEPROM Test Write individual bytes
- * Performs a test on the 24xx1025 EEPROM memory.
+ * EEPROM Test Write individual bytes and Read Random
  * @param uint8_t startingPage. The page where to start the test.
  * @param uint8_t* buff. The buffer to save in mamory.
  * @param uint8_t. The size of buffer (must be lower than page size).
@@ -202,7 +206,6 @@ bool_t eeprom24xx1025TestWriteBytes( uint32_t startingPage,
 
 /**
  * EEPROM Test Write a hole page
- * Performs a test on the 24xx1025 EEPROM memory.
  * @param uint8_t page. The page where save.
  * @param uint8_t* buff. The buffer to save in mamory.
  * @param uint8_t. The size of buffer (must be equal to page size).
@@ -219,91 +222,17 @@ bool_t eeprom24xx1025TestReadSequential( uint32_t address,
                                          uint8_t* byteBuffer,
                                          uint32_t byteBufferSize );
 
+/**
+ * EEPROM Test Current Address Read
+ */
+bool_t eeprom24xx1025TestReadCurrentAddress( uint32_t address, 
+                                             uint8_t* byteBuffer );
+
 /*==================[cplusplus]==============================================*/
 
 #ifdef __cplusplus
 }
 #endif
-
-/*==================[example]================================================*/
-
-/*
-#include "sapi.h"
-// MAIN FUNCTION, ENTRY POINT TO THE PROGRAM AFTER POR OR RESET.
-int main( void ){
-
-   // ---------- SETUP ----------------------------------------
-   // Initialize and configure board
-   boardInit();
-
-   CONSOLE_PRINT_ENABLE
-
-   consolePrintConfigUart( UART_DEBUG, 9600 );
-   consolePrintlnString( "Console UART printer configurated." );
-
-   // Incicializar I2C0
-   i2cConfig( I2C0, 100000 );
-
-   // Initialize EEPROM
-   eeprom24xx1025Init();
-
-   uint8_t myByte = 0xEE;
-   uint16_t address = 0x0000;
-
-   address = 0xCAFE;
-   consolePrintString( "Memory address example: 0x" );
-   consolePrintHex( address, 16 );
-   consolePrintlnString( "." );
-
-   // Memory address High
-   consolePrintString( "Memory address High: 0x" );
-   consolePrintHex( EEPROM_ADDRESS_HIGH(address), 16 );
-   consolePrintlnString( "." );
-
-   // Memory address Low
-   consolePrintString( "Memory address Low: 0x" );
-   consolePrintHex( EEPROM_ADDRESS_LOW(address), 16 );
-   consolePrintlnString( "." );
-
-   consolePrintEnter();
-
-   //
-   for( address = 0x00FE; address <= 0x01FD; address++ ){
-      // Byte Write
-      if( eeprom24xx1025WriteByte( address, myByte ) ){
-         consolePrintString( "Se escribio: 0x" );
-         consolePrintHex( myByte, 8 );
-         consolePrintString( ", en la direccion: 0x" );
-         consolePrintHex( address, 16 );
-         consolePrintlnString( "." );
-      } else{
-         consolePrintlnString( "No se pudo escribir EEPROM." );
-      }
-      myByte++;
-   }
-
-   consolePrintEnter();
-
-   for( address = 0x00FE; address <= 0x01FD; address++ ){
-      // Random Read (Byte read)
-      myByte = 0;
-      if( eeprom24xx1025ReadRandom( address, &myByte ) ){
-         consolePrintString( "Se leyo: 0x" );
-         consolePrintHex( myByte, 8 );
-         consolePrintString( ", en la direccion: 0x" );
-         consolePrintHex( address, 16 );
-         consolePrintlnString( "." );
-      } else{
-         consolePrintlnString( "No se pudo leer EEPROM." );
-      }
-   }
-
-   consolePrintEnter();
-
-   while( TRUE );
-   return 0;
-}
-*/
 
 /*==================[end of file]============================================*/
 #endif /* #ifndef _SAPI_EEPROM_24XX1025_H_ */
