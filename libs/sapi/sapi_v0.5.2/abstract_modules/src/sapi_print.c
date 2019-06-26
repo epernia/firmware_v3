@@ -68,6 +68,13 @@ void printInitUart( print_t* printer, uartMap_t uart, uint32_t baudRate )
 }
 
 
+// Print Char
+
+void printChar( print_t printer, const char aChar )
+{
+   uartWriteByte( printer, (const uint8_t) aChar );
+}
+
 // Print String
 
 void printString( print_t printer, const char* string )

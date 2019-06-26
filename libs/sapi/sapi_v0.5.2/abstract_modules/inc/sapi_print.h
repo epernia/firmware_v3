@@ -120,6 +120,9 @@ typedef uartMap_t print_t;
 void printSetUart( print_t* printer, uartMap_t uart );
 void printInitUart( print_t* printer, uartMap_t uart, uint32_t baudRate );
 
+// Print Char
+void printChar( print_t printer, const char aChar );
+
 // Print String
 void printString( print_t printer, const char* string );
 void printEnter( print_t printer );

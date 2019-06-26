@@ -27,6 +27,9 @@ extern "C" {
 #define consolePrintSetUart(uart)                 printSetUart(&(consolePrint),(uart))
 #define consolePrintInitUart(uart,baudRate)       printInitUart(&(consolePrint),(uart),(baudRate))
 
+// Print Char
+#define debugPrintChar(aChar)                     printChar((debugPrint),(aChar))
+
 // Print String
 #define consolePrintString(string)                printString((consolePrint),(string))
 #define consolePrintEnter()                       printEnter(consolePrint)
