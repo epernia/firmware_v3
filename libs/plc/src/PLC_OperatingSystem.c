@@ -1,7 +1,7 @@
-/* Copyright 2017, Eric Pernia.
+/* Copyright 2012-2015, Eric Nicolás Pernia
  * All rights reserved.
  *
- * This file is part sAPI library for microcontrollers.
+ * This file is part of IDE4PLC and CIAA Firmware.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,18 +31,41 @@
  *
  */
 
-/* Date: 2017-04-17 */
+/** \brief PLC Operating System Interface
+ **
+ ** PLC Operating System Interface
+ **
+ **/
+
+/** \addtogroup CIAA_Firmware CIAA Firmware
+ ** @{ */
+/** \addtogroup PLC PLC Module
+ ** @{ */
+
+/*
+ * Initials     Name
+ * ---------------------------
+ * ErPe         Eric Pernia
+ *
+ */
+
+/*
+ * modification history (new versions first)
+ * -----------------------------------------------------------
+ * 20140911 v0.0.1 ErPe initial version
+ * 20150502 v0.0.1 ErPe rewrite for CIAA Firmware compatibility
+ */
 
 /*==================[inclusions]=============================================*/
-
-#include "sapi_print.h"     // <= own header
-
-#include "sapi_convert.h"   // <= Convert header
-#include "sapi_uart.h"      // <= UART header
+#include "PLC_ElementaryDataTypes.h"
+#include "PLC_OperatingSystem.h"
 
 /*==================[macros and definitions]=================================*/
 
 /*==================[internal data declaration]==============================*/
+
+/** \brief PLC_TimersTime is a variable that counts time in milliseconds for PLC Timers. */
+uint64_t PLC_TimersTime = 0;
 
 /*==================[internal functions declaration]=========================*/
 
@@ -54,66 +77,12 @@
 
 /*==================[external functions definition]==========================*/
 
-// Print uart configuration
-
-void printSetUart( print_t* printer, uartMap_t uart )
+/** \brief It returns the PLC_TimersTime variable. */
+uint64_t PLC_GetTimersTime(void)
 {
-   *printer = uart;
+   return PLC_TimersTime;
 }
 
-void printInitUart( print_t* printer, uartMap_t uart, uint32_t baudRate )
-{
-   *printer = uart;
-   uartInit( uart, baudRate );
-}
-
-
-// Print Char
-
-void printChar( print_t printer, const char aChar )
-{
-   uartWriteByte( printer, (const uint8_t) aChar );
-}
-
-// Print String
-
-void printString( print_t printer, const char* string )
-{
-   uartWriteString( printer, string );
-}
-
-void printEnter( print_t printer )
-{
-   uartWriteString( printer, PRINT_ENTER_STRING );
-}
-
-
-// Print Integer
-
-void printIntFormat( print_t printer, int64_t number, numberFormat_t format )
-{
-
-   char strNumber[65];
-
-   if( int64ToString( number, strNumber, format ) ) {
-      uartWriteString( printer, strNumber );
-   }
-}
-
-void printUIntFormat( print_t printer, uint64_t number, numberFormat_t format )
-{
-
-   char strNumber[65];
-
-   if( uint64ToString( number, strNumber, format ) ) {
-      uartWriteString( printer, strNumber );
-   }
-}
-
-void printHex( print_t printer, uint64_t number, uint8_t bitSize )
-{
-   printString( printer, uintToAsciiHex( number , bitSize ) );
-}
-
-
+/** @} doxygen end group definition */
+/** @} doxygen end group definition */
 /*==================[end of file]============================================*/

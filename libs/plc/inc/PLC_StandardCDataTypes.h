@@ -1,7 +1,8 @@
-/* Copyright 2017, Eric Pernia.
+/* Copyright 2012-2015, Eric Nicolás Pernia
+ * Copyright 2015, Leandro Kollenberger
  * All rights reserved.
  *
- * This file is part sAPI library for microcontrollers.
+ * This file is part of IDE4PLC and CIAA Firmware.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,54 +29,71 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
+ *
  */
 
-/* Date: 2017-04-17 */
+#ifndef PLC_STANDARD_C_DATA_TYPES_H
+#define PLC_STANDARD_C_DATA_TYPES_H
+/** \brief Standard C Data Types
+ **
+ ** Standard C Data Types
+ **
+ **/
 
-#ifndef _SAPI_CONVERT_H_
-#define _SAPI_CONVERT_H_
+/** \addtogroup CIAA_Firmware CIAA Firmware
+ ** @{ */
+/** \addtogroup PLC PLC Module
+ ** @{ */
 
 /*
+ * Initials     Name
+ * ---------------------------
+ * ErPe         Eric Pernia
+ * LeKo         Leandro Kollenberger
+ */
 
-API
----
-
-// C++ version 0.4 char* style "itoa":
-bool_t int64ToString( int64_t value, char* result, uint8_t base );
-bool_t uint64ToString( uint64_t value, char* result, uint8_t base );
-
-char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
-*/
+/*
+ * modification history (new versions first)
+ * -----------------------------------------------------------
+ * 20150428 v0.0.1 ErPe & LeKo CIAA Firmware porting
+ * 20140910 v0.0.1 ErPe initial version
+ */
 
 /*==================[inclusions]=============================================*/
+#include <stdint.h>
+#include <string.h>
 
-#include "sapi_datatypes.h"
+/*==================[cplusplus]==============================================*/
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*==================[macros]=================================================*/
+/** \brief True and False. */
+#define true    1
+#define false   0
 
+/** \brief Bit masks for 8 bit variables like unsigned char. */
+#define bit_0   0x01
+#define bit_1   0x02
+#define bit_2   0x04
+#define bit_3   0x08
+#define bit_4   0x10
+#define bit_5   0x20
+#define bit_6   0x40
+#define bit_7   0x80
 /*==================[typedef]================================================*/
-
-typedef enum {
-   BIN_FORMAT = 2,
-   DEC_FORMAT = 10,
-   HEX_FORMAT = 16
-} numberFormat_t;
 
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
-bool_t int64ToString( int64_t value, char* result, uint8_t base );
-bool_t uint64ToString( uint64_t value, char* result, uint8_t base );
-
-char* floatToString( float value, char* result, int32_t precision );
-
-char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
-
-char* intToString( int64_t value );
-//char* floatToString( float value );
-
-/*==================[examples]===============================================*/
-
+/*==================[cplusplus]==============================================*/
+#ifdef __cplusplus
+}
+#endif
+/** @} doxygen end group definition */
+/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_CONVERT_H_ */
+#endif /* PLC_STANDARD_C_DATA_TYPES_H */
+

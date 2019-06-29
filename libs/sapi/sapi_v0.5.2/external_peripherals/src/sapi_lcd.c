@@ -227,7 +227,7 @@ void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
    // Init I2C
    pcf8574TInit( I2C0, PCF8574T_I2C_ADDRESS );
    lcdPinSet( LCD_HD44780_BACKLIGHT, ON );
-   //delay(1000);
+//   delay(100);
    #else
    // Configure LCD Pins as Outputs
    lcdInitPinAsOutput( LCD_HD44780_RS );
@@ -313,7 +313,14 @@ void lcdCreateChar( uint8_t charnum, const char* chardata )
 }
 
 
-void lcdSendString( char* str )
+void lcdClearAndHome( void )
+{
+   lcdClear();
+   lcdGoToXY( 0, 0 ); // Poner cursor en 0, 0
+   //delay(100);
+}
+
+bool_t lcdSendString( char* str )
 {
    uint8_t i = 0;
 
@@ -326,17 +333,26 @@ void lcdSendString( char* str )
       }
 
       if( lcd.y >= lcd.amountOfLines ){
-         delay(5000);
-         lcdClear();
-         lcd.x = 0;
-         lcd.y = 0;
-         lcdGoToXY( lcd.x, lcd.y );
+         // Print the rest in 5 seconds
+         //delay(5000);
+         //lcdClear();
+         //lcd.x = 0;
+         //lcd.y = 0;
+         //lcdGoToXY( lcd.x, lcd.y );
+         return 0;
       }
 
-      lcdData( str[i] );
+      if( str[i] == '\r' ){
+         // ignore
+      } else if( str[i] == '\n' ){
+         lcdSendEnter();
+      } else{
+         lcdData( str[i] );
+         lcd.x++;
+      }
       i++;
-      lcd.x++;
    }
+   return 0;
 }
 
 void lcdSendEnter( void ){

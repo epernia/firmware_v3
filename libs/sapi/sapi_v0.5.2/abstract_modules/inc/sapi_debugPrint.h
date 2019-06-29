@@ -59,6 +59,9 @@ void debugPrintlnHex( uint64_t number, uint8_t bitSize );
 #define debugPrintSetUart(uart)                 printSetUart(&(debugPrint),(uart))
 #define debugPrintInitUart(uart,baudRate)       printInitUart(&(debugPrint),(uart),(baudRate))
 
+// Print Char
+#define debugPrintChar(aChar)                   printChar((debugPrint),(aChar))
+
 // Print String
 #define debugPrintString(string)                printString((debugPrint),(string))
 #define debugPrintEnter()                       printEnter(debugPrint)

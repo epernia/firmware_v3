@@ -1,7 +1,7 @@
-/* Copyright 2017, Eric Pernia.
+/* Copyright 2012-2015, Eric Nicolás Pernia
  * All rights reserved.
  *
- * This file is part sAPI library for microcontrollers.
+ * This file is part of IDE4PLC and CIAA Firmware.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,14 +31,32 @@
  *
  */
 
-/* Date: 2017-04-17 */
+/** \brief PLC Libraries
+ **
+ ** PLC Libraries
+ **
+ **/
+
+/** \addtogroup CIAA_Firmware CIAA Firmware
+ ** @{ */
+/** \addtogroup PLC PLC Module
+ ** @{ */
+
+/*
+ * Initials     Name
+ * ---------------------------
+ * ErPe         Eric Pernia
+ *
+ */
+
+/*
+ * modification history (new versions first)
+ * -----------------------------------------------------------
+ * 20140911 v0.0.1 ErPe initial version
+ */
 
 /*==================[inclusions]=============================================*/
-
-#include "sapi_print.h"     // <= own header
-
-#include "sapi_convert.h"   // <= Convert header
-#include "sapi_uart.h"      // <= UART header
+#include "PLC_Lib.h"
 
 /*==================[macros and definitions]=================================*/
 
@@ -54,66 +72,44 @@
 
 /*==================[external functions definition]==========================*/
 
-// Print uart configuration
-
-void printSetUart( print_t* printer, uartMap_t uart )
+/** \brief PLC Day of week algorithm. */
+PLC_INT DT_Weekday(PLC_INT Year, PLC_INT Month, PLC_INT Day)
 {
-   *printer = uart;
+   int a, y, m, NumZeller, NumDT;
+   a = (14 - Month) / 12;
+   y = Year - a;
+   m = Month + 12 * a - 2;
+
+   /* For Julius calendar:
+      NumZeller = (5 + Day + y + y/4 + (31*m)/12) % 7 */
+
+   /* For Gregorian calendar: */
+   NumZeller = (Day + y + y/4 - y/100 + y/400 + (31*m)/12) % 7;
+
+   /* The NumZeller result is:
+         0 = Sunday
+         1 = Monday
+         2 = Tuesday
+         3 = Wednesday
+         4 = Thursday
+         5 = Friday
+         6 = Saturday */
+
+   NumDT = NumZeller + 1;
+
+   /** \brief The NumDT result is:
+    1 = Sunday
+    2 = Monday
+    3 = Tuesday
+    4 = Wednesday
+    5 = Thursday
+    6 = Friday
+    7 = Saturday
+   */
+
+   return NumDT;
 }
 
-void printInitUart( print_t* printer, uartMap_t uart, uint32_t baudRate )
-{
-   *printer = uart;
-   uartInit( uart, baudRate );
-}
-
-
-// Print Char
-
-void printChar( print_t printer, const char aChar )
-{
-   uartWriteByte( printer, (const uint8_t) aChar );
-}
-
-// Print String
-
-void printString( print_t printer, const char* string )
-{
-   uartWriteString( printer, string );
-}
-
-void printEnter( print_t printer )
-{
-   uartWriteString( printer, PRINT_ENTER_STRING );
-}
-
-
-// Print Integer
-
-void printIntFormat( print_t printer, int64_t number, numberFormat_t format )
-{
-
-   char strNumber[65];
-
-   if( int64ToString( number, strNumber, format ) ) {
-      uartWriteString( printer, strNumber );
-   }
-}
-
-void printUIntFormat( print_t printer, uint64_t number, numberFormat_t format )
-{
-
-   char strNumber[65];
-
-   if( uint64ToString( number, strNumber, format ) ) {
-      uartWriteString( printer, strNumber );
-   }
-}
-
-void printHex( print_t printer, uint64_t number, uint8_t bitSize )
-{
-   printString( printer, uintToAsciiHex( number , bitSize ) );
-}
-
-
+/** @} doxygen end group definition */
+/** @} doxygen end group definition */
 /*==================[end of file]============================================*/

@@ -1,7 +1,6 @@
-/* Copyright 2017, Eric Pernia.
- * All rights reserved.
+/* Copyright 2015, Mariano Cerdeiro
  *
- * This file is part sAPI library for microcontrollers.
+ * This file is part of CIAA Firmware.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,89 +30,101 @@
  *
  */
 
-/* Date: 2017-04-17 */
+/** \brief This file implements the test os PLC IL
+ **
+ **/
+
+/** \addtogroup CIAA_Firmware CIAA Firmware
+ ** @{ */
+/** \addtogroup PLC PLC Module
+ ** @{ */
+
+/*
+ * Initials     Name
+ * ---------------------------
+ * MaCe         Mariano Cerdeiro
+ */
+
+/*
+ * modification history (new versions first)
+ * -----------------------------------------------------------
+ * 20150522 v0.0.1 MaCe initial version
+ */
 
 /*==================[inclusions]=============================================*/
-
-#include "sapi_print.h"     // <= own header
-
-#include "sapi_convert.h"   // <= Convert header
-#include "sapi_uart.h"      // <= UART header
+#include "unity.h"
+#include "PLC_Registers.h"
+#include "PLC_IL_Instructions.h"
 
 /*==================[macros and definitions]=================================*/
 
-/*==================[internal data declaration]==============================*/
-
 /*==================[internal functions declaration]=========================*/
+
+/*==================[internal data declaration]==============================*/
 
 /*==================[internal data definition]===============================*/
 
 /*==================[external data definition]===============================*/
+PLC_SymbolicRegister CR;
 
 /*==================[internal functions definition]==========================*/
 
 /*==================[external functions definition]==========================*/
-
-// Print uart configuration
-
-void printSetUart( print_t* printer, uartMap_t uart )
+/** \brief set Up function
+ **
+ ** This function is called before each test case is executed
+ **
+ **/
+void setUp(void)
 {
-   *printer = uart;
 }
 
-void printInitUart( print_t* printer, uartMap_t uart, uint32_t baudRate )
+/** \brief tear Down function
+ **
+ ** This function is called after each test case is executed
+ **
+ **/
+void tearDown(void)
 {
-   *printer = uart;
-   uartInit( uart, baudRate );
 }
 
-
-// Print Char
-
-void printChar( print_t printer, const char aChar )
+void test_PLC_IL_LD_BOOL_Literal_01(void)
 {
-   uartWriteByte( printer, (const uint8_t) aChar );
+   CR.VALUE.BOOL = 0;
+
+   PLC_IL_LD_BOOL_Literal(0, N);
+
+   TEST_ASSERT_EQUAL_INT(1, CR.VALUE.BOOL);
 }
 
-// Print String
-
-void printString( print_t printer, const char* string )
+void test_PLC_IL_LD_BOOL_Literal_02(void)
 {
-   uartWriteString( printer, string );
+   CR.VALUE.BOOL = 1;
+
+   PLC_IL_LD_BOOL_Literal(1, N);
+
+   TEST_ASSERT_EQUAL_INT(0, CR.VALUE.BOOL);
 }
 
-void printEnter( print_t printer )
+void test_PLC_IL_LD_BOOL_Literal_03(void)
 {
-   uartWriteString( printer, PRINT_ENTER_STRING );
+   CR.VALUE.BOOL = 1;
+
+   PLC_IL_LD_BOOL_Literal(0, C);
+
+   TEST_ASSERT_EQUAL_INT(0, CR.VALUE.BOOL);
 }
 
-
-// Print Integer
-
-void printIntFormat( print_t printer, int64_t number, numberFormat_t format )
+void test_PLC_IL_LD_BOOL_Literal_04(void)
 {
+   CR.VALUE.BOOL = 0;
 
-   char strNumber[65];
+   PLC_IL_LD_BOOL_Literal(1, C);
 
-   if( int64ToString( number, strNumber, format ) ) {
-      uartWriteString( printer, strNumber );
-   }
+   TEST_ASSERT_EQUAL_INT(1, CR.VALUE.BOOL);
 }
 
-void printUIntFormat( print_t printer, uint64_t number, numberFormat_t format )
-{
-
-   char strNumber[65];
-
-   if( uint64ToString( number, strNumber, format ) ) {
-      uartWriteString( printer, strNumber );
-   }
-}
-
-void printHex( print_t printer, uint64_t number, uint8_t bitSize )
-{
-   printString( printer, uintToAsciiHex( number , bitSize ) );
-}
-
-
+/** @} doxygen end group definition */
+/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
+

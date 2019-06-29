@@ -1,7 +1,8 @@
-/* Copyright 2017, Eric Pernia.
+/* Copyright 2012-2015, Eric Nicolás Pernia
+ * Copyright 2015, Leandro Kollenberger
  * All rights reserved.
  *
- * This file is part sAPI library for microcontrollers.
+ * This file is part of IDE4PLC and CIAA Firmware.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,54 +29,68 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
+ *
  */
 
-/* Date: 2017-04-17 */
+#ifndef PLC_OPERATING_SYSTEM_H_
+#define PLC_OPERATING_SYSTEM_H_
+/** \brief Operating System interaction layer
+ **
+ ** Operating System interaction layer
+ **
+ **/
 
-#ifndef _SAPI_CONVERT_H_
-#define _SAPI_CONVERT_H_
+/** \addtogroup CIAA_Firmware CIAA Firmware
+ ** @{ */
+/** \addtogroup PLC PLC Module
+ ** @{ */
 
 /*
+ * Initials     Name
+ * ---------------------------
+ * ErPe         Eric Pernia
+ * LeKo         Leandro Kollenberger
+ */
 
-API
----
-
-// C++ version 0.4 char* style "itoa":
-bool_t int64ToString( int64_t value, char* result, uint8_t base );
-bool_t uint64ToString( uint64_t value, char* result, uint8_t base );
-
-char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
-*/
+/*
+ * modification history (new versions first)
+ * -----------------------------------------------------------
+ * 20150428 v0.0.1 ErPe & LeKo CIAA Firmware porting
+ * 20120204 v0.0.1 ErPe initial version (for LPCXpresso 1768/9)
+ */
 
 /*==================[inclusions]=============================================*/
+//#include "os.h"               /* <= operating system header */
+//#include "ciaak.h"            /* <= ciaa kernel header */
 
-#include "sapi_datatypes.h"
+// The maximum number of tasks required at any one time during the execution
+// of the program. MUST BE ADJUSTED FOR EACH NEW PROJECT
+#define SCHEDULER_MAX_TASKS   (10)
+
+#include "sapi.h"      // <= sAPI
+#include "seos_pont.h" // <= Simple Embedded Operating Sistem (cooperative)
+
+
+/*==================[cplusplus]==============================================*/
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*==================[macros]=================================================*/
 
 /*==================[typedef]================================================*/
 
-typedef enum {
-   BIN_FORMAT = 2,
-   DEC_FORMAT = 10,
-   HEX_FORMAT = 16
-} numberFormat_t;
-
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
-
-bool_t int64ToString( int64_t value, char* result, uint8_t base );
-bool_t uint64ToString( uint64_t value, char* result, uint8_t base );
-
-char* floatToString( float value, char* result, int32_t precision );
-
-char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
-
-char* intToString( int64_t value );
-//char* floatToString( float value );
-
-/*==================[examples]===============================================*/
-
+/** \brief PLC GetTimersTime Function */
+uint64_t PLC_GetTimersTime(void);
+/*==================[cplusplus]==============================================*/
+#ifdef __cplusplus
+}
+#endif
+/** @} doxygen end group definition */
+/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_CONVERT_H_ */
+#endif /* PLC_OPERATING_SYSTEM_H_ */
+

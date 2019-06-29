@@ -1,7 +1,7 @@
-/* Copyright 2017, Eric Pernia.
+/* Copyright 2012-2015, Eric Nicolás Pernia
  * All rights reserved.
  *
- * This file is part sAPI library for microcontrollers.
+ * This file is part of IDE4PLC and CIAA Firmware.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,54 +28,58 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
+ *
  */
 
-/* Date: 2017-04-17 */
+#ifndef PLC_SERVICES_H_
+#define PLC_SERVICES_H_
+/** \brief PLC SERVICES
+ **
+ ** PLC SERVICES
+ **
+ **/
 
-#ifndef _SAPI_CONVERT_H_
-#define _SAPI_CONVERT_H_
+/** \addtogroup CIAA_Firmware CIAA Firmware
+ ** @{ */
+/** \addtogroup PLC PLC Module
+ ** @{ */
 
 /*
+ * Initials     Name
+ * ---------------------------
+ * ErPe         Eric Pernia
+ */
 
-API
----
-
-// C++ version 0.4 char* style "itoa":
-bool_t int64ToString( int64_t value, char* result, uint8_t base );
-bool_t uint64ToString( uint64_t value, char* result, uint8_t base );
-
-char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
-*/
+/*
+ * modification history (new versions first)
+ * -----------------------------------------------------------
+ * 20140911 v0.0.1 ErPe initial version
+ */
 
 /*==================[inclusions]=============================================*/
+/* PLC Services Includes */
+#include "PLC_StandardCDataTypes.h"	/* Standard C Data Types */
+#include "PLC_Hardware.h"			/* PLC Hardware */
+#include "PLC_OperatingSystem.h"	/* Real Time Operating System */
 
-#include "sapi_datatypes.h"
+/*==================[cplusplus]==============================================*/
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*==================[macros]=================================================*/
 
 /*==================[typedef]================================================*/
 
-typedef enum {
-   BIN_FORMAT = 2,
-   DEC_FORMAT = 10,
-   HEX_FORMAT = 16
-} numberFormat_t;
-
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
-bool_t int64ToString( int64_t value, char* result, uint8_t base );
-bool_t uint64ToString( uint64_t value, char* result, uint8_t base );
-
-char* floatToString( float value, char* result, int32_t precision );
-
-char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
-
-char* intToString( int64_t value );
-//char* floatToString( float value );
-
-/*==================[examples]===============================================*/
-
+/*==================[cplusplus]==============================================*/
+#ifdef __cplusplus
+}
+#endif
+/** @} doxygen end group definition */
+/** @} doxygen end group definition */
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_CONVERT_H_ */
+#endif /* PLC_SERVICES_H_ */
