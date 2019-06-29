@@ -266,5 +266,9 @@ new_program:
 select_program:
 	@sh scripts/program/select_program.sh
 
+# Select target board to compile
+select_board:
+	@sh scripts/board/select_board.sh
 
-.PHONY: all size download erase clean new_program select_program
+
+.PHONY: all size download erase clean new_program select_program select_board
