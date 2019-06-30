@@ -60,17 +60,28 @@ extern "C" {
 // LCD GPIO HAL
 #define lcdInitPinAsOutput(pin)     gpioInit( (pin), GPIO_OUTPUT );
 #define lcdPinWrite( pin, value )   gpioWrite( (pin), (value) )
-   
-// Configure LCD pins
-//#define LCD_HD44780_D7          LCD4   // Data bit 7.
-//#define LCD_HD44780_D6          LCD3   // Data bit 4.
-//#define LCD_HD44780_D5          LCD2   // Data bit 5.
-//#define LCD_HD44780_D4          LCD1   // Data bit 4.
-//#define LCD_HD44780_BACKLIGHT   GPIO0  // Backlight.
-//#define LCD_HD44780_EN          LCDEN  // Enable bit.
-//#define LCD_HD44780_RW          0      // Read/Write bit. R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND).
-//#define LCD_HD44780_RS          LCDRS  // Register select bit. RS = 0 to select command register, RS = 1 to select data register.
 
+#ifdef LCD_HD44780_I2C_PCF8574T
+   // Configure LCD I2C Pin positions
+   #define LCD_HD44780_D7          7 // Data bit 7.
+   #define LCD_HD44780_D6          6 // Data bit 4.
+   #define LCD_HD44780_D5          5 // Data bit 5.
+   #define LCD_HD44780_D4          4 // Data bit 4.
+   #define LCD_HD44780_BACKLIGHT   3 // Backlight. LCD backlight anode.
+   #define LCD_HD44780_EN          2 // Enable bit.
+   #define LCD_HD44780_RW          1 // Read/Write bit. R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND).
+   #define LCD_HD44780_RS          0 // Register select bit. RS = 0 to select command register, RS = 1 to select data register.
+#else
+   // Configure LCD pins
+   #define LCD_HD44780_D7          LCD4   // Data bit 7.
+   #define LCD_HD44780_D6          LCD3   // Data bit 4.
+   #define LCD_HD44780_D5          LCD2   // Data bit 5.
+   #define LCD_HD44780_D4          LCD1   // Data bit 4.
+   #define LCD_HD44780_BACKLIGHT   GPIO0  // Backlight.
+   #define LCD_HD44780_EN          LCDEN  // Enable bit.
+   #define LCD_HD44780_RW          0      // Read/Write bit. R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND).
+   #define LCD_HD44780_RS          LCDRS  // Register select bit. RS = 0 to select command register, RS = 1 to select data register.
+#endif
 
 // LCD delay Times
 #define LCD_EN_PULSE_WAIT_US   25    // 25 us
@@ -146,17 +157,6 @@ extern "C" {
 #define LCD_5x10DOTS            0x04
 #define LCD_5x8DOTS             0x00
 
-
-// Configure LCD I2C Pin positions
-
-#define LCD_HD44780_D7          7 // Data bit 7.
-#define LCD_HD44780_D6          6 // Data bit 4.
-#define LCD_HD44780_D5          5 // Data bit 5.
-#define LCD_HD44780_D4          4 // Data bit 4.
-#define LCD_HD44780_BACKLIGHT   3 // Backlight. LCD backlight anode.
-#define LCD_HD44780_EN          2 // Enable bit.
-#define LCD_HD44780_RW          1 // Read/Write bit. R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND).
-#define LCD_HD44780_RS          0 // Register select bit. RS = 0 to select command register, RS = 1 to select data register.
 
 //uint32_t lcdHd44780Gpios[8] = 
 

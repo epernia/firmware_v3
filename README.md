@@ -33,21 +33,40 @@ CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
 - Make sure you have an `arm-none-eabi-*` toolchain configured in your `PATH`. If you don't have it, download [GCC ARM Embedded](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm).
 - Make sure you have an `openocd` configured in your `PATH`.
 
+### Select a target board to compile
+
+- Create a `board.mk` text file inside this folder.
+- Define `BOARD` variable in `board.mk` according to the board you want to compile.
+
+**`board.mk` example default values:**
+
+```makefile
+BOARD = edu_ciaa_nxp
+```
+
+Note: If you have `zenity` installed (sudo apt-get install zenity), you can use:
+
+- `make select_board` to select graphically a target board.
+
+![Select board](documentation/README/select_board.png)
+
 ### Select a program to compile
 
 - Create a `program.mk` text file inside this folder.
 - Define `PROGRAM_NAME`  and `PROGRAM_PATH` variables in `program.mk` according to the program you want to compile (PROGRAM_PATH is relative to this folder, leave void if the program is inside this folder).
 
-`program.mk` example default values:
+**`program.mk` example default values:**
 
 ```makefile
 PROGRAM_PATH = examples/c
 PROGRAM_NAME = app
 ```
 
-Note: If you have `zenity` installed (sudo apt-get install zenity), you can use:
+Note: If you have `zenity` installed, you can use:
 
 - `make select_program` to select graphically a program.
+
+![Select program](documentation/README/select_program.png)
 
 ### Compile and download
 
@@ -109,9 +128,15 @@ Program complete structure is:
    +--program.h
 ```
 
-Note: If you have `zenity` installed (sudo apt-get install zenity), you can use:
+Note: If you have `zenity` installed, you can use:
 
 - `make new_program` to create graphically a program using program templates.
+
+![New program](documentation/README/new_program.png)
+
+First time will ask you for your user preferences:
+
+![User preferences](documentation/README/user_preferences.png)
 
 ### Create a new global library
 

@@ -38,15 +38,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 /*==================[definiciones y macros]==================================*/
 
-//#define UART_SELECTED   UART_GPIO
-//#define UART_SELECTED   UART_485
-#define UART_SELECTED   UART_USB
-//#define UART_SELECTED   UART_ENET
-//#define UART_SELECTED   UART_232
-
 /*==================[definiciones de datos internos]=========================*/
-
-CONSOLE_PRINT_ENABLE
 
 /*==================[definiciones de datos externos]=========================*/
 
@@ -174,9 +166,8 @@ int main( void ){
 
    // Inicializar y configurar la plataforma
    boardConfig();
-
-   // Inicializar UART_USB como salida de consola
-   consolePrintConfigUart( UART_USB, 115200 );
+   
+   i2cInit( I2C0, 100000 );
 
    // Inicializar LCD de 16x2 (caracteres x lineas) con cada caracter de 5x2 pixeles
    lcdInit( 16, 2, 5, 8 );

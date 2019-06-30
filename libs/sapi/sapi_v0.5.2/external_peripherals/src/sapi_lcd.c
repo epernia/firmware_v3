@@ -98,7 +98,7 @@ static void pcf8574TGpioWrite( pcf8574T_gpio_t pin, bool_t value );
 static void pcf8574TInit( uint8_t i2c, uint8_t i2cAddress ){
    
    pcf8574TI2cAddress = i2cAddress;   
-   i2cInit( I2C0, 100000 );
+//   i2cInit( I2C0, 100000 );
    
    pcf8574TGpioPortInit( 0x00 ); // Init all GPIOs as outputs
    pcf8574TGpioPortWrite( 0x00 ); // Init all as zeros
