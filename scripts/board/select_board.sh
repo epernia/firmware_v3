@@ -19,10 +19,13 @@ echo ""
 echo "Select target board to compile wizard is starting..."
 echo ""
 
-FORM_SELECT_BOARD=$(zenity --forms --title="Select board" \
-	--text="Select a target board to compile" \
-	--separator="|" \
-	--add-list="Board" --list-values="edu_ciaa_nxp|ciaa_nxp" )
+# BOARDS_FILE=${B}/libs/sapi/sapi_v0.5.2/board/inc/sapi_boards.h
+# BOARD_LIST=$(cat ${BOARDS_FILE}|grep -iE '#define \S+\s+[0-9]+'|awk '{print $2}')
+BOARD_LIST="edu_ciaa_nxp ciaa_nxp"
+
+FORM_SELECT_BOARD=$(zenity --list --title="Select board" \
+    --text="Select a target board to compile" --column="Board Name" \
+    ${BOARD_LIST})
 
 RET=$?
 
