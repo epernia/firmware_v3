@@ -48,10 +48,7 @@ Note: If you have `zenity` installed (sudo apt-get install zenity), you can use:
 
 - `make select_board` to select graphically a target board.
 
-**Available boards:**
-
-- edu_ciaa_nxp
-- ciaa_nxp
+![Select board](documentation/README/select_board.png)
 
 ### Select a program to compile
 
@@ -68,6 +65,8 @@ PROGRAM_NAME = app
 Note: If you have `zenity` installed, you can use:
 
 - `make select_program` to select graphically a program.
+
+![Select program](documentation/README/select_program.png)
 
 ### Compile and download
 
@@ -133,9 +132,9 @@ Note: If you have `zenity` installed, you can use:
 
 - `make new_program` to create graphically a program using program templates.
 
-![New progeam](documentation/README/new_program.png)
+![New program](documentation/README/new_program.png)
 
-Note that firs time ask you for your user preferences:
+First time will ask you for your user preferences:
 
 ![User preferences](documentation/README/user_preferences.png)
 
