@@ -129,9 +129,15 @@ Program complete structure is:
    +--program.h
 ```
 
-Note: If you have `zenity` installed (sudo apt-get install zenity), you can use:
+Note: If you have `zenity` installed, you can use:
 
 - `make new_program` to create graphically a program using program templates.
+
+![New progeam](documentation/README/new_program.png)
+
+Note that firs time ask you for your user preferences:
+
+![User preferences](documentation/README/user_preferences.png)
 
 ### Create a new global library
 
