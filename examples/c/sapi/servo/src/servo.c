@@ -52,14 +52,22 @@
    SERVO7 <---> LCD3 de EDU-CIAA-NXP
    SERVO8 <---> GPIO2 de EDU-CIAA-NXP
 
-	Nota: Este ejemplo de servo puede requerir un borrado completo de
-	la memoria flash luego de su uso para grabar programas posteriores.
-	Para hcerlo debe puentear el Jumper JP5 y resetear la placa con el
-	puente sostenido hasta soltar el boton de reset entrando en modo
-	ISP (se prenden todos los leds), luego aplique "make erase" y debe
-	resetear nuevamente la placa para permitir grabar nuevos programas.
-	Tenga en cuenta tambien la corriente maxima del regulador al
-	conectar uno o mas servos.
+   Notas:
+
+   Descargue el ejemplo y luego conecte el servo.
+
+   Tenga en cuenta tambien la corriente maxima del regulador al
+   conectar uno o mas servos.
+
+   Puede requerir conectar un cargador de celular al puerto USB_OTG en
+   caso que su computadora no entregue suficiente corriente en el USB_DEBUG.
+
+   Puede requerir un borrado completo de la memoria flash luego del
+   uso de este programa para permitir grabar programas posteriores.
+   Para hcerlo debe puentear el Jumper JP5 y resetear la placa con el
+   puente sostenido hasta soltar el boton de reset entrando en modo
+   ISP (se prenden todos los leds), luego aplique "make erase" y debe
+   resetear nuevamente la placa para permitir grabar nuevos programas.
 */
 
 /*==================[internal data declaration]==============================*/
@@ -75,7 +83,8 @@
 /*==================[external functions definition]==========================*/
 
 // FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET.
-int main(void){
+int main(void)
+{
 
    // ------------- INICIALIZACIONES ----------------
 
