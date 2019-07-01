@@ -67,11 +67,10 @@ typedef enum {
 
 bool_t int64ToString( int64_t value, char* result, uint8_t base );
 bool_t uint64ToString( uint64_t value, char* result, uint8_t base );
+bool_t uint64ToString2Digits( uint64_t value, char* result, uint8_t base );
 
 char* floatToString( float value, char* result, int32_t precision );
-
 char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
-
 char* intToString( int64_t value );
 //char* floatToString( float value );
 

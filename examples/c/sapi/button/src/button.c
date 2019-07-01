@@ -155,7 +155,7 @@ int main( void )
             printf("Se libero boton 3\r\n");
             buttonEventHandled( &myButton3 );
          }
-         // Button 3 and 3 in combination (hold together)
+         // Button 2 and 3 in combination (hold together)
          if( (buttonEventGet( &myButton2 ) == BUTTON_HOLD_PRESED) &&
              (buttonEventGet( &myButton3 ) == BUTTON_HOLD_PRESED) ) {
             printf("Se presionaron ambos botones juntos (2 y 3) durante mas de 2 segundos\r\n");

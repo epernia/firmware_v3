@@ -132,8 +132,24 @@ char* intToString( int64_t value )
 {
    static char result[20];
    result[0] = 0;
-   int64ToString( value, result, 10 );
+   if( value == 0 ){
+      result[0] = '0';
+      result[1] = 0;
+   } else{
+      int64ToString( value, result, 10 );      
+   } 
    return result;
+}
+
+
+bool_t uint64ToString2Digits( uint64_t value, char* result, uint8_t base )
+{
+   if( value < 10 ) {
+      result[0] = '0';
+      return uint64ToString( value, result+1, base );      
+   } else{
+      return uint64ToString( value, result, base );      
+   }
 }
 
 /*
