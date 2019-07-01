@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright 2017, Eric Pernia.
 All rights reserved.
 
@@ -123,7 +123,7 @@ const char tempChar[8] = {
 };
 
 // Humedad - Gota
-const char humChar[8] = { 
+const char humChar[8] = {
    0b00100,
    0b00100,
    0b01110,
@@ -147,7 +147,7 @@ const char vieChar[8] = {
 };
 
 // Simbolo grados
-const char graChar[8] = { 
+const char graChar[8] = {
    0b01110,
    0b01010,
    0b01110,
@@ -160,13 +160,14 @@ const char graChar[8] = {
 
 
 // FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
-int main( void ){
+int main( void )
+{
 
    // ---------- CONFIGURACIONES ------------------------------
 
    // Inicializar y configurar la plataforma
    boardConfig();
-   
+
    i2cInit( I2C0, 100000 );
 
    // Inicializar LCD de 16x2 (caracteres x lineas) con cada caracter de 5x2 pixeles
@@ -190,13 +191,12 @@ int main( void ){
    char tempString[] = "25";
    char humString[] = "50";
    char vieString[] = "10";
-   
-   lcdCursorSet( OFF ); // Apaga el cursor
-   lcdClear();          // Borrar la pantalla
+
+   lcdCursorSet( LCD_CURSOR_OFF ); // Apaga el cursor
+   lcdClear();                     // Borrar la pantalla
 
    // ---------- REPETIR POR SIEMPRE --------------------------
-   while( TRUE )
-   {
+   while( TRUE ) {
       lcdGoToXY( 0, 0 ); // Poner cursor en 0, 0
       lcdSendStringRaw( "Tmp" );
       lcdData(0);

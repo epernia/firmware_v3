@@ -138,10 +138,10 @@ extern "C" {
 // flags for display on/off control
 #define LCD_DISPLAYON           0x04
 #define LCD_DISPLAYOFF          0x00
-#define LCD_CURSORON            0x02
-#define LCD_CURSOROFF           0x00
-#define LCD_BLINKON             0x01
-#define LCD_BLINKOFF            0x00
+//#define LCD_CURSORON            0x02
+//#define LCD_CURSOROFF           0x00
+//#define LCD_BLINKON             0x01
+//#define LCD_BLINKOFF            0x00
 
 // flags for display/cursor shift
 #define LCD_DISPLAYMOVE         0x08
@@ -195,11 +195,11 @@ enum enLcdCommands {
 };
 
 // This enumeration defines the available cursor modes
-enum enLCDCursorModes {
-   E_LCD_CURSOR_OFF      = 0x00,
-   E_LCD_CURSOR_ON       = 0x02,
-   E_LCD_CURSOR_ON_BLINK = 0x03
-};
+typedef enum{
+   LCD_CURSOR_OFF      = 0x00,
+   LCD_CURSOR_ON       = 0x02,
+   LCD_CURSOR_ON_BLINK = 0x03
+} LCDCursorModes_t;
 
 /*==================[external data declaration]==============================*/
 
@@ -214,7 +214,7 @@ void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
 void lcdGoToXY( uint8_t x, uint8_t y );
 
 void lcdClear( void );
-void lcdCursorSet( bool_t status );
+void lcdCursorSet( LCDCursorModes_t mode );
 
 void lcdCreateChar( uint8_t charnum, const char* chardata );
 
