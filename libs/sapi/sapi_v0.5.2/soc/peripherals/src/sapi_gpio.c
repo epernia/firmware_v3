@@ -238,6 +238,12 @@ static void gpioObtainPinInit( gpioMap_t pin,
 
 bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 {
+   if( pin == VCC ){
+	  return FALSE;
+   }
+   if( pin == GND ){
+	  return FALSE;
+   }
 
    bool_t ret_val     = 1;
 
@@ -321,6 +327,12 @@ bool_t gpioInit( gpioMap_t pin, gpioInit_t config )
 
 bool_t gpioWrite( gpioMap_t pin, bool_t value )
 {
+   if( pin == VCC ){
+	  return FALSE;
+   }
+   if( pin == GND ){
+	  return FALSE;
+   }
 
    bool_t ret_val     = 1;
 
@@ -343,13 +355,18 @@ bool_t gpioWrite( gpioMap_t pin, bool_t value )
 
 bool_t gpioToggle( gpioMap_t pin )
 {
-
    return gpioWrite( pin, !gpioRead(pin) );
 }
 
 
 bool_t gpioRead( gpioMap_t pin )
 {
+   if( pin == VCC ){
+      return TRUE;
+   }
+   if( pin == GND ){
+      return FALSE;
+   }
 
    bool_t ret_val     = OFF;
 

@@ -93,7 +93,7 @@ void dacInit( dacInit_t config )
  */
 void dacWrite( dacMap_t analogOutput, uint16_t value )
 {
-   if( analogOutput == AO ) {
+   if( analogOutput == 0 ) {
       if( value > 1023 ) {
          value = 1023;
       }

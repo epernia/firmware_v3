@@ -108,7 +108,7 @@ void adcInit( adcInit_t config )
  */
 uint16_t adcRead( adcMap_t analogInput )
 {
-   uint8_t lpcAdcChannel = (uint8_t)analogInput;
+   uint8_t lpcAdcChannel = (uint8_t)(analogInput + 1);
    uint16_t analogValue = 0;
 
    // Enable channel

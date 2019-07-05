@@ -78,12 +78,8 @@ typedef enum {
 
    // Configure GPIO pins for each board
 
-   #if (BOARD == ciaa_sim_ia32)
-      #error CIAA-SIM_IA32 not supported yet!
-   #elif (BOARD == ciaa_sim_ia64)
-      #error CIAA-SIM_IA64 not supported yet!
-
-   #elif (BOARD == ciaa_nxp)
+   #if (BOARD == ciaa_nxp)
+      VCC = -2, GND = -1,
       // Born
       DI0,   DI1,   DI2,   DI3,   DI4,   DI5,   DI6,   DI7,
       DO0,   DO1,   DO2,   DO3,   DO4,   DO5,   DO6,   DO7,
@@ -94,6 +90,7 @@ typedef enum {
       //#error CIAA-NXP
 
    #elif (BOARD == edu_ciaa_nxp)
+      VCC = -2, GND = -1,
       // P1 header
       T_FIL1,    T_COL2,    T_COL0,    T_FIL2,      T_FIL3,  T_FIL0,     T_COL1,
       CAN_TD,    CAN_RD,    RS232_TXD, RS232_RXD,
@@ -113,64 +110,52 @@ typedef enum {
       // 40   41     42     43     44     45
       LEDR,  LEDG,  LEDB,  LED1,  LED2,  LED3,
       //#error EDU-CIAA-NXP
-
-   #elif (BOARD == ciaa_fsl)
-      #error CIAA-FSL not supported yet!
-   #elif (BOARD == ciaa_pic)
-      #error CIAA-PIC not supported yet!
-   #elif (BOARD == pico_ciaa)
-      #error picoCIAA not supported yet!
-   #elif (BOARD == ciaa_leon3_fpga_nfp)
-      #error CIAA-LEON3-FPGA-NFP not supported yet!
-   #elif (BOARD == ciaa_z3r0)
-      #error CIAA-Z3R0 not supported yet!
-   #elif (BOARD == ciaa_7st)
-      #error CIAA-7-ST not supported yet!
+   #else
+      #error BOARD not supported yet!
    #endif
 } gpioMap_t;
 
 // Configure GPIO pins for each board
 
-#if (BOARD == ciaa_sim_ia32)
-   #error CIAA-SIM_IA32 not supported yet!
-#elif (BOARD == ciaa_sim_ia64)
-   #error CIAA-SIM_IA64 not supported yet!
-#elif (BOARD == ciaa_nxp)
-   #define BTN                 DI0
-   #define LED                 DO0
+#if (BOARD == ciaa_nxp)
+   #define BTN                 DI7
+   #define LED                 DO7
 #elif (BOARD == edu_ciaa_nxp)
    #define BTN                 TEC1
    #define LED                 LEDB
-#elif (BOARD == ciaa_fsl)
-   #error CIAA-FSL not supported yet!
-#elif (BOARD == ciaa_pic)
-   #error CIAA-PIC not supported yet!
-#elif (BOARD == pico_ciaa)
-   #error picoCIAA not supported yet!
-#elif (BOARD == ciaa_leon3_fpga_nfp)
-   #error CIAA-LEON3-FPGA-NFP not supported yet!
-#elif (BOARD == ciaa_z3r0)
-   #error CIAA-Z3R0 not supported yet!
-#elif (BOARD == ciaa_7st)
-   #error CIAA-7-ST not supported yet!
+#else
+   #error BOARD not supported yet!
 #endif
 #define CIAA_BOARD_BUTTON   BTN
 #define CIAA_BOARD_LED      LED
 
 /* Defined for sapi_adc.h */
 typedef enum {
-   /* 62         63       64        65       */
-   AI3 = 62, AI2 = 63, AI1 = 64, AI0 = 65,
-   CH3 = 63, CH2 = 64, CH1 = 65
-                             /*  46        47   48  49 */
-// AI2 = 46, AI1, AI0, AO
+	#if (BOARD == ciaa_nxp)
+	   AI0 = 0,
+	   AI1 = 1,
+	   AI2 = 2,
+	   AI3 = 3,
+	#elif (BOARD == edu_ciaa_nxp)
+	   CH1 = 0,
+	   CH2 = 1,
+	   CH3 = 2,
+	#else
+	   #error BOARD not supported yet!
+	#endif
 } adcMap_t;
 
 /* Defined for sapi_dac.h */
 typedef enum {
-   /* 66 */
-   AO = 66,
-   DAC = 66
+	#if (BOARD == ciaa_nxp)
+		AO  = 0,
+		AO0 = 0,
+	#elif (BOARD == edu_ciaa_nxp)
+		DAC  = 0,
+		DAC0 = 0,
+	#else
+	   #error BOARD not supported yet!
+	#endif
 } dacMap_t;
 
 /* Defined for sapi_uart.h */
@@ -178,12 +163,21 @@ typedef enum {
 // - If use UART_GPIO you can't use UART_485 and vice versa.
 // - If use UART_USB you can't use UART_ENET and vice versa.
 typedef enum {
-   UART_GPIO = 0, // Hardware UART0 via GPIO1(TX), GPIO2(RX) pins on header P0
-   UART_485  = 1, // Hardware UART0 via RS_485 A, B and GND Borns
-   //UART_1  = 2, // Hardware UART1 not routed
-   UART_USB  = 3, // Hardware UART2 via USB DEBUG port
-   UART_ENET = 4, // Hardware UART2 via ENET_RXD0(TX), ENET_CRS_DV(RX) pins on header P0
-   UART_232  = 5  // Hardware UART3 via 232_RX and 232_tx pins on header P1
+	#if (BOARD == ciaa_nxp)
+	   UART_485  = 0, // Hardware UART0 via RS_485 A, B and GND Borns
+					  // Hardware UART1 not routed
+	   UART_USB  = 2, // Hardware UART2 via USB DEBUG port
+	   UART_232  = 3  // Hardware UART3 via 232_RX and 232_tx pins on header P1
+	#elif (BOARD == edu_ciaa_nxp)
+	   UART_485  = 0, // Hardware UART0 via RS_485 A, B and GND Borns
+	   UART_GPIO = 1, // Hardware UART0 via GPIO1(TX), GPIO2(RX) pins on header P0
+					  // Hardware UART1 not routed
+	   UART_USB  = 2, // Hardware UART2 via USB DEBUG port
+	   UART_ENET = 4, // Hardware UART2 via ENET_RXD0(TX), ENET_CRS_DV(RX) pins on header P0
+	   UART_232  = 3  // Hardware UART3 via 232_RX and 232_tx pins on header P1
+	#else
+	   #error BOARD not supported yet!
+	#endif
 } uartMap_t;
 
 /*Defined for sapi_timer.h*/

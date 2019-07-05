@@ -72,15 +72,43 @@ extern "C" {
    #define LCD_HD44780_RW          1 // Read/Write bit. R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND).
    #define LCD_HD44780_RS          0 // Register select bit. RS = 0 to select command register, RS = 1 to select data register.
 #else
-   // Configure LCD pins
-   #define LCD_HD44780_D7          LCD4   // Data bit 7.
-   #define LCD_HD44780_D6          LCD3   // Data bit 4.
-   #define LCD_HD44780_D5          LCD2   // Data bit 5.
-   #define LCD_HD44780_D4          LCD1   // Data bit 4.
-   #define LCD_HD44780_BACKLIGHT   GPIO0  // Backlight.
-   #define LCD_HD44780_EN          LCDEN  // Enable bit.
-   #define LCD_HD44780_RW          0      // Read/Write bit. R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND).
-   #define LCD_HD44780_RS          LCDRS  // Register select bit. RS = 0 to select command register, RS = 1 to select data register.
+	#if (BOARD == ciaa_sim_ia32)
+	   #error CIAA-SIM_IA32 not supported yet!
+	#elif (BOARD == ciaa_sim_ia64)
+	   #error CIAA-SIM_IA64 not supported yet!
+	#elif (BOARD == ciaa_nxp)
+		// Configure LCD pins
+		#define LCD_HD44780_D7          GPIO3    // Data bit 7.
+		#define LCD_HD44780_D6          GPIO2    // Data bit 4.
+		#define LCD_HD44780_D5          GPIO1    // Data bit 5.
+		#define LCD_HD44780_D4          GPIO0    // Data bit 4.
+		#define LCD_HD44780_BACKLIGHT   SPI_MISO // Backlight.
+		#define LCD_HD44780_EN          GPIO8    // Enable bit.
+		#define LCD_HD44780_RW          GND      // Read/Write bit. R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND).
+		#define LCD_HD44780_RS          GPIO7    // Register select bit. RS = 0 to select command register, RS = 1 to select data register.
+	#elif (BOARD == edu_ciaa_nxp)
+		// Configure LCD pins
+		#define LCD_HD44780_D7          LCD4   // Data bit 7.
+		#define LCD_HD44780_D6          LCD3   // Data bit 4.
+		#define LCD_HD44780_D5          LCD2   // Data bit 5.
+		#define LCD_HD44780_D4          LCD1   // Data bit 4.
+		#define LCD_HD44780_BACKLIGHT   GPIO0  // Backlight.
+		#define LCD_HD44780_EN          LCDEN  // Enable bit.
+		#define LCD_HD44780_RW          GND    // Read/Write bit. R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND).
+		#define LCD_HD44780_RS          LCDRS  // Register select bit. RS = 0 to select command register, RS = 1 to select data register.
+	#elif (BOARD == ciaa_fsl)
+	   #error CIAA-FSL not supported yet!
+	#elif (BOARD == ciaa_pic)
+	   #error CIAA-PIC not supported yet!
+	#elif (BOARD == pico_ciaa)
+	   #error picoCIAA not supported yet!
+	#elif (BOARD == ciaa_leon3_fpga_nfp)
+	   #error CIAA-LEON3-FPGA-NFP not supported yet!
+	#elif (BOARD == ciaa_z3r0)
+	   #error CIAA-Z3R0 not supported yet!
+	#elif (BOARD == ciaa_7st)
+	   #error CIAA-7-ST not supported yet!
+	#endif
 #endif
 
 // LCD delay Times
