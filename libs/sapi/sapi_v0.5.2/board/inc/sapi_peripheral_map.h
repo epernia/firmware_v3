@@ -164,17 +164,17 @@ typedef enum {
 // - If use UART_USB you can't use UART_ENET and vice versa.
 typedef enum {
 	#if (BOARD == ciaa_nxp)
-	   UART_485  = 0, // Hardware UART0 via RS_485 A, B and GND Borns
+	   UART_485  = 1, // Hardware UART0 via RS_485 A, B and GND Borns
 					  // Hardware UART1 not routed
-	   UART_USB  = 2, // Hardware UART2 via USB DEBUG port
-	   UART_232  = 3  // Hardware UART3 via 232_RX and 232_tx pins on header P1
+	   UART_USB  = 3, // Hardware UART2 via USB DEBUG port
+	   UART_232  = 5, // Hardware UART3 via 232_RX and 232_tx pins on header P1
 	#elif (BOARD == edu_ciaa_nxp)
-	   UART_485  = 0, // Hardware UART0 via RS_485 A, B and GND Borns
-	   UART_GPIO = 1, // Hardware UART0 via GPIO1(TX), GPIO2(RX) pins on header P0
-					  // Hardware UART1 not routed
-	   UART_USB  = 2, // Hardware UART2 via USB DEBUG port
+	   UART_GPIO = 0, // Hardware UART0 via GPIO1(TX), GPIO2(RX) pins on header P0
+	   UART_485  = 1, // Hardware UART0 via RS_485 A, B and GND Borns
+		// Hardware UART1 not routed
+	   UART_USB  = 3, // Hardware UART2 via USB DEBUG port
 	   UART_ENET = 4, // Hardware UART2 via ENET_RXD0(TX), ENET_CRS_DV(RX) pins on header P0
-	   UART_232  = 3  // Hardware UART3 via 232_RX and 232_tx pins on header P1
+	   UART_232  = 5, // Hardware UART3 via 232_RX and 232_tx pins on header P1
 	#else
 	   #error BOARD not supported yet!
 	#endif
