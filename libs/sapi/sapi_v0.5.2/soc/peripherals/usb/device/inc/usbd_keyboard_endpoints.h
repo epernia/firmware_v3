@@ -19,4 +19,4 @@ extern "C" {
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* _HID_KEYBOARD_ENDPOINTS_H_
+#endif /* _HID_KEYBOARD_ENDPOINTS_H_ */
