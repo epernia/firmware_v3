@@ -29,7 +29,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2017-11-14 */
@@ -41,8 +40,7 @@
 
 #include "sapi_datatypes.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -120,7 +118,6 @@ typedef enum {
 } QMC5883L_samples_t;
 
 
-
 typedef struct {
    QMC5883L_samples_t samples; /*number of over samples averaged per measurement output.*/
 
@@ -135,19 +132,16 @@ typedef struct {
 
 } QMC5883L_config_t;
 
-/*==================[external data declaration]==============================*/
-
 /*==================[external functions declaration]=========================*/
 
 bool_t qmc5883lPrepareDefaultInit( QMC5883L_config_t * config );
 bool_t qmc5883lInit( QMC5883L_config_t config );
 bool_t qmc5883lRead( int16_t * x, int16_t * y, int16_t * z );
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_QMC5883L_H_ */
+#endif /* _SAPI_QMC5883L_H_ */

@@ -28,7 +28,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 #ifndef _SAPI_KEYPAD_H_
@@ -38,6 +37,11 @@
 
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
+
+/*==================[c++]====================================================*/
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*==================[macros]=================================================*/
 
@@ -52,8 +56,6 @@ typedef struct {
    uint8_t keypadColSize;
 } keypad_t;
 
-/*==================[external data declaration]==============================*/
-
 /*==================[external functions declaration]=========================*/
 
 /* Configure keypad pins */
@@ -65,5 +67,10 @@ bool_t keypadInit( keypad_t* keypad,
  * If exist key pressed write pressed key on key variable */
 bool_t keypadRead( keypad_t* keypad, uint16_t* key );
 
+/*==================[c++]====================================================*/
+#ifdef __cplusplus
+}
+#endif
+
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_KEYPAD_H_ */
+#endif /* _SAPI_KEYPAD_H_ */

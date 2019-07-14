@@ -51,7 +51,10 @@ char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
 
 #include "sapi_datatypes.h"
 
-/*==================[macros]=================================================*/
+/*==================[c++]====================================================*/
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*==================[typedef]================================================*/
 
@@ -60,8 +63,6 @@ typedef enum {
    DEC_FORMAT = 10,
    HEX_FORMAT = 16
 } numberFormat_t;
-
-/*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
@@ -74,7 +75,10 @@ char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
 char* intToString( int64_t value );
 //char* floatToString( float value );
 
-/*==================[examples]===============================================*/
+/*==================[c++]====================================================*/
+#ifdef __cplusplus
+}
+#endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_CONVERT_H_ */
+#endif /* _SAPI_CONVERT_H_ */

@@ -1,4 +1,4 @@
-/* Copyright 2015-2017, Eric Pernia.
+/* Copyright 2015, Eric Pernia.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -28,7 +28,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2015-09-23 */
@@ -93,28 +92,15 @@
 
 #include "sapi_ultrasonic_hcsr04.h"      //
 
-
-
-
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/*==================[macros]=================================================*/
-
-/*==================[typedef]================================================*/
-
-/*==================[external data declaration]==============================*/
-
-/*==================[external functions declaration]=========================*/
-
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_H_ */
+#endif /* _SAPI_H_ */

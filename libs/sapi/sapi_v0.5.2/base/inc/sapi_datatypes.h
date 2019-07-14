@@ -1,4 +1,4 @@
-/* Copyright 2015-2016, Eric Pernia.
+/* Copyright 2015, Eric Pernia.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -28,7 +28,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2015-09-23 */
@@ -43,8 +42,7 @@
 #include "board.h"
 #include "sapi_boards.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -75,7 +73,6 @@ extern "C" {
 #ifndef TRUE
 #define TRUE   (!FALSE)
 #endif
-
 
 // From: https://es.coursera.org/lecture/embedded-software-hardware/9-register-definition-files-6pqVq
 
@@ -126,8 +123,6 @@ typedef bool_t (*sAPI_FuncPtr_t)(void *);
  */
 typedef void (*callBackFuncPtr_t)(void *);
 
-/*==================[external data declaration]==============================*/
-
 /*==================[external functions declaration]=========================*/
 
 /*
@@ -138,11 +133,10 @@ typedef void (*callBackFuncPtr_t)(void *);
  */
 bool_t sAPI_NullFuncPtr(void *);
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_DATATYPES_H_ */
+#endif /* _SAPI_DATATYPES_H_ */

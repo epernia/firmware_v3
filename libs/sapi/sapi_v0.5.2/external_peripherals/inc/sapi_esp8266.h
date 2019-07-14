@@ -29,7 +29,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2017-14-11 */
@@ -41,8 +40,7 @@
 
 #include "sapi.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -50,10 +48,6 @@ extern "C" {
 /*==================[macros]=================================================*/
 
 #define esp8266ConfigHttpServer esp8266InitHttpServer
-
-/*==================[typedef]================================================*/
-
-/*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
@@ -66,11 +60,10 @@ char * esp8266GetWifiName();
 char * esp8266GetWifiPass();
 uint8_t esp8266GetConnectionId();
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_ESP8266_ */
+#endif /* _SAPI_ESP8266_ */

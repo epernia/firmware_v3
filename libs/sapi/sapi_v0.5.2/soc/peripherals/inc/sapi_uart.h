@@ -1,4 +1,4 @@
-/* Copyright 2015-2018, Eric Pernia.
+/* Copyright 2015, Eric Pernia.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -28,7 +28,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2016-02-26 */
@@ -42,8 +41,7 @@
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -96,8 +94,6 @@ typedef enum{
    UART_RECEIVE,
    UART_TRANSMITER_FREE
 } uartEvents_t;
-
-/*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
@@ -197,8 +193,7 @@ void UART3_IRQHandler(void);
 
 #endif /* SAPI_USE_INTERRUPTS */
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif

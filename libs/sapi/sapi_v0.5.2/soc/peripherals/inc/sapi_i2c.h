@@ -30,7 +30,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /*
@@ -50,6 +49,11 @@
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
 
+/*==================[c++]====================================================*/
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*==================[macros]=================================================*/
 
 #define I2C_SOFTWARE_SDA_DIR   GPIO7
@@ -65,12 +69,6 @@
 
 #define i2cConfig i2cInit
 
-/*==================[cplusplus]==============================================*/
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /*==================[typedef]================================================*/
 
 #if( I2C_SOFTWARE == 1 )
@@ -84,8 +82,6 @@ typedef enum {
    I2C_SOFTWARE_ACK  = 1
 } I2C_Software_ack_t;
 #endif
-
-/*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
@@ -131,11 +127,10 @@ uint8_t i2cSoftwareMasterReadByte( bool_t ack );
 
 /*==================[ISR external functions declaration]=====================*/
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_I2C_H_ */
+#endif /* _SAPI_I2C_H_ */

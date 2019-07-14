@@ -41,8 +41,7 @@
 
 #include "sapi_datatypes.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -261,8 +260,6 @@ typedef struct {
 
 } MPU9250_control_t;
 
-/*==================[external data declaration]==============================*/
-
 /*==================[external functions declaration]=========================*/
 
 // Initialize MPU9250 (Only I2C)
@@ -302,11 +299,10 @@ float mpu9250GetMagZ_uT( void );
 // Returns the die temperature, C
 float mpu9250GetTemperature_C( void );
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_IMU_MPU9250_H_ */
+#endif /* _SAPI_IMU_MPU9250_H_ */

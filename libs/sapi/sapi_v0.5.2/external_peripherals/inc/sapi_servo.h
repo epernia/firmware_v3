@@ -29,21 +29,19 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2016-02-10 */
 
-#ifndef SAPI_SERVO_H_
-#define SAPI_SERVO_H_
+#ifndef _SAPI_SERVO_H_
+#define _SAPI_SERVO_H_
 
 /*==================[inclusions]=============================================*/
 
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -58,8 +56,6 @@ typedef enum{
    SERVO_ENABLE, SERVO_DISABLE,
    SERVO_ENABLE_OUTPUT, SERVO_DISABLE_OUTPUT
 } servoInit_t;
-
-/*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
@@ -98,7 +94,6 @@ uint16_t servoRead( servoMap_t servoNumber );
 bool_t servoWrite( servoMap_t servoNumber, uint16_t angle );
 
 
-
 uint32_t valueToMicroseconds( uint8_t );
 
 void servoInitTimers( void );
@@ -121,11 +116,10 @@ void timer3CompareMatch1func( void* ptr );
 void timer3CompareMatch2func( void* ptr );
 void timer3CompareMatch3func( void* ptr );
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* SAPI_SERVO_H_ */
+#endif /* _SAPI_SERVO_H_ */

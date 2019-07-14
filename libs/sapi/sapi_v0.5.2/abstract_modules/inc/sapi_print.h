@@ -1,4 +1,4 @@
-/* Copyright 2017-2018, Eric Pernia.
+/* Copyright 2017, Eric Pernia.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -29,6 +29,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+ 
 
 /* Date: 2017-04-17 */
 
@@ -68,6 +69,11 @@ void printHex( uint64_t number, uint8_t bitSize );
 #include "sapi_convert.h"
 #include "sapi_peripheral_map.h"
 
+/*==================[c++]====================================================*/
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*==================[macros]=================================================*/
 
 #define PRINT_ENTER_STRING   "\r\n"
@@ -100,13 +106,6 @@ void printHex( uint64_t number, uint8_t bitSize );
                                                    printEnter((printer));}
 
 #define printInitUart printInitUart
-
-
-/*==================[cplusplus]==============================================*/
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /*==================[typedef]================================================*/
 
@@ -158,11 +157,10 @@ printIntFormat( printer, 45454578, HEX_FORMAT );
 printlnString( printer, "" );
 */
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_PRINT_H_ */
+#endif /* _SAPI_PRINT_H_ */

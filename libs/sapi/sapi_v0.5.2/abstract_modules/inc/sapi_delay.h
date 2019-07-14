@@ -28,9 +28,8 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
-
+ 
 /* Date: 2015-09-23 */
 
 #ifndef _SAPI_DELAY_H_
@@ -40,8 +39,7 @@
 
 #include "sapi_datatypes.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -62,8 +60,6 @@ typedef struct{
    bool_t running;
 } delay_t;
 
-/*==================[external data declaration]==============================*/
-
 /*==================[external functions declaration]=========================*/
 
 /* ---- Inaccurate Delay ---- */
@@ -78,11 +74,10 @@ void delayInit( delay_t * delay, tick_t duration );
 bool_t delayRead( delay_t * delay );
 void delayWrite( delay_t * delay, tick_t duration );
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_DELAY_H_ */
+#endif /* _SAPI_DELAY_H_ */

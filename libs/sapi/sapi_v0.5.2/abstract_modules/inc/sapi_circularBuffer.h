@@ -1,6 +1,8 @@
 /* Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
+ * This file is part sAPI library for microcontrollers.
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
@@ -27,19 +29,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+ 
 
 /* Date: 2016-10-06 */
 
-#ifndef _CIRCULAR_BUFFER_H_
-#define _CIRCULAR_BUFFER_H_
+#ifndef _SAPI_CIRCULAR_BUFFER_H_
+#define _SAPI_CIRCULAR_BUFFER_H_
 
 /*==================[inclusions]=============================================*/
 
 //#include <stdint.h>
 #include "sapi_datatypes.h"        // data types
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -61,7 +63,6 @@ extern "C" {
                                  .status           = CIRCULAR_BUFFER_EMPTY      \
    }
  */
-
 
 #define circularBufferUse( buffName );   extern circularBuffer_t buffName;
 
@@ -87,8 +88,6 @@ typedef struct {
    callBackFuncPtr_t fullBufferCalback;
 } circularBuffer_t;
 
-/*==================[external data declaration]==============================*/
-
 /*==================[external functions declaration]=========================*/
 
 void circularBuffer_Init(
@@ -113,10 +112,6 @@ circularBufferStatus_t circularBufferRead( circularBuffer_t* buffer,
 
 circularBufferStatus_t circularBufferWrite( circularBuffer_t* buffer,
       uint8_t *dataByte );
-
-/*==================[cplusplus]==============================================*/
-
-
 
 /*==================[example]==============================================*/
 
@@ -194,11 +189,10 @@ int main( void ){
 }
 */
 
-// -----------------------------------------
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _CIRCULAR_BUFFER_H_ */
+#endif /* _SAPI_CIRCULAR_BUFFER_H_ */

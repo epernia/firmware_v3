@@ -29,7 +29,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2016-03-07 */
@@ -42,8 +41,7 @@
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -63,8 +61,6 @@ typedef struct {
    uint8_t  min;	 /* 0 to 59   */
    uint8_t  sec;	 /* 0 to 59   */
 } rtc_t;
-
-/*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
@@ -89,8 +85,7 @@ bool_t rtcRead( rtc_t* rtc );
  */
 bool_t rtcWrite( rtc_t* rtc );
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif

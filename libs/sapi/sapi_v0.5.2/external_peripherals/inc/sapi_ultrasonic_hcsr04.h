@@ -28,7 +28,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /*
@@ -40,9 +39,10 @@
 #define _SAPI_ULTRASONICSENSOR_H_
 
 /*==================[inclusions]=============================================*/
-#include "sapi_datatypes.h"
-/*==================[cplusplus]==============================================*/
 
+#include "sapi_datatypes.h"
+
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -64,8 +64,6 @@ typedef enum {
 typedef enum {
 	CM, INCH
 } unitMap_t;
-
-/*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
@@ -93,10 +91,10 @@ void GPIO0_IRQHandler(void);
 void GPIO1_IRQHandler(void);
 void GPIO2_IRQHandler(void);
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
+/*==================[end of file]============================================*/
 #endif /* _SAPI_ULTRASONICSENSOR_H_ */

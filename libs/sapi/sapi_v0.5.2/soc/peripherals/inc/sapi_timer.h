@@ -28,31 +28,25 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2016-02-10 */
 
-#ifndef SAPI_TIMER_H_
-#define SAPI_TIMER_H_
+#ifndef _SAPI_TIMER_H_
+#define _SAPI_TIMER_H_
 
 /*==================[inclusions]=============================================*/
 
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/*==================[macros and definitions]=================================*/
-
 /*==================[typedef]================================================*/
 //typedef void (*voidFunctionPointer_t)(void);
-
-/*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 /*
@@ -123,11 +117,10 @@ void TIMER3_IRQHandler(void);
 
 #endif /* SAPI_USE_INTERRUPTS */
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* SAPI_TIMER_H_ */
+#endif /* _SAPI_TIMER_H_ */

@@ -28,8 +28,8 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
+ 
 
 /* Date: 2017-30-10 */
 
@@ -40,13 +40,14 @@
 
 #include "sapi.h"
 
+/*==================[c++]====================================================*/
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*==================[macros]=================================================*/
 
 #define stdioConfig stdioInit
-
-/*==================[typedef]================================================*/
-
-/*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
@@ -56,6 +57,10 @@ int stdioPrintf( uartMap_t uartPrintf, const char* format, ... );
 
 int stdioSprintf( char* out, const char* format, ... );
 
-/*==================[end of file]============================================*/
+/*==================[c++]====================================================*/
+#ifdef __cplusplus
+}
+#endif
 
-#endif /* #ifndef _SAPI_STDIO_H_ */
+/*==================[end of file]============================================*/
+#endif /* _SAPI_STDIO_H_ */

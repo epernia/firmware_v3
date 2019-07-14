@@ -29,16 +29,16 @@
  * this code.
  */
 
-#ifndef __CDC_UCOM_H_
-#define __CDC_UCOM_H_
+#ifndef _CDC_UCOM_H_
+#define _CDC_UCOM_H_
 
 #include "lpc_app_usbd_cfg.h"
 #include "sapi_datatypes.h"
 #include "sapi_uart.h"
 
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 /** @ingroup EXAMPLES_USBDROM_18XX43XX_CDC_UART
@@ -110,8 +110,10 @@ void cdcUartCallbackClr( uartEvents_t event );
  * @}
  */
 
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __CDC_UCOM_H_ */
+/*==================[end of file]============================================*/
+#endif /* _CDC_UCOM_H_ */

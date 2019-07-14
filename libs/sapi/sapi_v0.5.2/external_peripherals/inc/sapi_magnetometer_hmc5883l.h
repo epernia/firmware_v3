@@ -29,7 +29,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2015-06-27 */
@@ -41,8 +40,7 @@
 
 #include "sapi_datatypes.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -125,6 +123,7 @@ typedef enum {
    HMC5883L_DEFAULT_mode = HMC5883L_single_measurement
 } HMC5883L_mode_t;
 
+
 typedef struct {
    HMC5883L_samples_t samples; /*number of samples averaged (1 to 8) per measurement output.*/
    HMC5883L_rate_t    rate;    /* Data Output Rate Bits. These bits set the rate at which data
@@ -138,8 +137,6 @@ typedef struct {
    HMC5883L_mode_t mode;
 } HMC5883L_config_t;
 
-/*==================[external data declaration]==============================*/
-
 /*==================[external functions declaration]=========================*/
 
 bool_t hmc5883lIsAlive(void);
@@ -147,11 +144,10 @@ bool_t hmc5883lPrepareDefaultInit( HMC5883L_config_t * config );
 bool_t hmc5883lInit( HMC5883L_config_t config );
 bool_t hmc5883lRead( int16_t * x, int16_t * y, int16_t * z );
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_HMC5883L_H_ */
+#endif /* _SAPI_HMC5883L_H_ */

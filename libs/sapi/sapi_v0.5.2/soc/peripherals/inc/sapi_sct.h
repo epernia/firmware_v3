@@ -28,26 +28,22 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2016-02-10 */
 
-#ifndef SAPI_SCT_H_
-#define SAPI_SCT_H_
+#ifndef _SAPI_SCT_H_
+#define _SAPI_SCT_H_
 
 /*==================[inclusions]=============================================*/
 
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-/*==================[macros and definitions]=================================*/
 
 /*==================[typedef]================================================*/
 
@@ -59,8 +55,6 @@ typedef enum{
    CTOUT9, CTOUT10, CTOUT11, CTOUT12, CTOUT13
 } SctMap_t;
 */
-
-/*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 /*
@@ -98,11 +92,10 @@ void Sct_SetDutyCycle(uint8_t sctNumber, uint8_t value);
  */
 uint8_t Sct_GetDutyCycle(uint8_t sctNumber);
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* SAPI_SCT_H_ */
+#endif /* _SAPI_SCT_H_ */

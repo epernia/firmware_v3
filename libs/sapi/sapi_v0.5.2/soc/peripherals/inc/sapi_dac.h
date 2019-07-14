@@ -29,21 +29,19 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2016-02-20 */
 
-#ifndef SAPI_DAC_H_
-#define SAPI_DAC_H_
+#ifndef _SAPI_DAC_H_
+#define _SAPI_DAC_H_
 
 /*==================[inclusions]=============================================*/
 
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -66,11 +64,10 @@ void dacInit( dacInit_t config );
 
 void dacWrite( dacMap_t analogOutput, uint16_t value );
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_DAC_H_ */
+#endif /* _SAPI_DAC_H_ */

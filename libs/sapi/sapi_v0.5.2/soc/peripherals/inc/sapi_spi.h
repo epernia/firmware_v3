@@ -1,7 +1,7 @@
 /* Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of CIAA Firmware.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2016-05-02 */
@@ -41,8 +40,7 @@
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -50,12 +48,6 @@ extern "C" {
 /*==================[macros]=================================================*/
 
 #define spiConfig spiInit
-
-/*==================[typedef]================================================*/
-
-/*==================[external data declaration]==============================*/
-
-/*==================[ISR external functions definition]======================*/
 
 /*==================[external functions definition]==========================*/
 
@@ -65,11 +57,10 @@ bool_t spiRead( spiMap_t spi, uint8_t* buffer, uint32_t bufferSize );
 
 bool_t spiWrite( spiMap_t spi, uint8_t* buffer, uint32_t bufferSize);
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_SPI_H_ */
+#endif /* _SAPI_SPI_H_ */

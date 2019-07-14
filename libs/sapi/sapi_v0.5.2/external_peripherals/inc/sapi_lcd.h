@@ -28,7 +28,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2017-12-05 */
@@ -40,8 +39,7 @@
 
 #include "sapi.h"        // <= Biblioteca sAPI
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -125,7 +123,6 @@ extern "C" {
    
 // For backward compatibility
 #define lcdConfig lcdInit
-
 
 
 // When the display powers up, it is configured as follows:
@@ -255,11 +252,10 @@ void lcdSendEnter( void );
 #define lcdSendStringLn(str)   lcdSendString(str); \
                                lcdSendEnter()
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_LCD_H_ */
+#endif /* _SAPI_LCD_H_ */

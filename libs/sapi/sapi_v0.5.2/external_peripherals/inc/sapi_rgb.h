@@ -41,8 +41,7 @@
 
 #include "sapi.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -79,8 +78,6 @@ typedef enum LedRgbMap {
 	RGB_9,
 } LedRgbMap_t;
 
-/*==================[external data declaration]==============================*/
-
 /*==================[external functions declaration]=========================*/
 
 /** Configura los pines que se van a manejar como salidas PWM por soft. */
@@ -103,11 +100,10 @@ uint8_t rgbReadDutyBlue( LedRgbMap_t rgbLed );
 
 void rgbToggleLed( LedRgbMap_t rgbLed );
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_RGB_H_ */
+#endif /* _SAPI_RGB_H_ */

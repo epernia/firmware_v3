@@ -35,9 +35,9 @@
 #ifndef _LPC_APP_USB_CFG_H_
 #define _LPC_APP_USB_CFG_H_
 
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 /** @ingroup EXAMPLES_USBDROM_18XX43XX
@@ -107,8 +107,10 @@ extern USB_INTERFACE_DESCRIPTOR *find_IntfDesc(const uint8_t *pDesc, uint32_t in
  * @}
  */
 
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
+/*==================[end of file]============================================*/
 #endif /* _LPC_APP_USB_CFG_H_ */

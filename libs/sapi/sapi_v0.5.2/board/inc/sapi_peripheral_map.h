@@ -30,7 +30,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2015-09-23 */
@@ -42,13 +41,10 @@
 
 #include "sapi_datatypes.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-/*==================[macros]=================================================*/
 
 /*==================[typedef]================================================*/
 
@@ -220,15 +216,10 @@ typedef enum {
    SPI0
 } spiMap_t;
 
-/*==================[external data declaration]==============================*/
-
-/*==================[external functions declaration]=========================*/
-
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_PERIPHERALMAP_H_ */
+#endif /* _SAPI_PERIPHERALMAP_H_ */

@@ -28,7 +28,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 #ifndef _SAPI_7_SEGMENT_DISPLAY_H_
@@ -38,6 +37,11 @@
 
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
+
+/*==================[c++]====================================================*/
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*==================[macros]=================================================*/
 
@@ -60,8 +64,6 @@ typedef struct {
    DisplayCommonType_t comm;
    uint8_t *buffer;
 } Display7Segment_t;
-
-/*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
@@ -106,5 +108,10 @@ void display7SegmentWriteIndex( Display7Segment_t* disp, uint8_t digit, uint8_t 
 void display7SegmentClear( Display7Segment_t* disp );
 void display7SegmentRefresh( Display7Segment_t *disp );
 
+/*==================[c++]====================================================*/
+#ifdef __cplusplus
+}
+#endif
+
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_7_SEGMENT_DISPLAY_H_ */
+#endif /* _SAPI_7_SEGMENT_DISPLAY_H_ */

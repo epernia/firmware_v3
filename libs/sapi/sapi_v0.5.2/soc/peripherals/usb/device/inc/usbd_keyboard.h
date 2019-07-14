@@ -29,16 +29,16 @@
  * this code.
  */
 
-#ifndef SAPI_USBD_KEYBOARD_H
-#define SAPI_USBD_KEYBOARD_H
+#ifndef _SAPI_USBD_KEYBOARD_H_
+#define _SAPI_USBD_KEYBOARD_H_
 
 #include "lpc_app_usbd_cfg.h"
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
 
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 /** @ingroup EXAMPLES_USBDROM_18XX43XX_KEYBOARD
@@ -151,8 +151,10 @@ void usbDeviceKeyboardRelease( uint8_t key );
  * @}
  */
 
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* SAPI_USBD_KEYBOARD_H */
+/*==================[end of file]============================================*/
+#endif /* _SAPI_USBD_KEYBOARD_H_ */

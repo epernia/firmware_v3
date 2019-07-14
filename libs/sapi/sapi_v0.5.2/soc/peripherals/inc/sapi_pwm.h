@@ -5,7 +5,7 @@
  * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
- * modification, aire permitted provided that the following conditions are met:
+ * modification, are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
@@ -29,21 +29,19 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2016-02-10 */
 
-#ifndef PWM_DRIVER_H_
-#define PWM_DRIVER_H_
+#ifndef _SAPI_PWM_H_
+#define _SAPI_PWM_H_
 
 /*==================[inclusions]=============================================*/
 
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -58,8 +56,6 @@ typedef enum{
    PWM_ENABLE, PWM_DISABLE,
    PWM_ENABLE_OUTPUT, PWM_DISABLE_OUTPUT
 } pwmInit_t;
-
-/*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
@@ -94,11 +90,10 @@ uint8_t pwmRead( pwmMap_t pwmNumber );
  */
 bool_t pwmWrite( pwmMap_t pwmNumber, uint8_t percent );
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* PWM_DRIVER_H_ */
+#endif /* _SAPI_PWM_H_ */

@@ -28,30 +28,21 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2016-08-15 */
 
-#ifndef SAPI_SCT_H_
-#define SAPI_SCT_H_
+#ifndef _SAPI_SLEEP_H_
+#define _SAPI_SLEEP_H_
 
 /*==================[inclusions]=============================================*/
 
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
-#endif
-
-/*==================[macros and definitions]=================================*/
-
-/*==================[typedef]================================================*/
-
-/*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
 
@@ -62,11 +53,10 @@ extern "C" {
  */
 void sleepUntilNextInterrupt( void );
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* SAPI_SCT_H_ */
+#endif /* _SAPI_SLEEP_H_ */

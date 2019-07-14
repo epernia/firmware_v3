@@ -29,19 +29,29 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2017-11-13 */
 
-#ifndef _DHT11_H_
-#define _DHT11_H_
+#ifndef _SAPI_DHT11_H_
+#define _SAPI_DHT11_H_
 
 #include "sapi_datatypes.h"
+
+/*==================[c++]====================================================*/
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define dht11Config dht11Init
 
 void dht11Init( int32_t gpio );
 bool_t dht11Read( float *phum, float *ptemp );
 
-#endif /* _DHT11_H_ */
+/*==================[c++]====================================================*/
+#ifdef __cplusplus
+}
+#endif
+
+/*==================[end of file]============================================*/
+#endif /* _SAPI_DHT11_H_ */

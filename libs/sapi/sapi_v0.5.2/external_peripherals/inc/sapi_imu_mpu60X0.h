@@ -42,8 +42,7 @@
 
 #include "sapi_datatypes.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -267,8 +266,6 @@ typedef struct {
 
 } MPU60X0_control_t;
 
-/*==================[external data declaration]==============================*/
-
 /*==================[external functions declaration]=========================*/
 
 // Initialize mpu60X0 (Only I2C)
@@ -298,11 +295,10 @@ float mpu60X0GetGyroZ_rads( void );
 // Returns the die temperature, C
 float mpu60X0GetTemperature_C( void );
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_IMU_MPU60X0_H_ */
+#endif /* _SAPI_IMU_MPU60X0_H_ */

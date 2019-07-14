@@ -1,4 +1,4 @@
-/* Copyright 2015-2018, Eric Pernia.
+/* Copyright 2015, Eric Pernia.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -28,7 +28,6 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 /* Date: 2015-09-23 */
@@ -40,8 +39,7 @@
 
 #include "sapi_datatypes.h"
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -49,8 +47,6 @@ extern "C" {
 /*==================[macros]=================================================*/
 
 #define tickConfig tickInit
-
-/*==================[typedef]================================================*/
 
 /*==================[external functions definition]==========================*/
 
@@ -74,11 +70,10 @@ void tickPowerSet( bool_t power );
 // SysTick Timer ISR Handler
 void SysTick_Handler(void);
 
-/*==================[cplusplus]==============================================*/
-
+/*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* #ifndef _SAPI_TICK_H_ */
+#endif /* _SAPI_TICK_H_ */
