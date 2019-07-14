@@ -68,13 +68,12 @@ typedef enum{
 // USB Device Initialization
 bool_t usbDeviceInit( UsbSubClass_t subclass );
 
-
 /*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* _SAPI_USB_DEVICE_H_
+#endif /* _SAPI_USB_DEVICE_H_ */
 
 // See https://github.com/hathach/tinyusb
