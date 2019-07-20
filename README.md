@@ -1,8 +1,6 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Build Status](https://travis-ci.com/epernia/cese-edu-ciaa-template.svg?branch=master)](https://travis-ci.com/epernia/cese-edu-ciaa-template) (Travis CI status)
 
-# CESE, FI-UBA project template for CIAA-NXP / EDU-CIAA-NXP
-
-CESE, FI-UBA: http://laboratorios.fi.uba.ar/lse/cursos.html
+# Embedded Systems development Firmware in C/C++ 
 
 ## IMPORTANT
 
