@@ -62,6 +62,6 @@ out/
 
 # User file and folders
 _programs/
-user_preferences.cfg
+scripts/user/user_preferences.cfg
 program.mk
 board.mk
