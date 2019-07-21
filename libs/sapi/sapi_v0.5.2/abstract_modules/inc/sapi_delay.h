@@ -46,9 +46,10 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-/* Define the number of cycles for 1ms */
-#define INACCURATE_TO_MS       20400
-#define INACCURATE_TO_US_x10   204
+// Fclk = 204 MHz ==> 4.9019607843137254901960784313725 ns
+#define INACCURATE_TO_MS       20400   // Number of cycles for 1 ms
+#define INACCURATE_TO_US_x10   204     // Number of cycles for 10 ns
+#define INACCURATE_MIN_NS      4.901960849761962890625f
 
 #define delayConfig delayInit
 
@@ -64,7 +65,8 @@ typedef struct{
 
 /* ---- Inaccurate Delay ---- */
 void delayInaccurateMs( tick_t delay_ms );
-void delayInaccurateUs(tick_t delay_us);
+void delayInaccurateUs( tick_t delay_us );
+void delayInaccurateNs( tick_t delay_ns ); // Resolution ~5 ns
 
 /* ---- Blocking Delay ---- */
 void delay( tick_t duration_ms );

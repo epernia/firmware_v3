@@ -39,6 +39,8 @@
 #include "sapi_tick.h"
 #include "sapi_cyclesCounter.h"
 
+#include <math.h>
+
 /*==================[macros and definitions]=================================*/
 
 /*==================[internal data declaration]==============================*/
@@ -65,12 +67,19 @@ void delayInaccurateMs(tick_t delay_ms)
    for( i=delay; i>0; i-- );
 }
 
-void delayInaccurateUs(tick_t delay_us)
+void delayInaccurateUs( tick_t delay_us )
 {
    volatile tick_t i;
    volatile tick_t delay;
    delay = (INACCURATE_TO_US_x10 * delay_us) / 10;
    for( i=delay; i>0; i-- );
+}
+
+void delayInaccurateNs( tick_t delay_ns )
+{
+   volatile tick_t i;
+   volatile float delayF = (float)delay_ns / INACCURATE_MIN_NS;
+   for( i=(tick_t)round(delayF); i>0; i-- );
 }
 
 /* ---- Blocking Delay ---- */
@@ -85,11 +94,9 @@ void delay( tick_t duration_ms )
 
 
 /*
-
 // Solo funciona en modo debug
 void delayUs(tick_t delay_us)
 {
-
    volatile float timeElapsedUs = 0;
    volatile uint32_t startCycles = cyclesCounterRead();
 
@@ -110,7 +117,6 @@ void delayInit( delay_t * delay, tick_t duration )
 
 bool_t delayRead( delay_t * delay )
 {
-
    bool_t timeArrived = 0;
 
    if( !delay->running ) {
