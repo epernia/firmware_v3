@@ -71,9 +71,19 @@ bool_t uint64ToString( uint64_t value, char* result, uint8_t base );
 bool_t uint64ToString2Digits( uint64_t value, char* result, uint8_t base );
 
 char* floatToString( float value, char* result, int32_t precision );
+
 char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
 char* intToString( int64_t value );
+
 //char* floatToString( float value );
+
+uint8_t* int32ToByteArray( int32_t value, uint8_t* byteArray );
+uint8_t* floatToByteArray( float value, uint8_t* byteArray );
+
+int32_t byteArrayToInt32( uint8_t* byteArray );
+float byteArrayToFloat( uint8_t* byteArray );
+
+
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus

@@ -132,12 +132,12 @@ char* intToString( int64_t value )
 {
    static char result[20];
    result[0] = 0;
-   if( value == 0 ){
+   if( value == 0 ) {
       result[0] = '0';
       result[1] = 0;
-   } else{
-      int64ToString( value, result, 10 );      
-   } 
+   } else {
+      int64ToString( value, result, 10 );
+   }
    return result;
 }
 
@@ -146,9 +146,9 @@ bool_t uint64ToString2Digits( uint64_t value, char* result, uint8_t base )
 {
    if( value < 10 ) {
       result[0] = '0';
-      return uint64ToString( value, result+1, base );      
-   } else{
-      return uint64ToString( value, result, base );      
+      return uint64ToString( value, result+1, base );
+   } else {
+      return uint64ToString( value, result, base );
    }
 }
 
@@ -316,5 +316,28 @@ int main()
 // 1234567.5000000000
 // -1234567.5000000000
 
+uint8_t* floatToByteArray( float value, uint8_t* byteArray )
+{
+   memcpy( byteArray, (uint8_t*) (&value), 4 );
+}
+
+uint8_t* int32ToByteArray( int32_t value, uint8_t* byteArray )
+{
+   memcpy( byteArray, (uint8_t*) (&value), 4 );
+}
+
+float byteArrayToFloat( uint8_t* byteArray )
+{
+   float value = 0;   
+   memcpy( (uint8_t*) (&value), byteArray, 4 );
+   return value;
+}
+
+int32_t byteArrayToInt32( uint8_t* byteArray )
+{
+   int32_t value = 0;   
+   memcpy( (uint8_t*) (&value), byteArray, 4 );
+   return value;
+}
 
 /*==================[end of file]============================================*/
