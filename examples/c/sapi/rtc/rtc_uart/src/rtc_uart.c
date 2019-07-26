@@ -151,12 +151,9 @@ void showDateAndTime( rtc_t * rtc ){
 int main(void){
 
    /* ------------- INICIALIZACIONES ------------- */
+   boardInit(); // Inicializar la plataforma
 
-   /* Inicializar la placa */
-   boardConfig();
-
-   /* Inicializar UART_USB a 115200 baudios */
-   uartConfig( UART_USB, 115200 );
+   uartConfig( UART_USB, 115200 ); // Inicializar UART_USB a 115200 baudios
 
    /* Estructura RTC */
    rtc_t rtc;
@@ -172,8 +169,9 @@ int main(void){
    bool_t val = 0;
    uint8_t i = 0;
 
-   /* Inicializar RTC */
-   val = rtcConfig( &rtc );
+   rtcInit(); // Inicializar RTC
+ 
+   rtcWrite( &rtc ); // Establecer fecha y hora
 
    delay_t delay1s;
    delayConfig( &delay1s, 1000 );

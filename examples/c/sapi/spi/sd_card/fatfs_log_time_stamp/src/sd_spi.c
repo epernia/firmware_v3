@@ -70,7 +70,8 @@ int main(void){
    */
 
    printf("Inicializamos RTC\n");
-   rtcInit( &rtc );
+   rtcInit(); // Inicializar RTC 
+   rtcWrite( &rtc ); // Establecer fecha y hora
    delay(2000);
    printf("RTC listo\n");
 

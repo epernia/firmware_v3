@@ -12,8 +12,7 @@
 int main(void)
 {
    /* ------------- INICIALIZACIONES ------------- */
-   // Inicializar la placa
-   boardConfig();
+   boardInit(); // Inicializar la plataforma
 
    // Crear estructura RTC
    rtc_t rtc;
@@ -26,12 +25,10 @@ int main(void)
    rtc.hour = 12;
    rtc.min = 15;
    rtc.sec= 0;
-
-   // Inicializar RTC
-   rtcConfig( &rtc );
-
-   // Para establecer una nueva fecha y hora
-   //rtcWrite( &rtc );
+  
+   rtcInit(); // Inicializar RTC
+ 
+   rtcWrite( &rtc ); // Establecer fecha y hora
    
    /* ------------- REPETIR POR SIEMPRE ------------- */
    while(1) {
