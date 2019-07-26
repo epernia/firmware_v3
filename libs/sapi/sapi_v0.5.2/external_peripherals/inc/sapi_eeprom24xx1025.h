@@ -58,7 +58,7 @@ write capability of up to 128 bytes of data.
 I2C address:
 
 The control byte consists of a 4-bit control code; for the24XX1025, this is set
-as  ?1010?  binary  for  read  andwrite operations. The next bit of the control
+as 1010 binary for read and write operations. The next bit of the control
 byte is theblock select bit (B0). This bit acts as the A16 addressbit for
 accessing the entire array. The next two bits ofthe control byte are the Chip
 Select bits (A1, A0). TheChip Select bits allow the use of up to four 24XX1025

@@ -83,7 +83,8 @@ uint8_t* floatToByteArray( float value, uint8_t* byteArray );
 int32_t byteArrayToInt32( uint8_t* byteArray );
 float byteArrayToFloat( uint8_t* byteArray );
 
-
+uint8_t* variableToByteArray( void* var, uint32_t sizeOfVar, uint8_t* byteArray );
+void* byteArrayToVariable( void* var, uint32_t sizeOfVar, uint8_t* byteArray );
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus

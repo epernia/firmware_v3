@@ -316,14 +316,28 @@ int main()
 // 1234567.5000000000
 // -1234567.5000000000
 
+uint8_t* variableToByteArray( void* var, uint32_t sizeOfVar, uint8_t* byteArray )
+{
+   memcpy( byteArray, (uint8_t*)var, sizeOfVar );
+   return byteArray;
+}
+
+void* byteArrayToVariable( void* var, uint32_t sizeOfVar, uint8_t* byteArray )
+{
+   memcpy( (uint8_t*)var, byteArray, sizeOfVar );
+   return var;
+}
+
 uint8_t* floatToByteArray( float value, uint8_t* byteArray )
 {
    memcpy( byteArray, (uint8_t*) (&value), 4 );
+   return byteArray;
 }
 
 uint8_t* int32ToByteArray( int32_t value, uint8_t* byteArray )
 {
    memcpy( byteArray, (uint8_t*) (&value), 4 );
+   return byteArray;
 }
 
 float byteArrayToFloat( uint8_t* byteArray )
@@ -339,5 +353,6 @@ int32_t byteArrayToInt32( uint8_t* byteArray )
    memcpy( (uint8_t*) (&value), byteArray, 4 );
    return value;
 }
+
 
 /*==================[end of file]============================================*/

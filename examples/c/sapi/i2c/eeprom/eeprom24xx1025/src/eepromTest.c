@@ -26,7 +26,7 @@ int main( void )
 
    // EEPROM Test - Performs a test on the 24xx1025 EEPROM memory.
 
-   //                        0                             3132                            6364                            9596                           127
+   //                        0                             3132                            6364                            9596                          127
    uint8_t testBytes[128] = "EEPROM TEST #0123456789 --------abcdefghijklmnopqrstuvwxyz -----012345678901234567890123456789--deadbeef deadbeef deadbeef dead";
 
    // EEPROM Test Write individual bytes
