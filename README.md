@@ -199,7 +199,7 @@ Included examples are:
             - `usb_device_01_hid_keyboard`: USB Device. Board as USB Keyboard.
             - `usb_device_02_cdc_virtualSerialPort`: USB Device. Using USB OTG as a virtual serial port.
     - Operating Systems:
-        - rtos_coperative (see M.J. Pont's book at https://www.safetty.net/publications/pttes )
+        - rtos_cooperative (see M.J. Pont's book at https://www.safetty.net/publications/pttes )
             - `scheduler_01_seos`: first cooperative scheduler
             - `scheduler_02_seos_background_foreground`: second cooperative scheduler
             - `seos_pont_2014_01_first_app`: third cooperative scheduler
