@@ -57,36 +57,16 @@ int main(void){
    delayInit( &actualizarMefBoton, 40 );   
    fsmButtonInit();
    
-   // Inicializo temporizacion y MEF Semaforo
-   delay_t actualizarMefSemaforo;   
-   delayInit( &actualizarMefSemaforo, 1000 );   
-   fsmSemaphoreInit();
-   
-   // Inicializo temporizacion del LED
-   delay_t actualizarLed;   
-   delayInit( &actualizarLed, 250 );
-   
    while(TRUE){
       
       // Actualizo MEF Boton cada tiempo actualizarMefBoton
       if( delayRead(&actualizarMefBoton) ){
          fsmButtonUpdate(TEC1);
       }
-      
-      // Actualizo MEF Semaforo cada tiempo actualizarMefSemaforo
-      if( delayRead(&actualizarMefSemaforo) ){
-         fsmSemaphoreUpdate();
-      }
-      
-      // Actualizo el valor del LED cada tiempo actualizarLed
-      if( delayRead(&actualizarLed) ){
-         gpioToggle(LED3);
-      }
-      
+            
    }
    return 0;
 }
-
 
 
 void buttonPressed( void )
@@ -157,6 +137,7 @@ void fsmButtonUpdate( gpioMap_t tecla )
          if( flagFalling == FALSE ){
             flagFalling = TRUE;
             gpioWrite(LED1, ON);
+            break;
          }      
          /* CHECK TRANSITION CONDITIONS */
          if( !gpioRead(tecla) ){
@@ -178,6 +159,7 @@ void fsmButtonUpdate( gpioMap_t tecla )
          if( flagRising == FALSE ){
             flagRising = TRUE;
             gpioWrite(LED2, ON);
+            break;
          }    
          /* CHECK TRANSITION CONDITIONS */
          if( gpioRead(tecla) ){

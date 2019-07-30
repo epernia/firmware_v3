@@ -13,10 +13,10 @@
 
 int main (void)
 {
-   fsmInit();
+   fsmSemaphoreInit();
 
    while(true) {
-      fsmUpdate();
+      fsmSemaphoreUpdate();
       delay(1000);
    }
 

@@ -97,7 +97,6 @@ bool_t eeprom24xx1025Init( Eeprom24xx1025_t* eeprom,
    bool_t retVal = FALSE;
    uint8_t testByte = 0;
 
-
    // I2C port connected to EEPROM, example I2C0
    eeprom->i2c = i2c;
    // Use this if fixed address
@@ -283,11 +282,12 @@ bool_t eeprom24xx1025ReadRandom( Eeprom24xx1025_t* eeprom,
 bool_t eeprom24xx1025ReadSequential( Eeprom24xx1025_t* eeprom, uint32_t address,
                                      uint8_t* byteBuffer, uint32_t byteBufferSize )
 {
-
    bool_t retVal = TRUE; // True if OK
 
    // Check valid buffer size
-   if( byteBufferSize > eeprom->memorySize / 2 ) {
+   if( byteBufferSize > eeprom->memorySize / 2 ) { 
+      printf( "byteBufferSize=%d, eeprom->memorySize/2=%d\r\n", 
+              byteBufferSize, eeprom->memorySize/2 );
       return FALSE;
    }
 
@@ -313,6 +313,7 @@ bool_t eeprom24xx1025ReadSequential( Eeprom24xx1025_t* eeprom, uint32_t address,
                      addressToRead, 2, FALSE,
                      byteBuffer, byteBufferSize, TRUE );
 
+   printf( "I2CretVal=%d\r\n", retVal );
    return retVal; // Byte writed
 }
 

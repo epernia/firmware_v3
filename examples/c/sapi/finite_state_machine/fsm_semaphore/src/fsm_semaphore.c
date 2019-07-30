@@ -28,6 +28,20 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
+ 
+ #include <sapi.h>
+
+// Macros publicas
+
+#define LED_ROJO     LED2
+#define LED_AMARILLO LED1
+#define LED_VERDE    LEDG
+
+// Declaraciones de funciones publicas
+
+void ledsInit( void );
+void ledOn( int32_t pin );
+void ledOff( int32_t pin );
 
 // FSM DECLARATIONS
 
@@ -37,17 +51,17 @@ typedef enum{
    ROJO_AMARILLO,
    AMARILLO,
    VERDE,
-} fsmState_t;
+} fsmSemaphoreState_t;
 
 // FSM functions
-void fsmError( void );
-void fsmInit( void );
-void fsmUpdate( void );
+void fsmSemaphoreError( void );
+void fsmSemaphoreInit( void );
+void fsmSemaphoreUpdate( void );
 
 // FSM IMPLEMENTATIONS
 
 // Variable that hold the current state
-fsmState_t fsmState;
+fsmSemaphoreState_t fsmSemaphoreState;
 
 
 /*=====[Main function, program entry point after power on or reset]==========*/
@@ -55,11 +69,11 @@ fsmState_t fsmState;
 int main( void )
 {
    // ----- Setup -----------------------------------
-   fsmInit();
+   fsmSemaphoreInit();
 
    // ----- Repeat for ever -------------------------
    while( true ){
-      fsmUpdate();
+      fsmSemaphoreUpdate();
    }
    return 0;
 }
@@ -67,26 +81,26 @@ int main( void )
 
 
 // FSM Error Handler Function
-void fsmError( void )
+void fsmSemaphoreError( void )
 {
    // Error handler, example, restart FSM:
-   fsmState = ROJO;
+   fsmSemaphoreState = ROJO;
 }
 
 // FSM Initialize Function
-void fsmInit( void )
+void fsmSemaphoreInit( void )
 {
    boardInit();
    ledsInit();
-   fsmState = ROJO;   // Set initial state
+   fsmSemaphoreState = ROJO;   // Set initial state
 }
 
 // FSM Update Sate Function
-void fsmUpdate( void )
+void fsmSemaphoreUpdate( void )
 {
    static uint32_t contador = 0;
    
-   switch( fsmState ){
+   switch( fsmSemaphoreState ){
 
       case ROJO:         
          /* UPDATE OUTPUTS */
@@ -97,7 +111,7 @@ void fsmUpdate( void )
          /* CHECK TRANSITION CONDITIONS */
          contador++;
          if( contador >= 3 ){
-            fsmState = ROJO_AMARILLO;
+            fsmSemaphoreState = ROJO_AMARILLO;
             contador = 0;
          }
       break;
@@ -111,7 +125,7 @@ void fsmUpdate( void )
          /* CHECK TRANSITION CONDITIONS */
          contador++;
          if( contador >= 1 ){
-            fsmState = VERDE;
+            fsmSemaphoreState = VERDE;
             contador = 0;
          }
       break;
@@ -125,7 +139,7 @@ void fsmUpdate( void )
          /* CHECK TRANSITION CONDITIONS */
          contador++;
          if( contador >= 1 ){
-            fsmState = ROJO;
+            fsmSemaphoreState = ROJO;
             contador = 0;
          }
       break;
@@ -139,13 +153,32 @@ void fsmUpdate( void )
          /* CHECK TRANSITION CONDITIONS */
          contador++;
          if( contador >= 2 ){
-            fsmState = AMARILLO;
+            fsmSemaphoreState = AMARILLO;
             contador = 0;
          }
       break;
 
       default:
-         fsmError();
+         fsmSemaphoreError();
       break;
    }
+}
+
+
+
+void ledsInit( void )
+{
+   gpioInit( LED_ROJO, GPIO_OUTPUT );
+   gpioInit( LED_AMARILLO, GPIO_OUTPUT );
+   gpioInit( LED_VERDE, GPIO_OUTPUT );
+}
+
+void ledOn( int32_t pin )
+{
+   gpioWrite( pin, ON );
+}
+
+void ledOff( int32_t pin )
+{
+   gpioWrite( pin, OFF );
 }

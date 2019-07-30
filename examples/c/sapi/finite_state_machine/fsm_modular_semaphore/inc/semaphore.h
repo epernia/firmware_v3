@@ -13,8 +13,8 @@
 extern "C" {
 #endif
 
-void fsmInit( void );
-void fsmUpdate( void );
+void fsmSemaphoreInit( void );
+void fsmSemaphoreUpdate( void );
 
 #ifdef __cplusplus
 }

@@ -9,39 +9,39 @@ typedef enum {
    ROJO_AMARILLO,
    VERDE,
    AMARILLO,
-} fsmState_t;
+} fsmSemaphoreState_t;
 
 // FSM functions
-static void fsmError( void );
+static void fsmSemaphoreError( void );
 
 // FSM IMPLEMENTATIONS
 
 // Variable that hold the current state
-static fsmState_t fsmState;
+static fsmSemaphoreState_t fsmSemaphoreState;
 
 // FSM Error Handler Function
-static void fsmError( void )
+static void fsmSemaphoreError( void )
 {
    // Error handler, example, restart FSM:
-   fsmState = ROJO;
+   fsmSemaphoreState = ROJO;
 }
 
 // FSM Initialize Function
-void fsmInit( void )
+void fsmSemaphoreInit( void )
 {
    boardInit();
    ledsInit();
-   fsmState = ROJO;   // Set initial state
+   fsmSemaphoreState = ROJO;   // Set initial state
 }
 
 // FSM Update Sate Function
-void fsmUpdate( void )
+void fsmSemaphoreUpdate( void )
 {
    static uint32_t contador = 0;
 
    bool_t flagRojo = false;
 
-   switch( fsmState ) {
+   switch( fsmSemaphoreState ) {
 
    case ROJO:
       /* UPDATE OUTPUTS */
@@ -58,11 +58,11 @@ void fsmUpdate( void )
       /* CHECK TRANSITION CONDITIONS */
       contador++;
       if( contador >= 3 ) {
-         fsmState = ROJO_AMARILLO;
+         fsmSemaphoreState = ROJO_AMARILLO;
          contador = 0;
       }
       
-      if( fsmState != ROJO ) {
+      if( fsmSemaphoreState != ROJO ) {
          flagRojo = false;
          // Codigo a ejecutar cuando sale de del estado
       }
@@ -78,7 +78,7 @@ void fsmUpdate( void )
       /* CHECK TRANSITION CONDITIONS */
       contador++;
       if( contador >= 1 ) {
-         fsmState = VERDE;
+         fsmSemaphoreState = VERDE;
          contador = 0;
       }
       break;
@@ -92,7 +92,7 @@ void fsmUpdate( void )
       /* CHECK TRANSITION CONDITIONS */
       contador++;
       if( contador >= 2 ) {
-         fsmState = AMARILLO;
+         fsmSemaphoreState = AMARILLO;
          contador = 0;
       }
       break;
@@ -106,13 +106,13 @@ void fsmUpdate( void )
       /* CHECK TRANSITION CONDITIONS */
       contador++;
       if( contador >= 1 ) {
-         fsmState = ROJO;
+         fsmSemaphoreState = ROJO;
          contador = 0;
       }
       break;
 
    default:
-      fsmError();
+      fsmSemaphoreError();
       break;
    }
 }
