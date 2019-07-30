@@ -24,7 +24,7 @@
 
 ## Supported toolchains
 
-- gcc-arm-none-eabi
+- gcc-arm-none-eabi 
 
 ## Usage
 
