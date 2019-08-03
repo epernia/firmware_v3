@@ -7,6 +7,8 @@
 
 #include "sapi_eeprom24xx1025.h"   // <= own header
 
+#define eeprom24xx1025DelayMs   delayInaccurateMs
+
 /*==================[internal data definition]===============================*/
 
 DEBUG_PRINT_ENABLE
@@ -166,7 +168,7 @@ bool_t eeprom24xx1025WriteByte( Eeprom24xx1025_t* eeprom,
                       eeprom24xx1025I2cAddress( eeprom, memoryAddress ),
                       dataToWrite, 3, TRUE );
 
-   delay(5); // Twc - Write cycle time (byte or page)
+   eeprom24xx1025DelayMs(5); // Twc - Write cycle time (byte or page)
 
    return retVal; // Byte writed
 }
@@ -212,7 +214,7 @@ bool_t eeprom24xx1025WritePage( Eeprom24xx1025_t* eeprom, uint32_t page,
                       eeprom24xx1025I2cAddress( eeprom, memoryAddress ),
                       dataToWrite, (byteBufferSize+2), TRUE );
 
-   delay(5); // Twc - Write cycle time (byte or page)
+   eeprom24xx1025DelayMs(5); // Twc - Write cycle time (byte or page)
 
    return retVal; // Byte writed
 }
@@ -272,7 +274,7 @@ bool_t eeprom24xx1025ReadRandom( Eeprom24xx1025_t* eeprom,
                      addressToRead, 2, FALSE,
                      readedByte, 1, TRUE );
 
-   //delay(1); // ??? - Read cycle time (byte or page)
+   //eeprom24xx1025DelayMs(1); // ??? - Read cycle time (byte or page)
 
    return retVal; // read correct
 }
@@ -286,8 +288,6 @@ bool_t eeprom24xx1025ReadSequential( Eeprom24xx1025_t* eeprom, uint32_t address,
 
    // Check valid buffer size
    if( byteBufferSize > eeprom->memorySize / 2 ) { 
-      printf( "byteBufferSize=%d, eeprom->memorySize/2=%d\r\n", 
-              byteBufferSize, eeprom->memorySize/2 );
       return FALSE;
    }
 
@@ -313,7 +313,6 @@ bool_t eeprom24xx1025ReadSequential( Eeprom24xx1025_t* eeprom, uint32_t address,
                      addressToRead, 2, FALSE,
                      byteBuffer, byteBufferSize, TRUE );
 
-   printf( "I2CretVal=%d\r\n", retVal );
    return retVal; // Byte writed
 }
 

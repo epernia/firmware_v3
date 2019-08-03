@@ -136,6 +136,7 @@ typedef enum {
 	   CH1 = 0,
 	   CH2 = 1,
 	   CH3 = 2,
+	   CH4 = 3,
 	#else
 	   #error BOARD not supported yet!
 	#endif

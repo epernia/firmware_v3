@@ -21,7 +21,7 @@
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * LIA FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
  * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
@@ -48,8 +48,8 @@
 
 /*==================[declaraciones de funciones externas]====================*/
 
-bool_t hm10bleTest( int32_t uart );
-void hm10blePrintATCommands( int32_t uart );
+bool_t hc05Test( int32_t uart );
+void hc05PrintATCommands( int32_t uart );
 
 /*==================[funcion principal]======================================*/
 
@@ -72,7 +72,7 @@ int main( void )
    uint8_t data = 0;
    
    uartWriteString( UART_PC, "Testeto si el modulo esta conectado enviando: AT\r\n" );
-   if( hm10bleTest( UART_BLUETOOTH ) ){
+   if( hc05Test( UART_BLUETOOTH ) ){
       uartWriteString( UART_PC, "Modulo conectado correctamente.\r\n" );
    }
    else{
@@ -98,7 +98,7 @@ int main( void )
       
       // Si presiono TEC1 imprime la lista de comandos AT
       if( !gpioRead( TEC1 ) ) {
-         hm10blePrintATCommands( UART_BLUETOOTH );
+         hc05PrintATCommands( UART_BLUETOOTH );
          delay(500);
       }
       
@@ -124,7 +124,7 @@ int main( void )
 
 /*==================[definiciones de funciones externas]=====================*/
 
-bool_t hm10bleTest( int32_t uart )
+bool_t hc05Test( int32_t uart )
 {
    uartWriteString( uart, "AT\r\n" );
    return waitForReceiveStringOrTimeoutBlocking( uart, 
@@ -132,9 +132,11 @@ bool_t hm10bleTest( int32_t uart )
                                                  1000 );
 }
 
-void hm10blePrintATCommands( int32_t uart )
+void hc05PrintATCommands( int32_t uart )
 {
    uartWriteString( uart, "AT+HELP?\r\n" );
+   delay(500);
+   uartWriteString( uart, "AT+VERSION?\r\n" );
 }
 
 /*==================[fin del archivo]========================================*/

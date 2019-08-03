@@ -88,7 +88,9 @@ void adcInit( adcInit_t config )
          Chip_ADC_EnableChannel( LPC_ADC0, ADC_CH4, DISABLE );
          Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH4, DISABLE );
 
-         // Chip_SCU_ADC_Channel_Config( 0, 4 ); // For aditional ADC Inputs (Pablo Gomez)
+         // For aditional ADC Inputs (Pablo Gomez)
+         Chip_SCU_ADC_Channel_Config( 0, 4 ); 
+         Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH5, DISABLE );
       }
       break;
 
