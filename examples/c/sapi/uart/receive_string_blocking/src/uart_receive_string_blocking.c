@@ -39,6 +39,7 @@
 /*==================[inclusions]=============================================*/
 
 #include "sapi.h"     // <= sAPI header
+#include <string.h>
 
 /*==================[macros and definitions]=================================*/
 
@@ -111,7 +112,7 @@ int main(void){
       received = waitForReceiveStringOrTimeoutBlocking(
                     UART_USB,
                     miTexto,
-                    sizeof(miTexto),
+                    strlen(miTexto),
                     10000
                  );
 

@@ -184,7 +184,7 @@ bool_t esp01SendTCPIPData( char* strData, uint32_t strDataLen ){
    // No poner funciones entre el envio de comando y la espera de respuesta
    retVal = receiveBytesUntilReceiveStringOrTimeoutBlocking(
                uartEsp01,
-               "\r\n\r\nOK\r\n>", 9,
+               "\r\n\r\nOK\r\n>", strlen("\r\n\r\nOK\r\n>"),
                espResponseBuffer, &espResponseBufferSize,
                5000
             );

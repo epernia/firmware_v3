@@ -531,8 +531,9 @@ bool_t rtcRead( rtc_t* rtc );
 
 ### PWM
 
-Manejo de salidas PWM (modulación por ancho de pulso). En la EDU-CIAA-NXP se
-utiliza internamente el periférico SCT para generar los PWM.
+Manejo de salidas PWM (modulación por ancho de pulso). 
+
+En la EDU-CIAA-NXP se utiliza internamente el periférico SCT para generar los PWM.
 
 **Configuración**
 
@@ -549,6 +550,17 @@ Posibles configuraciones:
 - ``PWM_DISABLES`` deshabilita el o los Timers en modo PWM.
 - ``PWM_ENABLE_OUTPUT`` habilita la salida PWM particular.
 - ``PWM_DISABLE_OUTPUT`` deshabilita la salida PWM particular.
+
+Ejemplo:
+
+```c
+// Configurar el (o los) Timer(s) para generar las señales PWM
+pwmInit( 0, PWM_ENABLE );    
+        
+// Configura el pin como salida de señal PWM 
+// Se debe realizar para cada salida PWM a activar en particular
+pwmInit( PWM7 , PWM_ENABLE_OUTPUT ); 
+```
 
 **Lectura del ciclo de trabajo (duty cycle) de la salida PWM**
 
@@ -588,6 +600,17 @@ Posibles configuraciones:
 - ``SERVO_DISABLE`` deshabilita el o los Timers en modo PWM para Servo.
 - ``SERVO_ENABLE_OUTPUT`` habilita la salida PWM particular.
 - ``SERVO_DISABLE_OUTPUT`` deshabilita la salida PWM particular.
+
+Ejemplo:
+
+```c
+// Configurar el (o los) Timer(s) para generar las señales de control de Servomotor
+servoInit( 0, PWM_ENABLE );    
+        
+// Configura el pin como salida de señal de control de Servomotor
+// Se debe realizar para cada salida Servo a activar en particular
+servoInit( SERVO0 , SERVO_ENABLE_OUTPUT ); 
+```
 
 **Lectura del valor angular actual de la salida Servo**
 

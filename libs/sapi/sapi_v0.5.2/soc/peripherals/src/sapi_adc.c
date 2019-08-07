@@ -59,6 +59,25 @@
 */
 void adcInit( adcInit_t config )
 {
+   /*
+   Pines ADC EDU-CIAA-NXP
+   
+               pin  func
+   ADC_CH1 ---- 2   ADC0_1/ADC1_1
+   ADC_CH2 ---- 143 ADC0_2/ADC1_2
+   ADC_CH3 ---- 139 ADC0_3/ADC1_3
+   DAC     ---- 6   ADC0_0/ADC1_0/DAC
+
+   T_FIL1  ---- 3   ADC0_1 (ANALOG_SEL)
+   T_COL2  ---- 133 ADC0_3 (ANALOG_SEL)
+
+   LCD1    ---- 9   DAC (ANALOG_SEL)
+
+   T_FIL3  ---- 7   ADC0_0 (ANALOG_SEL)
+   T_COL1  ---- 132 ADC0_4 (ANALOG_SEL)
+   ENET_MDC --- 140 ADC1_6 (ANALOG_SEL)
+   */
+   
    switch(config) {
 
       case ADC_ENABLE: {
@@ -89,8 +108,10 @@ void adcInit( adcInit_t config )
          Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH4, DISABLE );
 
          // For aditional ADC Inputs (Pablo Gomez)
-         Chip_SCU_ADC_Channel_Config( 0, 4 ); 
-         Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH5, DISABLE );
+         #if BOARD==edu_ciaa_nxp
+         Chip_SCU_ADC_Channel_Config( 0, 4 );                      // Revisar codigo
+         Chip_ADC_Int_SetChannelCmd( LPC_ADC0, ADC_CH5, DISABLE ); // Revisar codigo
+         #endif
       }
       break;
 
