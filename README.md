@@ -12,7 +12,7 @@
 
 - CMSIS 5.4.0 (Core and DSP).
 - LPCOpen v3.02.
-- sAPI v0.5.2.
+- sAPI v0.5.2. [sAPI API Reference (spanish)](libs/sapi/documentation/api_reference_es.md).
 - FreeRTOS Kernel V10.0.1.
 - LPCUSBlib.
 - Elm-Chan FatFS. Support for SD Cards (SSP) & Pendrives (USB MSD).
