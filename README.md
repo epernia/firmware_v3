@@ -14,13 +14,13 @@
 - LPCOpen v3.02 [LPCOpen Software Development Platform LPC43XX NXP website](https://www.nxp.com/design/microcontrollers-developer-resources/lpcopen-libraries-and-examples/lpcopen-software-development-platform-lpc43xx:LPCOPEN-SOFTWARE-FOR-LPC43XX).
 - LPCUSBlib. [LPCUSBlib documentation](http://67.222.144.123/lpcopen/v1.03/group___l_p_c_u_s_blib.html)
 - sAPI v0.5.2. [sAPI API Reference (spanish)](libs/sapi/documentation/api_reference_es.md).
-- Elm-Chan FatFS R0.13b. [FatFS documentation](http://elm-chan.org/fsw/ff/00index_e.html). Generic FAT Filesystem module. Support for SD Card (SSP) and Pendrives (USB MSD).
+- Elm-Chan FatFS R0.13b. [FatFS documentation](http://elm-chan.org/fsw/ff/00index_e.html). Generic FAT Filesystem module with support for SD Card (SSP) and Pendrive (USB MSD) disks.
 - FreeRTOS Kernel V10.0.1. [FreeRTOS_Reference_Manual_V10.0.0.pdf](examples/c/freertos_book/FreeRTOS_Reference_Manual_V10.0.0.pdf).
 
 ## Supported boards
 
-- [CIAA-NXP (LPC4337)](documentation/CIAA_Boards/NXP_LPC4337/EDU-CIAA).
-- [EDU-CIAA-NXP (LPC4337)](documentation/CIAA_Boards/NXP_LPC4337/EDU-CIAA-NXP).
+- [CIAA-NXP (LPC4337)](documentation/CIAA_Boards/NXP_LPC4337/CIAA-NXP/CIAA-NXP v1.0 Board - 2019-01-04 v3r0.pdf).
+- [EDU-CIAA-NXP (LPC4337)](documentation/CIAA_Boards/NXP_LPC4337/EDU-CIAA-NXP/EDU-CIAA-NXP v1.1 Board - 2019-01-03 v5r0.pdf).
 
 ## Supported toolchains
 
