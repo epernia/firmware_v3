@@ -10,17 +10,17 @@
 
 ## Available libraries:
 
-- CMSIS 5.4.0 (Core and DSP).
-- LPCOpen v3.02.
+- CMSIS 5.4.0 (Core and DSP). [CMSIS_5 Repository](https://github.com/ARM-software/CMSIS_5).
+- LPCOpen v3.02 [LPCOpen Software Development Platform LPC43XX NXP website](https://www.nxp.com/design/microcontrollers-developer-resources/lpcopen-libraries-and-examples/lpcopen-software-development-platform-lpc43xx:LPCOPEN-SOFTWARE-FOR-LPC43XX).
+- LPCUSBlib. [LPCUSBlib documentation](http://67.222.144.123/lpcopen/v1.03/group___l_p_c_u_s_blib.html)
 - sAPI v0.5.2. [sAPI API Reference (spanish)](libs/sapi/documentation/api_reference_es.md).
-- FreeRTOS Kernel V10.0.1.
-- LPCUSBlib.
-- Elm-Chan FatFS. Support for SD Cards (SSP) & Pendrives (USB MSD).
+- Elm-Chan FatFS R0.13b. [FatFS documentation](http://elm-chan.org/fsw/ff/00index_e.html). Generic FAT Filesystem module. Support for SD Card (SSP) and Pendrives (USB MSD).
+- FreeRTOS Kernel V10.0.1. [FreeRTOS_Reference_Manual_V10.0.0.pdf](examples/c/freertos_book/FreeRTOS_Reference_Manual_V10.0.0.pdf).
 
 ## Supported boards
 
-- CIAA-NXP (LPC4337).
-- EDU-CIAA-NXP (LPC4337).
+- [CIAA-NXP (LPC4337)](documentation/CIAA_Boards/NXP_LPC4337/EDU-CIAA).
+- [EDU-CIAA-NXP (LPC4337)](documentation/CIAA_Boards/NXP_LPC4337/EDU-CIAA-NXP).
 
 ## Supported toolchains
 
@@ -42,11 +42,13 @@
 BOARD = edu_ciaa_nxp
 ```
 
-Note: If you have `zenity` installed (sudo apt-get install zenity), you can use:
+Note: If you have `zenity` installed (included in [CIAA Software](https://github.com/epernia/software/)), you can use:
 
 - `make select_board` to select graphically a target board.
 
 ![Select board](documentation/README/select_board.png)
+
+This will create automaticaly a `board.mk` text file inside this folder with the selected board.
 
 ### Select a program to compile
 
@@ -65,6 +67,8 @@ Note: If you have `zenity` installed, you can use:
 - `make select_program` to select graphically a program.
 
 ![Select program](documentation/README/select_program.png)
+
+This will create automaticaly a `program.mk` text file inside this folder with the selected program.
 
 ### Compile and download
 
