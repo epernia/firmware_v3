@@ -52,7 +52,6 @@
 
 /*==================[macros and definitions]=================================*/
 
-#define LPC4337_MAX_FREC 204000000 /* Microcontroller frequency */
 #define MAX_SYSCALL_INTERRUPT_PRIORITY 5
 
 /*==================[internal data declaration]==============================*/

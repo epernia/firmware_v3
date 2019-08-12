@@ -49,7 +49,8 @@ USE_SAPI=y
 # ----------------------------------------------------------------------
 
 MODULES=$(sort $(dir $(wildcard libs/*/)))
-SRC=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.c)
+SRC+=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.c)
+#SRC=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.c)
 SRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.c))
 
 CXXSRC=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.cpp)

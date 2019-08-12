@@ -40,6 +40,8 @@
 #include "sapi_datatypes.h"
 #include "sapi_peripheral_map.h"
 
+#define LPC4337_MAX_FREC 204000000 /* Microcontroller frequency */
+
 /*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
