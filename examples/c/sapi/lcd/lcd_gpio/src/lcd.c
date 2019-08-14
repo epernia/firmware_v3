@@ -167,6 +167,8 @@ int main( void ){
    // Inicializar y configurar la plataforma
    boardConfig();
 
+   delay( LCD_STARTUP_WAIT_MS );   // Wait for stable power (some LCD need that)
+
    // Inicializar LCD de 16x2 (caracteres x lineas) con cada caracter de 5x2 pixeles
    lcdInit( 16, 2, 5, 8 );
 

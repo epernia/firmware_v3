@@ -251,8 +251,6 @@ void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
    lcdPinSet( LCD_HD44780_RS, OFF );     // RS = 0
    lcdPinSet( LCD_HD44780_EN, OFF );     // EN = 0
 
-   lcdDelay_ms( LCD_STARTUP_WAIT_MS );   // Wait for stable power
-
    lcdCommand( 0x33 );                   // Command 0x33 for 4-bit mode
    lcdCommandDelay();                    // Wait
 
