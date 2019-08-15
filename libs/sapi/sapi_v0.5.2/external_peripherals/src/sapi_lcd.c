@@ -329,28 +329,15 @@ bool_t lcdSendString( char* str )
    uint8_t i = 0;
 
    while( str[i] != 0 ) {
-
-      if( lcd.x >= lcd.lineWidth ) {
-         lcd.x = 0;
-         lcd.y++;
-         lcdGoToXY( lcd.x, lcd.y );
-      }
-
-      if( lcd.y >= lcd.amountOfLines ) {
-         // Print the rest in 5 seconds
-         //delay(5000);
-         //lcdClear();
-         //lcd.x = 0;
-         //lcd.y = 0;
-         //lcdGoToXY( lcd.x, lcd.y );
-         return 0;
-      }
-
-      if( str[i] == '\r' ) {
-         // ignore
-      } else if( str[i] == '\n' ) {
+      if( str[i] == '\r' ) {             // Ignore '\r'
+      } else if( str[i] == '\n' ) {      // Mando enter
          lcdSendEnter();
       } else {
+         // Si se extiende en ancho mando enter
+         if( lcd.x >= lcd.lineWidth ) {
+            lcdSendEnter();
+         }
+         // Mando el caracter
          lcdData( str[i] );
          lcd.x++;
       }
@@ -363,9 +350,10 @@ void lcdSendEnter( void )
 {
    lcd.x = 0;
    lcd.y++;
-   if( lcd.y >= lcd.amountOfLines ) {
-      lcd.y = 0;
-   }
+   // Si llego abajo vuelve al principio
+   //if( lcd.y >= lcd.amountOfLines ) {
+   //   lcd.y = 0;
+   //}
    lcdGoToXY( lcd.x, lcd.y );
 }
 
