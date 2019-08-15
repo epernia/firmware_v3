@@ -397,7 +397,7 @@ void uartInterrupt( uartMap_t uart, bool_t enable )
 {
    if( enable ) {
       // Interrupt Priority for UART channel
-      NVIC_SetPriority( lpcUarts[uart].uartIrqAddr, 5 ); // FreeRTOS Requiere prioridad >= 5 (numero mas alto, ma baja prioridad)
+      NVIC_SetPriority( lpcUarts[uart].uartIrqAddr, 5 ); // FreeRTOS Requiere prioridad >= 5 (numero mas alto, mas baja prioridad)
       // Enable Interrupt for UART channel
       NVIC_EnableIRQ( lpcUarts[uart].uartIrqAddr );
    } else {
