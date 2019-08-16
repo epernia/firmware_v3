@@ -244,10 +244,16 @@ void lcdCursorSet( LCDCursorModes_t mode );
 void lcdCreateChar( uint8_t charnum, const char* chardata );
 
 void lcdClearAndHome( void );
+void lcdClearLine( uint8_t line );
+void lcdClearLineFrom( uint8_t line, uint8_t xFrom );
+void lcdClearLineFromTo( uint8_t line, uint8_t xFrom, uint8_t xTo );
+
+void lcdSendEnter( void );
 
 void lcdSendStringRaw( char* str );
 bool_t lcdSendString( char* str );
-void lcdSendEnter( void );
+void lcdSendStringFormXY( char* str, uint8_t x, uint8_t y );
+void lcdSendStringFormXYClearLine( char* str, uint8_t x, uint8_t y );
 
 #define lcdSendStringLn(str)   lcdSendString(str); \
                                lcdSendEnter()

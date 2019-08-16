@@ -324,6 +324,35 @@ void lcdClearAndHome( void )
    //delay(100);
 }
 
+void lcdClearLine( uint8_t line )
+{
+   lcdClearLineFromTo( line, 0, lcd.lineWidth );
+}
+
+void lcdClearLineFrom( uint8_t line, uint8_t xFrom )
+{
+   lcdClearLineFromTo( line, xFrom, lcd.lineWidth );
+}
+
+void lcdClearLineFromTo( uint8_t line, uint8_t xFrom, uint8_t xTo )
+{
+   uint8_t i = 0;
+
+   if( xFrom >= lcd.lineWidth ) {
+      return;
+   }
+   if( xTo > lcd.lineWidth ) {
+      xTo = lcd.lineWidth;
+   }
+
+   lcdGoToXY( xFrom, line );
+   for( i=xFrom; i<xTo; i++ ) {
+      lcdData( ' ' );
+   }
+   lcdGoToXY( xFrom, line );
+}
+
+
 bool_t lcdSendString( char* str )
 {
    uint8_t i = 0;
@@ -344,6 +373,19 @@ bool_t lcdSendString( char* str )
       i++;
    }
    return 0;
+}
+
+void lcdSendStringFormXY( char* str, uint8_t x, uint8_t y )
+{
+   lcdGoToXY( x, y );
+   lcdSendString( str );
+}
+
+void lcdSendStringFormXYClearLine( char* str, uint8_t x, uint8_t y )
+{
+   lcdGoToXY( x, y );
+   lcdSendString( str );
+   lcdClearLineFrom( lcd.y, lcd.x );
 }
 
 void lcdSendEnter( void )
