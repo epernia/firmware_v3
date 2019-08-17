@@ -251,7 +251,10 @@ void lcdClearLineFromTo( uint8_t line, uint8_t xFrom, uint8_t xTo );
 void lcdSendEnter( void );
 
 void lcdSendStringRaw( char* str );
+
 bool_t lcdSendString( char* str );
+void lcdSendStringClearLine( char* str );
+
 void lcdSendStringFormXY( char* str, uint8_t x, uint8_t y );
 void lcdSendStringFormXYClearLine( char* str, uint8_t x, uint8_t y );
 

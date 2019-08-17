@@ -68,8 +68,9 @@ ESP01 (ESP8266) connections:
 /*==================[macros and definitions]=================================*/
 
 // Se deben definir los datos del nombre de la red y la contrasenia.
-#define WIFI_NAME         "my_ssid"
-#define WIFI_PASS         "my_pass"
+#define WIFI_SSID                  "miWifi"     // Setear Red Wi-Fi
+#define WIFI_PASSWORD              "miPassWifi" // Setear password
+
 // El maximo tiempo que se espera una respuesta del modulo ESP8266
 #define WIFI_MAX_DELAY    60000
 
@@ -87,6 +88,7 @@ const char HttpWebPageHeader [] =
    "<head><title>EDU-CIAA NXP</title>"
    "<meta http-equiv=\"refresh\" content=\"15\">"
    "</head>"
+   "<body bgcolor=\"#E2E1E3\">"
    "<p style=\"text-align: center;\">&nbsp;</p>"
    "<p style=\"text-align: center;\"><span style=\"color: #0000ff;\"><strong><img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2moZZ0qZ5Az_Qt4kRv6NsJtIxKJl8phyn0APAyfsshhpvpjPs\" alt=\"Logo\" width=\"135\" height=\"135\" /></strong></span></p>"
    "<h1 style=\"text-align: center;\"><span style=\"color: #0000ff;\"><strong>Servidor Web HTTP<br />ESP8266 - EDU CIAA NXP</strong></span></h1>"
@@ -94,7 +96,6 @@ const char HttpWebPageHeader [] =
    "<p style=\"text-align: center;\">INICIO USER HTML</p>"
    "<p style=\"text-align: center;\">&nbsp;</p>"
    "<p style=\"text-align: center;\">&nbsp;</p>"
-//		"<body bgcolor=\"#E2E1E3\"></body>"
    ;
 
 const char HttpWebPageEnd [] =
@@ -105,7 +106,9 @@ const char HttpWebPageEnd [] =
    "<p style=\"text-align: center;\"><em>Copyright&nbsp;Agustin Bassi -&nbsp;</em><em>Pablo Gomez</em></p>"
    "<p style=\"text-align: center;\">CURSOS INET 2017</p>"
    "<p style=\"text-align: center;\"><a href=\"http://www.proyecto-ciaa.com.ar\">www.proyecto-ciaa.com.ar</a></p>"
-   "</html>";
+   "</body>"
+   "</html>"
+   ;
 
 char HttpWebPageBody [200];
 
@@ -136,7 +139,7 @@ int main(void)
 
    // Mientras no termine la configuracion o mientras no pase el tiempo maximo, ejecuta la configuracion.
    // A la configuracion se le pasa nombre y contrasenia de RED
-   while (!esp8266ConfigHttpServer(WIFI_NAME, WIFI_PASS) && !error) {
+   while (!esp8266ConfigHttpServer(WIFI_SSID, WIFI_PASSWORD) && !error) {
       if (delayRead(&wifiDelay)) {
          error = TRUE;
       }

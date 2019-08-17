@@ -388,6 +388,12 @@ void lcdSendStringFormXYClearLine( char* str, uint8_t x, uint8_t y )
    lcdClearLineFrom( lcd.y, lcd.x );
 }
 
+void lcdSendStringClearLine( char* str )
+{
+   lcdSendString( str );
+   lcdClearLineFrom( lcd.y, lcd.x );
+}
+
 void lcdSendEnter( void )
 {
    lcd.x = 0;
