@@ -68,14 +68,10 @@ typedef enum {
 
 bool_t int64ToString( int64_t value, char* result, uint8_t base );
 bool_t uint64ToString( uint64_t value, char* result, uint8_t base );
-bool_t uint64ToString2Digits( uint64_t value, char* result, uint8_t base );
+bool_t uint64ToString2Digits( uint64_t value, char* result, uint8_t base );   // 1 --> "01", 25 --> "25" (completa con un cero a izquierda)
 
 char* floatToString( float value, char* result, int32_t precision );
-
-char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
-char* intToString( int64_t value );
-
-//char* floatToString( float value );
+char* uintToAsciiHex( uint64_t value, char* result, uint8_t bitSize ); // 0x3F1 1 --> "03F1" (completa con ceros a izquierda para formar bien los bytes)
 
 uint8_t* int32ToByteArray( int32_t value, uint8_t* byteArray );
 uint8_t* floatToByteArray( float value, uint8_t* byteArray );
@@ -85,6 +81,18 @@ float byteArrayToFloat( uint8_t* byteArray );
 
 uint8_t* variableToByteArray( void* var, uint32_t sizeOfVar, uint8_t* byteArray );
 void* byteArrayToVariable( void* var, uint32_t sizeOfVar, uint8_t* byteArray );
+
+char* hourMinSecToStringHHMMSS( uint8_t hour,  // (3,58,2) --> "03:58:02"
+                                uint8_t min, 
+                                uint8_t sec,
+                                char* result );
+
+// Funcion no reentrante. Cuidado con el RTOS!!!
+char* intToStringGlobal( int64_t value );
+// Funcion no reentrante. Cuidado con el RTOS!!!
+char* floatToStringGlobal( double value, uint32_t decDigits );
+// Funcion no reentrante. Cuidado con el RTOS!!!
+char* uintToAsciiHexGlobal( uint64_t value, uint8_t bitSize );
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus

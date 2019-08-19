@@ -112,7 +112,7 @@ void printUIntFormat( print_t printer, uint64_t number, numberFormat_t format )
 
 void printHex( print_t printer, uint64_t number, uint8_t bitSize )
 {
-   printString( printer, uintToAsciiHex( number , bitSize ) );
+   printString( printer, uintToAsciiHexGlobal( number, bitSize ) );
 }
 
 

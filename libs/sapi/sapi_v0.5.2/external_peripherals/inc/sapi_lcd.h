@@ -230,34 +230,41 @@ typedef enum{
 
 /*==================[external functions declaration]=========================*/
 
-void lcdCommand( uint8_t cmd );
-void lcdData( uint8_t data );
+// BIBLIOTECA NO REENTRANTE, CUIDADO CON EL RTOS!!!
 
 void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
               uint16_t charWidth, uint16_t charHeight );
+void lcdCommand( uint8_t cmd );
+void lcdData( uint8_t data );
 
 void lcdGoToXY( uint8_t x, uint8_t y );
-
 void lcdClear( void );
 void lcdCursorSet( LCDCursorModes_t mode );
-
 void lcdCreateChar( uint8_t charnum, const char* chardata );
 
 void lcdClearAndHome( void );
 void lcdClearLine( uint8_t line );
 void lcdClearLineFrom( uint8_t line, uint8_t xFrom );
 void lcdClearLineFromTo( uint8_t line, uint8_t xFrom, uint8_t xTo );
-
-void lcdSendEnter( void );
-
 void lcdSendStringRaw( char* str );
 
-void lcdSendChar( char str );
-bool_t lcdSendString( char* str );
-void lcdSendStringClearLine( char* str );
+void lcdSendEnter( void );
+void lcdSendChar( char character );
 
+void lcdSendString( char* str );
+void lcdSendStringClearLine( char* str );
 void lcdSendStringFormXY( char* str, uint8_t x, uint8_t y );
 void lcdSendStringFormXYClearLine( char* str, uint8_t x, uint8_t y );
+
+void lcdSendInt( int64_t value );
+void lcdSendIntClearLine( int64_t value );
+void lcdSendIntFormXY( int64_t value, uint8_t x, uint8_t y );
+void lcdSendIntFormXYClearLine( int64_t value, uint8_t x, uint8_t y );
+
+void lcdSendFloat( float value, uint32_t decDigits );
+void lcdSendFloatClearLine( float value, uint32_t decDigits );
+void lcdSendFloatFormXY( float value, uint32_t decDigits, uint8_t x, uint8_t y );
+void lcdSendFloatFormXYClearLine( float value, uint32_t decDigits, uint8_t x, uint8_t y );
 
 #define lcdSendStringLn(str)   lcdSendString(str); \
                                lcdSendEnter()

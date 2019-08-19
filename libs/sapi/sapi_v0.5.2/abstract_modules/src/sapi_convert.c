@@ -48,6 +48,8 @@
 
 /*==================[external data definition]===============================*/
 
+char globalStrConvertBuff[200];
+
 /*==================[internal functions definition]==========================*/
 
 /*==================[external functions definition]==========================*/
@@ -114,34 +116,6 @@ bool_t uint64ToString( uint64_t value, char* result, uint8_t base )
    return TRUE;
 }
 
-char* uintToAsciiHex( uint64_t value, uint8_t bitSize )
-{
-   static char result[17];
-   uint8_t i = 0;
-   uint8_t vectorNumHex[] = "0123456789ABCDEF";
-   result[bitSize/4] = 0;
-
-   for( i=0; i<bitSize/4; i++ ) {
-      result[(bitSize/4)-i-1] = vectorNumHex[ (uint8_t)(( value & (((uint64_t)0x0F)<<(4*i)) ) >> (4*i)) ];
-   }
-
-   return result;
-}
-
-char* intToString( int64_t value )
-{
-   static char result[20];
-   result[0] = 0;
-   if( value == 0 ) {
-      result[0] = '0';
-      result[1] = 0;
-   } else {
-      int64ToString( value, result, 10 );
-   }
-   return result;
-}
-
-
 bool_t uint64ToString2Digits( uint64_t value, char* result, uint8_t base )
 {
    if( value < 10 ) {
@@ -151,26 +125,6 @@ bool_t uint64ToString2Digits( uint64_t value, char* result, uint8_t base )
       return uint64ToString( value, result, base );
    }
 }
-
-/*
-char* floatToString( float value )
-{
-   // -100000.00 a 100000.00
-   char strBuff[10];
-   int64_t intPart = (int64_t)value;
-   int64_t fracPart = (int64_t)(value*100.0);
-
-
-   int64ToString( intPart, strBuff, 10 );
-
-   strLen(strBuff);
-
-   int64ToString( intPart, strBuff, 10 );
-
-   return strBuff;
-}
-*/
-
 
 #define MAX_PRECISION   (10)
 static const double rounders[MAX_PRECISION + 1] = {
@@ -352,6 +306,73 @@ int32_t byteArrayToInt32( uint8_t* byteArray )
    int32_t value = 0;   
    memcpy( (uint8_t*) (&value), byteArray, 4 );
    return value;
+}
+
+// Funcion no reentrante. Cuidado con el RTOS!!!
+char* intToStringGlobal( int64_t value )
+{
+   if( value == 0 ) {
+      globalStrConvertBuff[0] = '0';
+      globalStrConvertBuff[1] = 0;
+   } else {
+      globalStrConvertBuff[0] = 0;
+      int64ToString( value, globalStrConvertBuff, 10 );
+   }
+   return globalStrConvertBuff;
+}
+
+// Funcion no reentrante. Cuidado con el RTOS!!!
+char* floatToStringGlobal( double value, uint32_t decDigits )
+{
+   globalStrConvertBuff[0] = 0;
+   floatToString( value, globalStrConvertBuff, decDigits );
+   return globalStrConvertBuff;
+}
+
+// Funcion no reentrante. Cuidado con el RTOS!!!
+char* uintToAsciiHexGlobal( uint64_t value, uint8_t bitSize )
+{
+   return uintToAsciiHex( value, globalStrConvertBuff, bitSize );
+}
+
+//-----------------------------------------------------------------------------
+
+char* hourMinSecToStringHHMMSS( uint8_t hour, 
+                                uint8_t min, 
+                                uint8_t sec,
+                                char* result )
+{
+   char uu[3] = { 0, 0, 0 };
+
+   result[0] = 0;   
+   uu[0] = 0;
+   uint64ToString2Digits( hour, uu, 10 );   
+   strcat( result, uu );
+   strcat( result, ":" );
+   uu[0] = 0;
+   uint64ToString2Digits( min, uu, 10 );   
+   strcat( result, uu );   
+   strcat( result, ":" );
+   uu[0] = 0;
+   uint64ToString2Digits( sec, uu, 10 );   
+   strcat( result, uu );
+   return result;
+}
+//-----------------------------------------------------------------------------
+
+
+char* uintToAsciiHex( uint64_t value, char* result, uint8_t bitSize )
+{
+   uint8_t i = 0;
+   uint8_t vectorNumHex[] = "0123456789ABCDEF";
+   result[ bitSize/4 ] = 0;
+
+   for( i=0; i<bitSize/4; i++ ) {
+      result[(bitSize/4)-i-1] = 
+         vectorNumHex[ (uint8_t)(( value & (((uint64_t)0x0F)<<(4*i)) ) >> (4*i)) ];
+   }
+
+   return result;
 }
 
 

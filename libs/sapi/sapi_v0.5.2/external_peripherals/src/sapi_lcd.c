@@ -359,12 +359,12 @@ void lcdClearLineFromTo( uint8_t line, uint8_t xFrom, uint8_t xTo )
    lcdGoToXY( xFrom, line );
 }
 
-void lcdSendChar( char str )
+void lcdSendChar( char character )
 {
    uint8_t i = 0;
 
-   if( str == '\r' ) {             // Ignore '\r'
-   } else if( str == '\n' ) {      // Mando enter
+   if( character == '\r' ) {        // Ignore '\r'
+   } else if( character == '\n' ) { // Mando enter
       lcdSendEnter();
    } else {
       // Si se extiende en ancho mando enter
@@ -372,7 +372,7 @@ void lcdSendChar( char str )
          lcdSendEnter();
       }
       // Mando el caracter
-      lcdData( str );
+      lcdData( character );
       lcd.x++;
    }
 }
@@ -395,14 +395,13 @@ void lcdSendStringClearLine( char* str )
    lcdClearLineFrom( lcd.y, lcd.x );
 }
 
-bool_t lcdSendString( char* str )
+void lcdSendString( char* str )
 {
    uint32_t i = 0;
    while( str[i] != 0 ) {
       lcdSendChar( str[i] );
       i++;
    }
-   return true;
 }
 
 void lcdSendStringFormXY( char* str, uint8_t x, uint8_t y )
@@ -413,8 +412,54 @@ void lcdSendStringFormXY( char* str, uint8_t x, uint8_t y )
 
 void lcdSendStringFormXYClearLine( char* str, uint8_t x, uint8_t y )
 {
+   lcdSendStringFormXY( str, x, y );
+   lcdClearLineFrom( lcd.y, lcd.x );
+}
+
+void lcdSendInt( int64_t value )
+{
+   lcdSendString( intToStringGlobal(value) );
+}
+
+void lcdSendIntClearLine( int64_t value )
+{
+   lcdSendInt( value );
+   lcdClearLineFrom( lcd.y, lcd.x );
+}
+
+void lcdSendIntFormXY( int64_t value, uint8_t x, uint8_t y )
+{
    lcdGoToXY( x, y );
-   lcdSendString( str );
+   lcdSendInt( value );
+}
+
+void lcdSendIntFormXYClearLine( int64_t value, uint8_t x, uint8_t y )
+{
+   lcdSendIntFormXY( value, x, y );
+   lcdClearLineFrom( lcd.y, lcd.x );
+}
+
+
+void lcdSendFloat( float value, uint32_t decDigits )
+{
+   lcdSendString( floatToStringGlobal(value, decDigits) );
+}
+
+void lcdSendFloatClearLine( float value, uint32_t decDigits )
+{
+   lcdSendString( floatToStringGlobal(value, decDigits) );
+   lcdClearLineFrom( lcd.y, lcd.x );
+}
+
+void lcdSendFloatFormXY( float value, uint32_t decDigits, uint8_t x, uint8_t y )
+{
+   lcdGoToXY( x, y );
+   lcdSendFloat( value, decDigits );
+}
+
+void lcdSendFloatFormXYClearLine( float value, uint32_t decDigits, uint8_t x, uint8_t y )
+{
+   lcdSendFloatFormXY( value, decDigits, x, y );
    lcdClearLineFrom( lcd.y, lcd.x );
 }
 
