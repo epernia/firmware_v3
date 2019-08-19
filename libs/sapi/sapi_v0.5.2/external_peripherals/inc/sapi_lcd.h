@@ -252,6 +252,7 @@ void lcdSendEnter( void );
 
 void lcdSendStringRaw( char* str );
 
+void lcdSendChar( char str );
 bool_t lcdSendString( char* str );
 void lcdSendStringClearLine( char* str );
 

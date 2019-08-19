@@ -276,6 +276,9 @@ void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
 
 void lcdGoToXY( uint8_t x, uint8_t y )
 {
+   if( x >= lcd.lineWidth || y >= lcd.amountOfLines ) {
+      return;
+   }
    uint8_t firstCharAdress[] = { 0x80, 0xC0, 0x94, 0xD4 };   // See table 12-5
    //lcdCommand( firstCharAdress[ y - 1 ] + x - 1 ); // Start in {x,y} = {1,1}
    lcdCommand( firstCharAdress[y] + x );             // Start in {x,y} = {0,0}
@@ -326,53 +329,80 @@ void lcdClearAndHome( void )
 
 void lcdClearLine( uint8_t line )
 {
-   lcdClearLineFromTo( line, 0, lcd.lineWidth );
+   lcdClearLineFromTo( line, 0, lcd.lineWidth - 1 );
 }
 
 void lcdClearLineFrom( uint8_t line, uint8_t xFrom )
 {
-   lcdClearLineFromTo( line, xFrom, lcd.lineWidth );
+   lcdClearLineFromTo( line, xFrom, lcd.lineWidth - 1 );
 }
 
 void lcdClearLineFromTo( uint8_t line, uint8_t xFrom, uint8_t xTo )
 {
    uint8_t i = 0;
 
-   if( xFrom >= lcd.lineWidth ) {
+   if( xFrom >= lcd.lineWidth || line >= lcd.amountOfLines ) {
       return;
    }
-   if( xTo > lcd.lineWidth ) {
-      xTo = lcd.lineWidth;
+   if( xFrom > xTo ) {
+      return;
+   }
+   if( xTo >= lcd.lineWidth ) {
+      xTo = lcd.lineWidth - 1;
    }
 
    lcdGoToXY( xFrom, line );
-   for( i=xFrom; i<xTo; i++ ) {
-      lcdData( ' ' );
+   for( i=xFrom; i<=xTo; i++ ) {
+      lcdSendChar( ' ' );
    }
+   //lcd.x--;
    lcdGoToXY( xFrom, line );
 }
 
-
-bool_t lcdSendString( char* str )
+void lcdSendChar( char str )
 {
    uint8_t i = 0;
 
-   while( str[i] != 0 ) {
-      if( str[i] == '\r' ) {             // Ignore '\r'
-      } else if( str[i] == '\n' ) {      // Mando enter
+   if( str == '\r' ) {             // Ignore '\r'
+   } else if( str == '\n' ) {      // Mando enter
+      lcdSendEnter();
+   } else {
+      // Si se extiende en ancho mando enter
+      if( lcd.x >= lcd.lineWidth ) {
          lcdSendEnter();
-      } else {
-         // Si se extiende en ancho mando enter
-         if( lcd.x >= lcd.lineWidth ) {
-            lcdSendEnter();
-         }
-         // Mando el caracter
-         lcdData( str[i] );
-         lcd.x++;
       }
+      // Mando el caracter
+      lcdData( str );
+      lcd.x++;
+   }
+}
+
+void lcdSendEnter( void )
+{
+   // Si llego abajo no hace nada
+   if( lcd.y >= lcd.amountOfLines ) {
+      return;
+   } else {
+      lcd.x = 0;
+      lcd.y++;
+      lcdGoToXY( lcd.x, lcd.y );
+   }
+}
+
+void lcdSendStringClearLine( char* str )
+{
+   lcdSendString( str );
+   lcdClearLineFrom( lcd.y, lcd.x );
+}
+
+bool_t lcdSendString( char* str )
+{
+   uint32_t i = 0;
+   while( str[i] != 0 ) {
+      lcdSendChar( str[i] );
       i++;
    }
-   return 0;
+   return true;
 }
 
 void lcdSendStringFormXY( char* str, uint8_t x, uint8_t y )
@@ -386,23 +416,6 @@ void lcdSendStringFormXYClearLine( char* str, uint8_t x, uint8_t y )
    lcdGoToXY( x, y );
    lcdSendString( str );
    lcdClearLineFrom( lcd.y, lcd.x );
-}
-
-void lcdSendStringClearLine( char* str )
-{
-   lcdSendString( str );
-   lcdClearLineFrom( lcd.y, lcd.x );
-}
-
-void lcdSendEnter( void )
-{
-   lcd.x = 0;
-   lcd.y++;
-   // Si llego abajo vuelve al principio
-   //if( lcd.y >= lcd.amountOfLines ) {
-   //   lcd.y = 0;
-   //}
-   lcdGoToXY( lcd.x, lcd.y );
 }
 
 /*==================[fin del archivo]========================================*/
