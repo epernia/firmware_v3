@@ -14,7 +14,7 @@
 // PRIVATE VARIABLE DECLARATIONS
 // ----------------------------------------------------------------
 
-static int32_t m_data_o[PORT_SIZE] = {
+static const int32_t m_data_o[PORT_SIZE] = {
    M_DATA_O7,
    M_DATA_O6,
    M_DATA_O5,
@@ -25,7 +25,7 @@ static int32_t m_data_o[PORT_SIZE] = {
    M_DATA_O0,
 };
 
-static int32_t s_data_i[PORT_SIZE] = {
+static const int32_t s_data_i[PORT_SIZE] = {
    S_DATA_I7,
    S_DATA_I6,
    S_DATA_I5,
@@ -36,8 +36,12 @@ static int32_t s_data_i[PORT_SIZE] = {
    S_DATA_I0,
 };
 
-static bool_t clk = LOW;
-static bool_t clk_old = LOW;
+static bool_t clk_i = LOW;
+static bool_t clk_i_old = LOW;
+
+static bool_t clk_o = LOW;
+static bool_t clk_o_old = LOW;
+
 static delay_t m_clk_delay;
 
 // Send ----------------------------------
@@ -107,6 +111,7 @@ void axisInit( uint8_t* txBuff, uint32_t txBuffLen,
    gpioInit( s_ready_o, GPIO_OUTPUT );
 
    // CLOCK ---------------------------------
+   gpioInit( s_clk_i, GPIO_INPUT_PULLUP );
    gpioInit( m_clk_o, GPIO_OUTPUT );
    delayInit( &m_clk_delay, T_CLK );
    
@@ -182,30 +187,38 @@ static void axisClockToggleAndSave( void )
    if( delayRead(&m_clk_delay) ) {
       gpioToggle(m_clk_o);
    }
-   clk = gpioRead(m_clk_o);
+   clk_o = gpioRead(m_clk_o);
+   clk_i = gpioRead(s_clk_i);
 }
 
 static void axisClockOnRisingEdgeEvent( void )
 {
-   // Clock rising edge ?
-   if( clk_old == LOW && clk == HIGH ) {     
+   // Clock output rising edge ?
+   if( clk_o_old == LOW && clk_o == HIGH ) {     
       axisOnRisingSendUpdate();
+   }
+   // Clock input rising edge ?
+   if( clk_i_old == LOW && clk_i == HIGH ) {     
       axisOnRisingReceiveUpdate();
    }
 }
 
 static void axisClockOnFallingEdgeEvent( void )
 {
-   // Clock falling edge ?
-   if( clk_old == HIGH && clk == LOW ) {  
+   // Clock output falling edge ?
+   if( clk_o_old == HIGH && clk_o == LOW ) {  
       axisOnFallingSendUpdate();
+   }
+   // Clock input falling edge ?
+   if( clk_i_old == HIGH && clk_i == LOW ) {  
       axisOnFallingReceiveUpdate();
    }
 }
 
 static void axisClockSaveLasValue( void )
 {
-   clk_old = clk;
+   clk_o_old = clk_o;
+   clk_i_old = clk_i;
 }
 
 // ----------------------------------------------------------------

@@ -10,7 +10,7 @@
 
 #include "gpio_port.h"
 
-void gpioPortInit( int32_t* port, int32_t direction )
+void gpioPortInit( const int32_t* port, int32_t direction )
 {
    uint8_t i = 0;
    for( i=0; i<PORT_SIZE; i++ ) {
@@ -18,7 +18,7 @@ void gpioPortInit( int32_t* port, int32_t direction )
    }
 }
 
-void gpioPortWrite( int32_t* port, uint64_t value )
+void gpioPortWrite( const int32_t* port, uint64_t value )
 {
    uint8_t i = 0;
    for( i=0; i<PORT_SIZE; i++ ) {
@@ -26,7 +26,7 @@ void gpioPortWrite( int32_t* port, uint64_t value )
    }
 }
 
-uint64_t gpioPortRead( int32_t* port )
+uint64_t gpioPortRead( const int32_t* port )
 {
    uint8_t i = 0;
    uint64_t value = 0;
@@ -37,7 +37,7 @@ uint64_t gpioPortRead( int32_t* port )
    return value;
 }
 
-void gpioPortToggle( int32_t* port )
+void gpioPortToggle( const int32_t* port )
 {
    uint64_t value = gpioPortRead( port );
    gpioPortWrite( port, ~value );

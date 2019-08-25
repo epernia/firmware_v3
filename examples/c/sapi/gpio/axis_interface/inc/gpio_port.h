@@ -32,13 +32,13 @@ extern "C" {
 
 /*=====[Prototypes (declarations) of public functions]=======================*/
 
-void gpioPortInit( int32_t* port, int32_t direction );
+void gpioPortInit( const int32_t* port, int32_t direction );
 
-void gpioPortWrite( int32_t* port, uint64_t value );
+void gpioPortWrite( const int32_t* port, uint64_t value );
 
-uint64_t gpioPortRead( int32_t* port );
+uint64_t gpioPortRead( const int32_t* port );
 
-void gpioPortToggle( int32_t* port );
+void gpioPortToggle( const int32_t* port );
 
 /*=====[Prototypes (declarations) of public interrupt functions]=============*/
 

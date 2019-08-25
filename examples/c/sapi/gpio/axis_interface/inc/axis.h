@@ -26,8 +26,8 @@ extern "C" {
 
 // CLOCK ---------------------------------
 
-// clk_o
 #define m_clk_o     T_FIL1 // T_FIL1 LEDB
+#define s_clk_i     T_COL2 // T_COL2
 #define T_CLK       10     // ms 5 10 1000
    
 // MASTER --------------------------------
