@@ -36,6 +36,19 @@ static uint8_t tx_data[DATA_SIZE] = {
    0xFE,   
 };
 
+/*
+#define DATA_SIZE   6 // Cantidad de datos a tranasimitir/recibir
+
+static uint8_t tx_data[DATA_SIZE] = {
+   0b00000101,
+   0b00001010,
+   0b00010100,
+   0b00101000,
+   0b01010000,
+   0b10100000,
+};
+*/
+
 // Receive -------------------------------
 
 static uint8_t rx_data[DATA_SIZE];

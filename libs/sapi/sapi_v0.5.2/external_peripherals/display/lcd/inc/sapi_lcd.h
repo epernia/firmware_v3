@@ -224,7 +224,12 @@ typedef enum{
    LCD_CURSOR_OFF      = 0x00,
    LCD_CURSOR_ON       = 0x02,
    LCD_CURSOR_ON_BLINK = 0x03
-} LCDCursorModes_t;
+} lcdCursorModes_t;
+
+typedef struct{
+   const uint8_t address;   // Custom character address
+   const uint8_t bitmap[8]; // Custom character bitmap
+} lcdCustomChar_t;
 
 /*==================[external data declaration]==============================*/
 
@@ -239,8 +244,11 @@ void lcdData( uint8_t data );
 
 void lcdGoToXY( uint8_t x, uint8_t y );
 void lcdClear( void );
-void lcdCursorSet( LCDCursorModes_t mode );
+void lcdCursorSet( lcdCursorModes_t mode );
 void lcdCreateChar( uint8_t charnum, const char* chardata );
+
+void lcdCreateCustomChar( lcdCustomChar_t* customChar );
+void lcdSendCustomChar( lcdCustomChar_t* customChar );
 
 void lcdClearAndHome( void );
 void lcdClearLine( uint8_t line );
@@ -250,6 +258,7 @@ void lcdSendStringRaw( char* str );
 
 void lcdSendEnter( void );
 void lcdSendChar( char character );
+void lcdSendCustomCharByIndex( uint8_t charIndex );
 
 void lcdSendString( char* str );
 void lcdSendStringClearLine( char* str );

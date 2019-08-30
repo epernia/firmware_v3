@@ -271,7 +271,9 @@ void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
 
    lcdDelay_ms( 1 );                     // Wait
 
-   lcdGoToXY( 0, 0 );
+   lcdCursorSet( LCD_CURSOR_OFF );
+   //lcdGoToXY( 0, 0 );
+   lcdClearAndHome();
 }
 
 void lcdGoToXY( uint8_t x, uint8_t y )
@@ -293,7 +295,7 @@ void lcdClear( void )
    lcdDelay_ms(LCD_CLR_DISP_WAIT_MS);    // Wait
 }
 
-void lcdCursorSet( LCDCursorModes_t mode )
+void lcdCursorSet( lcdCursorModes_t mode )
 {
    lcdCommand( 0b00001100 | mode );
    lcdDelay_ms(LCD_CLR_DISP_WAIT_MS); // Wait
@@ -317,6 +319,17 @@ void lcdCreateChar( uint8_t charnum, const char* chardata )
       lcdData( chardata[i] );
    }
    delay(1);
+   lcdGoToXY( lcd.x, lcd.y );
+}
+
+void lcdCreateCustomChar( lcdCustomChar_t* customChar )
+{
+   lcdCreateChar( customChar->address, customChar->bitmap );
+}
+
+void lcdSendCustomChar( lcdCustomChar_t* customChar )
+{
+   lcdSendCustomCharByIndex( customChar->address );
 }
 
 
@@ -375,6 +388,17 @@ void lcdSendChar( char character )
       lcdData( character );
       lcd.x++;
    }
+}
+
+void lcdSendCustomCharByIndex( uint8_t charIndex )
+{
+   // Si se extiende en ancho mando enter
+   if( lcd.x >= lcd.lineWidth ) {
+      lcdSendEnter();
+   }
+   // Mando el caracter
+   lcdData( charIndex );
+   lcd.x++;
 }
 
 void lcdSendEnter( void )
