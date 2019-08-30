@@ -4,9 +4,6 @@ SAPI_BASE=libs/sapi/sapi_v0.5.2
 
 DEFINES+=USE_SAPI
 
-# External Peripherals
--include $(SAPI_BASE)/external_peripherals/module.mk
-
 INCLUDES += -I$(SAPI_BASE)/base/inc
 INCLUDES += -I$(SAPI_BASE)/soc/core/inc
 INCLUDES += -I$(SAPI_BASE)/soc/peripherals/inc
@@ -22,5 +19,8 @@ SRC += $(wildcard $(SAPI_BASE)/soc/peripherals/usb/device/src/*.c)
 SRC += $(wildcard $(SAPI_BASE)/soc/peripherals/usb/host/src/*.c)
 SRC += $(wildcard $(SAPI_BASE)/board/src/*.c)
 SRC += $(wildcard $(SAPI_BASE)/abstract_modules/src/*.c)
+
+# External Peripherals
+include $(SAPI_BASE)/external_peripherals/module.mk
 
 endif
