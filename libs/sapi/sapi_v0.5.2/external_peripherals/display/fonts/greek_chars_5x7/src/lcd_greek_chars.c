@@ -8,6 +8,9 @@
 #include "sapi.h"
 #include "font_8bit.h"
 
+// Generar caracteres personalizados:
+// https://maxpromer.github.io/LCD-Character-Creator/
+
 // Para investigar como hacer mas de 8 caracteres personalizados:
 // https://www.ccsinfo.com/forum/viewtopic.php?t=48459
 
