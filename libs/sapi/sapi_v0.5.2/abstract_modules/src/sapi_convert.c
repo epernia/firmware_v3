@@ -360,6 +360,22 @@ char* hourMinSecToStringHHMMSS( uint8_t hour,
 }
 //-----------------------------------------------------------------------------
 
+char* dayHourToStringDH( uint32_t day, uint8_t hour, char* result )
+{
+   char buff[10];   
+   result[0] = 0;   
+   buff[0] = 0;   
+   uint64ToString( day, buff, 10 );   
+   strcat( result, buff );
+   strcat( result, "d " );
+   buff[0] = 0;   
+   uint64ToString( hour, buff, 10 );   
+   strcat( result, buff );   
+   strcat( result, "h" );
+   return result;
+}
+//-----------------------------------------------------------------------------
+
 
 char* uintToAsciiHex( uint64_t value, char* result, uint8_t bitSize )
 {

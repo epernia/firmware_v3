@@ -87,10 +87,14 @@ char* hourMinSecToStringHHMMSS( uint8_t hour,  // (3,58,2) --> "03:58:02"
                                 uint8_t sec,
                                 char* result );
 
+char* dayHourToStringDH( uint32_t day, uint8_t hour, char* result );
+
 // Funcion no reentrante. Cuidado con el RTOS!!!
 char* intToStringGlobal( int64_t value );
+
 // Funcion no reentrante. Cuidado con el RTOS!!!
 char* floatToStringGlobal( double value, uint32_t decDigits );
+   
 // Funcion no reentrante. Cuidado con el RTOS!!!
 char* uintToAsciiHexGlobal( uint64_t value, uint8_t bitSize );
 
