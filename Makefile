@@ -50,13 +50,12 @@ USE_SAPI=y
 
 MODULES=$(sort $(dir $(wildcard libs/*/)))
 SRC+=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.c)
-#SRC=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.c)
 SRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.c))
 
-CXXSRC=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.cpp)
+CXXSRC+=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.cpp)
 CXXSRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.cpp))
 
-ASRC=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.s)
+ASRC+=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.s)
 ASRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.s))
 
 OUT=$(PROGRAM_PATH_AND_NAME)/out
