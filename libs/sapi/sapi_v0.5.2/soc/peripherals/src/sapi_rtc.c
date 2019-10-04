@@ -108,7 +108,7 @@ bool_t rtcWrite( rtc_t * rtc )
    rtcTime.time[RTC_TIMETYPE_SECOND]     = rtc->sec;
    rtcTime.time[RTC_TIMETYPE_MINUTE]     = rtc->min;
    rtcTime.time[RTC_TIMETYPE_HOUR]       = rtc->hour;
-   rtcTime.time[RTC_TIMETYPE_DAYOFMONTH] = rtc->wday;
+   rtcTime.time[RTC_TIMETYPE_DAYOFWEEK]  = rtc->wday;
    rtcTime.time[RTC_TIMETYPE_DAYOFMONTH] = rtc->mday;
    rtcTime.time[RTC_TIMETYPE_MONTH]      = rtc->month;
    rtcTime.time[RTC_TIMETYPE_YEAR]	     = rtc->year;
