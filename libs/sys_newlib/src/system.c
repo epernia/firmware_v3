@@ -250,3 +250,32 @@ void *_sbrk_r(struct _reent *r, ptrdiff_t incr) {
    heap_end += incr;
    return prev_heap_end;
 }
+
+#ifdef USE_PICOLIBC
+#include <stdio.h>
+
+static int ao_flush(FILE *ignore) {
+   UNUSED(ignore);
+   return 0;
+}
+
+static int ao_putc(char c, FILE *ignore) {
+   __stdio_putchar(c);
+   return 0;
+}
+
+static int ao_getc(FILE *ignore) {
+   UNUSED(ignore);
+   return __stdio_getchar();
+}
+
+static FILE __stdio = {
+   .flags = __SRD|__SWR,
+   .put = ao_putc,
+   .get = ao_getc,
+   .flush = ao_flush,
+};
+
+FILE *const __iob[3] = { &__stdio, &__stdio, &__stdio };
+
+#endif
