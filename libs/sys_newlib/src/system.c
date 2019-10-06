@@ -12,6 +12,7 @@
 
 WEAK void __stdio_putchar(int c);
 WEAK int __stdio_getchar();
+WEAK void __stdio_yield();
 WEAK_INIT void __stdio_init();
 
 void __stdio_init() {
@@ -23,6 +24,9 @@ void __stdio_putchar(int c) {
 
 int __stdio_getchar() {
    return -1;
+}
+
+void __stdio_yield() {
 }
 
 void _exit(int code) {
@@ -266,7 +270,18 @@ static int ao_putc(char c, FILE *ignore) {
 
 static int ao_getc(FILE *ignore) {
    UNUSED(ignore);
-   return __stdio_getchar();
+   int c;
+   while ((c = __stdio_getchar()) == -1) {
+         __stdio_yield();
+   }
+   __stdio_putchar(c);
+   switch (c) {
+   case '\r':
+   case '\n':
+      return -1;
+   default:
+      return c;
+   }
 }
 
 static FILE __stdio = {
