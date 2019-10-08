@@ -61,7 +61,7 @@ extern "C" {
 
 /*=====[Definition macros of public constants]===============================*/
 
-#define PID_PRINT_RESULT
+// #define PID_PRINT_RESULT
 
 #ifdef PID_PRINT_RESULT
 // Number of samples to save
