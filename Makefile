@@ -37,6 +37,7 @@ endif
 VERBOSE=n
 OPT=g
 USE_NANO=y
+USE_PICO=n
 SEMIHOST=n
 USE_FPU=y
 # Libraries
@@ -89,11 +90,21 @@ LDFLAGS+=-nostartfiles -Wl,-gc-sections -Wl,-Map=$(TARGET_MAP) -Wl,--cref
 
 ifeq ($(USE_NANO),y)
 LDFLAGS+=--specs=nano.specs
+# Force newlib instread of nano
+USE_PICO:=n
 endif
 
 ifeq ($(SEMIHOST),y)
 DEFINES+=USE_SEMIHOST
 LDFLAGS+=--specs=rdimon.specs
+# Force newlib instread of nano
+USE_PICO:=n
+endif
+
+ifeq ($(USE_PICO),y)
+DEFINES+=USE_PICOLIBC
+COMMON_FLAGS+=-specs=picolibc.specs
+LDFLAGS+=-specs=picolibc.specs
 endif
 
 CROSS=arm-none-eabi-

@@ -12,6 +12,7 @@
 
 WEAK void __stdio_putchar(int c);
 WEAK int __stdio_getchar();
+WEAK void __stdio_yield();
 WEAK_INIT void __stdio_init();
 
 void __stdio_init() {
@@ -23,6 +24,9 @@ void __stdio_putchar(int c) {
 
 int __stdio_getchar() {
    return -1;
+}
+
+void __stdio_yield() {
 }
 
 void _exit(int code) {
@@ -250,3 +254,43 @@ void *_sbrk_r(struct _reent *r, ptrdiff_t incr) {
    heap_end += incr;
    return prev_heap_end;
 }
+
+#ifdef USE_PICOLIBC
+#include <stdio.h>
+
+static int ao_flush(FILE *ignore) {
+   UNUSED(ignore);
+   return 0;
+}
+
+static int ao_putc(char c, FILE *ignore) {
+   __stdio_putchar(c);
+   return 0;
+}
+
+static int ao_getc(FILE *ignore) {
+   UNUSED(ignore);
+   int c;
+   while ((c = __stdio_getchar()) == -1) {
+         __stdio_yield();
+   }
+   __stdio_putchar(c);
+   switch (c) {
+   case '\r':
+   case '\n':
+      return -1;
+   default:
+      return c;
+   }
+}
+
+static FILE __stdio = {
+   .flags = __SRD|__SWR,
+   .put = ao_putc,
+   .get = ao_getc,
+   .flush = ao_flush,
+};
+
+FILE *const __iob[3] = { &__stdio, &__stdio, &__stdio };
+
+#endif

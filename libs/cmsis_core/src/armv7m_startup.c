@@ -7,6 +7,7 @@
 
 extern int main(void);
 extern void __libc_init_array(void);
+extern void __libc_fini_array(void);
 extern void SystemInit(void);
 
 extern void _vStackTop(void);
@@ -78,7 +79,7 @@ extern unsigned int __bss_section_table;
 extern unsigned int __bss_section_table_end;
 
 void Reset_Handler(void) {
-    __asm__ volatile("cpsid i");
+    __asm__ __volatile__("cpsid i");
 
     volatile unsigned int *RESET_CONTROL = (unsigned int *) 0x40053100;
     *(RESET_CONTROL + 0) = 0x10DF1000;
@@ -89,7 +90,6 @@ void Reset_Handler(void) {
     for (irqpendloop = 0; irqpendloop < 8; irqpendloop++) {
         *(NVIC_ICPR + irqpendloop) = 0xFFFFFFFF;
     }
-    __asm__ volatile("cpsie i");
 
     unsigned int LoadAddr, ExeAddr, SectionLen;
     unsigned int *SectionTableAddr;
@@ -109,11 +109,16 @@ void Reset_Handler(void) {
 
     SystemInit();
 
-    __libc_init_array();
+#ifdef USE_SEMIHOST
     initialise_monitor_handles();
+#endif
+
+    __libc_init_array();
     main();
+    __libc_fini_array();
+    __asm__ __volatile__("bkpt 0");
     while (1) {
-        __asm__ volatile("wfi");
+        __asm__ __volatile__("wfi");
     }
 }
 
