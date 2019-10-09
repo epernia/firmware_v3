@@ -190,7 +190,8 @@ int main( void )
    // ----- Setup -----------------------------------
    boardInit();   
    axisInit( tx_data, DATA_SIZE, 
-             rx_data, DATA_SIZE );      
+             rx_data, DATA_SIZE ); 
+   printf( "Hola\r\n\r\n" );
    // ----- Repeat for ever -------------------------
    while( true ) {      
       axisUpdate();

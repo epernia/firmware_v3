@@ -61,11 +61,36 @@ bool_t rtcInit( void )
 {
    bool_t ret_val = 1;
 
-   Chip_RTC_Init(LPC_RTC);
+   static bool_t init;
 
-   // Enable rtc (starts increase the tick counter
-   // and second counter register)
-   Chip_RTC_Enable(LPC_RTC, ENABLE);
+   if( init ){
+      /* Already initialized */
+      ret_val = 0;
+   } else {
+
+      /* RTC Block section ------------------------- */
+      Chip_RTC_Init(LPC_RTC);
+
+      /* Set current time for RTC */
+      /* Current time is 22:00:00 , 2016-07-02 */
+      /*
+      RTC_TIME_T rtcTime; 
+      rtcTime.time[RTC_TIMETYPE_SECOND]     = 0;
+      rtcTime.time[RTC_TIMETYPE_MINUTE]     = 0;
+      rtcTime.time[RTC_TIMETYPE_HOUR]       = 22;
+      rtcTime.time[RTC_TIMETYPE_DAYOFMONTH] = 2;
+      rtcTime.time[RTC_TIMETYPE_MONTH]      = 7;
+      rtcTime.time[RTC_TIMETYPE_YEAR]       = 2016;
+      Chip_RTC_SetFullAlarmTime(LPC_RTC, &rtcTime);
+      */
+      //rtcWrite( rtc );
+
+      /* Enable rtc (starts increase the tick counter
+         and second counter register) */
+      Chip_RTC_Enable(LPC_RTC, ENABLE);
+
+      init = 1;
+   }
 
    return ret_val;
 }

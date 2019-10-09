@@ -169,8 +169,10 @@ int main(void){
    bool_t val = 0;
    uint8_t i = 0;
 
+   uartWriteString( UART_USB, "Inicializar RTC\r\n" );
    rtcInit(); // Inicializar RTC
  
+   uartWriteString( UART_USB, "Establecer fecha y hora\r\n" );
    rtcWrite( &rtc ); // Establecer fecha y hora
 
    delay_t delay1s;
@@ -192,9 +194,10 @@ int main(void){
    rtc.wday = 1;
    rtc.hour = 14;
    rtc.min = 30;
-   rtc.sec= 0;
+   rtc.sec = 0;
 
    /* Establecer fecha y hora */
+   uartWriteString( UART_USB, "Establecer fecha y hora\r\n" );
    val = rtcWrite( &rtc );
 
    /* ------------- REPETIR POR SIEMPRE ------------- */

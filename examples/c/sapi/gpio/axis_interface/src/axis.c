@@ -299,7 +299,7 @@ static void axisCompareData( void )
    for( i=0; i<rx_data_len; i++ ){
       equals = equals && ( tx_data[i] == rx_data[i] );      
       if( tx_data[i] != rx_data[i] ) {
-         printf( "Data Error at i=%d\r\n", i );  
+         printf( "Data Error at i=%d, received:r\n",  i );
          gpioWrite( LEDR, ON );     
       }
    }
