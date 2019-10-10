@@ -7,7 +7,7 @@
 
 extern int main(void);
 extern void __libc_init_array(void);
-extern void __libc_fini_array(void);
+// extern void __libc_fini_array(void); // @Eric fix newlib commits
 extern void SystemInit(void);
 
 extern void _vStackTop(void);
@@ -79,7 +79,8 @@ extern unsigned int __bss_section_table;
 extern unsigned int __bss_section_table_end;
 
 void Reset_Handler(void) {
-    __asm__ __volatile__("cpsid i");
+    __asm__ volatile("cpsid i");
+    //__asm__ __volatile__("cpsid i"); // @Eric fix newlib commits
 
     volatile unsigned int *RESET_CONTROL = (unsigned int *) 0x40053100;
     *(RESET_CONTROL + 0) = 0x10DF1000;
@@ -90,6 +91,7 @@ void Reset_Handler(void) {
     for (irqpendloop = 0; irqpendloop < 8; irqpendloop++) {
         *(NVIC_ICPR + irqpendloop) = 0xFFFFFFFF;
     }
+    __asm__ volatile("cpsie i");
 
     unsigned int LoadAddr, ExeAddr, SectionLen;
     unsigned int *SectionTableAddr;
@@ -109,6 +111,15 @@ void Reset_Handler(void) {
 
     SystemInit();
 
+    __libc_init_array();
+    initialise_monitor_handles();
+    main();
+    while (1) {
+        __asm__ volatile("wfi");
+    }
+
+// @Eric fix newlib commits
+/*
 #ifdef USE_SEMIHOST
     initialise_monitor_handles();
 #endif
@@ -120,6 +131,9 @@ void Reset_Handler(void) {
     while (1) {
         __asm__ __volatile__("wfi");
     }
+*/
+
+
 }
 
 __attribute__ ((section(".after_vectors")))

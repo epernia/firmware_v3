@@ -62,6 +62,8 @@
 #include "sapi_stdio.h"
 
 /*==================[macros and definitions]=================================*/
+
+#define putchar(c)      outbyte(c)
 #define PAD_RIGHT       1
 #define PAD_ZERO        2
 #define PRINT_BUF_LEN   12
@@ -108,11 +110,13 @@ void outbyte(int c)
  */
 static void printchar(char **str, int c)
 {
+   extern void putchar(int c);
    if (str) {
       **str = c;
       ++(*str);
    } else {
-      (void)outbyte(c);
+      (void)putchar(c);
+      //(void)outbyte(c);// @Eric fix newlib commits
    }
 }
 

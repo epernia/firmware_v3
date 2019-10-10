@@ -12,7 +12,7 @@
 
 WEAK void __stdio_putchar(int c);
 WEAK int __stdio_getchar();
-WEAK void __stdio_yield();
+//WEAK void __stdio_yield();// @Eric fix newlib commits
 WEAK_INIT void __stdio_init();
 
 void __stdio_init() {
@@ -26,8 +26,11 @@ int __stdio_getchar() {
    return -1;
 }
 
+// @Eric fix newlib commits
+/*
 void __stdio_yield() {
 }
+*/
 
 void _exit(int code) {
    register int __params__ __asm__("r0") = code;
@@ -255,6 +258,8 @@ void *_sbrk_r(struct _reent *r, ptrdiff_t incr) {
    return prev_heap_end;
 }
 
+// @Eric fix newlib commits
+/*
 #ifdef USE_PICOLIBC
 #include <stdio.h>
 
@@ -294,3 +299,4 @@ static FILE __stdio = {
 FILE *const __iob[3] = { &__stdio, &__stdio, &__stdio };
 
 #endif
+*/
