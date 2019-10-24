@@ -302,6 +302,10 @@ select_board:
 # TEST: Build all programs
 .test_build_all:
 	@sh scripts/test/test-build-all.sh
+	
+# TEST: Hardware all programs
+.test_hw_all:
+	@sh scripts/test/test-hw-all.sh
 
 # ----------------------------------------------------------------------
 
