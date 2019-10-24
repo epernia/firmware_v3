@@ -12,7 +12,7 @@
 int main(void)
 {
    /* ------------- INICIALIZACIONES ------------- */
-   boardInit(); // Inicializar la plataforma
+   boardInit();
 
    // Crear estructura RTC
    rtc_t rtc;
@@ -26,9 +26,9 @@ int main(void)
    rtc.min = 15;
    rtc.sec= 0;
   
-   rtcInit(); // Inicializar RTC
- 
-   rtcWrite( &rtc ); // Establecer fecha y hora
+   // Inicializar RTC 
+   rtcInit();
+   rtcWrite( &rtc );
    
    /* ------------- REPETIR POR SIEMPRE ------------- */
    while(1) {

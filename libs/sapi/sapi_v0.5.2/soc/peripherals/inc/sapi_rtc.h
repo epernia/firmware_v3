@@ -69,7 +69,7 @@ typedef struct {
  * @param  rtc_t rtc: RTC structure
  * @return bool_t true (1) if config it is ok
  */
-bool_t rtcInit( void );
+bool_t rtcInit( void ); //rtc_t* rtc );
 
 /*
  * @Brief: Get time from RTC peripheral.
