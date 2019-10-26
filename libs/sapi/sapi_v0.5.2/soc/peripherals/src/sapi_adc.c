@@ -85,8 +85,8 @@ void adcInit( adcInit_t config )
          /* Config ADC0 sample mode */      
          ADC_CLOCK_SETUP_T ADCSetup = {
             ADC_MAX_SAMPLE_RATE,   // ADC Sample rate:ADC_MAX_SAMPLE_RATE = 400KHz
-            ADC_10BITS,            // ADC resolution: ADC_10BITS = 10
-            DISABLE                // ADC Burst Mode: (true or false)
+            10,                    // ADC resolution: ADC_10BITS = 10
+            0                      // ADC Burst Mode: (true or false)
          };
 
          Chip_ADC_Init( LPC_ADC0, &ADCSetup );
@@ -131,7 +131,7 @@ void adcInit( adcInit_t config )
  */
 uint16_t adcRead( adcMap_t analogInput )
 {
-   uint8_t lpcAdcChannel = (uint8_t)(analogInput + 1);
+   uint8_t lpcAdcChannel = analogInput + 1;
    uint16_t analogValue = 0;
 
    // Enable channel

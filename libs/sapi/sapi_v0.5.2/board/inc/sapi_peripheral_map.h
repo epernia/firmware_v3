@@ -128,15 +128,14 @@ typedef enum {
 /* Defined for sapi_adc.h */
 typedef enum {
 	#if (BOARD == ciaa_nxp)
-	   AI0 = 0,
-	   AI1 = 1,
-	   AI2 = 2,
-	   AI3 = 3,
+	   AI0 = 0, // AIN0 =   2 ADC0_1/ADC1_1
+	   AI1 = 1, // AIN1 = 143 ADC0_2/ADC1_2
+	   AI2 = 2, // AIN2 = 139 ADC0_3/ADC1_3
+	   AI3 = 3, // AIN3 = 138 ADC0_4/ADC1_4
 	#elif (BOARD == edu_ciaa_nxp)
-	   CH1 = 0,
-	   CH2 = 1,
-	   CH3 = 2,
-	   CH4 = 3,
+	   CH1 = 0, // CH1 =   2 ADC0_1/ADC1_1
+	   CH2 = 1, // CH2 = 143 ADC0_2/ADC1_2
+	   CH3 = 2, // CH3 = 139 ADC0_3/ADC1_3
 	#else
 	   #error BOARD not supported yet!
 	#endif
