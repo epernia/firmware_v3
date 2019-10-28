@@ -1,3 +1,7 @@
+/*
+ * Using code from https://github.com/radare/pebble-disthumb
+ */
+
 /* 2015 - tiny Thumb2 disassembler based on winedbg code */
 
 #include <stdio.h>

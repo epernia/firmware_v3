@@ -1,3 +1,6 @@
+/*
+ * Using code from https://github.com/radare/pebble-disthumb
+ */
 #ifndef _INCLUDE_THUMB_DISASM_H_
 #define _INCLUDE_THUMB_DISASM_H_
 
