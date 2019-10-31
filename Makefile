@@ -78,8 +78,10 @@ LIBSDEPS=$(addprefix $(OUT)/, $(addsuffix .a, $(basename $(foreach l, $(LIBS), $
 
 COMMON_FLAGS=$(ARCH_FLAGS) $(DEFINES_FLAGS) $(INCLUDE_FLAGS) $(OPT_FLAGS) -DBOARD=$(BOARD)
 
-CFLAGS=$(COMMON_FLAGS) -std=c99
-CXXFLAGS=$(COMMON_FLAGS) -fno-rtti -fno-exceptions -std=c++11
+OUT_PATH =  $(PROGRAM_PATH_AND_NAME)/out
+
+CFLAGS+=$(COMMON_FLAGS) -std=c99
+CXXFLAGS+=$(COMMON_FLAGS) -fno-rtti -fno-exceptions -std=c++11
 
 LDFLAGS=$(ARCH_FLAGS)
 LDFLAGS+=$(addprefix -L, $(foreach m, $(MODULES), $(wildcard $(m)/lib)))
@@ -253,6 +255,16 @@ erase:
 		-c "flash erase_sector 0 0 last" \
 		-c "shutdown" 2>&1
 
+
+# generate dissasembly and other files
+dis:
+	echo $(PROGRAM_PATH_AND_NAME)
+	echo $(PROJECT_NAME)
+		@echo "*** Generating dissasembly ***"
+	@$(CROSS)objdump -d  -S $(TARGET_ELF)  > "$(OUT_PATH)/$(PROJECT_NAME)dissasembly.txt" 
+	@echo "*** Generating sections file ***" 
+	@$(CROSS)objdump -h -t $(TARGET_ELF) > "$(OUT_PATH)/$(PROJECT_NAME)sections.txt"
+	
 # DEBUG with Embedded IDE (debug)
 .debug:
 	@echo DEBUG
