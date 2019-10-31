@@ -1,6 +1,6 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Build Status](https://travis-ci.com/epernia/firmware_v3.svg?branch=master)](https://travis-ci.com/epernia/firmware_v3) (Travis CI status)
 
-# Embedded Systems development Firmware in C/C++ 
+# Embedded Systems development Firmware in C/C++
 
 ## IMPORTANT
 
@@ -16,6 +16,7 @@
 - sAPI v0.5.2. [sAPI API Reference (spanish)](libs/sapi/documentation/api_reference_es.md).
 - Elm-Chan FatFS R0.13b. [FatFS documentation](http://elm-chan.org/fsw/ff/00index_e.html). Generic FAT Filesystem module with support for SD Card (SSP) and Pendrive (USB MSD) disks.
 - FreeRTOS Kernel V10.0.1. [FreeRTOS_Reference_Manual_V10.0.0.pdf](examples/c/freertos_book/FreeRTOS_Reference_Manual_V10.0.0.pdf).
+- RKH 3.2.3 [RKH Reference Manual](https://vortexmakes.com/rkh/).
 
 ## Supported boards
 
@@ -24,7 +25,7 @@
 
 ## Supported toolchains
 
-- gcc-arm-none-eabi 
+- gcc-arm-none-eabi
 
 ## Usage
 
@@ -78,7 +79,7 @@ This will create automaticaly a `program.mk` text file inside this folder with t
 
 ### Create a new program
 
-Each program consist in a folder (with a non-spaces name) that includes inside 2 folders, one named ```src``` (here go, .c, .cpp or .s source code files), and another one named ```inc``` (here go, .h or .hpp source header files). 
+Each program consist in a folder (with a non-spaces name) that includes inside 2 folders, one named ```src``` (here go, .c, .cpp or .s source code files), and another one named ```inc``` (here go, .h or .hpp source header files).
 
 `program.c` example:
 
@@ -157,7 +158,7 @@ Included examples are:
 
  - `asm_lpc_open`: assembler with LPC Open library
  - `asm_sapi`: assembler with sAPI library
- 
+
 ### C language
 
  - **sAPI library**
@@ -177,7 +178,7 @@ Included examples are:
             - IMUs
                 - `mpu9250`: MPU9250 IMU 9DOF (Gyroscope, Accelerometer and Magnetometer) + Temperature.
             - magnetometers. In Chinese GY-273 module you can have one of this magnetometers, that have the same pinout but different register map. To difference them see the chip, ignore the board serigraphy.
-                - `hmc5883l`: HMC5883L magnetometer. 
+                - `hmc5883l`: HMC5883L magnetometer.
                 - `qmc5883l`: QMC5883L magnetometer.
         - `keypad_7segment`: Drives a keypad and 7 segment display.
         - `lcd`: Drives a LCD display.
@@ -230,7 +231,7 @@ Included examples are:
         - `statechart`
  - `newlib_printf_scanf`
  - `without_libs`
- 
+
 ### C++ language
 
  - `cpp_sapi_basic_example`: a C++ basic example with sAPI library.
