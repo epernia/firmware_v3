@@ -4,8 +4,17 @@
  * All rights reserved.
  * License: BSD-3-Clause <https://opensource.org/licenses/BSD-3-Clause>)
  *
- * Version: 1.2.0
+ * Version: 1.3.0
  * Creation Date: 2018/09/24
+ * 
+ * Changelog:
+ * Version 1.3.0, 2019/10/8, Santiago Germino <sgermino@retro-ciaa.com>:
+ *    1) pidCalculateControllerOutput(): u_sat updated only on saturation.
+ *    2) pidUpdateController(): saturation now detected by u != u_sat.
+ *    3) usat_array[]: new storage for real saturated values.
+ *    4) pidGatherDebugSamples(): debug code moved inside of their own function.
+ *    5) Use of floatToString() in 4).
+ *    6) getVoltsSampleFrom() macro moved to pid_controller.h.
  */
 
 /*=====[Inclusions of private function dependencies]=========================*/
@@ -15,10 +24,6 @@
 /*=====[Definition macros of private constants]==============================*/
 
 /*=====[Private function-like macros]========================================*/
-
-// adcRead() returns 10 bits integer sample (uint16_t)
-// sampleInVolts = (3.3 / 1023.0) * adcSample
-#define getVoltsSampleFrom(adc0Channel) 3.3*(float)adcRead((adc0Channel))/1023.0
 
 /*=====[Definitions of external public global variables]=====================*/
 
@@ -30,11 +35,15 @@
 static float r_array[N_SAMPLES];
 static float y_array[N_SAMPLES];
 static float u_array[N_SAMPLES];
-
+static float usat_array[N_SAMPLES];
 static uint32_t i = 0;
 #endif
 
 /*=====[Prototypes (declarations) of private functions]======================*/
+
+#ifdef PID_PRINT_RESULT
+static void pidGatherDebugSamples( PIDController_t* pid, float y, float r );
+#endif
 
 /*=====[Implementations of public functions]=================================*/
 
@@ -87,6 +96,9 @@ float pidCalculateControllerOutput( PIDController_t* pid, float y, float r )
    // u[k] = P[k] + I[k] + D[k]
    pid->state.u = pid->state.P + pid->state.I + pid->state.D;
 
+   // init u_sat with u
+   pid->state.u_sat = pid->state.u;
+
    // Apply saturation of actuator
    if( pid->state.u < pid->config.uMin ) {
       pid->state.u_sat = pid->config.uMin;
@@ -110,73 +122,16 @@ void pidUpdateController( PIDController_t* pid, float y, float r )
    pid->state.pastY = y;
 
    // Apply anti wind-up:
-   //If saturation ocurs then disconnect integrator (not update futureI)
-   if( (pid->state.u >= pid->config.uMin) &&
-       (pid->state.u <= pid->config.uMax) ) {
+   // Update integrator only if controller output is not saturated
+   if( pid->state.u == pid->state.u_sat ) {
       // I[k+1] = I[k] + Ki*h*e[k], con e[k] = r[k] - y[k]
       pid->state.futureI = pid->state.I
                            + ( pid->config.Ki * pid->config.h * (r - y) );
    }
 
-   /*----- Print PID results if is activated --------------------------------*/
-
 #ifdef PID_PRINT_RESULT
-   // Save and show samples
-   if( i< N_SAMPLES ) {
-      // Save N_SAMPLES samples of R[k] and Y[k]
-      r_array[i] = r;
-      y_array[i] = y;
-      u_array[i] = pid->state.u;
-      i++;
-
-   } else {
-      // Indicate that finish take samples
-      gpioWrite( LEDB, OFF );
-      gpioWrite( LED1, ON );
-
-      // Note thath printf() does not work properly
-
-      // print r[k] samples
-      uartWriteString( UART_USB, "r = [" );
-      for( i=0; i<N_SAMPLES; i++) {
-         uartWriteString( UART_USB, intToString( r_array[i]*1000.0 ) );
-         uartWriteString( UART_USB, " " );
-         //fflush(stdout);
-      }
-      uartWriteString( UART_USB, "];\r\n\r\n" );
-
-      // print y[k] samples
-      uartWriteString( UART_USB, "y = [" );
-      for( i=0; i<N_SAMPLES; i++) {
-         uartWriteString( UART_USB, intToString( y_array[i]*1000.0 ) );
-         uartWriteString( UART_USB, " " );
-      }
-      uartWriteString( UART_USB, "];\r\n\r\n" );
-
-      // print u[k] samples
-      uartWriteString( UART_USB, "u = [" );
-      for( i=0; i<N_SAMPLES; i++) {
-         uartWriteString( UART_USB, intToString( u_array[i]*1000.0 ) );
-         uartWriteString( UART_USB, " " );
-      }
-      uartWriteString( UART_USB, "];\r\n\r\n" );
-
-      // print uSat[k] samples
-      uartWriteString( UART_USB, "uSat = [" );
-      for( i=0; i<N_SAMPLES; i++) {
-         if( u_array[i] > 3.3 )
-            u_array[i] = 3.3;
-         if( u_array[i] < 0.0 )
-            u_array[i] = 0.0;
-         uartWriteString( UART_USB, intToString( u_array[i]*1000.0 ) );
-         uartWriteString( UART_USB, " " );
-      }
-      uartWriteString( UART_USB, "];\r\n\r\n" );
-
-      uartWriteString( UART_USB, "Finish!\r\n" );
-      gpioWrite( LED2, ON );
-      while(1);
-   }
+   /*----- Print PID results if is activated --------------------------------*/
+   pidGatherDebugSamples (pid, y, r);
 #endif
 }
 
@@ -206,6 +161,75 @@ void pidPrintf( PIDController_t* pid )
    printf( "  u_sat[k] = %f\r\n", pid->state.u_sat );
    printf( "\r\n" );
 }
+
+
+#ifdef PID_PRINT_RESULT
+static void pidGatherDebugSamples( PIDController_t* pid, float y, float r )
+{
+	char ntos[64];
+
+   // Save and show samples
+   if( i< N_SAMPLES ) {
+      if (i == 0) {
+         uartWriteString( UART_USB, "\r\n\r\nGathering " );
+         uint64ToString( N_SAMPLES, ntos, 10 );
+         uartWriteString( UART_USB, ntos );
+         uartWriteString( UART_USB, " PID samples...\r\n\r\n" );
+      }
+
+      // Save N_SAMPLES samples of R[k] and Y[k]
+      r_array[i] = r;
+      y_array[i] = y;
+      u_array[i] = pid->state.u;
+      usat_array[i] = pid->state.u_sat;
+      i++;
+
+   } else {
+      // Indicate that finish take samples
+      gpioWrite( LEDB, OFF );
+      gpioWrite( LED1, ON );
+
+      // Note thath printf() does not work properly
+
+      // print r[k] samples
+      uartWriteString( UART_USB, "r = [ " );
+      for( i=0; i<N_SAMPLES; i++) {
+         uartWriteString( UART_USB, floatToString( r_array[i], ntos, 5 ) );
+         uartWriteString( UART_USB, " " );
+      }
+      uartWriteString( UART_USB, "];\r\n\r\n" );
+
+      // print y[k] samples
+      uartWriteString( UART_USB, "y = [ " );
+      for( i=0; i<N_SAMPLES; i++) {
+         uartWriteString( UART_USB, floatToString( y_array[i], ntos, 5 ) );
+         uartWriteString( UART_USB, " " );
+      }
+      uartWriteString( UART_USB, "];\r\n\r\n" );
+
+      // print u[k] samples
+      uartWriteString( UART_USB, "u = [ " );
+      for( i=0; i<N_SAMPLES; i++) {
+         uartWriteString( UART_USB, floatToString( u_array[i], ntos, 5 ) );
+         uartWriteString( UART_USB, " " );
+      }
+      uartWriteString( UART_USB, "];\r\n\r\n" );
+
+      // print uSat[k] samples
+      uartWriteString( UART_USB, "uSat = [ " );
+      for( i=0; i<N_SAMPLES; i++) {
+         uartWriteString( UART_USB, floatToString( usat_array[i], ntos, 5 ) );
+         uartWriteString( UART_USB, " " );
+      }
+      uartWriteString( UART_USB, "];\r\n\r\n" );
+
+      uartWriteString( UART_USB, "All samples printed. PROGRAM HALTED.\r\n" );
+      gpioWrite( LED2, ON );
+
+      while(1);
+   }
+}
+#endif
 
 /*=====[Implementations of interrupt functions]==============================*/
 

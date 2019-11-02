@@ -4,7 +4,7 @@
  * All rights reserved.
  * License: BSD-3-Clause <https://opensource.org/licenses/BSD-3-Clause>)
  *
- * Version: 1.2.0
+ * Version: 1.3.0
  * Creation Date: 2018/09/24
  */
 
@@ -61,7 +61,7 @@ extern "C" {
 
 /*=====[Definition macros of public constants]===============================*/
 
-//#define PID_PRINT_RESULT
+// #define PID_PRINT_RESULT
 
 #ifdef PID_PRINT_RESULT
 // Number of samples to save
@@ -69,6 +69,10 @@ extern "C" {
 #endif
 
 /*=====[Public function-like macros]=========================================*/
+
+// adcRead() returns 10 bits integer sample (uint16_t)
+// sampleInVolts = (3.3 / 1023.0) * adcSample
+#define getVoltsSampleFrom(adc0Channel) 3.3*(float)adcRead((adc0Channel))/1023.0
 
 /*=====[Definitions of public data types]====================================*/
 

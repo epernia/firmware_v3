@@ -116,6 +116,7 @@ static void printchar(char **str, int c)
       ++(*str);
    } else {
       (void)putchar(c);
+      //(void)outbyte(c);// @Eric fix newlib commits
    }
 }
 
