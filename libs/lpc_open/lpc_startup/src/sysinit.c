@@ -33,7 +33,7 @@
 
 void SystemInit(void)
 {
-   extern void *g_pfnVectors;
+   extern void * const g_pfnVectors[];
    SCB->VTOR = (unsigned int) &g_pfnVectors;
 
    if (SCB_GetFPUType() > 0)

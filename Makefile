@@ -37,6 +37,7 @@ endif
 VERBOSE=n
 OPT=g
 USE_NANO=y
+USE_LTO=n
 SEMIHOST=n
 USE_FPU=y
 # Libraries
@@ -89,6 +90,14 @@ LDFLAGS+=-nostartfiles -Wl,-gc-sections -Wl,-Map=$(TARGET_MAP) -Wl,--cref
 
 ifeq ($(USE_NANO),y)
 LDFLAGS+=--specs=nano.specs
+endif
+
+ifeq ($(USE_LTO),y)
+ifeq ($(OPT),g)
+$(warning "Using LTO in debug may cause inconsistences in debug")
+endif
+COMMON_FLAGS+=-flto
+LDFLAGS+=-flto
 endif
 
 ifeq ($(SEMIHOST),y)
