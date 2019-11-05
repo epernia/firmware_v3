@@ -37,7 +37,7 @@ endif
 VERBOSE=n
 OPT=g
 USE_NANO=y
-#USE_PICO=n # @Eric fix newlib commits
+USE_LTO=n
 SEMIHOST=n
 USE_FPU=y
 # Libraries
@@ -90,23 +90,19 @@ LDFLAGS+=-nostartfiles -Wl,-gc-sections -Wl,-Map=$(TARGET_MAP) -Wl,--cref
 
 ifeq ($(USE_NANO),y)
 LDFLAGS+=--specs=nano.specs
-# Force newlib instread of nano
-#USE_PICO:=n # @Eric fix newlib commits
+endif
+
+ifeq ($(USE_LTO),y)
+ifeq ($(OPT),g)
+$(warning "Using LTO in debug may cause inconsistences in debug")
+endif
+COMMON_FLAGS+=-flto
+LDFLAGS+=-flto
 endif
 
 ifeq ($(SEMIHOST),y)
 DEFINES+=USE_SEMIHOST
 LDFLAGS+=--specs=rdimon.specs
-
-# @Eric fix newlib commits
-# Force newlib instread of nano
-##USE_PICO:=n
-##endif
-##
-##ifeq ($(USE_PICO),y)
-##DEFINES+=USE_PICOLIBC
-##COMMON_FLAGS+=-specs=picolibc.specs
-##LDFLAGS+=-specs=picolibc.specs
 endif
 
 CROSS=arm-none-eabi-
@@ -302,10 +298,6 @@ select_board:
 # TEST: Build all programs
 .test_build_all:
 	@sh scripts/test/test-build-all.sh
-	
-# TEST: Hardware all programs
-.test_hw_all:
-	@sh scripts/test/test-hw-all.sh
 
 # ----------------------------------------------------------------------
 

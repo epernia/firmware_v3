@@ -1,5 +1,5 @@
-#define WEAK __attribute__ ((weak))
-#define ALIAS(f) __attribute__ ((weak, alias (#f)))
+#define WEAK __attribute__ ((__used__, weak))
+#define ALIAS(f) __attribute__ ((__used__, weak, alias (#f)))
 
 WEAK void IntDefaultHandler(void);
 

@@ -2,8 +2,9 @@
 #include <errno.h>
 #include <signal.h>
 
-#define WEAK __attribute__ ((weak))
-#define WEAK_INIT __attribute__ ((weak, constructor))
+#define WEAK __attribute__ ((__used__, weak))
+#define WEAK_INIT __attribute__ ((__used__, weak, constructor))
+#define USED __attribute__ ((__used__))
 
 #define UNUSED(x) (void)x
 #define SET_ERR(e) (r->_errno = e)
@@ -12,7 +13,6 @@
 
 WEAK void __stdio_putchar(int c);
 WEAK int __stdio_getchar();
-//WEAK void __stdio_yield();// @Eric fix newlib commits
 WEAK_INIT void __stdio_init();
 
 void __stdio_init() {
@@ -26,13 +26,7 @@ int __stdio_getchar() {
    return -1;
 }
 
-// @Eric fix newlib commits
-/*
-void __stdio_yield() {
-}
-*/
-
-void _exit(int code) {
+USED void _exit(int code) {
    register int __params__ __asm__("r0") = code;
    while (1)
        __asm__ __volatile__("bkpt 0");
@@ -40,13 +34,13 @@ void _exit(int code) {
    (void) __params__;
 }
 
-int _close_r(struct _reent *r, int fd) {
+USED int _close_r(struct _reent *r, int fd) {
    UNUSED(fd);
    SET_ERR(EBADF);
    return -1;
 }
 
-int _execve_r(struct _reent *r, const char *f, char * const *args,
+USED int _execve_r(struct _reent *r, const char *f, char * const *args,
        char * const *env) {
    UNUSED(f);
    UNUSED(args);
@@ -55,7 +49,7 @@ int _execve_r(struct _reent *r, const char *f, char * const *args,
    return -1;
 }
 
-int _fcntl_r(struct _reent *r, int fd, int cmd, int arg) {
+USED int _fcntl_r(struct _reent *r, int fd, int cmd, int arg) {
    UNUSED(fd);
    UNUSED(cmd);
    UNUSED(arg);
@@ -63,24 +57,24 @@ int _fcntl_r(struct _reent *r, int fd, int cmd, int arg) {
    return -1;
 }
 
-int _fork_r(struct _reent *r) {
+USED int _fork_r(struct _reent *r) {
    SET_ERR(ENOSYS);
    return -1;
 }
 
-int _fstat_r(struct _reent *r, int fd, struct stat *st) {
+USED int _fstat_r(struct _reent *r, int fd, struct stat *st) {
    UNUSED(fd);
    UNUSED(st);
    SET_ERR(ENOSYS);
    return -1;
 }
 
-int _getpid_r(struct _reent *r) {
+USED int _getpid_r(struct _reent *r) {
    UNUSED(r);
    return 1;
 }
 
-int _isatty_r(struct _reent *r, int fd) {
+USED int _isatty_r(struct _reent *r, int fd) {
    switch (fd) {
    case 0:
    case 1:
@@ -92,7 +86,7 @@ int _isatty_r(struct _reent *r, int fd) {
    }
 }
 
-int _kill_r(struct _reent *r, int pid, int signal) {
+USED int _kill_r(struct _reent *r, int pid, int signal) {
    if (pid == _getpid_r(r)) {
        switch (signal) {
        case SIGHUP:
@@ -118,14 +112,14 @@ int _kill_r(struct _reent *r, int pid, int signal) {
    return -1;
 }
 
-int _link_r(struct _reent *r, const char *oldf, const char *newf) {
+USED int _link_r(struct _reent *r, const char *oldf, const char *newf) {
    UNUSED(oldf);
    UNUSED(newf);
    SET_ERR(ENOSYS);
    return -1;
 }
 
-_off_t _lseek_r(struct _reent *r, int fd, _off_t off, int w) {
+USED _off_t _lseek_r(struct _reent *r, int fd, _off_t off, int w) {
    UNUSED(fd);
    UNUSED(off);
    UNUSED(w);
@@ -133,14 +127,14 @@ _off_t _lseek_r(struct _reent *r, int fd, _off_t off, int w) {
    return -1;
 }
 
-int _mkdir_r(struct _reent *r, const char *name, int m) {
+USED int _mkdir_r(struct _reent *r, const char *name, int m) {
    UNUSED(name);
    UNUSED(m);
    SET_ERR(ENOSYS);
    return -1;
 }
 
-int _open_r(struct _reent *r, const char *name, int f, int m) {
+USED int _open_r(struct _reent *r, const char *name, int f, int m) {
    UNUSED(name);
    UNUSED(f);
    UNUSED(m);
@@ -164,7 +158,7 @@ _ssize_t _read_r(struct _reent *r, int fd, void *b, size_t n) {
    }
 }
 */
-_ssize_t _read_r(struct _reent *r, int fd, void *b, size_t n) {
+USED _ssize_t _read_r(struct _reent *r, int fd, void *b, size_t n) {
   size_t i = 0;
   switch (fd) {
   case 0:
@@ -189,39 +183,39 @@ _ssize_t _read_r(struct _reent *r, int fd, void *b, size_t n) {
   }
 }
 
-int _rename_r(struct _reent *r, const char *oldf, const char *newf) {
+USED int _rename_r(struct _reent *r, const char *oldf, const char *newf) {
    UNUSED(oldf);
    UNUSED(newf);
    SET_ERR(ENOSYS);
    return -1;
 }
 
-int _stat_r(struct _reent *r, const char *name, struct stat *s) {
+USED int _stat_r(struct _reent *r, const char *name, struct stat *s) {
    UNUSED(name);
    UNUSED(s);
    SET_ERR(ENOSYS);
    return -1;
 }
 
-_CLOCK_T_ _times_r(struct _reent *r, struct tms *tm) {
+USED _CLOCK_T_ _times_r(struct _reent *r, struct tms *tm) {
    UNUSED(tm);
    SET_ERR(ENOSYS);
    return -1;
 }
 
-int _unlink_r(struct _reent *r, const char *name) {
+USED int _unlink_r(struct _reent *r, const char *name) {
    UNUSED(name);
    SET_ERR(ENOSYS);
    return -1;
 }
 
-int _wait_r(struct _reent *r, int *st) {
+USED int _wait_r(struct _reent *r, int *st) {
    UNUSED(st);
    SET_ERR(ENOSYS);
    return -1;
 }
 
-_ssize_t _write_r(struct _reent *r, int fd, const void *b, size_t n) {
+USED _ssize_t _write_r(struct _reent *r, int fd, const void *b, size_t n) {
    size_t i;
    switch (fd) {
    case 0:
@@ -237,7 +231,7 @@ _ssize_t _write_r(struct _reent *r, int fd, const void *b, size_t n) {
 }
 
 /* This one is not guaranteed to be available on all targets.  */
-int _gettimeofday_r(struct _reent *r, struct timeval *__tp, void *__tzp) {
+USED int _gettimeofday_r(struct _reent *r, struct timeval *__tp, void *__tzp) {
    UNUSED(__tp);
    UNUSED(__tzp);
    SET_ERR(ENOSYS);
@@ -246,7 +240,7 @@ int _gettimeofday_r(struct _reent *r, struct timeval *__tp, void *__tzp) {
 
 #endif
 
-void *_sbrk_r(struct _reent *r, ptrdiff_t incr) {
+USED void *_sbrk_r(struct _reent *r, ptrdiff_t incr) {
    extern int _pvHeapStart;
    static void *heap_end;
    void *prev_heap_end;
@@ -257,46 +251,3 @@ void *_sbrk_r(struct _reent *r, ptrdiff_t incr) {
    heap_end += incr;
    return prev_heap_end;
 }
-
-// @Eric fix newlib commits
-/*
-#ifdef USE_PICOLIBC
-#include <stdio.h>
-
-static int ao_flush(FILE *ignore) {
-   UNUSED(ignore);
-   return 0;
-}
-
-static int ao_putc(char c, FILE *ignore) {
-   __stdio_putchar(c);
-   return 0;
-}
-
-static int ao_getc(FILE *ignore) {
-   UNUSED(ignore);
-   int c;
-   while ((c = __stdio_getchar()) == -1) {
-         __stdio_yield();
-   }
-   __stdio_putchar(c);
-   switch (c) {
-   case '\r':
-   case '\n':
-      return -1;
-   default:
-      return c;
-   }
-}
-
-static FILE __stdio = {
-   .flags = __SRD|__SWR,
-   .put = ao_putc,
-   .get = ao_getc,
-   .flush = ao_flush,
-};
-
-FILE *const __iob[3] = { &__stdio, &__stdio, &__stdio };
-
-#endif
-*/
