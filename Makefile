@@ -40,6 +40,7 @@ USE_NANO=y
 USE_LTO=n
 SEMIHOST=n
 USE_FPU=y
+ENFORCE_NOGPL=n
 # Libraries
 USE_LPCOPEN=y
 USE_SAPI=y
@@ -127,7 +128,7 @@ endif
 
 # Build program --------------------------------------------------------
 
-all: $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(TARGET_NM) size
+all: $(OUT) .try_enforce_no_gpl $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(TARGET_NM) size
 	@echo 
 	@echo Selected program: $(PROGRAM_PATH_AND_NAME)
 	@echo Selected board: $(BOARD)
@@ -135,6 +136,9 @@ all: $(TARGET) $(TARGET_BIN) $(TARGET_LST) $(TARGET_NM) size
 -include $(foreach m, $(MODULES), $(wildcard $(m)/module.mk))
 
 -include $(DEPS)
+
+$(OUT):
+	@mkdir -p $@
 
 $(OUT)/%.o: %.c
 	@echo CC $(notdir $<)
@@ -299,6 +303,20 @@ select_board:
 .test_build_all:
 	@sh scripts/test/test-build-all.sh
 
+$(OUT)/gpl_check.txt:
+	@grep -lE 'terms of the GNU (Lesser )?General Public License' $(CXXSRC) $(ASRC) $(SRC) > $@
+
+.enforce_no_gpl: $(OUT)/gpl_check.txt
+	@echo "CHECKING (L)GPL code in your project... "
+	@[[ $(shell < $< wc -l) -ne 0 ]] && \
+		echo "POSITIVE: GPL code in your project. You can see afected files in $<" || \
+		echo "NEGATIVE: No GPL code in your project"
+
+ifeq ($(ENFORCE_NOGPL),y)
+.try_enforce_no_gpl: .enforce_no_gpl
+else
+.try_enforce_no_gpl:
+endif
 # ----------------------------------------------------------------------
 
 .PHONY: all size download erase clean new_program select_program select_board
