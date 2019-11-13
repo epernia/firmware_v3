@@ -69,7 +69,7 @@ char buf[80];
 	mi = (1 << (bs-1)) + 1;
 	stdioPrintf(UART_USB, "%s\n", ptr);
 	stdioPrintf(UART_USB, "stdioPrintf test\n");
-	stdioPrintf(UART_USB, "%s is null pointer\n", np);
+	// stdioPrintf(UART_USB, "%s is null pointer\n", np); // FIXME not work with cookies
 	stdioPrintf(UART_USB, "%d = 5\n", i);
 	stdioPrintf(UART_USB, "%d = - max int\n", mi);
 	stdioPrintf(UART_USB, "char %c = 'a'\n", 'a');
@@ -91,7 +91,7 @@ char buf[80];
 	stdioPrintf(UART_USB, "%s", buf);
 	stdioSprintf(buf, "-3: %04d zero padded\n", -3);
 	stdioPrintf(UART_USB, "%s", buf);
-	stdioSprintf(buf, "-3: %-4d leftsapiPrintff.\n", -3);
+	stdioSprintf(buf, "-3: %-4d left justif.\n", -3);
 	stdioPrintf(UART_USB, "%s", buf);
 	stdioSprintf(buf, "-3: %4d right justif.\n", -3);
 	stdioPrintf(UART_USB, "%s", buf);

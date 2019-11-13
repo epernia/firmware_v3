@@ -174,6 +174,7 @@ typedef enum {
 	#else
 	   #error BOARD not supported yet!
 	#endif
+   UART_MAXNUM,
 } uartMap_t;
 
 /*Defined for sapi_timer.h*/

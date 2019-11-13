@@ -4,6 +4,7 @@ OPT=g
 USE_NANO=y
 SEMIHOST=n
 USE_FPU=y
+USE_TINYPRINTF=y
 
 # Libraries
 USE_LPCOPEN=y
