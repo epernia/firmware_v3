@@ -308,7 +308,7 @@ $(OUT)/gpl_check.txt:
 
 .enforce_no_gpl: $(OUT)/gpl_check.txt
 	@echo "CHECKING (L)GPL code in your project... "
-	@[[ $(shell < $< wc -l) -ne 0 ]] && \
+	@[ $(shell < $< wc -l) -ne 0 ] && \
 		echo "POSITIVE: GPL code in your project. You can see afected files in $<" || \
 		echo "NEGATIVE: No GPL code in your project"
 
