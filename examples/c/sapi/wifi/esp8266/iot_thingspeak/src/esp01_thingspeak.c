@@ -492,10 +492,10 @@ int main( void ){
       strcat( tcpIpDataToSend, THINGSPEAK_WRITE_API_KEY );   // Agrego la clave de escritura del canal
 
       strcat( tcpIpDataToSend, "&field" );                   // Agrego field del canal
-      strcat( tcpIpDataToSend, intToString(THINGSPEAK_FIELD_NUMBER) );
+      strcat( tcpIpDataToSend, intToStringGlobal(THINGSPEAK_FIELD_NUMBER) );
 
       strcat( tcpIpDataToSend, "=" );                        // Agrego el valor a enviar
-      strcat( tcpIpDataToSend, intToString( sensorValue ) );
+      strcat( tcpIpDataToSend, intToStringGlobal( sensorValue ) );
 
       // Envio los datos TCP/IP al Servidor de Thingpeak
       // Ver en: https://thingspeak.com/channels/377497/
