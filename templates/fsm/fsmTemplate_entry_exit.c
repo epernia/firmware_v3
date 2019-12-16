@@ -29,7 +29,7 @@
  *
  */
 
-// FSM DECLARATIONS
+// FSM DECLARATIONS ===========================================================
 
 // FSM state names
 typedef enum{
@@ -47,7 +47,7 @@ void fsmUpdate( void );
 
 
 
-// FSM IMPLEMENTATIONS
+// FSM IMPLEMENTATIONS ========================================================
 
 // Variable that hold the current state
 fsmState_t fsmState;
@@ -70,39 +70,40 @@ void fsmInit( void )
 // FSM Update Sate Function
 void fsmUpdate( void )
 {
-   static bool_t flagStateInit = FALSE;
-   static bool_t flagState1 = FALSE;
+   static bool_t flagStateN = false;
    // ...
-   static bool_t flagStateN = FALSE;
 
    switch( fsmState ){
 
-      case STATE_INIT:
-         // ...
+      // ----------------------------------------------------------------------
+      // STATE
+      // ----------------------------------------------------------------------
+      case STATE_N:
+      
+         // ENTRY ----------------------------------------
+         if( flagStateN == false ){
+            flagStateN = true;
+            // Code for entry into this state... 
+            
+         }
+         
+         // UPDATE OUTPUTS -------------------------------
+         // Code for update outputs in this state... 
+         
+
+         // CHECK TRANSITION CONDITIONS ------------------
+         // Code for check transitions from this state to others (some ifs)... 
+         
+
+         // EXIT ------------------------------------------
+         if( fsmState != STATE_N ){
+            flagStateN = false;
+            // Code for exit from this state...  
+            
+         }
       break;
 
       // ...
-
-      case STATE_N:
-      
-         /* ENTRY */
-         if( flagStateN == FALSE ){
-            flagStateN = TRUE;
-            // Code for entry...    
-         }
-         
-         /* UPDATE OUTPUTS */
-         // Code for update outputs... 
-         
-         /* CHECK TRANSITION CONDITIONS */
-         // Code for check transitions (some ifs)... 
-
-         /* LEAVE */
-         if( fsmState != STATE_N ){
-            flagStateN = FALSE;
-            // Code for leave...  
-         }
-      break;
 
       default:
          fsmError();

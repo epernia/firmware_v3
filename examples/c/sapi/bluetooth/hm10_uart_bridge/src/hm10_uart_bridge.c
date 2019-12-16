@@ -40,6 +40,8 @@
 #define UART_PC        UART_USB
 #define UART_BLUETOOTH UART_232
 
+#define BAUDRATE 9600
+
 /*==================[definiciones de datos internos]=========================*/
 
 /*==================[definiciones de datos externos]=========================*/
@@ -62,11 +64,11 @@ int main( void )
    boardConfig();
 
    // Inicializar UART_USB para conectar a la PC
-   uartConfig( UART_PC, 9600 );
+   uartConfig( UART_PC, BAUDRATE );
    uartWriteString( UART_PC, "UART_PC configurada.\r\n" );
 
    // Inicializar UART_232 para conectar al modulo bluetooth
-   uartConfig( UART_BLUETOOTH, 9600 );
+   uartConfig( UART_BLUETOOTH, BAUDRATE );
    uartWriteString( UART_PC, "UART_BLUETOOTH para modulo Bluetooth configurada.\r\n" );
    
    uint8_t data = 0;
