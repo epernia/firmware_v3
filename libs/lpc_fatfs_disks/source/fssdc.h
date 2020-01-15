@@ -17,6 +17,12 @@
 #include "diskio.h"		// FatFs lower layer API
 
 
+/*==================[cplusplus]==============================================*/
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 enum FSSDC_CardStatus
 {
     FSSDC_CardStatus_Error = 0,
@@ -48,6 +54,14 @@ DRESULT     FSSDC_FatFs_DiskRead            (BYTE *buff, DWORD sector, UINT coun
 DRESULT     FSSDC_FatFs_DiskWrite           (const BYTE *buff, DWORD sector, UINT count);
 #endif
 DRESULT     FSSDC_FatFs_DiskIoCtl           (BYTE cmd, void *buff);
+
+
+
+/*==================[cplusplus]==============================================*/
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* __FSSDC_H_ */
