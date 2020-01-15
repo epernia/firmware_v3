@@ -158,7 +158,7 @@ const char graChar[8] = {
    0b00000
 };
 
-typdef enum{
+enum{
    TEMP_CHAR = 0,
    HUM_CHAR  = 1,
    VIE_CHAR  = 2,
@@ -167,7 +167,7 @@ typdef enum{
    I_CHAR    = 5,
    C_CHAR    = 6,
    GRA_CHAR  = 7,
-}
+};
 
 // FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
 int main( void ){
