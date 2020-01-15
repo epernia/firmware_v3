@@ -158,6 +158,16 @@ const char graChar[8] = {
    0b00000
 };
 
+typdef enum{
+   TEMP_CHAR = 0,
+   HUM_CHAR  = 1,
+   VIE_CHAR  = 2,
+   E_CHAR    = 3,
+   R_CHAR    = 4,
+   I_CHAR    = 5,
+   C_CHAR    = 6,
+   GRA_CHAR  = 7,
+}
 
 // FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
 int main( void ){
@@ -176,16 +186,16 @@ int main( void ){
    // El primer parametro es el codigo del caracter (0 a 7).
    // El segundo es el puntero donde se guarda el bitmap (el array declarado
    // anteriormente)
-   lcdCreateChar( 0, tempChar );
-   lcdCreateChar( 1, humChar );
-   lcdCreateChar( 2, vieChar );
+   lcdCreateChar( TEMP_CHAR, tempChar );
+   lcdCreateChar( HUM_CHAR, humChar );
+   lcdCreateChar( VIE_CHAR, vieChar );
+                     
+   lcdCreateChar( E_CHAR, e_char );
+   lcdCreateChar( R_CHAR, r_char );
+   lcdCreateChar( I_CHAR, i_char );
+   lcdCreateChar( C_CHAR, c_char );
 
-   lcdCreateChar( 3, e_char );
-   lcdCreateChar( 4, r_char );
-   lcdCreateChar( 5, i_char );
-   lcdCreateChar( 6, c_char );
-
-   lcdCreateChar( 7, graChar );
+   lcdCreateChar( GRA_CHAR, graChar );
 
    char tempString[] = "25";
    char humString[] = "50";
@@ -199,15 +209,15 @@ int main( void ){
    {
       lcdGoToXY( 0, 0 ); // Poner cursor en 0, 0
       lcdSendStringRaw( "Tmp" );
-      lcdData(0);
+      lcdData(TEMP_CHAR);
       lcdSendStringRaw( " Hum" );
-      lcdData(1);
+      lcdData(HUM_CHAR);
       lcdSendStringRaw( " Vie" );
-      lcdData(2);
+      lcdData(VIE_CHAR);
 
       lcdGoToXY( 0, 1 );
       lcdSendStringRaw( tempString );
-      lcdData(7);
+      lcdData(GRA_CHAR);
       lcdSendStringRaw( "C" );
 
       lcdGoToXY( 5, 1 );
@@ -222,10 +232,10 @@ int main( void ){
 
       lcdClear(); // Borrar la pantalla
       lcdGoToXY( 0, 0 );
-      lcdData(3);
-      lcdData(4);
-      lcdData(5);
-      lcdData(6);
+      lcdData(E_CHAR);
+      lcdData(R_CHAR);
+      lcdData(I_CHAR);
+      lcdData(C_CHAR);
 
       delay(1000);
 
