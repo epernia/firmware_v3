@@ -66,9 +66,9 @@ ASRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.s))
 
 OUT=$(PROGRAM_PATH_AND_NAME)/out
 # Arduino
-OBJECTS=$(INOSRC:%.ino=%.o) $(CXXSRC:%.cpp=$(OUT)/%.o) $(SRC:%.c=$(OUT)/%.o) $(ASRC:%.s=$(OUT)/%.o)
-#OBJS = $(addprefix $(OUT)/, $(INO_SRC:%.ino=%.o) $(CXX_SRC:%.cpp=%.o) $(C_SRC:%.c=%.o) $(A_SRC:%.S=%.o))
+OBJECTS=$(INOSRC:%.ino=$(OUT)/%.o) $(CXXSRC:%.cpp=$(OUT)/%.o) $(SRC:%.c=$(OUT)/%.o) $(ASRC:%.s=$(OUT)/%.o)
 
+#DEPS=$(OBJECTS:%.o=%.d)
 DEPS=$(OBJECTS:%.o=%.d)
 
 TARGET=$(OUT)/$(PROGRAM_NAME).elf
@@ -90,7 +90,7 @@ COMMON_FLAGS=$(ARCH_FLAGS) $(DEFINES_FLAGS) $(INCLUDE_FLAGS) $(OPT_FLAGS) -DBOAR
 CFLAGS=$(COMMON_FLAGS) -std=c99
 CXXFLAGS=$(COMMON_FLAGS) -fno-rtti -fno-exceptions -std=c++11
 # Arduino
-INOFLAGS:=-x c++ -include Arduino.h $(CXXFLAGS)
+INOFLAGS=$(CXXFLAGS) -x c++ -include Arduino.h
 
 LDFLAGS=$(ARCH_FLAGS)
 LDFLAGS+=$(addprefix -L, $(foreach m, $(MODULES), $(wildcard $(m)/lib)))

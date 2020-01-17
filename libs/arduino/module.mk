@@ -16,7 +16,6 @@ CXXSRC += $(wildcard $(ARDUINO_BASE)/arduino/*.cpp)
 #CXXSRC += $(wildcard $(ARDUINO_BASE)/arduino/avr/*.cpp)
 
 # Other Arduino libs
-
 # TODO:
 
 endif
