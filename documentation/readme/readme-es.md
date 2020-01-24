@@ -19,7 +19,7 @@
 
 ## Ejemplos
 
-[Ver ejemplos](../examples/examples-es.md).
+[Ver ejemplos](../firmware/examples/examples-es.md).
 
 ## Toolchains soportados
 
