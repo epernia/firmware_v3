@@ -41,7 +41,8 @@
 #define __CTYPE_H_ 1
 
 #ifndef __ATTR_CONST__
-#define __ATTR_CONST__ __attribute__((__const__))
+#define __ATTR_CONST__
+//#define __ATTR_CONST__ __attribute__((__const__)) // TODO: @Eric, ver que es este atributo
 #endif
 
 #ifdef __cplusplus

@@ -24,7 +24,7 @@ cat <<EOF > ${PB}/config.mk
 
 VERBOSE=n
 OPT=g
-USE_NANO=y
+USE_NANO=n
 SEMIHOST=n
 USE_FPU=y
 

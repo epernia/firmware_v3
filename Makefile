@@ -36,7 +36,7 @@ endif
 # Compile options
 VERBOSE=n
 OPT=g
-USE_NANO=n
+USE_NANO=y
 USE_LTO=n
 SEMIHOST=n
 USE_FPU=y
@@ -68,7 +68,6 @@ OUT=$(PROGRAM_PATH_AND_NAME)/out
 # Arduino
 OBJECTS=$(INOSRC:%.ino=$(OUT)/%.o) $(CXXSRC:%.cpp=$(OUT)/%.o) $(SRC:%.c=$(OUT)/%.o) $(ASRC:%.s=$(OUT)/%.o)
 
-#DEPS=$(OBJECTS:%.o=%.d)
 DEPS=$(OBJECTS:%.o=%.d)
 
 TARGET=$(OUT)/$(PROGRAM_NAME).elf
@@ -100,7 +99,7 @@ LDFLAGS+=-T$(LDSCRIPT)
 LDFLAGS+=-nostartfiles -Wl,-gc-sections -Wl,-Map=$(TARGET_MAP) -Wl,--cref
 
 $(info Using optimization level $(OPT))
-$(info Using debug level $(DEBUG_LEVEL))
+#$(info Using debug level $(DEBUG_LEVEL))
 
 ifeq ($(USE_NANO),y)
 $(info Using newlib nano. No printf with floats supported)
@@ -112,7 +111,7 @@ endif
 ifeq ($(USE_LTO),y)
 $(info Using LTO)
 ifeq ($(OPT),g)
-$(warning "Using LTO in debug may cause inconsistences in debug.")
+$(warning "Using LTO in debug may cause inconsistences in debug")
 endif
 COMMON_FLAGS+=-flto
 LDFLAGS+=-flto
@@ -138,6 +137,7 @@ OBJCOPY=$(CROSS)objcopy
 NM=$(CROSS)nm
 GDB=$(CROSS)gdb
 
+# TODO: Create vervose level Q, QQ, QQQ
 ifeq ($(VERBOSE),y)
 Q=
 else

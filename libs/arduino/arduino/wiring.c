@@ -1,6 +1,6 @@
 /*
   Copyright (c) 2011 Arduino.  All right reserved.
-  Copyright (c) 2017 by Gustavo Ramoscelli <gustavoramoscelli@gmail.com>  
+  Copyright (c) 2017 by Gustavo Ramoscelli <gustavoramoscelli@gmail.com>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -25,14 +25,16 @@ extern "C" {
 
 uint32_t millis( void )
 {
-  // todo: ensure no interrupts
-  return GetCurrentMilli() ;
+   // todo: ensure no interrupts
+   //return GetCurrentMilli() ;
+   return tickRead(); // @Eric
 }
 
 // Interrupt-compatible version of micros
 uint32_t micros( void )
 {
- return GetCurrentMicro();
+//return GetCurrentMicro();
+   return 0; // TODO: @Eric: to implement!
 }
 
 #if defined ( __ICCARM__ ) /* IAR Ewarm 5.41+ */
@@ -46,7 +48,7 @@ extern signed int putchar( signed int c ) ;
  */
 extern WEAK signed int putchar( signed int c )
 {
-    return c ;
+   return c ;
 }
 #endif /* __ICCARM__ */
 
