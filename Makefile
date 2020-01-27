@@ -291,9 +291,17 @@ erase:
 	$(Q)$(OOCD) -f $(OOCD_SCRIPT) 2>&1
 
 # DEBUG with Embedded IDE (run)
-.run: $(TARGET)
-	$(Q)$(OOCD) -f $(OOCD_SCRIPT) &
-	$(Q)socketwaiter :3333 && arm-none-eabi-gdb -batch $(TARGET) -x scripts/openocd/gdbinit
+.run_gdb: $(TARGET)
+	$(Q)socketwaiter :3333 && gdbfront $(TARGET) --start \
+	--gdb arm-none-eabi-gdb \
+	--gdbcmd="target remote :3333" \
+	--gdbcmd="monitor reset halt" \
+	--gdbcmd="load" \
+	--gdbcmd="break main" \
+	--gdbcmd="continue"
+
+debug:
+	@$(MAKE) -j 2 .debug .run_gdb
 
 # TEST: Run hardware tests
 .hardware_test: $(TARGET)
