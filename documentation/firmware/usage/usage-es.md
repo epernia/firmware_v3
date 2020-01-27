@@ -1,29 +1,31 @@
+[TOC]
+
 # Utilización básica de firmware_v3
 
-## Conceptos básicos 
+## 1. Conceptos básicos 
 
 - **firmware_v3** es un proyecto en base a [*makefile*](https://www.ecured.cu/Makefile) que actúa como framework para el desarrollo de *firm*ware para sistemas embebidos en lenguajes C/C++. 
 - El ***makefile*** posee una serie de ***targets*** invocables con *make*, los cuales permiten: compilar el programa, descargar el programa a la plataforma, etc.
 - Para los IDEs, firmware_v3 se comporta como **un único proyecto, sin embargo está compuesto por múltiples programas** para compilar y descargar a las plataformas.
 
-## Flujo básico de trabajo con firmware_v3
+## 2. Flujo básico de trabajo con firmware_v3
 
-### Programas existentes dentro del proyecto firmware_v3
+### 2.1. Programas existentes dentro del proyecto firmware_v3
 
 Este flujo de trabajo propuesto es válido tanto para los programas de ejemplo provistos, como para programas creados previamente por el usuario en firmware_v3. 
 
 Los pasos a seguir son:
 
-1. Seleccionar plataforma de hardware (*board*) a utilizar dentro del proyecto firmware_v3.
-2. Seleccionar programa a utilizar dentro del proyecto firmware_v3.
-3. Compilar el programa seleccionado.
-4. Descargar el programa seleccionado a la plataforma de hardware (*board*) seleccionada.
+​	2.1.1. Seleccionar plataforma de hardware (*board*) a utilizar dentro del proyecto firmware_v3.
+​	2.1.2. Seleccionar programa a utilizar dentro del proyecto firmware_v3.
+​	2.1.3. Compilar el programa seleccionado.
+​	2.1.4. Descargar el programa seleccionado a la plataforma de hardware (*board*) seleccionada.
 
 Tanto *seleccionar el programa* como *la plataforma de hardware* a utilizar se puede realizar de manera **manual** (editando archivos de texto) o mediante el uso de la **interfaz gráfica** (requiere el programa Zenity).
 
 **Nota:** Si instaló el paquete de software provisto ([CIAA Software](https://github.com/epernia/software/)) o tiene Linux Ubuntu 18.04 o superior ya tiene disponible Zenity.
 
-#### 1. Seleccionar plataforma de hardware (*board*) a utilizar dentro del proyecto firmware_v3
+#### 2.1.1. Seleccionar plataforma de hardware (*board*) a utilizar dentro del proyecto firmware_v3
 
 ##### De forma manual
 
@@ -50,7 +52,7 @@ El cual lanza un menú en pantalla que presenta las posibles plataformas de hard
 
 Al seleccionar una de ellas y presionar OK se crea automáticamente un archivo de texto nombrado `board.mk` dentro de la carpeta de firmware_v3 que contiene el nombre de la plataforma de hardware seleccionada.
 
-#### 2. Seleccionar programa a utilizar dentro del proyecto firmware_v3
+#### 2.1.2. Seleccionar programa a utilizar dentro del proyecto firmware_v3
 
 ##### De forma manual
 
@@ -82,7 +84,7 @@ Al seleccionar la carpeta del programa deseado y presionar OK se crea automátic
 
 **Nota:** Procure no entrar en la carpeta del programa elegido. Simplemente seleccione la carpeta del programa y presione Ok sin entrar en la carpeta del mismo si no no se ejecutará correctamente este comando.
 
-#### 3. Compilar el programa seleccionado
+#### 2.1.3. Compilar el programa seleccionado
 
 Se realiza utilizando el *target* del Makefile de firmware_v3 `all` mediante el comando:
 
@@ -96,7 +98,7 @@ ya que es el *target* por defecto.
 
 De esta forma se inicia la compilación cruzada del programa seleccionado para la plataforma seleccionada junto a todas sus dependencias.
 
-#### 4. Descargar el programa seleccionado a la plataforma de hardware (*board*) seleccionada
+#### 2.1.4. Descargar el programa seleccionado a la plataforma de hardware (*board*) seleccionada
 
 Se realiza utilizando el *target* del Makefile de firmware_v3 `download` mediante el comando:
 
@@ -104,9 +106,9 @@ Se realiza utilizando el *target* del Makefile de firmware_v3 `download` mediant
 
 Se abre OpenOCD y se descarga el programa a la memoria de la plataforma de hardware seleccionada.
 
-### Creación de programas y bibliotecas
+### 2.2. Creación de programas y bibliotecas
 
-#### Crear un nuevo programa dentro del proyecto firmware_v3
+#### 2.2.1. Crear un nuevo programa dentro del proyecto firmware_v3
 
 Un programa puede generase manualmente o mediante la interfaz gráfica.
 
@@ -201,7 +203,7 @@ Las preferencias definidas se guardan en el archivo:
 
 que se puede borrar o editar manualmente si se desean cambiar las mismas.
 
-#### Crear un nuevo módulo de biblioteca dentro del proyecto firmware_v3
+#### 2.2.2. Crear un nuevo módulo de biblioteca dentro del proyecto firmware_v3
 
 ##### Bibliotecas globales
 
@@ -248,7 +250,7 @@ endif
 
 Para las bibliotecas dentro de un programa de usuario específico tenemos también las mismas dos opciones, bibliotecas *básicas* y *avanzadas*. En ambos casos se crean de la misma forma que las bibliotecas globales. El único cambio es que en el caso de ser una biblioteca básica se guardan los archivos que la componen en las subcarpetas `inc` y `src` dentro de la carpeta del programa a la cual pertenece, y en el caso de una biblioteca avanzada, se  deben agregar al archivo `config.mk` del programa las rutas (*paths*) de los archivos de esta nueva biblioteca.  
 
-## Lista completa de *Targets* disponibles
+## 3. Lista completa de *Targets* disponibles
 
 A continuación se listan todos los *targets* disponibles en firmware_v3:
 
