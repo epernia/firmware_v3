@@ -12,8 +12,8 @@
 </div>
 
 
-- [Utilización básica de firmware_v3](#utilizaci-n-b-sica-de-firmware-v3)
-  * [1. Conceptos básicos](#1-conceptos-b-sicos)
+- [Utilización básica de firmware_v3](#utilizaci-n-básica-de-firmware-v3)
+  * [1. Conceptos básicos](#1-conceptos-básicos)
   * [2. Flujo básico de trabajo con firmware_v3](#2-flujo-b-sico-de-trabajo-con-firmware-v3)
     + [2.1. Programas existentes dentro del proyecto firmware_v3](#21-programas-existentes-dentro-del-proyecto-firmware-v3)
       - [2.1.1. Seleccionar plataforma de hardware (*board*) a utilizar dentro del proyecto firmware_v3](#211-seleccionar-plataforma-de-hardware---board---a-utilizar-dentro-del-proyecto-firmware-v3)
