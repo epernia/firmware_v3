@@ -16,10 +16,10 @@ Este flujo de trabajo propuesto es válido tanto para los programas de ejemplo p
 
 Los pasos a seguir son:
 
-​	2.1.1. Seleccionar plataforma de hardware (*board*) a utilizar dentro del proyecto firmware_v3.
-​	2.1.2. Seleccionar programa a utilizar dentro del proyecto firmware_v3.
-​	2.1.3. Compilar el programa seleccionado.
-​	2.1.4. Descargar el programa seleccionado a la plataforma de hardware (*board*) seleccionada.
+1. Seleccionar plataforma de hardware (*board*) a utilizar dentro del proyecto firmware_v3.
+2. Seleccionar programa a utilizar dentro del proyecto firmware_v3.
+3. Compilar el programa seleccionado.
+4. Descargar el programa seleccionado a la plataforma de hardware (*board*) seleccionada.
 
 Tanto *seleccionar el programa* como *la plataforma de hardware* a utilizar se puede realizar de manera **manual** (editando archivos de texto) o mediante el uso de la **interfaz gráfica** (requiere el programa Zenity).
 
