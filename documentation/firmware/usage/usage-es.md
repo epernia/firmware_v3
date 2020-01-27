@@ -1,4 +1,4 @@
-[TOC]
+[[_TOC_]]
 
 # Utilización básica de firmware_v3
 
