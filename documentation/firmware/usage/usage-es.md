@@ -1,10 +1,16 @@
 <div>
 	<ul style="list-style:none;">
-		<li> <a href="#utilizaci-n-b-sica-de-firmware-v3">Utilización básica de firmware_v3</a></li>
+		<li>
+            <a href="#utilizaci-n-básica-de-firmware-v3">Utilización básica de firmware_v3</a>
+        </li>
 		<li>
             <ul style="list-style:none;">
-                <li> [1. Conceptos básicos](#1-conceptos-b-sicos)</li>
-                <li>[2. Flujo básico de trabajo con firmware_v3]</li>
+                <li>
+                    <a href="#1-conceptos-básicos">1. Conceptos básicos</a>
+                </li>
+                <li>
+                    <a href="#2-flujo-básico-de-trabajo-con-firmware-v3">2. Flujo básico de trabajo con firmware_v3</a>
+                </li>
             </ul>
 		</li>
 		<li>asasa</li>
@@ -14,7 +20,7 @@
 
 - [Utilización básica de firmware_v3](#utilizaci-n-básica-de-firmware-v3)
   * [1. Conceptos básicos](#1-conceptos-básicos)
-  * [2. Flujo básico de trabajo con firmware_v3](#2-flujo-b-sico-de-trabajo-con-firmware-v3)
+  * [2. Flujo básico de trabajo con firmware_v3](#2-flujo-básico-de-trabajo-con-firmware-v3)
     + [2.1. Programas existentes dentro del proyecto firmware_v3](#21-programas-existentes-dentro-del-proyecto-firmware-v3)
       - [2.1.1. Seleccionar plataforma de hardware (*board*) a utilizar dentro del proyecto firmware_v3](#211-seleccionar-plataforma-de-hardware---board---a-utilizar-dentro-del-proyecto-firmware-v3)
       - [2.1.2. Seleccionar programa a utilizar dentro del proyecto firmware_v3](#212-seleccionar-programa-a-utilizar-dentro-del-proyecto-firmware-v3)
