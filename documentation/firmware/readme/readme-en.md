@@ -8,7 +8,7 @@
       <li><a style="text-decoration: none;" href="#about-firmware_v3">About firmware_v3</a></li>
       <li><a style="text-decoration: none;" href="#supported-boards">Supported boards</a></li>
       <li><a style="text-decoration: none;" href="#examples">Examples</a></li>
-      <li><a style="text-decoration: none;" href="#supported-toolchains>Supported toolchains</a></li>
+      <li><a style="text-decoration: none;" href="#supported-toolchains">Supported toolchains</a></li>
       <li><a style="text-decoration: none;" href="#available-libraries">Available libraries</a></li>
       <li><a style="text-decoration: none;" href="#usage">Usage</a></li>
    </ul>
