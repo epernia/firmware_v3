@@ -55,11 +55,7 @@
 - [Ejecutar *targets* de *makefile* con la Terminal](../firmware/terminal/targets-es.md).
 - [Utilización de firmware_v3 con Embedded IDE](../firmware/embedded_ide/usage-es.md).
   
-- Utilización de firmware_v3 con Eclipse:
-  - [Abrir proyecto firmware_v3 en Eclipse](../firmware/eclipse/open/open-es.md).
-  - [Compilar y descargar un programa del proyecto firmware_v3 en Eclipse](../firmware/eclipse/build/build-es.md).
-  - [Depuración de un programa sobre la plataforma de hardware con Eclipse](../firmware/eclipse/debug/debug-es.md).
-  - [Configurar y ejecutar *targets* de de *makefile* en Eclipse](../firmware/eclipse/targets/targets-es.md).
+- [Utilización de firmware_v3 con Eclipse](../firmware/eclipse/usage-es.md).
 
 
 
