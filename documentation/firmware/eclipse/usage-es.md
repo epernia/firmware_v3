@@ -2,33 +2,36 @@
 
 <div>
 <ul style="list-style:none;">
-   <li><a style="text-decoration: none;" href="#utilización-de-firmware_v3-con-eclipse">Utilización de firmware_v3 con Eclipse</a></li>
+   <li><a style="text-decoration: none;" href="#utilización-de-firmware_v3-con-embedded-ide">Utilización de firmware_v3 con Embedded IDE</a></li>
    <ul style="list-style:none;">
-      <li><a style="text-decoration: none;" href="">1.1. Abrir proyecto firmware_v3 en Eclipse por primera vez</a></li>
+      <li><a style="text-decoration: none;" href="">1. Abrir proyecto firmware_v3 en Eclipse</a></li>
       <ul style="list-style:none;">
-         <li><a style="text-decoration: none;" href="">1.1.1. Iniciar Eclipse</a></li>
-         <li><a style="text-decoration: none;" href="">1.1.2. Workspace</a></li>
-         <li><a style="text-decoration: none;" href="">1.1.3. Ventana inicial</a></li>
-         <li><a style="text-decoration: none;" href="">1.1.4. Abrir Proyecto de Firmware para programar en asembler, C o C++</a></li>
+         <li><a style="text-decoration: none;" href="">1.1. Abrir proyecto firmware_v3 en Eclipse por primera vez</a></li>
+         <ul style="list-style:none;">
+            <li><a style="text-decoration: none;" href="">1.1.1. Iniciar Eclipse</a></li>
+            <li><a style="text-decoration: none;" href="">1.1.2. Workspace</a></li>
+            <li><a style="text-decoration: none;" href="">1.1.3. Ventana inicial</a></li>
+            <li><a style="text-decoration: none;" href="">1.1.4. Abrir Proyecto de Firmware para programar en asembler, C o C++</a></li>
+         </ul>
+         <li><a style="text-decoration: none;" href="">1.2. Abrir proyecto firmware_v3 en Eclipse en sucesivas ocasiones</a></li>
+      </ul>     
+      <li><a style="text-decoration: none;" href="">2. Compilar proyecto firmware_v3 en Eclipse</a></li>
+      <ul style="list-style:none;">
+         <li><a style="text-decoration: none;" href="">2.1. Configurar opciones de compilación</a></li>
+         <li><a style="text-decoration: none;" href="">2.2. Compilar proyecto</a></li>
       </ul>
-      <li><a style="text-decoration: none;" href="">1.2. Abrir proyecto firmware_v3 en Eclipse en sucesivas ocasiones</a></li>
-   </ul>
-   <li><a style="text-decoration: none;" href="">2. Compilar proyecto firmware_v3 en Eclipse</a></li>
-   <ul style="list-style:none;">
-      <li><a style="text-decoration: none;" href="">2.1. Configurar opciones de compilación</a></li>
-      <li><a style="text-decoration: none;" href="">2.2. Compilar proyecto</a></li>
-   </ul>
-   <li><a style="text-decoration: none;" href="">3. Configurar y ejecutar <em>targets</em> de <em>makefile</em> en Eclipse</a></li>
-   <ul style="list-style:none;">
-      <li><a style="text-decoration: none;" href="">3.1. Targets por defecto en Eclipse</a></li>
-      <li><a style="text-decoration: none;" href="">3.2. Configurar <em>targets</em> de <em>makefile</em> en Eclipse</a></li>
-   </ul>
-   <li><a style="text-decoration: none;" href="">4. Depuración de un programa sobre la plataforma de hardware con Eclipse y firmware_v3</a></li>
-   <ul style="list-style:none;">
-      <li><a style="text-decoration: none;" href="">4.1. Configuración de la descarga y depuración del programa sobre el hardware</a></li>
-      <li><a style="text-decoration: none;" href="">4.2. Probar el funcionamiento de la depuración sobre el hardware</a></li>
-      <li><a style="text-decoration: none;" href="">4.3. Botones de control de ejecución y breakpoints</a></li>
-      <li><a style="text-decoration: none;" href="">4.4. Depurar otro programa dentro del mismo proyecto</a></li>
+      <li><a style="text-decoration: none;" href="">3. Configurar y ejecutar <em>targets</em> de <em>makefile</em> en Eclipse</a></li>
+      <ul style="list-style:none;">
+         <li><a style="text-decoration: none;" href="">3.1. Targets por defecto en Eclipse</a></li>
+         <li><a style="text-decoration: none;" href="">3.2. Configurar <em>targets</em> de <em>makefile</em> en Eclipse</a></li>
+      </ul>
+      <li><a style="text-decoration: none;" href="">4. Depuración de un programa sobre la plataforma de hardware con Eclipse y firmware_v3</a></li>
+      <ul style="list-style:none;">
+         <li><a style="text-decoration: none;" href="">4.1. Configuración de la descarga y depuración del programa sobre el hardware</a></li>
+         <li><a style="text-decoration: none;" href="">4.2. Probar el funcionamiento de la depuración sobre el hardware</a></li>
+         <li><a style="text-decoration: none;" href="">4.3. Botones de control de ejecución y breakpoints</a></li>
+         <li><a style="text-decoration: none;" href="">4.4. Depurar otro programa dentro del mismo proyecto</a></li>
+      </ul>
    </ul>
 </ul>
 </div>
