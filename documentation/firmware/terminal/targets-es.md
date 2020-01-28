@@ -2,11 +2,11 @@
 
 <div>
 <ul style="list-style:none;">
-   <li><a style="text-decoration: none;" href="#utilización-de-firmware_v3-con-embedded-ide">Ejecutar <em>targets</em> de <em>makefile</em> con la Terminal</a></li>
+   <li><a style="text-decoration: none;" href="#ejecutar-targets-de-makefile-con-la-terminal">Ejecutar <em>targets</em> de <em>makefile</em> con la Terminal</a></li>
    <ul style="list-style:none;">
-      <li><a style="text-decoration: none;" href="#1-abrir-el-proyecto-firmware_v3-en-embedded-ide">1. Abrir una terminal</a></li>
-      <li><a style="text-decoration: none;" href="#1-abrir-el-proyecto-firmware_v3-en-embedded-ide">2. Cambiar ruta (<em>path</em>) a firmware_v3</a></li>
-      <li><a style="text-decoration: none;" href="#1-abrir-el-proyecto-firmware_v3-en-embedded-ide">3. Ejecutar <em>target</em> de <em>Makefile</em> de firmware_v3</a></li>
+      <li><a style="text-decoration: none;" href="#1-abrir-una-terminal">1. Abrir una terminal</a></li>
+      <li><a style="text-decoration: none;" href="#2-cambiar-ruta-path-a-firmware_v3">2. Cambiar ruta (<em>path</em>) a firmware_v3</a></li>
+      <li><a style="text-decoration: none;" href="#3-ejecutar-target-de-makefile-de-firmware_v3">3. Ejecutar <em>target</em> de <em>Makefile</em> de firmware_v3</a></li>
    </ul>
 </ul>
 </div>
