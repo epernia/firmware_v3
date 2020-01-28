@@ -93,7 +93,7 @@ USE_SAPI=y
 
 Program complete structure is:
 
-![Program structure](D:/_REPOS/_epernia/firmware_v3/documentation/firmware/usage/program_strcuture.png)
+![Program structure](program_strcuture.png)
 
 **Note:** If you have `zenity` installed, you can use:
 
