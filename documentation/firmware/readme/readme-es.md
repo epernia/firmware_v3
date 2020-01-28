@@ -2,9 +2,9 @@
 
 <div>
 <ul style="list-style:none;">
-   <li><a style="text-decoration: none;" href="">Framework para desarrollo de Firmware de Sistemas Embebidos en C/C++3</a></li>
+   <li><a style="text-decoration: none;" href="#framework-para-desarrollo-de-firmware-de-sistemas-embebidos-en-cc">Framework para desarrollo de Firmware de Sistemas Embebidos en C/C++3</a></li>
    <ul style="list-style:none;">
-      <li><a style="text-decoration: none;" href="#importante">Importante</a></li>
+      <li><a style="text-decoration: none;" href="#importante">IMPORTANTE</a></li>
       <li><a style="text-decoration: none;" href="#acerca-de-firmware_v3">Acerca de firmware_v3</a></li>
       <li><a style="text-decoration: none;" href="#plataformas-de-hardware-soportadas">Plataformas de hardware soportadas</a></li>
       <li><a style="text-decoration: none;" href="#ejemplos">Ejemplos</a></li>

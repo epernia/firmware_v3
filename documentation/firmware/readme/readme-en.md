@@ -1,8 +1,21 @@
 ## Table of contents
 
+<div>
+<ul style="list-style:none;">
+   <li><a style="text-decoration: none;" href="#framework-for-embedded-systems-firmware-development-in-cc">Framework for Embedded Systems Firmware development in C/C++</a></li>
+   <ul style="list-style:none;">
+      <li><a style="text-decoration: none;" href="#important">IMPORTANT</a></li>
+      <li><a style="text-decoration: none;" href="#about-firmware_v3">About firmware_v3</a></li>
+      <li><a style="text-decoration: none;" href="#supported-boards">Supported boards</a></li>
+      <li><a style="text-decoration: none;" href="#examples">Examples</a></li>
+      <li><a style="text-decoration: none;" href="#supported-toolchains>Supported toolchains</a></li>
+      <li><a style="text-decoration: none;" href="#available-libraries">Available libraries</a></li>
+      <li><a style="text-decoration: none;" href="#usage">Usage</a></li>
+   </ul>
+</ul>
+</div>
 
-
-# Framework for Embedded Systems Firmware development in C/C++ 
+# Framework for Embedded Systems Firmware development in C/C++
 
 ## IMPORTANT
 
@@ -27,7 +40,7 @@
 
 - gcc-arm-none-eabi 
 
-## Available libraries:
+## Available libraries
 
 - CMSIS 5.4.0 (Core and DSP). [CMSIS_5 Repository](https://github.com/ARM-software/CMSIS_5).
 - LPCOpen v3.02 [LPCOpen Software Development Platform LPC43XX NXP website](https://www.nxp.com/design/microcontrollers-developer-resources/lpcopen-libraries-and-examples/lpcopen-software-development-platform-lpc43xx:LPCOPEN-SOFTWARE-FOR-LPC43XX).
