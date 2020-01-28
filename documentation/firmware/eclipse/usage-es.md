@@ -18,10 +18,10 @@
       <li><a style="text-decoration: none;" href="">2.1. Configurar opciones de compilación</a></li>
       <li><a style="text-decoration: none;" href="">2.2. Compilar proyecto</a></li>
    </ul>
-   <li><a style="text-decoration: none;" href="">3. Configurar y ejecutar *targets* de de *makefile* en Eclipse</a></li>
+   <li><a style="text-decoration: none;" href="">3. Configurar y ejecutar <em>targets</em> de <em>makefile</em> en Eclipse</a></li>
    <ul style="list-style:none;">
       <li><a style="text-decoration: none;" href="">3.1. Targets por defecto en Eclipse</a></li>
-      <li><a style="text-decoration: none;" href="">3.2. Configurar *targets* de de *makefile* en Eclipse</a></li>
+      <li><a style="text-decoration: none;" href="">3.2. Configurar <em>targets</em> de <em>makefile</em> en Eclipse</a></li>
    </ul>
    <li><a style="text-decoration: none;" href="">4. Depuración de un programa sobre la plataforma de hardware con Eclipse y firmware_v3</a></li>
    <ul style="list-style:none;">
