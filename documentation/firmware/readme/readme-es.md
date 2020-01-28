@@ -1,25 +1,27 @@
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Build Status](https://travis-ci.com/epernia/firmware_v3.svg?branch=master)](https://travis-ci.com/epernia/firmware_v3) (Estado de Travis CI)
+## Índice
 
-# Framework para desarrollo de Firmware de Sistemas Embebidos en C/C++ 
+<div>
+<ul style="list-style:none;">
+   <li><a style="text-decoration: none;" href="">Framework para desarrollo de Firmware de Sistemas Embebidos en C/C++3</a></li>
+   <ul style="list-style:none;">
+      <li><a style="text-decoration: none;" href="#importante">Importante</a></li>
+      <li><a style="text-decoration: none;" href="#acerca-de-firmware_v3">Acerca de firmware_v3</a></li>
+      <li><a style="text-decoration: none;" href="#plataformas-de-hardware-soportadas">Plataformas de hardware soportadas</a></li>
+      <li><a style="text-decoration: none;" href="#ejemplos">Ejemplos</a></li>
+      <li><a style="text-decoration: none;" href="#toolchains-soportados">Toolchains soportados</a></li>
+      <li><a style="text-decoration: none;" href="#bibliotecas-disponibles">Bibliotecas disponibles</a></li>
+      <li><a style="text-decoration: none;" href="#utilización-de-firmware_v3">Utilización de firmware_v3</a></li>
+   </ul>
+</ul>
+</div>
+
+# Framework para desarrollo de Firmware de Sistemas Embebidos en C/C++
 
 ## IMPORTANTE
 
 **¡Este entorno está en construcción!**
 
 **Utilice siempre las versiones [release](../../../../../releases) debido a que todos los ejemplos están testeados sobre las plataformas de hardware y la documentación de la API es consistente. La rama master puede contener inconsistencias debido a que este entorno esta continuamente en desarrollo. Vea el estado de Travis CI en la etiqueta de arriba para conocer el estado actual del repositorio.**
-
-## Índice
-
-<div>
-<ul style="list-style:none;">
-   <li><a style="text-decoration: none;" href="#acerca-de-firmware_v3">Acerca de firmware_v3</a></li>
-   <li><a style="text-decoration: none;" href="#plataformas-de-hardware-soportadas">Plataformas de hardware soportadas</a></li>
-   <li><a style="text-decoration: none;" href="#ejemplos">Ejemplos</a></li>
-   <li><a style="text-decoration: none;" href="#toolchains-soportados">Toolchains soportados</a></li>
-   <li><a style="text-decoration: none;" href="#bibliotecas-disponibles">Bibliotecas disponibles</a></li>
-   <li><a style="text-decoration: none;" href="#utilización-de-firmware_v3">Utilización de firmware_v3</a></li>
-</ul>
-</div>
 
 ## Acerca de firmware_v3
 
