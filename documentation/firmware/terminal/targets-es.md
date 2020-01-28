@@ -54,4 +54,4 @@ make all
 
 ## Más información
 
-[Volver al README](../../readme/readme-es.md).
+[Volver al README](../readme/readme-es.md).

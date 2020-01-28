@@ -341,5 +341,5 @@ A continuación se listan todos los *targets* disponibles en firmware_v3:
 
 ## Más información
 
-[Volver al README](../../readme/readme-es.md).
+[Volver al README](../readme/readme-es.md).
 

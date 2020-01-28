@@ -86,4 +86,6 @@ Included examples are:
 
 
 
-[Back to README](../../readme/readme-en.md).
+## More information
+
+[Back to README](../readme/readme-en.md).

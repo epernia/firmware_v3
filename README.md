@@ -12,6 +12,6 @@
 
 **firmware_v3** is a makefile-based project that act as a framework for Embedded Systems firmware development in C/C++ language. It support toolchain, libraries and examples for several platforms.
 
-- [More information in english](documentation/readme/readme-en.md).
-- [Más información en español](documentation/readme/readme-es.md).
+- [More information in english](documentation/firmware/readme/readme-en.md).
+- [Más información en español](documentation/firmware/readme/readme-es.md).
 

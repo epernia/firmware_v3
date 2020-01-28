@@ -277,5 +277,4 @@ Luego simplemente presionar sobre debug, el resto de las configuraciones que rea
 
 ## Más información
 
-[Volver al README](../../readme/readme-es.md).
-
+[Volver al README](../readme/readme-es.md).
