@@ -51,4 +51,4 @@ Embedded IDE analiza el *Makefile* del proyecto firmware_v3 al abrirlo y coloca 
 
 ## Más documentación
 
-- [Volver al README](../../../readme/readme-es.md).
+- [Volver al README](../../readme/readme-es.md).
