@@ -1,6 +1,10 @@
+## Índice
+
+
+
 # Configurar y ejecutar *targets* de de *makefile* en Eclipse
 
-## Targets por defecto en Eclipse
+## 1. Targets por defecto en Eclipse
 
 Eclipse muestra algunos de sus *targets* de diferentes maneras:
 
@@ -21,7 +25,7 @@ El botón ***build*** ejecuta el comando:
 
 - Además se pueden configurar y agregar *targets* adicionales como se explica en la siguiente sección.
 
-## Configurar *targets* de de *makefile* en Eclipse
+## 2. Configurar *targets* de de *makefile* en Eclipse
 
 Para agregar botones para ejecutar *targets* de de *makefile* en Eclipse se debe ir a la pestaña ***Build Targets*** (1), luego presionar en la carpeta ***firmware_v3*** (2) y luego presionar el botón ***New Build Target*** (3):
 
@@ -49,6 +53,7 @@ Se recomienda agregar los *targets*:
 Se ejecutan realizando doble doble click sobre el icono de los mismos.
 
 
-## Más documentación
+
+## Más información
 
 - [Volver al README](../../../readme/readme-es.md).

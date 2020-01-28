@@ -1,6 +1,10 @@
+## Índice
+
+
+
 # Depuración de un programa sobre la plataforma de hardware con Eclipse y firmware_v3
 
-### Configuración de la descarga y depuración del programa sobre el hardware
+## 1. Configuración de la descarga y depuración del programa sobre el hardware
 
 Ubique el ícono del bicho verde (*debug*) , presione sobre la flecha hacia abajo a la derecha de este icono y en la ventana que se despliega la opción "*Debug Configurations...*"
 
@@ -41,7 +45,7 @@ Deslice la pantalla más abajo y configure en la sección "*GDB Client Setup*":
 
 Con esto ya se encuentra configurado el Eclipse para depurar. 
 
-### Probar el funcionamiento de la depuración sobre el hardware
+## 2. Probar el funcionamiento de la depuración sobre el hardware
 
 Para probarlo presione sobre el botón "*Debug*". Aparecerá un mensaje como el siguiente la primera vez que avisa que el Eclipse pasará de la perspectiva de programación, a la de depuración (esto hace que se reacomoden vairos menues para facilitar la depuración). Presione "*Remember my decision*" y "*Switch*" para que no la muestre cada vez:
 
@@ -51,7 +55,7 @@ Cuando el programa se descargó a la plataforma y empezó a ejecutarlo dentendr�
 
 ![Eclipse-20](Eclipse-Win20.png)
 
-### Botones de control de ejecución y breakpoints
+## 3. Botones de control de ejecución y breakpoints
 
 Mediante los botones de control de ejecución y breakpoints podremos controlar el programa que se ejecuta en la placa desde nuestra PC:
 
@@ -74,7 +78,7 @@ En este ejemplo se puso un *beakpoint* en la función ```boardConfig()```:
 
 ![Eclipse-22](Eclipse-Win22.png)
 
-### Depurar otro programa dentro del mismo proyecto
+## 4. Depurar otro programa dentro del mismo proyecto
 
 Simplemente deberá compilar el otro programa y luego abrir la ventana "*Debug Configurations*" y mediante el botón "*Search Project..*" puede elegir que programa va a descargar/depurar:
 
@@ -84,7 +88,9 @@ Simplemente deberá compilar el otro programa y luego abrir la ventana "*Debug C
 
 Luego simplemente presionar sobre debug, el resto de las configuraciones que realizamos se hace una única vez.
 
-## Más documentación
+
+
+## Más información
 
 - [Configurar y ejecutar *targets* de de *makefile* en Eclipse](../targets/targets-es.md).
 - [Volver al README](../../../readme/readme-es.md).

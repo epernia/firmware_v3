@@ -1,11 +1,14 @@
-# Abrir proyecto firmware_v3 en Eclipse
+## Índice
 
-## Abrir proyecto firmware_v3 en Eclipse por primera vez
-### Iniciar Eclipse
+## 1. Abrir proyecto firmware_v3 en Eclipse
+
+### 1.1. Abrir proyecto firmware_v3 en Eclipse por primera vez
+
+#### 1.1.1. Iniciar Eclipse
 
 Recordar iniciar Eclipse desde el Launcher. Esto traerá las variables de entorno necesarias para ubicar las herramientas externas para compilación y depuración.
 
-### Workspace
+#### 1.1.2. Workspace
 
 Al abrir el Eclipse solicita seleccionar la carpeta a utilizar como espacio de trabajo (*Workspace*), elegir dentro de la ruta donde descomprimieron el Launcher la carpeta:
 
@@ -15,7 +18,7 @@ Al abrir el Eclipse solicita seleccionar la carpeta a utilizar como espacio de t
 
 ![Eclipse-01](Eclipse-Win01.png)
 
-### Ventana inicial
+#### 1.1.3. Ventana inicial
 
 Al iniciar el Eclipse muestra una pestaña de bienvenida (*Wellcome*) como la siguiente:
 
@@ -25,8 +28,7 @@ Debe cerrar esta pestaña para que se muestre el árbol de proyectos y el espaci
 
 ![Eclipse-03](Eclipse-Win03.png)
 
-
-### Abrir Proyecto de Firmware para programar en asembler, C o C++
+#### 1.1.4. Abrir Proyecto de Firmware para programar en asembler, C o C++
 
 Primero debemos clonar o descargar el Proyecto a abrir, en este caso firmware_v3:
 
@@ -58,11 +60,13 @@ Con esto queda el proyecto firmware_v3 listo para su utilización.
 
 **Nota**: Eclipse puede tener múltiples proyectos en simultáneo dentro de un mismo *Workspace*. En particular, el proyecto *firmware_v3 es un único proyecto que se compone de múltiples programas* (los ejemplos que trae más los programas que realizaremos nosotros). Es decir con un único proyecto de Eclipse abierto tendremos la posibilidad de seleccionar que programa del mismo se desea compilar y descargar a la plataforma de hardware.
 
-## Abrir proyecto firmware_v3 en Eclipse en sucesivas ocasiones
+### 1.2. Abrir proyecto firmware_v3 en Eclipse en sucesivas ocasiones
 
 Eclipse guarda todas las configuraciones realizadas sobre la carpeta elegida como *Workspace* con y de esta manera al abrir nuevamente Eclipse y seleccionar el *Workspace* que hemos creado se cargará el proyecto firmware_v3 automáticamente.
 
-## Más documentación
 
-- [Compilar y descargar un programa del proyecto firmware_v3 en Eclipse](../build/build-es.md).
-- [Volver al README](../../../readme/readme-es.md).
+
+## Más información
+
+[Volver al README](../../readme/readme-es.md).
+

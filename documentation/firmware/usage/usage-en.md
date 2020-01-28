@@ -3,7 +3,7 @@
 - Make sure you have an `arm-none-eabi-*` toolchain configured in your `PATH`. If you don't have it, download [GCC ARM Embedded](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm).
 - Make sure you have an `openocd` configured in your `PATH`.
 
-### Select a target board to compile
+## Select a target board to compile
 
 - Create a `board.mk` text file inside this folder.
 - Define `BOARD` variable in `board.mk` according to the board you want to compile.
@@ -22,7 +22,7 @@ Note: If you have `zenity` installed (included in [CIAA Software](https://github
 
 This will create automaticaly a `board.mk` text file inside this folder with the selected board.
 
-### Select a program to compile
+## Select a program to compile
 
 - Create a `program.mk` text file inside this folder.
 - Define `PROGRAM_NAME`  and `PROGRAM_PATH` variables in `program.mk` according to the program you want to compile (PROGRAM_PATH is relative to this folder, leave void if the program is inside this folder).
@@ -42,13 +42,13 @@ Note: If you have `zenity` installed, you can use:
 
 This will create automaticaly a `program.mk` text file inside this folder with the selected program.
 
-### Compile and download
+## Compile and download
 
 - Compile with `make`.
 - Download to target via OpenOCD with `make download`.
 - Clean compilation with `make clean`.
 
-### Create a new program
+## Create a new program
 
 Each program consist in a folder (with a non-spaces name) that includes inside 2 folders, one named ```src``` (here go, .c, .cpp or .s source code files), and another one named ```inc``` (here go, .h or .hpp source header files). 
 
@@ -105,7 +105,7 @@ Program complete structure is:
 
 ![User preferences](user_preferences.png)
 
-### Create a new global library
+## Create a new global library
 
 The `libs` folder include libraries that can be used fom any program (global libraries).
 
@@ -115,5 +115,7 @@ The `Makefile` allow you to include 2 types of libraries:
 - Advanced library. Consist in a library with a complex folder and files structure, i.e. LibUSB. This case require make your own makefile. You can inspire from sAPI makefile to do that.
 
 
+
+## More information 
 
 [Back to README](../../readme/readme-en.md).

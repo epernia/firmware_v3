@@ -1,6 +1,10 @@
+## Índice
+
+
+
 # Compilar proyecto firmware_v3 en Eclipse
 
-### Configurar opciones de compilación
+## 1. Configurar opciones de compilación
 
 Se debe hacer click derecho sobre el proyecto "firmware_v3" y luego en la opción "*Properties*":
 
@@ -15,7 +19,7 @@ Presionar *"Apply and Close*" para aplicar la configuración.
 
 ![Eclipse-08](Eclipse-Win08.png)
 
-### Compilar proyecto
+## 2. Compilar proyecto
 
 Para compilar el proyecto puede realizarlo mediante el icono del martillo (*Build*), o mediante la opción "*Build*" presionando el botón derecho sobre el proyecto firmware_v3.
 
@@ -33,7 +37,9 @@ Al presionar "*build*" se compila el proyecto dando como resultado lo siguiente:
 - El programa que fue compilado dentro del proyecto, en este caso llamado "app" en la carpeta "examples/c" dentro de "firmware_v3".
 - La plataforma de hardware para la cual se compiló el programa, en este caso "EDU-CIAA-NXP".
 
-## Más documentación
+
+
+## Más información
 
 - [Depuración de un programa sobre la plataforma de hardware con Eclipse](../debug/debug-es.md).
 - [Volver al README](../../../readme/readme-es.md).
