@@ -6,11 +6,11 @@
    <ul style="list-style:none;">
       <li><a style="text-decoration: none;" href="#1-abrir-el-proyecto-firmware_v3-en-embedded-ide">1. Abrir el proyecto firmware_v3 en Embedded IDE</a></li>
       <ul style="list-style:none;">
-         <li><a style="text-decoration: none;" href="">1.1. Iniciar Embedded IDE</a></li>
-         <li><a style="text-decoration: none;" href="">1.2. Proyectos soportados por Embedded IDE</a></li>
-         <li><a style="text-decoration: none;" href="">1.3. Abrir el proyecto firmware_v3</a></li>
+         <li><a style="text-decoration: none;" href="#11-iniciar-embedded-ide">1.1. Iniciar Embedded IDE</a></li>
+         <li><a style="text-decoration: none;" href="#12-proyectos-soportados-por-embedded-ide">1.2. Proyectos soportados por Embedded IDE</a></li>
+         <li><a style="text-decoration: none;" href="#13-abrir-el-proyecto-firmware_v3">1.3. Abrir el proyecto firmware_v3</a></li>
       </ul>
-      <li><a style="text-decoration: none;" href="#2-flujo-básico-de-trabajo-con-firmware_v3">2. Ejecutar <em>targets</em> de <em>makefile</em> en Embedded IDE</a></li>
+      <li><a style="text-decoration: none;" href="#2-ejecutar-targets-de-makefile-en-embedded-ide">2. Ejecutar <em>targets</em> de <em>makefile</em> en Embedded IDE</a></li>
    </ul>
 </ul>
 </div>
