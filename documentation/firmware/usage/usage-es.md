@@ -3,67 +3,59 @@
 <div>
 <ul style="list-style:none;">
    <li><a style="text-decoration: none;" href="#utilización-básica-de-firmwarev3">Utilización básica de firmware_v3</a></li>
-   <li>
+   <ul style="list-style:none;">
+      <li><a style="text-decoration: none;" href="#1-conceptos-básicos">1. Conceptos básicos</a></li>
+      <li><a style="text-decoration: none;" href="#2-flujo-básico-de-trabajo-con-firmwarev3">2. Flujo básico de trabajo con firmware_v3</a></li>
       <ul style="list-style:none;">
-         <li><a style="text-decoration: none;" href="#1-conceptos-básicos">1. Conceptos básicos</a></li>
-         <li><a style="text-decoration: none;" href="#2-flujo-básico-de-trabajo-con-firmwarev3">2. Flujo básico de trabajo con firmware_v3</a></li>
-         <li>
-            <ul style="list-style:none;">
-               <li><a style="text-decoration: none;" href="#21-programas-existentes-dentro-del-proyecto-firmwarev3">2.1. Programas existentes dentro del proyecto firmware_v3</a></li>
-               <li>
-                  <ul style="list-style:none;">
-                     <li><a style="text-decoration: none;" href="#211-seleccionar-plataforma-de-hardware-board-a-utilizar-dentro-del-proyecto-firmwarev3">2.1.1. Seleccionar <em>board</em> a utilizar dentro del proyecto firmware_v3</a></li>
-                     <!--
-                     <li>
-                        <ul style="list-style:none;">
-                           <li><a style="text-decoration: none;" href="#de-forma-manual">De forma manual</a></li>
-                           <li><a style="text-decoration: none;" href="#mediante-la-interfaz-gráfica">Mediante la interfaz gráfica</a></li>
-                        </ul>
-                     </li>
-                     -->
-                     <li><a style="text-decoration: none;" href="#212-seleccionar-programa-a-utilizar-dentro-del-proyecto-firmwarev3">2.1.2. Seleccionar programa a utilizar dentro del proyecto firmware_v3</a></li>
-                     <!--
-                     <li>
-                        <ul style="list-style:none;">
-                           <li><a style="text-decoration: none;" href="#de-forma-manual-n1696">De forma manual</a></li>
-                           <li><a style="text-decoration: none;" href="#mediante-la-interfaz-gráfica-n1706">Mediante la interfaz gráfica</a></li>
-                        </ul>
-                     </li>
-                     -->
-                     <li><a style="text-decoration: none;" href="#213-compilar-el-programa-seleccionado">2.1.3. Compilar el programa seleccionado</a></li>
-                     <li><a style="text-decoration: none;" href="#214-descargar-el-programa-seleccionado-a-la-plataforma-de-hardware-board-seleccionada">2.1.4. Descargar el programa seleccionado a la <em>board</em> seleccionada</a></li>
-                  </ul>
-               </li>
-               <li><a style="text-decoration: none;" href="#22-creación-de-programas-y-bibliotecas">2.2. Creación de programas y bibliotecas</a></li>
-               <li>
-                  <ul style="list-style:none;">
-                     <li><a style="text-decoration: none;" href="#221-crear-un-nuevo-programa-dentro-del-proyecto-firmwarev3">2.2.1. Crear un nuevo programa dentro del proyecto firmware_v3</a></li>
-                     <!--
-                     <li>
-                        <ul style="list-style:none;">
-                           <li><a style="text-decoration: none;" href="#de-forma-manual-n1727">De forma manual</a></li>
-                           <li><a style="text-decoration: none;" href="#mediante-la-interfaz-gráfica-n1740">Mediante la interfaz gráfica</a></li>
-                        </ul>
-                     </li>
-                     -->
-                     <li><a style="text-decoration: none;" href="#222-crear-un-nuevo-módulo-de-biblioteca-dentro-del-proyecto-firmwarev3">2.2.2. Crear un nuevo módulo de biblioteca dentro del proyecto firmware_v3</a></li>
-                     <!--
-                     <li>
-                        <ul style="list-style:none;">
-                           <li><a style="text-decoration: none;" href="#bibliotecas-globales">Bibliotecas globales</a></li>
-                           <li><a style="text-decoration: none;" href="#bibliotecas-locales-a-un-programa">Bibliotecas locales a un programa</a></li>
-                        </ul>
-                     </li>
-                     -->
-                  </ul>
-               </li>
-            </ul>
-         </li>
-         <li>
-            <a style="text-decoration: none;" href="#3-lista-completa-de-targets-disponibles">3. Lista completa de <em>Targets</em> disponibles</a>
-         </li>
+         <li><a style="text-decoration: none;" href="#21-programas-existentes-dentro-del-proyecto-firmwarev3">2.1. Programas existentes dentro del proyecto firmware_v3</a></li>
+         <ul style="list-style:none;">
+            <li><a style="text-decoration: none;" href="#211-seleccionar-plataforma-de-hardware-board-a-utilizar-dentro-del-proyecto-firmwarev3">2.1.1. Seleccionar <em>board</em> a utilizar dentro del proyecto firmware_v3</a></li>
+            <!--
+            <li>
+               <ul style="list-style:none;">
+                  <li><a style="text-decoration: none;" href="#de-forma-manual">De forma manual</a></li>
+                  <li><a style="text-decoration: none;" href="#mediante-la-interfaz-gráfica">Mediante la interfaz gráfica</a></li>
+               </ul>
+            </li>
+            -->
+            <li><a style="text-decoration: none;" href="#212-seleccionar-programa-a-utilizar-dentro-del-proyecto-firmwarev3">2.1.2. Seleccionar programa a utilizar dentro del proyecto firmware_v3</a></li>
+            <!--
+            <li>
+               <ul style="list-style:none;">
+                  <li><a style="text-decoration: none;" href="#de-forma-manual-n1696">De forma manual</a></li>
+                  <li><a style="text-decoration: none;" href="#mediante-la-interfaz-gráfica-n1706">Mediante la interfaz gráfica</a></li>
+               </ul>
+            </li>
+            -->
+            <li><a style="text-decoration: none;" href="#213-compilar-el-programa-seleccionado">2.1.3. Compilar el programa seleccionado</a></li>
+            <li><a style="text-decoration: none;" href="#214-descargar-el-programa-seleccionado-a-la-plataforma-de-hardware-board-seleccionada">2.1.4. Descargar el programa seleccionado a la <em>board</em> seleccionada</a></li>
+         </ul>
+         <li><a style="text-decoration: none;" href="#22-creación-de-programas-y-bibliotecas">2.2. Creación de programas y bibliotecas</a></li>
+         <ul style="list-style:none;">
+            <li><a style="text-decoration: none;" href="#221-crear-un-nuevo-programa-dentro-del-proyecto-firmwarev3">2.2.1. Crear un nuevo programa dentro del proyecto firmware_v3</a></li>
+            <!--
+            <li>
+               <ul style="list-style:none;">
+                  <li><a style="text-decoration: none;" href="#de-forma-manual-n1727">De forma manual</a></li>
+                  <li><a style="text-decoration: none;" href="#mediante-la-interfaz-gráfica-n1740">Mediante la interfaz gráfica</a></li>
+               </ul>
+            </li>
+            -->
+            <li><a style="text-decoration: none;" href="#222-crear-un-nuevo-módulo-de-biblioteca-dentro-del-proyecto-firmwarev3">2.2.2. Crear un nuevo módulo de biblioteca dentro del proyecto firmware_v3</a></li>
+            <!--
+            <li>
+               <ul style="list-style:none;">
+                  <li><a style="text-decoration: none;" href="#bibliotecas-globales">Bibliotecas globales</a></li>
+                  <li><a style="text-decoration: none;" href="#bibliotecas-locales-a-un-programa">Bibliotecas locales a un programa</a></li>
+               </ul>
+            </li>
+            -->
+         </ul>
       </ul>
-   </li>
+      <li>
+         <a style="text-decoration: none;" href="#3-lista-completa-de-targets-disponibles">3. Lista completa de <em>Targets</em> disponibles</a>
+      </li>
+   </ul>
 </ul>
 </div>
 
