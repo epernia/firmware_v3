@@ -8,6 +8,19 @@
 
 **Utilice siempre las versiones [release](../../../../releases) debido a que todos los ejemplos están testeados sobre las plataformas de hardware y la documentación de la API es consistente. La rama master puede contener inconsistencias debido a que este entorno esta continuamente en desarrollo. Vea el estado de Travis CI en la etiqueta de arriba para conocer el estado actual del repositorio.**
 
+## Índice
+
+<div>
+<ul style="list-style:none;">
+   <li><a style="text-decoration: none;" href="#acerca-de-firmware_v3">Acerca de firmware_v3</a></li>
+   <li><a style="text-decoration: none;" href="#plataformas-de-hardware-soportadas">Plataformas de hardware soportadas</a></li>
+   <li><a style="text-decoration: none;" href="#ejemplos">Ejemplos</a></li>
+   <li><a style="text-decoration: none;" href="#toolchains-soportados">Toolchains soportados</a></li>
+   <li><a style="text-decoration: none;" href="#bibliotecas-disponibles">Bibliotecas disponibles</a></li>
+   <li><a style="text-decoration: none;" href="#utilización-de-firmware_v3">Utilización de firmware_v3</a></li>
+</ul>
+</div>
+
 ## Acerca de firmware_v3
 
 **firmware_v3** es un proyecto en base a *makefile* que actúa como framework para el desarrollo de *firm*ware para sistemas embebidos en lenguajes C/C++. Soporta *toolchain*, bibliotecas y ejemplos para múltiples plataformas de *hardware*.
@@ -25,7 +38,7 @@
 
 - gcc-arm-none-eabi 
 
-## Bibliotecas disponibles:
+## Bibliotecas disponibles
 
 - CMSIS 5.4.0 (Core y DSP). [Repositorio de CMSIS_5](https://github.com/ARM-software/CMSIS_5) (en inglés).
 - LPCOpen v3.02 [Sitio web de NXP de la plataforma de desarrollo de software LPCOpen para LPC43XX NXP](https://www.nxp.com/design/microcontrollers-developer-resources/lpcopen-libraries-and-examples/lpcopen-software-development-platform-lpc43xx:LPCOPEN-SOFTWARE-FOR-LPC43XX) (en inglés).
@@ -36,14 +49,12 @@
 - FreeRTOS Kernel V10.0.1. [FreeRTOS_Reference_Manual_V10.0.0.pdf](../../examples/c/freertos_book/FreeRTOS_Reference_Manual_V10.0.0.pdf) (en inglés).
 - RKH 3.2.3 [RKH Reference Manual](https://vortexmakes.com/rkh/) (en inglés).
 
-## Utilización de firmware v3
+## Utilización de firmware_v3
 
 - [Utilización básica de firmware_v3](../firmware/usage/usage-es.md).
 - [Ejecutar *targets* de *makefile* con la Terminal](../firmware/terminal/targets-es.md).
-- Utilización de firmware_v3 con Embedded IDE:
-  - [Abrir el proyecto firmware_v3 en Embedded IDE](../firmware/embedded_ide/open/open-es.md).
-  - [Ejecutar *targets* de *makefile* en Embedded IDE](../firmware/embedded_ide/targets/targets-es.md).
-
+- [Utilización de firmware_v3 con Embedded IDE](../firmware/embedded_ide/usage-es.md).
+  
 - Utilización de firmware_v3 con Eclipse:
   - [Abrir proyecto firmware_v3 en Eclipse](../firmware/eclipse/open/open-es.md).
   - [Compilar y descargar un programa del proyecto firmware_v3 en Eclipse](../firmware/eclipse/build/build-es.md).
