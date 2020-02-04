@@ -14,4 +14,4 @@
 			- Then Raise an Event -> evTick => OK.
 			- Then Run an Cycle of Statechart.
 		
-		- And then the uC sleeps egain. 
+		- And then the uC sleeps again. 
