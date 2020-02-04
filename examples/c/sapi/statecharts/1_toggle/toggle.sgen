@@ -1,0 +1,11 @@
+GeneratorModel for yakindu::c {
+
+	statechart toggle {
+
+		feature Outlet {
+			targetProject = "firmware_v3"
+			targetFolder = "examples/c/sapi/statecharts/1_toggle/gen"
+			libraryTargetFolder = "examples/c/sapi/statecharts/1_toggle/inc"
+		}
+	}
+}
