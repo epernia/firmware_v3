@@ -34,7 +34,6 @@
 #ifndef TIMERTICKS_H_
 #define TIMERTICKS_H_
 
-#include "Blink.h"
 
 typedef struct
 {
