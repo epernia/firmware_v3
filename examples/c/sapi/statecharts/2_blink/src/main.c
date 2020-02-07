@@ -1,4 +1,4 @@
-/* Copyright 2017, Pablo Ridolfi, Juan Esteban Alarcón, Juan Manuel Cruz
+/* Copyright 2017, Pablo Ridolfi, Juan Esteban Alarcon, Juan Manuel Cruz
  * All rights reserved.
  *
  * This file is part of Workspace.
