@@ -108,7 +108,7 @@ TimerTicks ticks[NOF_TIMERS];
  * @param LEDNumber number of LED
  * @param onoff state machine operation parameter
  */
-void buttonsIface_opLED( Buttons* handle, sc_integer LEDNumber, sc_boolean State )
+void buttonsIface_opLED( Buttons* handle, sc_integer LEDNumber )
 {
 	gpioToggle( (LEDR + LEDNumber) );
 }
