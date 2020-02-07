@@ -1,4 +1,4 @@
-/* Copyright 2017, Pablo Ridolfi, Juan Esteban Alarcón, Juan Manuel Cruz
+/* Copyright 2017, Pablo Ridolfi, Juan Esteban Alarcon, Juan Manuel Cruz
  * All rights reserved.
  *
  * This file is part of Workspace.
@@ -157,7 +157,7 @@ void myTickHook( void *ptr ){
 
 
 /**
- * @brief	main routine for statechart example: EDU-CIAA-NXP - Blink LED3
+ * @brief	main routine for statechart example: EDU-CIAA-NXP - IdleBlink LED3
  * @return	Function should not exit.
  */
 int main(void)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:sgraph="http://www.yakindu.org/sct/sgraph/2.0.0">
-  <sgraph:Statechart xmi:id="_IPEiAI_CEeaE_NItBGtDFQ" specification="/* Idle &amp; Blink EDU-CIAA-NXP */&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;/* Using Time Events (Timer Ticks) */&#xD;&#xA;&#xD;&#xA;/* REPOSO &lt;-> TITILA */&#xD;&#xA;&#xD;&#xA;/*, after 3000 ms or 5000 ms an operation is done (opLED(LED3, LED_ON) or opLED(LED3, LED_OFF)) */&#xD;&#xA; &#xD;&#xA; /* APAGADO &lt;-> ENCENDIDIO */&#xD;&#xA; &#xD;&#xA;/* after 250 ms or 500 ms an operation  is done (opLED(LED3, LED_ON) or opLED(LED3, LED_OFF))&#xD;&#xA; */&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;interface:&#xD;&#xA;&#xD;&#xA;operation opLED(LEDNumber:integer,&#xD;&#xA;&#x9;State:boolean): void&#xD;&#xA;&#xD;&#xA;const LED3: integer = 5&#xD;&#xA;&#xD;&#xA;const LED_ON: boolean = true&#xD;&#xA;const LED_OFF: boolean = false&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;internal:&#xD;&#xA;&#xD;&#xA;" name="idleBlink">
+  <sgraph:Statechart xmi:id="_IPEiAI_CEeaE_NItBGtDFQ" specification="/* Idle &amp; Blink EDU-CIAA-NXP */&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;/* Using Time Events (Timer Ticks) */&#xD;&#xA;&#xD;&#xA;/* REPOSO &lt;-> TITILA */&#xD;&#xA;&#xD;&#xA;/*, after 3000 ms or 5000 ms an operation is done (opLED(LED3, LED_ON) or opLED(LED3, LED_OFF)) */&#xD;&#xA; &#xD;&#xA; /* APAGADO &lt;-> ENCENDIDIO */&#xD;&#xA; &#xD;&#xA;/* after 250 ms or 500 ms an operation  is done (opLED(LED3, LED_ON) or opLED(LED3, LED_OFF))&#xD;&#xA; */&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;interface:&#xD;&#xA;&#xD;&#xA;operation opLED(LEDNumber:integer,&#xD;&#xA;&#x9;State:boolean): void&#xD;&#xA;&#xD;&#xA;//const LEDR: integer = 0&#xD;&#xA;//const LEDG: integer = 1&#xD;&#xA;//const LEDB: integer = 2&#xD;&#xA;//const LED1: integer = 3&#xD;&#xA;//const LED2: integer = 4&#xD;&#xA;const LED3: integer = 5&#xD;&#xA;&#xD;&#xA;const LED_ON: boolean = true&#xD;&#xA;const LED_OFF: boolean = false&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;internal:&#xD;&#xA;" name="idleBlink">
     <regions xmi:id="_4ztw8BSMEeelUrjdHEs66A" name="main region">
       <vertices xsi:type="sgraph:State" xmi:id="_9M27phSMEeelUrjdHEs66A" name="TITILA" incomingTransitions="_7BCrmRSJEeelUrjdHEs66A">
         <outgoingTransitions xmi:id="_7A8k8hSJEeelUrjdHEs66A" specification="after 5000 ms" target="_7A8lDhSJEeelUrjdHEs66A"/>
@@ -33,7 +33,7 @@
       <children xsi:type="notation:Shape" xmi:id="_IPOTA4_CEeaE_NItBGtDFQ" type="StatechartTextExpression" fontName="Verdana" lineColor="4210752">
         <layoutConstraint xsi:type="notation:Bounds" xmi:id="_IPOTBI_CEeaE_NItBGtDFQ"/>
       </children>
-      <layoutConstraint xsi:type="notation:Bounds" xmi:id="_IPOTBY_CEeaE_NItBGtDFQ" x="5" y="-260" width="261" height="431"/>
+      <layoutConstraint xsi:type="notation:Bounds" xmi:id="_IPOTBY_CEeaE_NItBGtDFQ" x="5" y="-345" width="271" height="556"/>
     </children>
     <children xmi:id="_4znqURSMEeelUrjdHEs66A" type="Region" element="_4ztw8BSMEeelUrjdHEs66A">
       <children xsi:type="notation:DecorationNode" xmi:id="_4znqUhSMEeelUrjdHEs66A" type="RegionName">
@@ -144,9 +144,10 @@
         <layoutConstraint xsi:type="notation:Bounds" xmi:id="_4znqdxSMEeelUrjdHEs66A"/>
       </children>
       <styles xsi:type="notation:ShapeStyle" xmi:id="_4znqeBSMEeelUrjdHEs66A" fontName="Verdana" fillColor="15790320" lineColor="12632256"/>
-      <layoutConstraint xsi:type="notation:Bounds" xmi:id="_4znqeRSMEeelUrjdHEs66A" x="265" y="-260" width="359" height="382"/>
+      <layoutConstraint xsi:type="notation:Bounds" xmi:id="_4znqeRSMEeelUrjdHEs66A" x="275" y="-345" width="359" height="382"/>
     </children>
     <styles xsi:type="notation:DiagramStyle" xmi:id="_IPEiAo_CEeaE_NItBGtDFQ"/>
+    <styles xsi:type="notation:BooleanValueStyle" xmi:id="_xC660EmwEeqZ77RA9uE3GQ" name="inlineDefinitionSection" booleanValue="true"/>
     <edges xmi:id="_7BIyMRSJEeelUrjdHEs66A" type="Transition" element="_7BIyORSJEeelUrjdHEs66A" source="_7BIyJxSJEeelUrjdHEs66A" target="_7A8k-RSJEeelUrjdHEs66A">
       <children xsi:type="notation:DecorationNode" xmi:id="_7BIyNhSJEeelUrjdHEs66A" type="TransitionExpression">
         <styles xsi:type="notation:ShapeStyle" xmi:id="_7BIyOBSJEeelUrjdHEs66A"/>
