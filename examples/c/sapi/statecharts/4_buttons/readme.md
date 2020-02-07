@@ -1,7 +1,7 @@
 # Statechart example using sysTick and Yakindu Time Events
 
 
-- Description: The Statechart example simply toggle an LED by pressing a botton using the sysTick timer and Yakindu Time Events (Timer Ticks), include software debounce.
+- Description: The Statechart example simply toggle an LED by pressing a button using the sysTick timer and Yakindu Time Events (Timer Ticks), include software debounce.
 
 	- The sysTick Interrupt Handler only set a Flag.
 	
