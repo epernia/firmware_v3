@@ -1,0 +1,11 @@
+GeneratorModel for yakindu::c {
+
+	statechart idleBlink {
+
+		feature Outlet {
+			targetProject = "firmware_v3"
+			targetFolder = "examples/c/sapi/statecharts/3_idleBlink/gen"
+			libraryTargetFolder = "examples/c/sapi/statecharts/3_idleBlink/inc"
+		}
+	}
+}

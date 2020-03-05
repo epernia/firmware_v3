@@ -1,0 +1,11 @@
+GeneratorModel for yakindu::c {
+
+	statechart blink {
+
+		feature Outlet {
+			targetProject = "firmware_v3"
+			targetFolder = "examples/c/sapi/statecharts/2_blink/gen"
+			libraryTargetFolder = "examples/c/sapi/statecharts/2_blink/inc"
+		}
+	}
+}

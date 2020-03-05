@@ -1,0 +1,11 @@
+GeneratorModel for yakindu::c {
+
+	statechart buttons {
+
+		feature Outlet {
+			targetProject = "firmware_v3"
+			targetFolder = "examples/c/sapi/statecharts/4_buttons/gen"
+			libraryTargetFolder = "examples/c/sapi/statecharts/4_buttons/inc"
+		}
+	}
+}
