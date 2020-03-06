@@ -16,7 +16,7 @@
 ## 1. Abrir una terminal
 
 - En Linux presionar `Ctrl+Alt+T` para abrir una terminal del sistema.
-- En Windows abrir la terminal `busybox.exe`. 
+- En Windows abrir la terminal *BusyBox*. Para ello presione `tecla Windows + R`, para ejecuar una consola del sistema con el comando `cmd`, dentro de la consola debe ir a la ruta (*path*) de *BusyBox* y ejecutar `busybox.exe sh`.
 
 **Notas:** 
  - Si instaló el paquete de software provisto ([CIAA Software](https://github.com/epernia/software/)) ambas terminales están disponibles como atajos desde el *launcher*. Al abrirlas desde el *Launcher* se insertan los *paths* de forma automática.
