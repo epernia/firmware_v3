@@ -105,7 +105,7 @@ void rkh_evtPool_init();
  *	external OS/RTOS.
  */
 RKHEvtPool *rkh_evtPool_getPool( void *stoStart, rui16_t stoSize,
-                                 RKH_ES_T evtSize );
+								 RKH_ES_T evtSize );
 
 /**
  *  \brief
@@ -171,6 +171,7 @@ void rkh_evtPool_put( RKHEvtPool *const me, RKH_EVT_T *evt );
  */
 rui8_t rkh_evtPool_getNumUsed( RKHEvtPool *const me );
 
+#if RKH_CFG_MP_GET_LWM_EN == RKH_ENABLED
 /**
  *  \brief
  *	Encapsulates how RKH should return the lowest number of free
@@ -188,6 +189,7 @@ rui8_t rkh_evtPool_getNumUsed( RKHEvtPool *const me );
  *	external OS/RTOS.
  */
 rui8_t rkh_evtPool_getNumMin( RKHEvtPool *const me );
+#endif
 
 /**
  *  \brief
