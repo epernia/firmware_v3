@@ -75,16 +75,22 @@ typedef enum {
    // Configure GPIO pins for each board
 
    #if (BOARD == ciaa_nxp)
-      VCC = -2, GND = -1,
-      // Born
-      DI0,   DI1,   DI2,   DI3,   DI4,   DI5,   DI6,   DI7,
-      DO0,   DO1,   DO2,   DO3,   DO4,   DO5,   DO6,   DO7,
+      DOUT0_C = -3, DOUT1_C = -3, DOUT2_C = -3, DOUT3_C = -3, DIN_COM = -3, NC = -3, 
+      VCC = -2, VIN_24V = -2, VOUT_24V = -2,
+      GND = -1, GNDA0 = -1, GNDA1 = -1, GND0 = -1, GND1 = -1, GND2 = -1, GND3 = -1, 
+      // Born digital inputs
+      I0   = 0, I1   = 1, DI2  = 2, I3   = 3, I4   = 4, I5   = 5, I6   = 6, I7   = 7,
+      DI0  = 0, DI1  = 1, DI2  = 2, DI3  = 3, DI4  = 4, DI5  = 5, DI6  = 6, DI7  = 7,
+      DIN0 = 0, DIN1 = 1, DIN2 = 2, DIN3 = 3, DIN4 = 4, DIN5 = 5, DIN6 = 6, DIN7 = 7,
+      // Born digital outputs
+      Q0    = 8, Q1    = 9, Q2    = 10, Q3    = 11, Q4    = 12, Q5    = 13, Q6    = 14, Q7    = 15,
+      DO0   = 8, DO1   = 9, DO2   = 10, DO3   = 11, DO4   = 12, DO5   = 13, DO6   = 14, DO7   = 15,
+      DOUT0 = 8, DOUT1 = 9, DOUT2 = 10, DOUT3 = 11, DOUT4 = 12, DOUT5 = 13, DOUT6 = 14, DOUT7 = 15,
       // P12 header
-      GPIO0, GPIO1, GPIO2, GPIO3, GPIO7, GPIO8, 
+      GPIO0 = 16, GPIO1 = 17, GPIO2 = 18, GPIO3 = 19, GPIO7 = 20, GPIO8 = 21, 
       // P14 header
-      SPI_MISO, SPI_MOSI, SPI_CS,
+      SPI_MISO = 22, SPI_MOSI = 23, SPI_CS = 23,
       //#error CIAA-NXP
-
    #elif (BOARD == edu_ciaa_nxp)
       VCC = -2, GND = -1,
       // P1 header
@@ -128,10 +134,14 @@ typedef enum {
 /* Defined for sapi_adc.h */
 typedef enum {
 	#if (BOARD == ciaa_nxp)
-	   AI0 = 0, // AIN0 =   2 ADC0_1/ADC1_1
-	   AI1 = 1, // AIN1 = 143 ADC0_2/ADC1_2
-	   AI2 = 2, // AIN2 = 139 ADC0_3/ADC1_3
-	   AI3 = 3, // AIN3 = 138 ADC0_4/ADC1_4
+	   AIN0 = 0, // AIN0 =   2 ADC0_1/ADC1_1
+	   AIN1 = 1, // AIN1 = 143 ADC0_2/ADC1_2
+	   AIN2 = 2, // AIN2 = 139 ADC0_3/ADC1_3
+	   AIN3 = 3, // AIN3 = 138 ADC0_4/ADC1_4
+	   AI0 = 0,  // AIN0 =   2 ADC0_1/ADC1_1
+	   AI1 = 1,  // AIN1 = 143 ADC0_2/ADC1_2
+	   AI2 = 2,  // AIN2 = 139 ADC0_3/ADC1_3
+	   AI3 = 3,  // AIN3 = 138 ADC0_4/ADC1_4
 	#elif (BOARD == edu_ciaa_nxp)
 	   CH1 = 0, // CH1 =   2 ADC0_1/ADC1_1
 	   CH2 = 1, // CH2 = 143 ADC0_2/ADC1_2
@@ -146,6 +156,9 @@ typedef enum {
 	#if (BOARD == ciaa_nxp)
 		AO  = 0,
 		AO0 = 0,
+		AOUT = 0,
+		DAC  = 0,
+		DAC0 = 0,
 	#elif (BOARD == edu_ciaa_nxp)
 		DAC  = 0,
 		DAC0 = 0,
