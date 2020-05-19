@@ -66,7 +66,7 @@ ASRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.s))
 
 OUT=$(PROGRAM_PATH_AND_NAME)/out
 # Arduino
-OBJECTS=$(INOSRC:%.ino=$(OUT)/%.o) $(CXXSRC:%.cpp=$(OUT)/%.o) $(SRC:%.c=$(OUT)/%.o) $(ASRC:%.s=$(OUT)/%.o)
+OBJECTS+=$(INOSRC:%.ino=$(OUT)/%.o) $(CXXSRC:%.cpp=$(OUT)/%.o) $(SRC:%.c=$(OUT)/%.o) $(ASRC:%.s=$(OUT)/%.o)
 
 DEPS=$(OBJECTS:%.o=%.d)
 
