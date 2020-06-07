@@ -349,6 +349,10 @@ select_program:
 select_board:
 	@sh scripts/board/select_board.sh
 
+# New module generator
+new_module:
+	@sh scripts/module/new_module.sh
+	
 # TEST: Build all programs
 .test_build_all:
 	@sh scripts/test/test-build-all.sh
