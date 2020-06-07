@@ -35,7 +35,7 @@ $FILE_HEADER
 
 /*=====[Inclusion of own header]=============================================*/
 
-#include "${MODULE_NAME}.h
+#include "${MODULE_NAME}.h"
 
 /*=====[Inclusions of private function dependencies]=========================*/
 
@@ -100,3 +100,6 @@ extern "C" {
 #endif /* _${MODULE_NAME_UPPER}_H_ */
 
 EOF
+
+
+echo "MODULES+=${PB}/" >> $SELECTED_PROGRAM/config.mk
