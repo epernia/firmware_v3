@@ -7,7 +7,7 @@
 mkdir -p ${PB}/src
 mkdir -p ${PB}/inc
 
-PROGRAM_NAME_UPPER=$(echo $PROGRAM_NAME | tr '[:lower:]' '[:upper:]')
+MODULE_NAME_UPPER=$(echo $MODULE_NAME | tr '[:lower:]' '[:upper:]')
 
 #$LICENSE_PATH
 
@@ -27,55 +27,51 @@ else
 	echo "Error, license_file_header.sh not found."
 	FILE_HEADER=""
 fi
-
-cat <<EOF > ${PB}/src/${PROGRAM_NAME}.c
+echo $PB
+cat <<EOF > ${PB}/src/${MODULE_NAME}.c
+/*=====${MODULE_NAME}===========================================================
+ 
 $FILE_HEADER
 
-/*=====[Inclusions of function dependencies]=================================*/
+/*=====[Inclusion of own header]=============================================*/
 
-#include "${PROGRAM_NAME}.h"
-#include "sapi.h"
+#include <${MODULE_NAME}.h>
+
+/*=====[Inclusions of private function dependencies]=========================*/
 
 /*=====[Definition macros of private constants]==============================*/
 
-/*=====[Definitions of extern global variables]==============================*/
+/*=====[Private function-like macros]========================================*/
+
+/*=====[Definitions of private data types]===================================*/
+
+/*=====[Definitions of external public global variables]=====================*/
 
 /*=====[Definitions of public global variables]==============================*/
 
 /*=====[Definitions of private global variables]=============================*/
 
-/*=====[Main function, program entry point after power on or reset]==========*/
+/*=====[Prototypes (declarations) of external public functions]==============*/
 
-int main( void )
-{
-   // ----- Setup -----------------------------------
-   boardInit();
+/*=====[Prototypes (declarations) of private functions]======================*/
 
-   // ----- Repeat for ever -------------------------
-   while( true ) {
-      gpioToggle(LED);
-      delay(500);
-   }
+/*=====[Implementations of public functions]=================================*/
 
-   // YOU NEVER REACH HERE, because this program runs directly or on a
-   // microcontroller and is not called by any Operating System, as in the 
-   // case of a PC program.
-   return 0;
-}
+/*=====[Implementations of interrupt functions]==============================*/
+
+/*=====[Implementations of private functions]================================*/
+
 EOF
 
-cat <<EOF > ${PB}/inc/${PROGRAM_NAME}.h
+cat <<EOF > ${PB}/inc/${MODULE_NAME}.h
 $FILE_HEADER
 
 /*=====[Avoid multiple inclusion - begin]====================================*/
 
-#ifndef __${PROGRAM_NAME_UPPER}_H__
-#define __${PROGRAM_NAME_UPPER}_H__
+#ifndef _${MODULE_NAME_UPPER}_H_
+#define _${MODULE_NAME_UPPER}_H_
 
 /*=====[Inclusions of public function dependencies]==========================*/
-
-#include <stdint.h>
-#include <stddef.h>
 
 /*=====[C++ - begin]=========================================================*/
 
@@ -101,5 +97,6 @@ extern "C" {
 
 /*=====[Avoid multiple inclusion - end]======================================*/
 
-#endif /* __${PROGRAM_NAME_UPPER}_H__ */
+#endif /* _${MODULE_NAME_UPPER}_H_ */
+
 EOF
