@@ -64,7 +64,8 @@ case $? in
 		MODULE_VERSION=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 2)
 		PROGRAMS_FOLDER=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 3)
 		MODULE_TEMPLATE=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 4)
-
+		SELECTED_PROGRAM=$1
+		
 		if [ "$PROGRAMS_FOLDER" != "" ]
 		then
 			PB=${B}/$PROGRAMS_FOLDER/$MODULE_NAME
