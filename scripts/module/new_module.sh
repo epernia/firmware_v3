@@ -55,7 +55,7 @@ FORM_NEW_PROGRAM=$(zenity --forms --title="New module" \
 	--separator="|" \
 	--add-entry="Name" \
 	--add-entry="Version" \
-	--add-entry="Program Folder" \
+	--add-entry="Module Folder" \
 	--add-list="Template" --list-values=$TEMPLATES_LIST )
 
 case $? in
