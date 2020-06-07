@@ -351,7 +351,7 @@ select_board:
 
 # New module generator
 new_module:
-	@sh scripts/module/new_module.sh $(PROGRAM_PATH)/$(PROGRAM_NAME)
+	@sh scripts/module/new_module.sh $(PROGRAM_PATH) $(PROGRAM_NAME)
 
 # TEST: Build all programs
 .test_build_all:
