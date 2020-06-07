@@ -51,17 +51,19 @@ do
 done
 
 FORM_NEW_PROGRAM=$(zenity --forms --title="New module" \
-	--text="Create a new module\
+	--text="Create a new module"\
 	--separator="|" \
 	--add-entry="Name" \
 	--add-entry="Version" \
+	--add-entry="Program Folder" \
 	--add-list="Template" --list-values=$TEMPLATES_LIST )
 
 case $? in
 	0)
 		MODULE_NAME=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 1)
 		MODULE_VERSION=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 2)
-		MODULE_TEMPLATE=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 3)
+		PROGRAMS_FOLDER=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 3)
+		MODULE_TEMPLATE=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 4)
 
 		if [ "$PROGRAMS_FOLDER" != "" ]
 		then
@@ -94,6 +96,7 @@ case $? in
 			echo " - Name: $MODULE_NAME"
 			echo " - Version: $MODULE_VERSION"
 			echo " - Template: $MODULE_TEMPLATE"
+			echo " - Program Folder: $PB"
 		else
 			echo "Error, template not found. Please relaunch and select a template."
 		fi
