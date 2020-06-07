@@ -101,7 +101,6 @@ extern "C" {
 
 EOF
 
-
 echo "MODULES+=${PB}/" >> $SELECTED_PROGRAM/config.mk
 
 C_FILE=$SELECTED_PROGRAM/src/$PROGRAM_NAME.c
