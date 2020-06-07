@@ -103,3 +103,8 @@ EOF
 
 
 echo "MODULES+=${PB}/" >> $SELECTED_PROGRAM/config.mk
+
+C_FILE=$SELECTED_PROGRAM/src/$PROGRAM_NAME.c
+INC_LINE=$(grep -n "include \"$PROGRAM_NAME.h\"" $C_FILE | cut -f1 -d:)
+let "INC_LINE+=1"
+sed -i "${INC_LINE}i#include \"${MODULE_NAME}.h\"" $C_FILE
