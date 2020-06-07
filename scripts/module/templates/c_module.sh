@@ -35,7 +35,7 @@ $FILE_HEADER
 
 /*=====[Inclusion of own header]=============================================*/
 
-#include <${MODULE_NAME}.h>
+#include "${MODULE_NAME}.h
 
 /*=====[Inclusions of private function dependencies]=========================*/
 
