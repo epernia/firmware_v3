@@ -24,7 +24,7 @@ volatile freeRtosInterruptCallback_t freeRtosInterruptCallback = NULL;
 */
 void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber )
 {
-   NVIC_SetPendingIRQ( mainSW_INTERRUPT_ID );
+   NVIC_SetPendingIRQ( ulInterruptNumber ); // mainSW_INTERRUPT_ID
 }
 /*-----------------------------------------------------------*/
 
