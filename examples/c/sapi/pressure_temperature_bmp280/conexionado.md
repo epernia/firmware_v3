@@ -1,6 +1,6 @@
-#CONEXIONADO EDU CIAA NXP - BMP280
+# CONEXIONADO EDU CIAA NXP - BMP280
 
-##SPI INTERFACE:
+## SPI INTERFACE:
 
 | BMP280   |  EDU CIAA   |
 |----------| ----------- |
@@ -12,7 +12,7 @@
 |   SD0    |	SPI_MISO |
 
 
-##I2C INTERFACE:
+## I2C INTERFACE:
 
 | BMP280   |  EDU CIAA   |
 |----------| ----------- |
