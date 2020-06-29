@@ -63,3 +63,8 @@ SRC += $(wildcard $(EXTERNAL_PERIPH_BASE)/ultrasonic/hcsr04/src/*.c)
 
 INCLUDES += -I$(EXTERNAL_PERIPH_BASE)/wifi/esp8266_at/inc
 SRC += $(wildcard $(EXTERNAL_PERIPH_BASE)/wifi/esp8266_at/src/*.c)
+
+# Pressure_temperature --------------------------------------------------------
+
+INCLUDES += -I$(EXTERNAL_PERIPH_BASE)/pressure_temperature/bmp280/inc
+SRC += $(wildcard $(EXTERNAL_PERIPH_BASE)/pressure_temperature/bmp280/src/*.c)
