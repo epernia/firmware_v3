@@ -92,10 +92,10 @@ typedef enum PinMicroondas {
 
 // Nuevo tipo de datos enumerado llamado estadoMEF
 typedef enum{
-	BUTTON_UP,      // Mientras el bot�n est� liberado.
-	BUTTON_FALLING, // Mientras esta ocurriendo el flanco descendente, hace el anti-rebote.
-	BUTTON_RISING,  // Mientras esta ocurriendo el flanco ascendente, hace el anti-rebote.
-	BUTTON_DOWN     // Mientras eNl bot�n est� presionado.
+	_BUTTON_UP,      // Mientras el boton esta liberado.
+	_BUTTON_FALLING, // Mientras esta ocurriendo el flanco descendente, hace el anti-rebote.
+	_BUTTON_RISING,  // Mientras esta ocurriendo el flanco ascendente, hace el anti-rebote.
+	_BUTTON_DOWN     // Mientras el boton esta presionado.
 } EstadoMefDebounce_t;
 
 /*==================[definiciones de datos internos]=========================*/
@@ -175,32 +175,32 @@ static void	EjecutarMefDebounceParametric(
                EstadoMefDebounce_t * estadoMefDebounce, 
                uint8_t teclaToRead){
 	switch(*estadoMefDebounce) {
-		case BUTTON_UP:
+		case _BUTTON_UP:
 			if( !gpioRead(teclaToRead) ){
-				*estadoMefDebounce = BUTTON_FALLING;
+				*estadoMefDebounce = _BUTTON_FALLING;
 			}
 			break;
-		case BUTTON_FALLING:
+		case _BUTTON_FALLING:
 			if( !gpioRead(teclaToRead) ){
-				*estadoMefDebounce = BUTTON_DOWN;
+				*estadoMefDebounce = _BUTTON_DOWN;
 			} else{
-				*estadoMefDebounce = BUTTON_UP;
+				*estadoMefDebounce = _BUTTON_UP;
 			}
 			break;
-		case BUTTON_RISING:  // Mientras esta ocurriendo el flanco ascendente,
+		case _BUTTON_RISING:  // Mientras esta ocurriendo el flanco ascendente,
 			if( gpioRead(teclaToRead) ){
-				*estadoMefDebounce = BUTTON_UP;
+				*estadoMefDebounce = _BUTTON_UP;
 			} else{
-				*estadoMefDebounce = BUTTON_DOWN;
+				*estadoMefDebounce = _BUTTON_DOWN;
 			}
 			break;
-		case BUTTON_DOWN:
+		case _BUTTON_DOWN:
 			if( gpioRead(teclaToRead) ){
-				*estadoMefDebounce = BUTTON_RISING;
+				*estadoMefDebounce = _BUTTON_RISING;
 			}
 			break;
 		default:
-			*estadoMefDebounce = BUTTON_UP;
+			*estadoMefDebounce = _BUTTON_UP;
 			break;
 	}
 }
@@ -263,6 +263,5 @@ void TareaMostrarTiempo( void* taskParam ){
 		consolePrintString("\n\r");
 	}
 }
-
 
 /*==================[fin del archivo]========================================*/
