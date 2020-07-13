@@ -50,7 +50,7 @@ USE_SAPI=y
 
 # ----------------------------------------------------------------------
 
-MODULES=$(sort $(dir $(wildcard libs/*/)))
+MODULES+=$(sort $(dir $(wildcard libs/*/)))
 SRC+=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.c)
 SRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.c))
 
@@ -348,6 +348,14 @@ select_program:
 # Select target board to compile
 select_board:
 	@sh scripts/board/select_board.sh
+
+# New module generator
+new_module:
+	@sh scripts/module/new_module.sh $(PROGRAM_PATH) $(PROGRAM_NAME)
+
+# New module generator
+new_class:
+	@sh scripts/class/new_class.sh $(PROGRAM_PATH) $(PROGRAM_NAME)
 
 # TEST: Build all programs
 .test_build_all:

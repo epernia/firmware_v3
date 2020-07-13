@@ -37,7 +37,7 @@ echo "New module wizard starting..."
 echo ""
 
 TEMPLATES_LIST_IDX=0
-TEMPLATES_PATH=$B/scripts/module/templates
+TEMPLATES_PATH=$B/scripts/class/templates
 TEMPLATES_FILE_NAMES=$(ls $TEMPLATES_PATH)
 for eachfile in $TEMPLATES_FILE_NAMES
 do
@@ -51,27 +51,26 @@ do
 done
 
 FORM_NEW_PROGRAM=$(zenity --forms --title="New module" \
-	--text="Create a new module\
+	--text="Create a new module"\
 	--separator="|" \
 	--add-entry="Name" \
 	--add-entry="Version" \
-	--add-entry="Module Folder" \
 	--add-list="Template" --list-values=$TEMPLATES_LIST )
 
 case $? in
 	0)
 		MODULE_NAME=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 1)
 		MODULE_VERSION=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 2)
-		PROGRAMS_FOLDER=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 3)
-		MODULE_TEMPLATE=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 4)
+		MODULE_TEMPLATE=$(echo $FORM_NEW_PROGRAM | cut -d '|' -f 3)
+		PROGRAMS_FOLDER=$1/$2
 		SELECTED_PROGRAM=$1/$2
 		PROGRAM_NAME=$2
 		
 		if [ "$PROGRAMS_FOLDER" != "" ]
 		then
-			PB=${B}/$PROGRAMS_FOLDER/$MODULE_NAME
+			PB=${B}/$PROGRAMS_FOLDER/
 		else
-			PB=${B}/$MODULE_NAME
+			PB=${B}/
 		fi		
       mkdir -p ${PB}
 

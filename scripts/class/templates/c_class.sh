@@ -73,9 +73,6 @@ $FILE_HEADER
 
 /*=====[Inclusions of public function dependencies]==========================*/
 
-#include <stdint.h>
-#include <stddef.h>
-
 /*=====[C++ - begin]=========================================================*/
 
 #ifdef __cplusplus
@@ -103,8 +100,6 @@ extern "C" {
 #endif /* _${MODULE_NAME_UPPER}_H_ */
 
 EOF
-
-echo "MODULES+=${PB}/" >> $SELECTED_PROGRAM/config.mk
 
 C_FILE=$SELECTED_PROGRAM/src/$PROGRAM_NAME.c
 INC_LINE=$(grep -n "include \"$PROGRAM_NAME.h\"" $C_FILE | cut -f1 -d:)
