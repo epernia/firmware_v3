@@ -353,6 +353,10 @@ select_board:
 new_module:
 	@sh scripts/module/new_module.sh $(PROGRAM_PATH) $(PROGRAM_NAME)
 
+# New module generator
+new_class:
+	@sh scripts/class/new_class.sh $(PROGRAM_PATH) $(PROGRAM_NAME)
+
 # TEST: Build all programs
 .test_build_all:
 	@sh scripts/test/test-build-all.sh
