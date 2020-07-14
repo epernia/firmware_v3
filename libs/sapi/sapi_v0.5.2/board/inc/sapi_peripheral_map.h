@@ -75,11 +75,11 @@ typedef enum {
    // Configure GPIO pins for each board
 
    #if (BOARD == ciaa_nxp)
-      DOUT0_C = -3, DOUT1_C = -3, DOUT2_C = -3, DOUT3_C = -3, DIN_COM = -3, NC = -3, 
+      DOUT0_C = -3, DOUT1_C = -3, DOUT2_C = -3, DOUT3_C = -3, DIN_COM = -3,
       VCC = -2, VIN_24V = -2, VOUT_24V = -2,
       GND = -1, GNDA0 = -1, GNDA1 = -1, GND0 = -1, GND1 = -1, GND2 = -1, GND3 = -1, 
       // Born digital inputs
-      I0   = 0, I1   = 1, DI2  = 2, I3   = 3, I4   = 4, I5   = 5, I6   = 6, I7   = 7,
+      I0   = 0, I1   = 1, I2   = 2, I3   = 3, I4   = 4, I5   = 5, I6   = 6, I7   = 7,
       DI0  = 0, DI1  = 1, DI2  = 2, DI3  = 3, DI4  = 4, DI5  = 5, DI6  = 6, DI7  = 7,
       DIN0 = 0, DIN1 = 1, DIN2 = 2, DIN3 = 3, DIN4 = 4, DIN5 = 5, DIN6 = 6, DIN7 = 7,
       // Born digital outputs
