@@ -131,7 +131,7 @@ int main(void){
       if ( delayRead( &delay1 ) ){
 
          /* Leo la Entrada Analogica AI0 - ADC0 CH1 */
-         muestra = adcRead( CH1 );
+         muestra = adcRead( CH4 );
 
          /* Envío la primer parte del mnesaje a la Uart */
          uartWriteString( UART_USB, "ADC CH1 value: " );

@@ -110,7 +110,7 @@ static bool_t dht11_StartRead(void)
    (void) flag_error;     // Use a variable to not produce compiler Warnings
 
    dht11_GPIO_Low();
-   delay(20);
+   delayInaccurateMs(20);
    dht11_GPIO_High();
 
    while(FALSE == flag_loop_end) {

@@ -146,6 +146,7 @@ typedef enum {
 	   CH1 = 0, // CH1 =   2 ADC0_1/ADC1_1
 	   CH2 = 1, // CH2 = 143 ADC0_2/ADC1_2
 	   CH3 = 2, // CH3 = 139 ADC0_3/ADC1_3
+	   CH4 = 3, // CH4 =  ADC0_4/ADC1_4
 	#else
 	   #error BOARD not supported yet!
 	#endif
