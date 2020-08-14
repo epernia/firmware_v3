@@ -5,7 +5,7 @@
 StackType_t myTaskStack[configMINIMAL_STACK_SIZE];
 StaticTask_t myTaskTCB;
 
-void myTask( void* taskParmPtr )
+void blinkTask( void* taskParmPtr )
 {
    printf( "Blinky con freeRTOS y sAPI.\r\n" );
 
@@ -30,7 +30,7 @@ int main(void)
 {
    boardConfig();
 
-   xTaskCreateStatic( myTask, "myTask", configMINIMAL_STACK_SIZE, NULL,
+   xTaskCreateStatic( blinkTask, "myTask", configMINIMAL_STACK_SIZE, NULL,
                      tskIDLE_PRIORITY+1, myTaskStack, &myTaskTCB);
 
    vTaskStartScheduler();

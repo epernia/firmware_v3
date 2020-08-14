@@ -53,7 +53,7 @@ DEBUG_PRINT_ENABLE;
 /*==================[declaraciones de funciones externas]====================*/
 
 // Prototipo de funcion de la tarea
-void myTask( void* taskParmPtr );
+void blinkTask( void* taskParmPtr );
 
 /*==================[funcion principal]======================================*/
 
@@ -73,7 +73,7 @@ int main(void)
 
    // Crear tarea en freeRTOS
    xTaskCreate(
-      myTask,                     // Funcion de la tarea a ejecutar
+      blinkTask,                     // Funcion de la tarea a ejecutar
       (const char *)"myTask",     // Nombre de la tarea como String amigable para el usuario
       configMINIMAL_STACK_SIZE*2, // Cantidad de stack de la tarea
       0,                          // Parametros de tarea
@@ -100,7 +100,7 @@ int main(void)
 /*==================[definiciones de funciones externas]=====================*/
 
 // Implementacion de funcion de la tarea
-void myTask( void* taskParmPtr )
+void blinkTask( void* taskParmPtr )
 {
    // ---------- CONFIGURACIONES ------------------------------
    printf( "Blinky con freeRTOS y sAPI.\r\n" );

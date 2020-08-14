@@ -666,7 +666,10 @@ TaskHandle_t xTimerGetTimerDaemonTaskHandle( void ) PRIVILEGED_FUNCTION;
  * BaseType_t xTimerReset( TimerHandle_t xTimer, TickType_t xTicksToWait );
  *
  * Timer functionality is provided by a timer service/daemon task.  Many of the
- * public FreeRTOS timer API functions send commands to the timer service task
+ * public FreeRTOS timer API func
+		// Comienza cuenta despues de recibir (
+		xTimerStartFromISR(timer, 0);
+	tions send commands to the timer service task
  * through a queue called the timer command queue.  The timer command queue is
  * private to the kernel itself and is not directly accessible to application
  * code.  The length of the timer command queue is set by the
