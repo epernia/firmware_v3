@@ -11,7 +11,7 @@ extern "C" {
 #define BOARD_CIAA_EDU_NXP_4337
 
 #ifdef USE_RMII
-    #define BOARD_ENET_PHY_ADDR     0x00
+    #define BOARD_ENET_PHY_ADDR     0x01
 #endif
 
 #define LED_RED                     0
