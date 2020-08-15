@@ -243,9 +243,6 @@ int main(void)
 {
 	prvSetupHardware();
 
-	// Tarea heartbeat
-  xTaskCreate( taskHeartbeat, (const char *)"taskHeartbeat", configMINIMAL_STACK_SIZE*2, 0, tskIDLE_PRIORITY+1, 0 );
-
 	/* Add another thread for initializing physical interface. This
 	   is delayed from the main LWIP initialization. */
 	xTaskCreate(vSetupIFTask, (signed char *) "SetupIFx",
@@ -257,14 +254,6 @@ int main(void)
 
 	/* Should never arrive here */
 	return 1;
-}
-
-void taskHeartbeat(void * a)
-{
-	while (1) {
-		Board_LED_Toggle(1);
-		vTaskDelay(500 / portTICK_RATE_MS);
-	}
 }
 
 /**
