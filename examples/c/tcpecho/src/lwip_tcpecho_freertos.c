@@ -43,6 +43,7 @@
 #include "lwip/dhcp.h"
 #endif
 
+#include "sapi.h"
 #include "board.h"
 #ifdef lpc1769
 #include "arch/lpc17xx_40xx_emac.h"
@@ -79,8 +80,7 @@ uint8_t __attribute__((section ("." "data" ".$" "RamLoc40"))) ucHeap[ configTOTA
 /* Sets up system hardware */
 static void prvSetupHardware(void)
 {
-	SystemCoreClockUpdate();
-	Board_Init();
+	boardInit();
 
 #if defined(lpc4337_m4)
 	ciaaIOInit();
@@ -88,7 +88,7 @@ static void prvSetupHardware(void)
 
 	/* LED0 is used for the link status, on = PHY cable detected */
 	/* Initial LED state is off to show an unconnected cable state */
-	Board_LED_Set(0, false);
+	gpioWrite(DO7, false);
 }
 
 /* Callback for TCPIP thread to indicate TCPIP init is done */
@@ -155,7 +155,7 @@ static void vSetupIFTask (void *pvParameters) {
 		/* Only check for connection state when the PHY status has changed */
 		if (physts & PHY_LINK_CHANGED) {
 			if (physts & PHY_LINK_CONNECTED) {
-				Board_LED_Set(0, true);
+				gpioWrite(DO7,  true);
 				prt_ip = 0;
 
 				/* Set interface speed and duplex */
@@ -194,7 +194,7 @@ static void vSetupIFTask (void *pvParameters) {
 										  (void *) &lpc_netif, 1);
 			}
 			else {
-				Board_LED_Set(0, false);
+				gpioWrite(DO7,  false);
 				tcpip_callback_with_block((tcpip_callback_fn) netif_set_link_down,
 										  (void *) &lpc_netif, 1);
 			}
