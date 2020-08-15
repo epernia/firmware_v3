@@ -573,7 +573,7 @@ static err_t low_level_init(struct netif *netif)
 	struct lpc_enetdata *lpc_netifdata = netif->state;
 
 	/* Initialize via Chip ENET function */
-	Chip_ENET_Init(LPC_ETHERNET);
+	Chip_ENET_Init(LPC_ETHERNET, BOARD_ENET_PHY_ADDR);
 
 	/* Save MAC address */
 	Chip_ENET_SetADDR(LPC_ETHERNET, netif->hwaddr);
