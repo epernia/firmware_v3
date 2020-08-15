@@ -78,6 +78,7 @@
 
 
 #include "board.h"
+#include "string.h"
 #if defined(DEBUG_ENABLE) && !defined(DEBUG_UART)
 #error "Definir DEBUG_UART como LPC_USART{numero de UART}"
 #endif
@@ -306,6 +307,16 @@ uint16_t Board_ADC_ReadEnd()
    curADCChannel = 0xFF;
    return data;
 }
+
+
+/* Returns the MAC address assigned to this board */
+void Board_ENET_GetMacADDR(uint8_t *mcaddr)
+{
+	uint8_t boardmac[] = {0x00, 0x60, 0x37, 0x12, 0x34, 0x56};
+
+	memcpy(mcaddr, boardmac, 6);
+}
+
 
 void __stdio_putchar(int c)
 {
