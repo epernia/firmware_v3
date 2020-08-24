@@ -56,7 +56,7 @@ extern "C" {
 #define lcdCommandDelay()           lcdDelay_us(LCD_CMD_WAIT_US)
 
 // LCD GPIO HAL
-#define lcdInitPinAsOutput(pin)     gpioInit( (pin), GPIO_OUTPUT );
+#define lcdInitPinAsOutput(pin)     gpioInit( (pin), GPIO_OUTPUT )
 #define lcdPinWrite( pin, value )   gpioWrite( (pin), (value) )
 
 #ifdef LCD_HD44780_I2C_PCF8574T
@@ -84,6 +84,7 @@ extern "C" {
 		#define LCD_HD44780_EN          GPIO8    // Enable bit.
 		#define LCD_HD44780_RW          GND      // Read/Write bit. R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND).
 		#define LCD_HD44780_RS          GPIO7    // Register select bit. RS = 0 to select command register, RS = 1 to select data register.
+		#define LCD_HD44780_RST         GPIO7    // Reset.
 	#elif (BOARD == edu_ciaa_nxp)
 		// Configure LCD pins
 		#define LCD_HD44780_D7          LCD4   // Data bit 7.
@@ -94,6 +95,7 @@ extern "C" {
 		#define LCD_HD44780_EN          LCDEN  // Enable bit.
 		#define LCD_HD44780_RW          GND    // Read/Write bit. R/W = 0 for write, R/W = 1 for read (LCD_RW pin connected to GND).
 		#define LCD_HD44780_RS          LCDRS  // Register select bit. RS = 0 to select command register, RS = 1 to select data register.
+        #define LCD_HD44780_RST         GPIO1    // Reset.
 	#elif (BOARD == ciaa_fsl)
 	   #error CIAA-FSL not supported yet!
 	#elif (BOARD == ciaa_pic)
@@ -113,7 +115,7 @@ extern "C" {
 #define LCD_EN_PULSE_WAIT_US   25    // 25 us
 #define LCD_LOW_WAIT_US        25    // 25 us
 #define LCD_HIGH_WAIT_US       100   // 100 us
-#define LCD_CMD_WAIT_US        45    // Wait time for every command 45 us, except:
+#define LCD_CMD_WAIT_US             110   // Wait time for every command 45 us, except:
 #define LCD_CLR_DISP_WAIT_MS   3     // - Clear Display 1.52 ms
 #define LCD_RET_HOME_WAIT_MS   3     // - Return Home  1.52 ms
 #define LCD_RBUSY_ADDR_WAIT_US 0     // - Read Busy flag and address 0 us
@@ -145,42 +147,42 @@ extern "C" {
 // LiquidCrystal constructor is called).
 
 // commands
-//!!! #define LCD_CLEARDISPLAY        0x01
-//!!! #define LCD_RETURNHOME          0x02
-//!!! #define LCD_ENTRYMODESET        0x04
-//!!! #define LCD_DISPLAYCONTROL      0x08
-//!!! #define LCD_CURSORSHIFT         0x10
-//!!! #define LCD_FUNCTIONSET         0x20
-//!!! #define LCD_SETCGRAMADDR        0x40
-//!!! #define LCD_SETDDRAMADDR        0x80
+#define LCD_CLEARDISPLAY        0x01
+#define LCD_RETURNHOME          0x02
+#define LCD_ENTRYMODESET        0x04
+#define LCD_DISPLAYCONTROL      0x08
+#define LCD_CURSORSHIFT         0x10
+#define LCD_FUNCTIONSET         0x20
+#define LCD_SETCGRAMADDR        0x40
+#define LCD_SETDDRAMADDR        0x80
 
 // flags for display entry mode
-//!!! #define LCD_ENTRYRIGHT          0x00
-//!!! #define LCD_ENTRYLEFT           0x02
-//!!! #define LCD_ENTRYSHIFTINCREMENT 0x01
-//!!! #define LCD_ENTRYSHIFTDECREMENT 0x00
+#define LCD_ENTRYRIGHT          0x00
+#define LCD_ENTRYLEFT           0x02
+#define LCD_ENTRYSHIFTINCREMENT 0x01
+#define LCD_ENTRYSHIFTDECREMENT 0x00
 
 // flags for display on/off control
-//!!! #define LCD_DISPLAYON           0x04
-//!!! #define LCD_DISPLAYOFF          0x00
+#define LCD_DISPLAYON           0x04
+#define LCD_DISPLAYOFF          0x00
 //#define LCD_CURSORON            0x02
 //#define LCD_CURSOROFF           0x00
 //#define LCD_BLINKON             0x01
 //#define LCD_BLINKOFF            0x00
 
 // flags for display/cursor shift
-//!!! #define LCD_DISPLAYMOVE         0x08
-//!!! #define LCD_CURSORMOVE          0x00
-//!!! #define LCD_MOVERIGHT           0x04
-//!!! #define LCD_MOVELEFT            0x00
+#define LCD_DISPLAYMOVE         0x08
+#define LCD_CURSORMOVE          0x00
+#define LCD_MOVERIGHT           0x04
+#define LCD_MOVELEFT            0x00
 
 // flags for function set
-//!!! #define LCD_8BITMODE            0x10
-//!!! #define LCD_4BITMODE            0x00
-//!!! #define LCD_2LINE               0x08
-//!!! #define LCD_1LINE               0x00
-//!!! #define LCD_5x10DOTS            0x04
-//!!! #define LCD_5x8DOTS             0x00
+#define LCD_8BITMODE            0x10
+#define LCD_4BITMODE            0x00
+#define LCD_2LINE               0x08
+#define LCD_1LINE               0x00
+#define LCD_5x10DOTS            0x04
+#define LCD_5x8DOTS             0x00
 
 
 //uint32_t lcdHd44780Gpios[8] = 

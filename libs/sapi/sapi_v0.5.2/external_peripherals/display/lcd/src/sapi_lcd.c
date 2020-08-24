@@ -237,6 +237,7 @@ void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
 //   delay(100);
 #else
    // Configure LCD Pins as Outputs
+   lcdInitPinAsOutput( LCD_HD44780_RST );
    lcdInitPinAsOutput( LCD_HD44780_RS );
    lcdInitPinAsOutput( LCD_HD44780_RW );
    lcdInitPinAsOutput( LCD_HD44780_EN );
@@ -251,6 +252,48 @@ void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
    lcdPinSet( LCD_HD44780_RS, OFF );     // RS = 0
    lcdPinSet( LCD_HD44780_EN, OFF );     // EN = 0
 
+        lcdPinSet( LCD_HD44780_RST, ON );     // RST = 1
+        lcdDelay_us(100);                     // Wait
+        
+        lcdPinSet( LCD_HD44780_RST, OFF );    // RST = 0
+        lcdDelay_ms(10);
+        lcdPinSet( LCD_HD44780_RST, ON );     // RST = 1
+        lcdDelay_ms(50);
+
+        //lcdCommand( 0x20 );                   // Command 0x20 for 4-bit mode
+        lcdCommand( 0x30 );                   // Command 0x20 for 4-bit mode
+        lcdCommandDelay();                    // Wait
+
+        //lcdCommand( 0x20 );                   // Command 0x20 for 4-bit mode
+        //lcdCommand( 0x00 );                   // Command 0x20 for 4-bit mode
+        //lcdCommandDelay();                    // Wait
+        lcdCommand( 0x30 );                   // Command 0x20 for 4-bit mode
+        lcdDelay_us(40);
+        
+        //lcdCommand( 0x00 );                   // Command 0x20 for 4-bit mode
+        //lcdCommand( 0xF0 );                   // Command 0x20 for 4-bit mode
+        lcdCommand( 0x08 );                   // Command 0x20 for 4-bit mode
+        lcdCommandDelay();                    // Wait
+ 
+        //lcdCommand( 0x00 );                   // Command 0x20 for 4-bit mode
+        //lcdCommand( 0x10 );                   // Command 0x20 for 4-bit mode
+        lcdCommand( 0x01 );                   // Command 0x20 for 4-bit mode
+        lcdDelay_ms(12);
+ 
+        //lcdCommand( 0x00 );                   // Command 0x20 for 4-bit mode
+        //lcdCommand( 0x70 );                   // Command 0x20 for 4-bit mode
+        //lcdCommandDelay();                    // Wait
+        
+        lcdCommand( 0x06 );                   // Command 0x20 for 4-bit mode
+        lcdDelay_ms( 1 );                     // Wait
+        
+        lcdCommand( 0x0C );                   // Command 0x20 for 4-bit mode
+        lcdDelay_ms( 3 );                     // Wait
+        
+        lcdCommand( 0x02 );                   // Command 0x20 for 4-bit mode
+        lcdDelay_ms( 3 );                     // Wait
+
+/*
    lcdCommand( 0x33 );                   // Command 0x33 for 4-bit mode
    lcdCommandDelay();                    // Wait
 
@@ -274,6 +317,8 @@ void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
    lcdCursorSet( LCD_CURSOR_OFF );
    //lcdGoToXY( 0, 0 );
    lcdClearAndHome();
+   
+*/
 }
 
 void lcdGoToXY( uint8_t x, uint8_t y )
