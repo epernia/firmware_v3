@@ -1,6 +1,6 @@
 ifeq ($(USE_SAPI),y)
 
-SAPI_BASE=libs/sapi/sapi_v0.5.2
+SAPI_BASE=libs/sapi/sapi_v0.6.2
 
 DEFINES+=USE_SAPI
 

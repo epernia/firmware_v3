@@ -457,18 +457,12 @@ Posibles configuraciones de clockRateHz: 100000, etc.
 ```c
 bool_t i2cRead( i2cMap_t  i2cNumber,
                 uint8_t  i2cSlaveAddress,
-                uint8_t* dataToReadBuffer,
-                uint16_t dataToReadBufferSize,
-                bool_t   sendWriteStop,
                 uint8_t* receiveDataBuffer,
                 uint16_t receiveDataBufferSize,
                 bool_t   sendReadStop );
 ```
 - Parámetro: ``i2cMap_t i2cNumber`` I2C a leer (ver I2C Map).
 - Parámetro: ``uint8_t i2cSlaveAddress`` Dirección del sensor conectado por I2C a leer.
-- Parámetro: ``uint8_t* dataToReadBuffer`` puntero al buffer con los bytes a escribir para indicar que se debe leer.
-- Parámetro: ``uint16_t dataToReadBufferSize`` tamaño del buffer con los bytes a escribir.
-- Parámetro: ``bool_t sendWriteStop`` setear en 1 para enviar stop al finalizar el comando de escritura, con 0 no se enví­a. Algunos periféricos pueden no necesitar el stop.
 - Parámetro: ``uint8_t* receiveDataBuffer`` puntero al buffer donde se almacenarán los datos leí­dos.
 - Parámetro: ``uint16_t receiveDataBufferSize`` tamaño del buffer donde se almacenarán los datos leí­dos.
 - Parámetro: ``bool_t sendReadStop`` setear en 1 para enviar stop al finalizar el comando de lectura, con 0 no se enví­a. Algunos periféricos pueden no necesitar el stop.
@@ -489,6 +483,29 @@ bool_t i2cWrite( i2cMap_t  i2cNumber,
 - Parámetro: ``uint16_t transmitDataBufferSize`` tamaño del buffer donde se encuentran los datos a escribir.
 - Parámetro: ``bool_t sendWriteStop`` setear en 1 para enviar stop al finalizar el comando de escritura, con 0 no se enví­a. Algunos periféricos pueden no necesitar el stop.
 - Retorna: ``bool_t`` TRUE si se pudo escribir correctamente.
+
+**Escritura-Lectura**
+
+```c
+bool_t i2cWriteRead( i2cMap_t  i2cNumber,
+                     uint8_t  i2cSlaveAddress,
+                     uint8_t* dataToReadBuffer,
+                     uint16_t dataToReadBufferSize,
+                     bool_t   sendWriteStop,
+                     uint8_t* receiveDataBuffer,
+                     uint16_t receiveDataBufferSize,
+                     bool_t   sendReadStop );
+```
+- Parámetro: ``i2cMap_t i2cNumber`` I2C a leer (ver I2C Map).
+- Parámetro: ``uint8_t i2cSlaveAddress`` Dirección del sensor conectado por I2C a leer.
+- Parámetro: ``uint8_t* dataToReadBuffer`` puntero al buffer con los bytes a escribir para indicar que se debe leer.
+- Parámetro: ``uint16_t dataToReadBufferSize`` tamaño del buffer con los bytes a escribir.
+- Parámetro: ``bool_t sendWriteStop`` setear en 1 para enviar stop al finalizar el comando de escritura, con 0 no se enví­a. Algunos periféricos pueden no necesitar el stop.
+- Parámetro: ``uint8_t* receiveDataBuffer`` puntero al buffer donde se almacenarán los datos leí­dos.
+- Parámetro: ``uint16_t receiveDataBufferSize`` tamaño del buffer donde se almacenarán los datos leí­dos.
+- Parámetro: ``bool_t sendReadStop`` setear en 1 para enviar stop al finalizar el comando de lectura, con 0 no se enví­a. Algunos periféricos pueden no necesitar el stop.
+- Retorna: ``bool_t`` TRUE si se pudo leer correctamente.
+
 
 ### Sleep
 
