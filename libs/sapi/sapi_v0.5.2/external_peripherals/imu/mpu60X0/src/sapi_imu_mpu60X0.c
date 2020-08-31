@@ -106,7 +106,9 @@ static int8_t mpu60X0WriteRegister( uint8_t subAddress, uint8_t data )
 
 static int8_t mpu60X0ReadRegisters( uint8_t subAddress, uint8_t count )
 {
-	if( i2cRead( I2C0,control.address,&subAddress,1,TRUE,control._buffer,count,TRUE) ){
+	if( i2cWriteRead( I2C0, control.address,
+                     &subAddress, 1, TRUE,
+                     control._buffer, count, TRUE ) ){
 		return 1;
 	} else {
 		return -1;

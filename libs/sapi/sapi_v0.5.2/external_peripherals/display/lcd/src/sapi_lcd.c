@@ -132,7 +132,6 @@ static uint8_t pcf8574TGpioPortRead( void )
    //uint8_t dataToReadBuffer[1] = { 0 };
    uint8_t receiveDataBuffer = 0;
    i2cRead( I2C0, pcf8574TI2cAddress,
-            NULL, 0, TRUE,
             &receiveDataBuffer, 1, TRUE );
 }
 

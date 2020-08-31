@@ -101,35 +101,35 @@ bool_t qmc5883lRead( int16_t * x, int16_t * y, int16_t * z )
 
 
    dataToReadBuffer = QMC5883L_REG_X_LSB;
-   i2cRead( I2C0, QMC5883L_ADD,
-            &dataToReadBuffer, 1, TRUE,
-            &x_LSB, 1, TRUE );
+   i2cWriteRead( I2C0, QMC5883L_ADD,
+                 &dataToReadBuffer, 1, TRUE,
+                 &x_LSB, 1, TRUE );
 
    dataToReadBuffer = QMC5883L_REG_X_MSB;
-   i2cRead( I2C0, QMC5883L_ADD,
-            &dataToReadBuffer, 1, TRUE,
-            &x_MSB, 1, TRUE );
+   i2cWriteRead( I2C0, QMC5883L_ADD,
+                 &dataToReadBuffer, 1, TRUE,
+                 &x_MSB, 1, TRUE );
 
    dataToReadBuffer = QMC5883L_REG_Y_LSB;
-   i2cRead( I2C0, QMC5883L_ADD,
-            &dataToReadBuffer, 1, TRUE,
-            &y_LSB, 1, TRUE );
+   i2cWriteRead( I2C0, QMC5883L_ADD,
+                 &dataToReadBuffer, 1, TRUE,
+                 &y_LSB, 1, TRUE );
 
    dataToReadBuffer = QMC5883L_REG_Y_MSB;
-   i2cRead( I2C0, QMC5883L_ADD,
-            &dataToReadBuffer, 1, TRUE,
-            &y_MSB, 1, TRUE );
+   i2cWriteRead( I2C0, QMC5883L_ADD,
+                 &dataToReadBuffer, 1, TRUE,
+                 &y_MSB, 1, TRUE );
 
 
    dataToReadBuffer = QMC5883L_REG_Z_LSB;
-   i2cRead( I2C0, QMC5883L_ADD,
-            &dataToReadBuffer, 1, TRUE,
-            &z_LSB, 1, TRUE );
+   i2cWriteRead( I2C0, QMC5883L_ADD,
+                 &dataToReadBuffer, 1, TRUE,
+                 &z_LSB, 1, TRUE );
 
    dataToReadBuffer = QMC5883L_REG_Z_MSB;
-   i2cRead( I2C0, QMC5883L_ADD,
-            &dataToReadBuffer, 1, TRUE,
-            &z_MSB, 1, TRUE );
+   i2cWriteRead( I2C0, QMC5883L_ADD,
+                 &dataToReadBuffer, 1, TRUE,
+                 &z_MSB, 1, TRUE );
 
    *x = x_MSB;
    *x = (*x << 8)|x_LSB;

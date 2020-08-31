@@ -232,14 +232,10 @@ bool_t eeprom24xx1025ReadCurrentAddress( Eeprom24xx1025_t* eeprom,
    bool_t retVal = TRUE; // True if OK
 
    // uint8_t i2cNumber, uint8_t i2cSlaveAddress,
-   // uint8_t* dataToReadBuffer, uint16_t dataToReadBufferSize,
-   // bool_t sendWriteStop,
    // uint8_t* reciveDataBuffer, uint16_t reciveDataBufferSize,
    // bool_t sendReadStop
    retVal = i2cRead( eeprom->i2c,
                      eeprom24xx1025I2cAddress( eeprom, memoryAddress ),
-                     (uint8_t*)0, 0, 
-                     FALSE,
                      readedByte, 1, TRUE );
 
    return retVal; // read correct
@@ -269,10 +265,10 @@ bool_t eeprom24xx1025ReadRandom( Eeprom24xx1025_t* eeprom,
    // bool_t sendWriteStop,
    // uint8_t* reciveDataBuffer, uint16_t reciveDataBufferSize,
    // bool_t sendReadStop
-   retVal = i2cRead( eeprom->i2c,
-                     eeprom24xx1025I2cAddress( eeprom, memoryAddress ),
-                     addressToRead, 2, FALSE,
-                     readedByte, 1, TRUE );
+   retVal = i2cWriteRead( eeprom->i2c,
+                          eeprom24xx1025I2cAddress( eeprom, memoryAddress ),
+                          addressToRead, 2, FALSE,
+                          readedByte, 1, TRUE );
 
    //eeprom24xx1025DelayMs(1); // ??? - Read cycle time (byte or page)
 
@@ -308,10 +304,10 @@ bool_t eeprom24xx1025ReadSequential( Eeprom24xx1025_t* eeprom, uint32_t address,
    // bool_t sendWriteStop,
    // uint8_t* reciveDataBuffer, uint16_t reciveDataBufferSize,
    // bool_t sendReadStop
-   retVal = i2cRead( eeprom->i2c,
-                     eeprom24xx1025I2cAddress( eeprom, address ),
-                     addressToRead, 2, FALSE,
-                     byteBuffer, byteBufferSize, TRUE );
+   retVal = i2cWriteRead( eeprom->i2c,
+                          eeprom24xx1025I2cAddress( eeprom, address ),
+                          addressToRead, 2, FALSE,
+                          byteBuffer, byteBufferSize, TRUE );
 
    return retVal; // Byte writed
 }
