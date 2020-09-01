@@ -437,7 +437,7 @@ void uartWriteString( uartMap_t uart, char* str );
 - Retorna: ``void``.
 
 
-### I2C
+### I2C Master
 
 Manejo del periférico bus comunicación I2C (Inter Integrated Circuits).
 
@@ -462,7 +462,7 @@ bool_t i2cRead( i2cMap_t  i2cNumber,
                 bool_t   sendReadStop );
 ```
 - Parámetro: ``i2cMap_t i2cNumber`` I2C a leer (ver I2C Map).
-- Parámetro: ``uint8_t i2cSlaveAddress`` Dirección del sensor conectado por I2C a leer.
+- Parámetro: ``uint8_t i2cSlaveAddress`` Dirección del sensor conectado por I2C a leer (de 7 bits).
 - Parámetro: ``uint8_t* receiveDataBuffer`` puntero al buffer donde se almacenarán los datos leí­dos.
 - Parámetro: ``uint16_t receiveDataBufferSize`` tamaño del buffer donde se almacenarán los datos leí­dos.
 - Parámetro: ``bool_t sendReadStop`` setear en 1 para enviar stop al finalizar el comando de lectura, con 0 no se enví­a. Algunos periféricos pueden no necesitar el stop.
@@ -478,7 +478,7 @@ bool_t i2cWrite( i2cMap_t  i2cNumber,
                  bool_t   sendWriteStop );
 ```
 - Parámetro: ``i2cMap_t i2cNumber`` ID de periférico I2C a escribir (ver I2C Map). Actualmente funciona íºnicamente el I2C0.
-- Parámetro: ``uint8_t i2cSlaveAddress`` Dirección del sensor conectado por I2C a escribir.
+- Parámetro: ``uint8_t i2cSlaveAddress`` Dirección del sensor conectado por I2C a escribir (de 7 bits).
 - Parámetro: ``uint8_t* transmitDataBuffer`` puntero al buffer donde se encuentran los datos a escribir.
 - Parámetro: ``uint16_t transmitDataBufferSize`` tamaño del buffer donde se encuentran los datos a escribir.
 - Parámetro: ``bool_t sendWriteStop`` setear en 1 para enviar stop al finalizar el comando de escritura, con 0 no se enví­a. Algunos periféricos pueden no necesitar el stop.
@@ -497,7 +497,7 @@ bool_t i2cWriteRead( i2cMap_t  i2cNumber,
                      bool_t   sendReadStop );
 ```
 - Parámetro: ``i2cMap_t i2cNumber`` I2C a leer (ver I2C Map).
-- Parámetro: ``uint8_t i2cSlaveAddress`` Dirección del sensor conectado por I2C a leer.
+- Parámetro: ``uint8_t i2cSlaveAddress`` Dirección del sensor conectado por I2C a leer (de 7 bits).
 - Parámetro: ``uint8_t* dataToReadBuffer`` puntero al buffer con los bytes a escribir para indicar que se debe leer.
 - Parámetro: ``uint16_t dataToReadBufferSize`` tamaño del buffer con los bytes a escribir.
 - Parámetro: ``bool_t sendWriteStop`` setear en 1 para enviar stop al finalizar el comando de escritura, con 0 no se enví­a. Algunos periféricos pueden no necesitar el stop.
