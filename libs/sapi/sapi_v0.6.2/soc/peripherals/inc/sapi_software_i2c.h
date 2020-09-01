@@ -1,6 +1,4 @@
 /* Copyright 2016, Eric Pernia
- * Copyright 2016, Alejandro Permingeat.
- * Copyright 2016, Eric Pernia
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -33,13 +31,10 @@
  */
 
 // Date:
-// 2016-05-02 Eric Pernia - Only define API
-// 2016-06-23 Alejandro Permingeat - First functional version
-// 2016-08-07 Eric Pernia - Improve names
-// 2016-09-10 Eric Pernia - Add unlimited buffer transfer
+// 2016-11-20 Eric Pernia - Software I2C
 
-#ifndef _SAPI_I2C_H_
-#define _SAPI_I2C_H_
+#ifndef _SAPI_SOFTWARE_I2C_H_
+#define _SAPI_SOFTWARE_I2C_H_
 
 /*==================[inclusions]=============================================*/
 
@@ -53,34 +48,72 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-#define i2cConfig i2cInit
+#define I2C_SOFTWARE_SDA_DIR   GPIO7
+#define I2C_SOFTWARE_SDA_IN    GPIO7
+#define I2C_SOFTWARE_SDA_OUT   GPIO7
+
+#define I2C_SOFTWARE_SCL_DIR   GPIO8
+#define I2C_SOFTWARE_SCL_IN    GPIO8
+#define I2C_SOFTWARE_SCL_OUT   GPIO8
+
+#define SOFTWARE_I2C_DEBUG     0
 
 /*==================[typedef]================================================*/
 
+typedef enum {
+   I2C_SOFTWARE_WRITE = 0,
+   I2C_SOFTWARE_READ  = 1
+} I2C_Software_rw_t;
+
+typedef enum {
+   I2C_SOFTWARE_NACK = 0,
+   I2C_SOFTWARE_ACK  = 1
+} I2C_Software_ack_t;
+
 /*==================[external functions declaration]=========================*/
 
-bool_t i2cInit( i2cMap_t i2cNumber, uint32_t clockRateHz );
+bool_t i2cSoftwareInit( i2cMap_t i2cNumber, uint32_t clockRateHz );
 
-bool_t i2cRead( i2cMap_t i2cNumber,
-                uint8_t  i2cSlaveAddress,
-                uint8_t* receiveDataBuffer,
-                uint16_t receiveDataBufferSize,
-                bool_t   sendReadStop );
+bool_t i2cSoftwareRead( i2cMap_t  i2cNumber,
+                        uint8_t  i2cSlaveAddress,
+                        uint8_t* receiveDataBuffer,
+                        uint16_t receiveDataBufferSize,
+                        bool_t   sendReadStop );
 
-bool_t i2cWrite( i2cMap_t i2cNumber,
-                 uint8_t  i2cSlaveAddress,
-                 uint8_t* transmitDataBuffer,
-                 uint16_t transmitDataBufferSize,
-                 bool_t   sendWriteStop );
+bool_t i2cSoftwareWrite( i2cMap_t  i2cNumber,
+                         uint8_t  i2cSlaveAddress,
+                         uint8_t* transmitDataBuffer,
+                         uint16_t transmitDataBufferSize,
+                         bool_t   sendWriteStop );
 
-bool_t i2cWriteRead( i2cMap_t i2cNumber,
-                     uint8_t  i2cSlaveAddress,
-                     uint8_t* dataToReadBuffer,
-                     uint16_t dataToReadBufferSize,
-                     bool_t   sendWriteStop,
-                     uint8_t* receiveDataBuffer,
-                     uint16_t receiveDataBufferSize,
-                     bool_t   sendReadStop );
+bool_t i2cSoftwareWriteRead( i2cMap_t  i2cNumber,
+                             uint8_t  i2cSlaveAddress,
+                             uint8_t* dataToReadBuffer,
+                             uint16_t dataToReadBufferSize,
+                             bool_t   sendWriteStop,
+                             uint8_t* receiveDataBuffer,
+                             uint16_t receiveDataBufferSize,
+                             bool_t   sendReadStop );
+
+// Software Master I2C --------------------------------------------------------
+
+void i2cSoftwareDelay( tick_t duration );
+
+void i2cSoftwareMasterWriteStart( void );
+
+void i2cSoftwareMasterWriteStop( void );
+
+bool_t i2cSoftwareMasterWriteAddress( uint8_t i2cSlaveAddress,
+                                      I2C_Software_rw_t readOrWrite );
+
+bool_t i2cSoftwareMasterWriteByte( uint8_t dataByte );
+
+uint8_t i2cSoftwareMasterReadByte( bool_t ack );
+
+#if( SOFTWARE_I2C_DEBUG == 1 )
+void i2cSoftwareMasterPinTestInit( void );
+void i2cSoftwareMasterPinTest( void );
+#endif
 
 /*==================[ISR external functions declaration]=====================*/
 
@@ -90,4 +123,4 @@ bool_t i2cWriteRead( i2cMap_t i2cNumber,
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* _SAPI_I2C_H_ */
+#endif /* _SAPI_SOFTWARE_I2C_H_ */
