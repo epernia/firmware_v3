@@ -155,14 +155,14 @@ bool_t i2cWrite( i2cMap_t i2cNumber,
    return TRUE;
 }
 
-bool_t i2cWritreRead( i2cMap_t i2cNumber,
-                      uint8_t  i2cSlaveAddress,
-                      uint8_t* dataToReadBuffer,
-                      uint16_t dataToReadBufferSize,
-                      bool_t   sendWriteStop,
-                      uint8_t* receiveDataBuffer,
-                      uint16_t receiveDataBufferSize,
-                      bool_t   sendReadStop )
+bool_t i2cWriteRead( i2cMap_t i2cNumber,
+                     uint8_t  i2cSlaveAddress,
+                     uint8_t* dataToReadBuffer,
+                     uint16_t dataToReadBufferSize,
+                     bool_t   sendWriteStop,
+                     uint8_t* receiveDataBuffer,
+                     uint16_t receiveDataBufferSize,
+                     bool_t   sendReadStop )
 {
    if( i2cNumber != I2C0 ) {
       return FALSE;
