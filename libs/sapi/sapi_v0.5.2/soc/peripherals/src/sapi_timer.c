@@ -42,8 +42,8 @@
 
 #include "sapi_timer.h"
 
-//#include "chip.h"
-//#include "timer_18xx_43xx.h"
+#include "chip.h"
+#include "timer_18xx_43xx.h"
 /* Specific modules used:
    #include "timer_18xx_43xx.h" for Chip_TIMER functions
    #include "rgu_18xx_43xx.h" for Chip_RGU functions
@@ -76,8 +76,10 @@ static void doNothing( void* ptr );
 /*Timers Static Data, given by the uC libraries*/
 static const timerStaticData_t timer_sd[4] = {
    { LPC_TIMER0, RGU_TIMER0_RST, TIMER0_IRQn },
+#ifdef CORE_M4
    { LPC_TIMER1, RGU_TIMER1_RST, TIMER1_IRQn },
    { LPC_TIMER2, RGU_TIMER2_RST, TIMER2_IRQn },
+#endif
    { LPC_TIMER3, RGU_TIMER3_RST, TIMER3_IRQn }
 };
 

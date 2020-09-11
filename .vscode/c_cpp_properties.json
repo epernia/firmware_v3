@@ -1,0 +1,69 @@
+{
+    "configurations": [
+        {
+            "name": "gcc arm embedded",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/libs/cmsis_core//inc",
+                "${workspaceFolder}/libs/cmsis_dsp//inc",
+                "${workspaceFolder}/libs/editline//inc",
+                "${workspaceFolder}/libs/minut//inc",
+                "${workspaceFolder}/libs/plc//inc",
+                "${workspaceFolder}/libs/seos_pont_2014//inc",
+                "${workspaceFolder}/examples/c/app_dualcore/inc",
+                "${workspaceFolder}/libs/lpc_open/boards/edu_ciaa_nxp/inc",
+                "${workspaceFolder}/libs/lpc_open/boards/inc",
+                "${workspaceFolder}/libs/lpc_open/lpc_chip_43xx/inc",
+                "${workspaceFolder}/libs/lpc_open/lpc_chip_43xx/usbd_rom",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/base/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/soc/core/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/soc/peripherals/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/soc/peripherals/usb/device/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/board/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/abstract_modules/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/display/fonts/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/display/fonts/greek_chars_5x7/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/display/fonts/icon_chars_5x7/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/display/lcd/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/display/led_segments/7segment/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/imu/mpu60X0/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/imu/mpu9250/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/keypad/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/led_rgb/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/magnetometer/hmc5883l/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/magnetometer/qmc5883l/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/memory/eeprom/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/motor/servo/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/temperature_humudity/dht11/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/ultrasonic/hcsr04/inc",
+                "${workspaceFolder}/libs/sapi/sapi_v0.5.2/external_peripherals/wifi/esp8266_at/inc"
+            ],
+            "defines": [
+                "__USE_LPCOPEN",
+                "CHIP_LPC43XX",
+                "ARM_MATH_CM4",
+                "__USE_NEWLIB",
+                "CORE_M4",
+                "__FPU_PRESENT=1U",
+                "USE_SAPI",
+                "BOARD=edu_ciaa_nxp"
+            ],
+            "compilerPath": "/opt/gcc-arm-embedded/bin//arm-none-eabi-gcc",
+            "compilerArgs": [
+                "-mcpu=cortex-m4",
+                "-mthumb",
+                "-mfloat-abi=hard",
+                "-mfpu=fpv4-sp-d16",
+                "-ggdb3",
+                "-Og",
+                "-ffunction-sections",
+                "-fdata-sections"
+            ],
+            "cStandard": "c99",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "gcc-arm",
+            "configurationProvider": "../compile_commands.json"
+        }
+    ],
+    "version": 4
+}

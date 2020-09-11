@@ -7,6 +7,7 @@ SECTIONS
 {
     .text_Flash2 : ALIGN(4)
     {
+       __core_m0app_START__ = .;
        FILL(0xff)
        *(.text_Flash2*) /* for compatibility with previous releases */
        *(.text_MFlashB512*) /* for compatibility with previous releases */
