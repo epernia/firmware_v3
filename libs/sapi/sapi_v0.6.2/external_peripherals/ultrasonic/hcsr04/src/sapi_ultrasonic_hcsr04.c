@@ -43,6 +43,8 @@
 #include "sapi_timer.h"
 #include "sapi_gpio.h"
 
+#ifdef CORE_CM4
+
 /*==================[macros and definitions]=================================*/
 
 #define ULTRASONIC_SENSOR_NUMBER 		3     /* Support for 3 ultrasonic sensors */
@@ -303,5 +305,7 @@ void GPIO2_IRQHandler(void)
    serveInterrupt(2);
 }
 #endif
+#endif
+
 #endif
 /*==================[end of file]============================================*/

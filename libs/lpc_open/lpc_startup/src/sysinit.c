@@ -34,12 +34,24 @@
 void SystemInit(void)
 {
    extern void * const g_pfnVectors[];
+#if __CORTEX_M == 0U
+   // ******************************
+   // Modify CREG->M0APPMAP so that M0 looks in correct place
+   // for its vector table when an exception is triggered.
+   // Note that we do not use the CMSIS register access mechanism,
+   // as there is no guarantee that the project has been configured
+   // to use CMSIS.
+   volatile unsigned int *pCREG_M0APPMAP = (volatile unsigned int *) 0x40043404;
+   // CMSIS : CREG->M0APPMAP = <address of vector table>
+   *pCREG_M0APPMAP = (unsigned int)g_pfnVectors;
+#else
    SCB->VTOR = (unsigned int) &g_pfnVectors;
 
    if (SCB_GetFPUType() > 0)
       SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));  /* set CP10 and CP11 Full Access */
 
-   /* Board specific SystemInit */
+   /* Board specific SystemInit only in M4 */
    Board_SystemInit();
    Board_Init();
+#endif
 }

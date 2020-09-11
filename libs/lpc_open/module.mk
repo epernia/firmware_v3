@@ -4,7 +4,12 @@ BOARD ?= edu_ciaa_nxp
 
 DEFINES+=__USE_LPCOPEN
 DEFINES+=CHIP_LPC43XX
+
+ifeq ($(USE_M0),y)
+DEFINES+=ARM_MATH_CM0
+else
 DEFINES+=ARM_MATH_CM4
+endif
 
 LPCOPEN_BASE=libs/lpc_open
 
@@ -19,7 +24,14 @@ INCLUDES+=-I$(LPCOPEN_BASE)/lpc_chip_43xx/usbd_rom
 
 endif
 
-DEFINES+=CORE_M4 __USE_NEWLIB
+DEFINES+=__USE_NEWLIB
+
+ARCH_FLAGS=-mcpu=cortex-m0 -mthumb
+
+ifeq ($(USE_M0),y)
+DEFINES+=CORE_M0
+else
+DEFINES+=CORE_M4
 ARCH_FLAGS=-mcpu=cortex-m4 -mthumb
 
 ifeq ($(USE_FPU),y)
@@ -29,10 +41,16 @@ else
 DEFINES+=__FPU_PRESENT=OU
 endif
 
+endif
+
+ifeq ($(USE_M0),y)
+LDSCRIPT=link_m0.ld
+else
 ifeq ($(LOAD_INRAM),y)
 LDSCRIPT=flat.ld
 else
 LDSCRIPT=link.ld
+endif
 endif
 
 SRC+=$(wildcard $(LPCOPEN_BASE)/lpc_startup/src/*.c) 
