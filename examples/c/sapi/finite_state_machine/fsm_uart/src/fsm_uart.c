@@ -95,7 +95,7 @@ void fsmUartUpdate( void ){
                fsmUartState = UART_MODO_NORMAL;
                uartWriteString( UART_USB, "UART_MODO_NORMAL\r\n" );
             } else {
-               uartWriteString( UART_USB, intToString(data) );
+               uartWriteString( UART_USB, intToStringGlobal(data) );
                uartWriteString( UART_USB, "\r\n" );
             }
          }

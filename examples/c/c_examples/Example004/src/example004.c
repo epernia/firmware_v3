@@ -11,7 +11,7 @@ a)                b)                c)                d)
 *                 ****              4444              1234
 (N filas)         (N filas)         (N filas)         (N filas)
 
-e)                f) El cuadrado:   g) El tri·ngulo:
+e)                f) El cuadrado:   g) El tri√°ngulo:
 *******           *******           *******
 *******           *     *            *   *
 *******           *     *             * *
@@ -75,18 +75,6 @@ int main( void )
    for( f=1; f<=N; f++ ) {
       for( c=1; c<=M; c++ ) {
          printf("*");
-      }
-      printf("\r\n");
-   }
-
-   printf("\r\nEj 4) f)\r\n");
-   for( f=1; f<=N; f++ ) {
-      for( c=1; c<=M; c++ ) {
-         if( f==1 || f==N || c==1 || c==M ) {
-            printf("*");
-         } else {
-            printf(" ");
-         }
       }
       printf("\r\n");
    }

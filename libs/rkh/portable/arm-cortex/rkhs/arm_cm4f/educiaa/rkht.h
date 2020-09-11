@@ -78,7 +78,7 @@ typedef unsigned long	rui32_t;
  */
 
 typedef unsigned int	ruint;
-typedef signed int		rint;
+typedef signed int		rInt;
 
 /*
  * 	Boolean data type and constants.

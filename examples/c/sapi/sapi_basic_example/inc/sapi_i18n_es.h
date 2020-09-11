@@ -157,6 +157,7 @@ extern "C" {
 #define inicializarI2c                            i2cInit
 #define leerI2c                                   i2cRead
 #define escribirI2c                               i2cWrite
+#define escribirLeerI2c                           i2cWriteRead
 
 #define HABILITAR_PWM                             PWM_ENABLE
 #define DESHABILITAR_PWM                          PWM_DISABLE
