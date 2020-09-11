@@ -266,7 +266,7 @@ ifeq ($(M0_APP),)
 .download_flash_m0: ;
 else
 # Download program into flash memory of board
-.download_flash: $(TARGET_BIN) .download_flash_m0
+.download_flash_m0: $(TARGET_BIN) .download_flash_m0
 	@echo DOWNLOAD to M0 FLASH
 	$(Q)$(OOCD) -f $(OOCD_SCRIPT) \
 		-c "init" \
