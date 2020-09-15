@@ -131,11 +131,15 @@ En la ventana que se abre debe:
 2. Hacer click en la opción *"Preprocessor Include Paths, Macross, etc."*.
 3. En el área a la derecha que se abre clickear sobre la tab *"Providers"*.
 4. Tildar el checkbox *"CDT ARM Cross GCC Built-in Compiler Settings"*.
-5. Bajo la lista de checkboxes y en el área titulada "Language Settings Provider Options" deberá tildar el checkbox *"Use global provider shared between projects"*. Acomodar!!!! 
+5. Bajo la lista de checkboxes en el campo de texto *"Command to get compiler specs"* deberá ingresar un comando muy largo que incluye todos los CFLAGS. Este comando se pueden obtener ejecutando en una Terminal (en Linux) o (Busybox en Windows) el comando ```make .print_eclipse_cfg``` desde la raiz de la carpeta firmware_v3. Este comando cambia en base a cambios en las bibliotecas (carpeta libs), cambios de plataforma (BOARD) defines de compilación condicional. En estos casos deberá actualizar este campo.
 6. Presionar *"Apply"* para aplicar la configuración.
 7. Presionar *"Apply and Close"* para aplicar la configuración y cerrar la ventana de propiedades.
 
 ![Eclipse-23](Eclipse-Win23.png)
+
+Captura del comando ```make .print_eclipse_cfg``` en Windows:
+
+![Eclipse-24](Eclipse-Win24.png)
 
 ### 2.3. Compilar proyecto
 
