@@ -5,19 +5,15 @@
  * Date: 2019/08/26
  *===========================================================================*/
 
-#include "sapi.h"
-#include "font_8bit.h"
-
-// Generar caracteres personalizados:
-// https://maxpromer.github.io/LCD-Character-Creator/
-
-// Para investigar como hacer mas de 8 caracteres personalizados:
-// https://www.ccsinfo.com/forum/viewtopic.php?t=48459
-
 // Original char map from:
 // https://arduinoforgreekpeople.blogspot.com/2_X9/_7/arduino-lcd-X6_2-2__4.html
 
-// Chars 5x7 (width x height)
+// Chars 5x8 (width x height)
+
+#include "sapi.h"
+#include "font_bytes.h"
+
+// Custom char bitmaps --------------------------------------------------------
 
 #define GAMA_BITMAP       \
 {                         \
@@ -28,6 +24,7 @@
    ___X____              ,\
    ___X____              ,\
    ___X____              ,\
+   ________              ,\
 }
 
 #define DELTA_BITMAP      \
@@ -39,6 +36,7 @@
    ____X_X_              ,\
    ___X___X              ,\
    ___XXXXX              ,\
+   ________              ,\
 }
 
 #define THITA_BITMAP      \
@@ -50,6 +48,7 @@
    ___X___X              ,\
    ___XX_XX              ,\
    ____XXX_              ,\
+   ________              ,\
 }
 
 #define LAMDA_BITMAP      \
@@ -61,6 +60,7 @@
    ____X_X_              ,\
    ___X___X              ,\
    ___X___X              ,\
+   ________              ,\
 }
 
 #define KSI_BITMAP        \
@@ -72,6 +72,7 @@
    ________              ,\
    ________              ,\
    ___XXXXX              ,\
+   ________              ,\
 }
 
 #define PI_BITMAP         \
@@ -83,6 +84,7 @@
    ___X___X              ,\
    ___X___X              ,\
    ___X___X              ,\
+   ________              ,\
 }
 
 #define SIGMA_BITMAP      \
@@ -94,6 +96,7 @@
    _____X__              ,\
    ____X___              ,\
    ___XXXXX              ,\
+   ________              ,\
 }
 
 #define FI_BITMAP         \
@@ -105,6 +108,7 @@
    ___X_X_X              ,\
    ____XXX_              ,\
    _____X__              ,\
+   ________              ,\
 }
 
 #define PSI_BITMAP        \
@@ -116,6 +120,7 @@
    ____XXX_              ,\
    _____X__              ,\
    _____X__              ,\
+   ________              ,\
 }
 
 #define OMEGA_BITMAP      \
@@ -127,6 +132,7 @@
    ____X_X_              ,\
    ____X_X_              ,\
    ___XX_XX              ,\
+   ________              ,\
 }
 
 #define NU_BITMAP         \
@@ -140,6 +146,7 @@
    _______X              ,\
 }
 
+// Custom char variables ------------------------------------------------------
 
 const uint8_t GamaBitmap[8]  = GAMA_BITMAP;
 const uint8_t DeltaBitmap[8] = DELTA_BITMAP;
@@ -148,69 +155,69 @@ const uint8_t LamdaBitmap[8] = LAMDA_BITMAP;
 const uint8_t KsiBitmap[8]   = KSI_BITMAP;
 const uint8_t PiBitmap[8]    = PI_BITMAP;
 const uint8_t SigmaBitmap[8] = SIGMA_BITMAP;
-const uint8_t FiBitmap[8]          = FI_BITMAP;
-const uint8_t PsiBitmap[8]         = PSI_BITMAP;
-const uint8_t OmegaBitmap[8]       = OMEGA_BITMAP;
+const uint8_t FiBitmap[8]    = FI_BITMAP;
 
-const uint8_t NuBitmap[8]  = NU_BITMAP;
-
+const uint8_t PsiBitmap[8]   = PSI_BITMAP;
+const uint8_t OmegaBitmap[8] = OMEGA_BITMAP;
+const uint8_t NuBitmap[8]    = NU_BITMAP;
 
 lcdCustomChar_t gamaChar = {
-   .address = 0,           // Custom character address
-   .bitmap = GAMA_BITMAP   // Custom character bitmap
+   .address = 0,
+   .bitmap = GAMA_BITMAP
 };
 
 lcdCustomChar_t deltaChar = {
-   .address = 1,           // Custom character address
-   .bitmap = DELTA_BITMAP  // Custom character bitmap
+   .address = 1,
+   .bitmap = DELTA_BITMAP
 };
 
 lcdCustomChar_t thitaChar = {
-   .address = 2,           // Custom character address
-   .bitmap = THITA_BITMAP  // Custom character bitmap
+   .address = 2,
+   .bitmap = THITA_BITMAP
 };
 
 lcdCustomChar_t lamdaChar = {
-   .address = 3,           // Custom character address
-   .bitmap = LAMDA_BITMAP  // Custom character bitmap
+   .address = 3,
+   .bitmap = LAMDA_BITMAP
 };
 
 lcdCustomChar_t ksiChar = {
-   .address = 4,           // Custom character address
-   .bitmap = KSI_BITMAP    // Custom character bitmap
+   .address = 4,
+   .bitmap = KSI_BITMAP
 };
 
 lcdCustomChar_t piChar = {
-   .address = 5,           // Custom character address
-   .bitmap = PI_BITMAP     // Custom character bitmap
+   .address = 5,
+   .bitmap = PI_BITMAP
 };
 
 lcdCustomChar_t sigmaChar = {
-   .address = 6,           // Custom character address
-   .bitmap = SIGMA_BITMAP  // Custom character bitmap
+   .address = 6,
+   .bitmap = SIGMA_BITMAP
 };
 
 lcdCustomChar_t fiChar = {
-   .address = 7,           // Custom character address
-   .bitmap = FI_BITMAP     // Custom character bitmap
+   .address = 7,
+   .bitmap = FI_BITMAP
 };
 
+
 lcdCustomChar_t psiChar = {
-   .address = 4,           // Custom character address
-   .bitmap = PSI_BITMAP,   // Custom character bitmap
+   .address = 0,
+   .bitmap = PSI_BITMAP
 };
 
 lcdCustomChar_t omegaChar = {
-   .address = 2,           // Custom character address
-   .bitmap = OMEGA_BITMAP  // Custom character bitmap
+   .address = 1,
+   .bitmap = OMEGA_BITMAP
 };
-
 
 lcdCustomChar_t nuChar = {
-   .address = 7,           // Custom character address
-   .bitmap = NU_BITMAP     // Custom character bitmap
+   .address = 2,
+   .bitmap = NU_BITMAP
 };
 
+// Custom char array ----------------------------------------------------------
 
 lcdCustomChar_t* greekChars[11] = {
    &gamaChar,
@@ -223,5 +230,5 @@ lcdCustomChar_t* greekChars[11] = {
    &fiChar,
    &psiChar,
    &omegaChar,
-   &nuChar,   
+   &nuChar, 
 };

@@ -100,14 +100,14 @@ LDFLAGS+=$(addprefix -l, $(LIBS))
 LDFLAGS+=-T$(LDSCRIPT)
 LDFLAGS+=-nostartfiles -Wl,-gc-sections -Wl,-Map=$(TARGET_MAP) -Wl,--cref
 
-$(info Using optimization level $(OPT))
+#$(info Using optimization level $(OPT))
 #$(info Using debug level $(DEBUG_LEVEL))
 
 ifeq ($(USE_NANO),y)
-$(info Using newlib nano. No printf with floats supported)
+#$(info Using newlib nano. No printf with floats supported)
 LDFLAGS+=--specs=nano.specs
 else
-$(info Using newlib)
+#$(info Using newlib)
 endif
 
 ifeq ($(USE_LTO),y)
@@ -387,6 +387,10 @@ ifeq ($(ENFORCE_NOGPL),y)
 else
 .try_enforce_no_gpl:
 endif
+
+.print_eclipse_cfg:
+	@echo arm-none-eabi-gcc $(CFLAGS) -E -P -v -dD \"$$\{INPUTS\}\"
+
 # ----------------------------------------------------------------------
 
 .PHONY: all size download erase clean new_program select_program select_board

@@ -5,8 +5,8 @@
  * Date: 2019/08/26
  *===========================================================================*/
 
-#ifndef _LCD_ICONS_CHARS_H_
-#define _LCD_ICONS_CHARS_H_
+#ifndef _TEMPLATE_CHARS_5X8_PX_H_
+#define _TEMPLATE_CHARS_5X8_PX_H_
 
 /*==================[inclusiones]============================================*/
 
@@ -20,13 +20,14 @@ extern "C" {
    
 /*===========================================================================*/
 
-extern const uint8_t SpeakerOnBitmap[8];
-extern const uint8_t SpeakerOffBitmap[8];
+// Custom char variables ------------------------------------------------------
 
-extern lcdCustomChar_t SpeakerOnChar;
-extern lcdCustomChar_t SpeakerOffChar;
+extern const uint8_t customCharNameBitmap[8;
+extern lcdCustomChar_t customCharNameChar;
 
-extern lcdCustomChar_t* iconsChars[2];
+// Custom char array ----------------------------------------------------------
+
+estern lcdCustomChar_t* customChars[1]; // Remember update this 1 for real size
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus
@@ -34,4 +35,4 @@ extern lcdCustomChar_t* iconsChars[2];
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* _LCD_GREEK_CHARS_H_ */
+#endif

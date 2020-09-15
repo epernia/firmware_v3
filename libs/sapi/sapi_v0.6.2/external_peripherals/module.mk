@@ -2,6 +2,9 @@ EXTERNAL_PERIPH_BASE=$(SAPI_BASE)/external_peripherals
 
 # Display ---------------------------------------------------------------------
 
+# Los includes son paths
+# Los src son archivos
+
 INCLUDES += -I$(EXTERNAL_PERIPH_BASE)/display/fonts/inc
 INCLUDES += -I$(EXTERNAL_PERIPH_BASE)/display/fonts/greek_chars_5x7/inc
 INCLUDES += -I$(EXTERNAL_PERIPH_BASE)/display/fonts/icon_chars_5x7/inc

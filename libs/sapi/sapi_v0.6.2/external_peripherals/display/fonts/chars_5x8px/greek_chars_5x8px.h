@@ -5,8 +5,8 @@
  * Date: 2019/08/26
  *===========================================================================*/
 
-#ifndef _LCD_GREEK_CHARS_H_
-#define _LCD_GREEK_CHARS_H_
+#ifndef _LCD_GREEK_CHARS_5X8_PX_H_
+#define _LCD_GREEK_CHARS_5X8_PX_H_
 
 /*==================[inclusiones]============================================*/
 
@@ -33,7 +33,6 @@ extern const uint8_t OmegaBitmap[8];
    
 extern const uint8_t NuBitmap[8];
 
-
 extern lcdCustomChar_t gamaChar;
 extern lcdCustomChar_t deltaChar;
 extern lcdCustomChar_t thitaChar;
@@ -47,7 +46,6 @@ extern lcdCustomChar_t omegaChar;
 
 extern lcdCustomChar_t nuChar;
 
-
 extern lcdCustomChar_t* greekChars[11];
 
 /*==================[c++]====================================================*/
@@ -56,4 +54,4 @@ extern lcdCustomChar_t* greekChars[11];
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* _LCD_GREEK_CHARS_H_ */
+#endif

@@ -1,0 +1,23 @@
+https://www.luisllamas.es/conectar-arduino-a-una-pantalla-tft/
+
+Common TFT display controllers:
+
+ - ST7735.
+ - ILI9341.
+ - ILI9163C.
+ - HX8357 (320X480PX).
+ - Samsung S6D02A1 (QDTech).
+ 
+Communication:
+
+ - SPI.
+
+Libraries:
+
+ - Adafruit ILI9341
+ - Adafruit ST7735
+ - Adafruit HX8357
+ - Zigwart QDTech
+ - Sumotoy ILI9163C
+
+To make graphics all of these libs uses Adafruit GFX.

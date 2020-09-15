@@ -1,0 +1,15 @@
+https://www.luisllamas.es/conectar-arduino-a-un-display-lcd-nokia-5110/
+
+Nokia 5110 display controller:
+
+ - PCD8544.
+ 
+Communication:
+
+ - Propietary.???
+ 
+Libraries:
+
+ - PCD8544 Nokia 5110 LCD library: https://github.com/adafruit/Adafruit-PCD8544-Nokia-5110-LCD-library
+
+To make graphics all of these libs uses Adafruit GFX.

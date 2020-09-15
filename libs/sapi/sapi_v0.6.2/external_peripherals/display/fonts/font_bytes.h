@@ -5,8 +5,8 @@
  * Date: 2019/08/01
  *===========================================================================*/
 
-#ifndef __FONT_8_BIT_WIDTH__
-#define __FONT_8_BIT_WIDTH__
+#ifndef __FONT_8_PX_WIDTH__
+#define __FONT_8_PX_WIDTH__
 
 typedef enum{
    ________ = 0x00,
@@ -267,4 +267,4 @@ typedef enum{
    XXXXXXXX = 0xff,
 } font8bit_t;
 
-#endif /* __FONT_8_BIT_WIDTH__ */
+#endif // __FONT_8_PX_WIDTH__

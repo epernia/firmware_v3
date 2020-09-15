@@ -1,0 +1,16 @@
+https://www.luisllamas.es/conectar-arduino-a-una-pantalla-oled-de-0-96/
+
+Common OLED display controllers:
+
+ - SDD1306.
+ 
+Communication:
+
+ - SPI.
+ - I2C.
+ 
+Libraries:
+
+ - https://github.com/adafruit/Adafruit_SSD1306/
+
+To make graphics all of these libs uses Adafruit GFX.
