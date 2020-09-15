@@ -18,7 +18,8 @@
       <li><a style="text-decoration: none;" href="#2-compilar-proyecto-firmware_v3-en-eclipse">2. Compilar proyecto firmware_v3 en Eclipse</a></li>
       <ul style="list-style:none;">
          <li><a style="text-decoration: none;" href="#21-configurar-opciones-de-compilación">2.1. Configurar opciones de compilación</a></li>
-         <li><a style="text-decoration: none;" href="#22-compilar-proyecto">2.2. Compilar proyecto</a></li>
+         <li><a style="text-decoration: none;" href="#22-configurar-rutas-y-símbolos">2.2. Configurar rutas y símbolos</a></li>
+         <li><a style="text-decoration: none;" href="#23-compilar-proyecto">2.3. Compilar proyecto</a></li>
       </ul>
       <li><a style="text-decoration: none;" href="#3-configurar-y-ejecutar-targets-de-de-makefile-en-eclipse">3. Configurar y ejecutar <em>targets</em> de <em>makefile</em> en Eclipse</a></li>
       <ul style="list-style:none;">
@@ -119,7 +120,11 @@ Presionar *"Apply and Close*" para aplicar la configuración.
 
 ![Eclipse-08](Eclipse-Win08.png)
 
-### 2.2. Compilar proyecto
+### 2.2. Configurar rutas y símbolos
+
+Nota: Este paso es solo necesario "a nivel estético" debido a que Eclipse busca automáticamente los símbolos y si no los encuentra los subraya como errores aunque no lo sean. El programa compilará correctamente si no se realiza este paso pero puede confundir al usuario pensando que existen errores.
+
+### 2.3. Compilar proyecto
 
 Para compilar el proyecto puede realizarlo mediante el icono del martillo (*Build*), o mediante la opción "*Build*" presionando el botón derecho sobre el proyecto firmware_v3.
 
