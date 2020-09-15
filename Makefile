@@ -389,7 +389,12 @@ else
 endif
 
 .print_eclipse_cfg:
-	@echo arm-none-eabi-gcc $(CFLAGS) -E -P -v -dD \"$$\{INPUTS\}\"
+	@echo $(CC) $(CFLAGS) -E -P -v -dD \"$$\{INPUTS\}\"
+
+.gen_eclipse_cfg: Makefile board.mk program.mk $(PROGRAM_PATH_AND_NAME)/config.mk
+	@mkdir -p .settings
+	@echo "$(CC) $(CFLAGS) -E -P -v -dD &quot;${INPUTS}&quot;" > .settings/language.settings.xml
+	@echo Settings writed to .settings/language.settings.xml
 
 # ----------------------------------------------------------------------
 
