@@ -122,7 +122,20 @@ Presionar *"Apply and Close*" para aplicar la configuración.
 
 ### 2.2. Configurar rutas y símbolos
 
-Nota: Este paso es solo necesario "a nivel estético" debido a que Eclipse busca automáticamente los símbolos y si no los encuentra los subraya como errores aunque no lo sean. El programa compilará correctamente si no se realiza este paso pero puede confundir al usuario pensando que existen errores.
+El programa compilará correctamente si no se realiza este paso pero puede confundir al usuario pensando que existen muchos errores donde en realidad no los hay. Esto se debe a que Eclipse busca automáticamente los símbolos y si no los encuentra los subraya en rojo como errores aunque no lo sean.
+Eclipse marcará subrayados en rojo tipos de datos estandar (por ejemplo, ```uint8_t```), constantes definidas en las bibliotecas (ejemplo, ```LED``` de sAPI), entre otros.
+Para solucionar esto deberá hacer click derecho sobre el proyecto "firmware_v3" y luego en la opción "*Properties*". 
+En la ventana que se abre debe:
+
+1. Hacer click sobre la flecha de la opción *"C/C++ General"* para desplegrar el menú.
+2. Hacer click en la opción *"Preprocessor Include Paths, Macross, etc."*.
+3. En el área a la derecha que se abre clickear sobre la tab *"Providers"*.
+4. Tildar el checkbox *"CDT ARM Cross GCC Built-in Compiler Settings"*.
+5. Bajo la lista de checkboxes y en el área titulada "Language Settings Provider Options" deberá tildar el checkbox *"Use global provider shared between projects"*. Acomodar!!!! 
+6. Presionar *"Apply"* para aplicar la configuración.
+7. Presionar *"Apply and Close"* para aplicar la configuración y cerrar la ventana de propiedades.
+
+![Eclipse-23](Eclipse-Win23.png)
 
 ### 2.3. Compilar proyecto
 
