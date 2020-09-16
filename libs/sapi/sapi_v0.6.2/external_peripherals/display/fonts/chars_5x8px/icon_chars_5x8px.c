@@ -129,7 +129,6 @@ lcdCustomChar_t thermometerChar = {
 };
 
 // Gota de agua
-DROP_BITMAP
 
 const uint8_t dropBitmap[8] = DROP_BITMAP;
 
@@ -139,7 +138,6 @@ lcdCustomChar_t dropChar = {
 };
 
 // Viento
-WIND_BITMAP
 
 const uint8_t windBitmap[8] = WIND_BITMAP;
 
@@ -151,10 +149,10 @@ lcdCustomChar_t windChar = {
 // Custom char array ----------------------------------------------------------
 
 lcdCustomChar_t* iconChars[] = {
-   &SpeakerOnChar,
-   &SpeakerOffChar,
-   &smile,
-   &thermometer,
-   &drop,
-   &wind,
+   &speakerOnChar,
+   &speakerOffChar,
+   &smileChar,
+   &thermometerChar,
+   &dropChar,
+   &windChar,
 };

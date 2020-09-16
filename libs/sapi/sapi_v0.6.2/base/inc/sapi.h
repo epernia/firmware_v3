@@ -78,7 +78,7 @@
 #include "sapi_7_segment_display.h"      // Use sapi_gpio and sapi_delay modules
 #include "sapi_keypad.h"                 // Use sapi_gpio and sapi_delay modules
 #include "sapi_dht11.h"                  // Use sapi_gpio peripheral
-#include "sapi_lcd.h"                    // Use sapi_gpio peripherals
+#include "display_lcd_hd44780_gpios.h"   // Use sapi_gpio peripherals
 #include "sapi_servo.h"                  // Use sapi_gpio modules and sapi_timer
 #include "sapi_rgb.h"                    // Use TIMER peripheral
 

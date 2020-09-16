@@ -35,7 +35,7 @@
 
 /*==================[inlcusiones]============================================*/
 
-#include "sapi_lcd.h"
+#include "display_lcd_hd44780_gpios.h"
 
 /*==================[definiciones y macros]==================================*/
 

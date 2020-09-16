@@ -101,7 +101,7 @@ lcdCustomChar_t customUCEChar = {
 
 const uint8_t customLCRBitmap[8] = CUSTOM_LC_R;
 
-lcdCustomChar_t speakerOffChar = {
+lcdCustomChar_t customLCRChar = {
    .address = 2,
    .bitmap = CUSTOM_LC_R
 };
@@ -127,9 +127,9 @@ lcdCustomChar_t customLCCChar = {
 // Custom char array ----------------------------------------------------------
 
 lcdCustomChar_t* customAlphanumerics[5] = {
-   &degree,
-   &custom_E,
-   &custom_r,
-   &custom_i,
-   &custom_c,
+   &degreeChar,
+   &customUCEChar,
+   &customLCRChar,
+   &customLCIChar,
+   &customLCCChar,
 };
