@@ -66,9 +66,14 @@ INOSRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.ino))
 ASRC+=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.s)
 ASRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.s))
 
+ASSRC+=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.S)
+ASSRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.S))
+
 OUT=$(PROGRAM_PATH_AND_NAME)/out
 # Arduino
 OBJECTS=$(INOSRC:%.ino=$(OUT)/%.o) $(CXXSRC:%.cpp=$(OUT)/%.o) $(SRC:%.c=$(OUT)/%.o) $(ASRC:%.s=$(OUT)/%.o)
+
+OBJECTS+=$(ASSRC:%.S=$(OUT)/%.o)
 
 DEPS=$(OBJECTS:%.o=%.d)
 
@@ -191,6 +196,11 @@ $(OUT)/%.o: %.ino
 
 $(OUT)/%.o: %.s
 	@echo AS $(notdir $<)
+	@mkdir -p $(dir $@)
+	$(Q)$(CC) -MMD $(CFLAGS) -c -o $@ $<
+
+$(OUT)/%.o: %.S
+	@echo AS $<
 	@mkdir -p $(dir $@)
 	$(Q)$(CC) -MMD $(CFLAGS) -c -o $@ $<
 
