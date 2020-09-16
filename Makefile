@@ -71,11 +71,13 @@ ASSRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.sx))
 
 OUT=$(PROGRAM_PATH_AND_NAME)/out
 
-OBJECTS:=$(INOSRC:%.ino=$(OUT)/%.o) # Arduino
-OBJECTS+=$(CXXSRC:%.cpp=$(OUT)/%.o) # C++ sources
-OBJECTS+=$(SRC:%.c=$(OUT)/%.o)      # C sources
-OBJECTS+=$(ASRC:%.s=$(OUT)/%.o)     # ASM no preprocessor sources
-OBJECTS+=$(ASSRC:%.sx=$(OUT)/%.o)   # ASM with preprocessor sources
+OBJECTS=$(INOSRC:%.ino=$(OUT)/%.o)
+OBJECTS+=$(CXXSRC:%.cpp=$(OUT)/%.o)
+OBJECTS+=$(SRC:%.c=$(OUT)/%.o)
+OBJECTS+=$(ASRC:%.s=$(OUT)/%.o)
+OBJECTS+=$(ASSRC:%.sx=$(OUT)/%.o)
+
+$(info $(OBJECTS))
 
 DEPS=$(OBJECTS:%.o=%.d)
 
