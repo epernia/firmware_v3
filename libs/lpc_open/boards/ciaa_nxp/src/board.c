@@ -78,6 +78,7 @@
 
 
 #include "board.h"
+#include "string.h"
 #if defined(DEBUG_ENABLE) && !defined(DEBUG_UART)
 #error "Definir DEBUG_UART como LPC_USART{numero de UART}"
 #endif
@@ -249,6 +250,11 @@ void Board_Init(void)
    Board_TEC_Init();
 
 #ifdef USE_RMII
+   /* PHY_nRESET Signal in GPIO0 */
+   Chip_SCU_PinMuxSet(0x6, 1, (SCU_MODE_PULLUP | SCU_MODE_INBUFF_EN | SCU_MODE_FUNC0));			/* P6_1 GPIO0 */
+   Chip_GPIO_SetPinDIROutput(LPC_GPIO_PORT, 3, 0);							/* GPIO3[0] = PHY_NRESET */
+   /*** Reset PHY_NRESET ***/
+   Chip_GPIO_SetPinState(LPC_GPIO_PORT, 3, 0, false);						/* GPIO3[0] output low */
    Chip_ENET_RMIIEnable(LPC_ETHERNET);
 #endif
 
@@ -306,6 +312,16 @@ uint16_t Board_ADC_ReadEnd()
    curADCChannel = 0xFF;
    return data;
 }
+
+
+/* Returns the MAC address assigned to this board */
+void Board_ENET_GetMacADDR(uint8_t *mcaddr)
+{
+	uint8_t boardmac[] = {0x00, 0x60, 0x37, 0x12, 0x34, 0x56};
+
+	memcpy(mcaddr, boardmac, 6);
+}
+
 
 void __stdio_putchar(int c)
 {
