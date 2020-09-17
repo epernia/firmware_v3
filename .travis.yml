@@ -12,6 +12,12 @@ env:
   global:
     - MAKEOPTS="-j4"
 
+addons:
+  apt:
+    packages:
+      - ccache
+      - time
+
 # define the successive stages
 stages:
   - name: test

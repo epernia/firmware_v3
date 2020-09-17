@@ -26,6 +26,7 @@ do
    make -C ${BASE} \
       PROJECT_PATH=${P_PATH} \
       PROJECT_NAME=${P_NAME} \
+      CROSS="ccache arm-none-eabi-" \
       all clean > ${OUT_STDOUT} 2>${OUT_STDERR} \
          && (echo -e "[\e[32mPASS\e[0m]"; echo "${D}" >> ${OUT_GLOBAL_PASS}) \
          || (echo -e "[\e[31mFAIL\e[0m]"; echo "${D}" >> ${OUT_GLOBAL_FAIL})
