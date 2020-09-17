@@ -87,7 +87,7 @@ int8_t i2c_reg_read(uint8_t i2c_addr, uint8_t reg_addr, uint8_t *reg_data, uint1
 	int8_t status = -1;
 	int8_t i2c_ok = 0;
 
-	i2c_ok = i2cRead(I2C0, i2c_addr, &reg_addr, 1, TRUE, reg_data, length, TRUE);
+	i2c_ok = i2cWriteRead(I2C0, i2c_addr, &reg_addr, 1, TRUE, reg_data, length, TRUE);
 
 	status += i2c_ok;
 
