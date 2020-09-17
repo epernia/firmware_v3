@@ -92,6 +92,8 @@
 
 #include "sapi_ultrasonic_hcsr04.h"      //
 
+#include "sapi_bmp280.h"
+
 /*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
