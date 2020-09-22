@@ -28,115 +28,113 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
-/*
- * Date: 2016-12-11
- */
+// File creation date: 2016-12-11
 
-/*==================[inclusions]=============================================*/
+//==================[inclusions]===============================================
 
 #include "sapi.h"     // <= sAPI header
 
-/*==================[macros and definitions]=================================*/
+//==================[macros and definitions]===================================
 
-/*==================[internal data declaration]==============================*/
+//==================[internal data declaration]================================
 
-/*==================[internal functions declaration]=========================*/
+//==================[internal functions declaration]===========================
 
-/*==================[internal data definition]===============================*/
+//==================[internal data definition]=================================
 
-/*==================[external data definition]===============================*/
+//==================[external data definition]=================================
 
-/*==================[internal functions definition]==========================*/
+//==================[internal functions definition]============================
 
-/*==================[external functions definition]==========================*/
+//==================[external functions definition]============================
 
+// C++ version 0.4 char* style "itoa":
+// Written by Lukás Chmela
+// Released under GPLv3.
+char* itoa(int value, char* result, int base)
+{
+    // check that the base if valid
+    if (base < 2 || base > 36) {
+        *result = '\0';
+        return result;
+    }
 
-/**
- * C++ version 0.4 char* style "itoa":
- * Written by Lukás Chmela
- * Released under GPLv3.
+    char* ptr = result, *ptr1 = result, tmp_char;
+    int tmp_value;
 
- */
-char* itoa(int value, char* result, int base) {
-   // check that the base if valid
-   if (base < 2 || base > 36) { *result = '\0'; return result; }
+    do {
+        tmp_value = value;
+        value /= base;
+        *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
+    } while ( value );
 
-   char* ptr = result, *ptr1 = result, tmp_char;
-   int tmp_value;
-
-   do {
-      tmp_value = value;
-      value /= base;
-      *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
-   } while ( value );
-
-   // Apply negative sign
-   if (tmp_value < 0) *ptr++ = '-';
-   *ptr-- = '\0';
-   while(ptr1 < ptr) {
-      tmp_char = *ptr;
-      *ptr--= *ptr1;
-      *ptr1++ = tmp_char;
-   }
-   return result;
+    // Apply negative sign
+    if (tmp_value < 0) *ptr++ = '-';
+    *ptr-- = '\0';
+    while(ptr1 < ptr) {
+        tmp_char = *ptr;
+        *ptr--= *ptr1;
+        *ptr1++ = tmp_char;
+    }
+    return result;
 }
 
 
-/* FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. */
-int main(void){
+// FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET.
+int main(void)
+{
 
-   /* ------------- INICIALIZACIONES ------------- */
+    // ------------- INICIALIZACIONES -------------
 
-   /* Inicializar la placa */
-   boardConfig();
+    // Inicializar la placa
+    boardConfig();
 
-   /* Inicializar UART_USB a 115200 baudios */
-   uartConfig( UART_USB, 115200 );
+    // Inicializar UART_USB a 115200 baudios
+    uartConfig( UART_USB, 115200 );
 
-   char miTexto[] = "todo bien";
+    char miTexto[] = "todo bien";
 
-   waitForReceiveStringOrTimeout_t waitText;
-   waitForReceiveStringOrTimeoutState_t waitTextState;
+    waitForReceiveStringOrTimeout_t waitText;
+    waitForReceiveStringOrTimeoutState_t waitTextState;
 
-   uartWriteString( UART_USB, "Se espera a que el usuario escriba \"todo bien\",\r\n" );
-   uartWriteString( UART_USB, "o sale por timeout (10 segundos) y vuelve a esperar\r\n" );
-   uartWriteString( UART_USB, "a que se escriba el mensaje.\r\n" );
+    uartWriteString( UART_USB, "Se espera a que el usuario escriba \"todo bien\",\r\n" );
+    uartWriteString( UART_USB, "o sale por timeout (10 segundos) y vuelve a esperar\r\n" );
+    uartWriteString( UART_USB, "a que se escriba el mensaje.\r\n" );
 
-   /* ------------- REPETIR POR SIEMPRE ------------- */
-   while(1) {
+    // ------------- REPETIR POR SIEMPRE -------------
+    while(1) {
 
-      waitTextState = UART_RECEIVE_STRING_CONFIG;
+        waitTextState = PARSER_RECEIVE_STRING_CONFIG;
 
-      waitText.state = UART_RECEIVE_STRING_CONFIG;
-      waitText.string =  miTexto;
-      waitText.stringSize = sizeof(miTexto);
-      waitText.timeout = 10000;
+        waitText.state = PARSER_RECEIVE_STRING_CONFIG;
+        waitText.string =  miTexto;
+        waitText.stringSize = sizeof(miTexto);
+        waitText.timeout = 10000;
 
-      while( waitTextState != UART_RECEIVE_STRING_RECEIVED_OK &&
-             waitTextState != UART_RECEIVE_STRING_TIMEOUT ){
-         waitTextState = waitForReceiveStringOrTimeout( UART_USB, &waitText );
-      }
+        while( waitTextState != PARSER_RECEIVE_STRING_RECEIVED_OK &&
+               waitTextState != PARSER_RECEIVE_STRING_TIMEOUT ) {
+            waitTextState = waitForReceiveStringOrTimeout( UART_USB, &waitText );
+        }
 
-      /* Si no lo recibe indica que salio de la funcion
-       * waitForReceiveStringOrTimeoutBlocking  por timeout. */
-      if( waitTextState == UART_RECEIVE_STRING_TIMEOUT ){
-         uartWriteString( UART_USB, "\r\nSalio por timeout\r\n" );
-      }
+        // Si no lo recibe indica que salio de la funcion
+        // waitForReceiveStringOrTimeoutBlocking  por timeout.
+        if( waitTextState == PARSER_RECEIVE_STRING_TIMEOUT ) {
+            uartWriteString( UART_USB, "\r\nSalio por timeout\r\n" );
+        }
 
-      /* Si recibe el string almacenado en miTexto indica que llego el
-       * mensaje esperado. */
-      if( waitTextState == UART_RECEIVE_STRING_RECEIVED_OK ){
-         uartWriteString( UART_USB, "\r\nLlego el mensaje esperado\r\n" );
-      }
+        // Si recibe el string almacenado en miTexto indica que llego el
+        // mensaje esperado.
+        if( waitTextState == PARSER_RECEIVE_STRING_RECEIVED_OK ) {
+            uartWriteString( UART_USB, "\r\nLlego el mensaje esperado\r\n" );
+        }
 
-   }
+    }
 
-   /* NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado
-      por ningun S.O. */
-   return 0 ;
+    // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado
+    // por ningun S.O.
+    return 0 ;
 }
 
-/*==================[end of file]============================================*/
+//==================[end of file]==============================================

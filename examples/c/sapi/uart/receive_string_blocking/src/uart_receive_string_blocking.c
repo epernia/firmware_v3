@@ -1,4 +1,3 @@
-
 /* Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
@@ -29,39 +28,32 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
-/*
- * Date: 2016-12-11
- */
+// File creation date: 2016-12-11
 
-/*==================[inclusions]=============================================*/
+//==================[inclusions]===============================================
 
 #include "sapi.h"     // <= sAPI header
 #include <string.h>
 
-/*==================[macros and definitions]=================================*/
+//==================[macros and definitions]===================================
 
-/*==================[internal data declaration]==============================*/
+//==================[internal data declaration]================================
 
-/*==================[internal functions declaration]=========================*/
+//==================[internal functions declaration]===========================
 
-/*==================[internal data definition]===============================*/
+//==================[internal data definition]=================================
 
-/*==================[external data definition]===============================*/
+//==================[external data definition]=================================
 
-/*==================[internal functions definition]==========================*/
+//==================[internal functions definition]============================
 
-/*==================[external functions definition]==========================*/
+//==================[external functions definition]============================
 
-
-/**
- * C++ version 0.4 char* style "itoa":
- * Written by Lukás Chmela
- * Released under GPLv3.
-
- */
+// C++ version 0.4 char* style "itoa":
+// Written by Lukás Chmela
+// Released under GPLv3.
 char* itoa(int value, char* result, int base) {
    // check that the base if valid
    if (base < 2 || base > 36) { *result = '\0'; return result; }
@@ -87,16 +79,16 @@ char* itoa(int value, char* result, int base) {
 }
 
 
-/* FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. */
+// FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET.
 int main(void){
 
-   /* ------------- INICIALIZACIONES ------------- */
+   // ------------- INICIALIZACIONES -------------
 
-   /* Inicializar la placa */
-   boardConfig();
+   // Inicializar la placa
+   boardInit();
 
-   /* Inicializar UART_USB a 115200 baudios */
-   uartConfig( UART_USB, 115200 );
+   // Inicializar UART_USB a 115200 baudios
+   uartInit( UART_USB, 115200 );
 
    char miTexto[] = "hola como le va";
 
@@ -106,7 +98,7 @@ int main(void){
    uartWriteString( UART_USB, "o sale por timeout (10 segundos) y vuelve a esperar\r\n" );
    uartWriteString( UART_USB, "a que se escriba el mensaje.\r\n" );
 
-   /* ------------- REPETIR POR SIEMPRE ------------- */
+   // ------------- REPETIR POR SIEMPRE -------------
    while(1) {
 
       received = waitForReceiveStringOrTimeoutBlocking(
@@ -116,22 +108,22 @@ int main(void){
                     10000
                  );
 
-      /* Si recibe el string almacenado en miTexto indica que llego el
-       * mensaje esperado. */
+      // Si recibe el string almacenado en miTexto indica que llego el
+      // mensaje esperado.
       if( received ){
          uartWriteString( UART_USB, "\r\nLlego el mensaje esperado\r\n" );
       }
-      /* Si no lo recibe indica que salio de la funcion
-       * waitForReceiveStringOrTimeoutBlocking  por timeout. */
+      // Si no lo recibe indica que salio de la funcion
+      // waitForReceiveStringOrTimeoutBlocking  por timeout.
       else{
          uartWriteString( UART_USB, "\r\nSalio por timeout\r\n" );
       }
 
    }
 
-   /* NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado
-      por ningun S.O. */
-   return 0 ;
+   // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa no es llamado
+   // por ningun S.O.
+   return 0;
 }
 
-/*==================[end of file]============================================*/
+//==================[end of file]==============================================
