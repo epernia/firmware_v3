@@ -32,8 +32,8 @@
 
 // File creation date: 2015-09-23
 
-#ifndef _SAPI_DATATYPES_H_
-#define _SAPI_DATATYPES_H_
+#ifndef _SAPI_REGISTER_ACCESS_H_
+#define _SAPI_REGISTER_ACCESS_H_
 
 //==================[inclusions]===============================================
 
@@ -41,7 +41,6 @@
 #include "chip.h"
 #include "board.h"
 #include "sapi_boards.h"
-#include "sapi_register_access.h"
 
 //==================[c++]======================================================
 #ifdef __cplusplus
@@ -50,72 +49,27 @@ extern "C" {
 
 //==================[macros]===================================================
 
-// Functional states
-#ifndef OFF
-#define OFF    0
-#endif
-#ifndef ON
-#define ON     (!OFF)
-#endif
+// Register direct access definitions
+// From: https://es.coursera.org/lecture/embedded-software-hardware/9-register-definition-files-6pqVq
 
-// Electrical states
-#ifndef LOW
-#define LOW    0
-#endif
-#ifndef HIGH
-#define HIGH   (!LOW)
-#endif
+//  __I Defines 'read only' permissions: volatile const
+//  __O Defines 'write only' permissions: volatile
+// __IO Defines 'read / write' permissions: volatile
 
-// Logical states
+#define HW_REG_8_R(x)     (*((__I  uint8_t *)(x)))
+#define HW_REG_16_R(x)    (*((__I uint16_t *)(x)))
+#define HW_REG_32_R(x)    (*((__I uint32_t *)(x)))
 
-#ifndef FALSE
-#define FALSE  0
-#endif
-#ifndef TRUE
-#define TRUE   (!FALSE)
-#endif
+#define HW_REG_8_W(x)     (*((__O  uint8_t *)(x)))
+#define HW_REG_16_W(x)    (*((__O uint16_t *)(x)))
+#define HW_REG_32_W(x)    (*((__O uint32_t *)(x)))
 
-#ifndef false
-#define false  0
-#endif
-#ifndef true
-#define true   (!false)
-#endif
+#define HW_REG_8_RW(x)    (*((__IO  uint8_t *)(x)))
+#define HW_REG_16_RW(x)   (*((__IO uint16_t *)(x)))
+#define HW_REG_32_RW(x)   (*((__IO uint32_t *)(x)))
 
-//==================[typedef]==================================================
-
-// Define Boolean Data Type
-typedef uint8_t bool_t;
-
-// Define real Data Types (floating point)
-typedef float  real32_t;
-typedef double real64_t;
-    
-typedef float  float32_t;
-typedef double float64_t; // In LPC4337 float = double (Floating Point single precision, 32 bits)
-
-// Define Tick Data Type
-typedef uint64_t tick_t;
-
-// Function Pointer definition
-// --------------------------------------
-// param:  void * - For passing arguments
-// return: bool_t - For Error Reports
-typedef bool_t (*sAPI_FuncPtr_t)(void *);
-
-// Function Pointer definition
-// --------------------------------------
-// param:  void
-// return: void
-typedef void (*callBackFuncPtr_t)(void *);
-
-//==================[external functions declaration]===========================
-
-// Null Function Pointer definition
-// --------------------------------------
-// param:  void * - Not used
-// return: bool_t - Return always true
-bool_t sAPI_NullFuncPtr( void* );
+// Example:
+//#define REG_NAME   (HW_REG_32_RW(0x4544555))
 
 //==================[c++]======================================================
 #ifdef __cplusplus
@@ -123,4 +77,4 @@ bool_t sAPI_NullFuncPtr( void* );
 #endif
 
 //==================[end of file]==============================================
-#endif // _SAPI_DATATYPES_H_
+#endif // _SAPI_REGISTER_ACCESS_H_

@@ -28,64 +28,60 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
-/* Date: 2016-06-05 */
+// File creation date: 2016-06-05
 
-/*==================[inclusions]=============================================*/
+//==================[inclusions]===============================================
 
 #include "sapi_datatypes.h"
 
-/*==================[macros and definitions]=================================*/
+//==================[macros and definitions]===================================
 
-/*==================[internal data declaration]==============================*/
+//==================[internal data declaration]================================
 
-/*==================[internal functions declaration]=========================*/
+//==================[internal functions declaration]===========================
 
-/*==================[internal data definition]===============================*/
+//==================[internal data definition]=================================
 
-/*==================[external data definition]===============================*/
+//==================[external data definition]=================================
 
-/*==================[internal functions definition]==========================*/
+//==================[internal functions definition]============================
 
-/*==================[external functions definition]==========================*/
+//==================[external functions definition]============================
 
-/*
- * Null Function Pointer definition
- * --------------------------------------
- * param:  void * - Not used
- * return: bool_t - Return always true
- */
-bool_t sAPI_NullFuncPtr(void *ptr)
+// Null Function Pointer definition
+// --------------------------------------
+// param:  void * - Not used
+// return: bool_t - Return always true
+bool sAPI_NullFuncPtr( void *ptr )
 {
    return 1;
 }
 
-/*==================[ISR external functions definition]======================*/
+//==================[ISR external functions definition]========================
+
+//==================[end of file]==============================================
+
+// EASTER EGG FUNCTION POINTER VECTOR EXAMPLE
 
 /*
-// FUNCTION POINTER VECTOR EXAMPLE
+// Fuinction to avoid NULL pointer
+void dummy(void){
+    return;
+}
 
-// Función para no tener NULL pointer
-   void dummy(void){
-   }
+// Function pointer typedef definition
+typedef void (*voidFunctionPointer_t)(void);
 
-// Definición de un tipo con typedef.
-   typedef void (*voidFunctionPointer_t)(void);
+// Function pointer array variable definition initialized with dummy (NULL)
+voidFunctionPointer_t voidFunctionPointer[2] = {dummy, dummy};
 
-// Definición de una variable con el tipo de typedef, incializo en dummy (NULL)
-   voidFunctionPointer_t voidFunctionPointer[2] = {dummy, dummy};
+// Execute the funcion
+(* voidFunctionPointer[0] )();
+(* voidFunctionPointer[1] )();
 
-// Ejecuto la funcion
-   (* voidFunctionPointer[0] )();
-   (* voidFunctionPointer[1] )();
-
-// Asigno una funcion a cada posición del vector
-   voidFunctionPointer[0] = ledB;
-   voidFunctionPointer[1] = led1;
+// Asign a function on each array position
+voidFunctionPointer[0] = ledB;
+voidFunctionPointer[1] = led1;
 */
-
-
-/** @} doxygen end group definition */
-/*==================[end of file]============================================*/
