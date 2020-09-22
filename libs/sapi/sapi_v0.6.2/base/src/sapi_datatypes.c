@@ -54,7 +54,7 @@
 // --------------------------------------
 // param:  void * - Not used
 // return: bool_t - Return always true
-bool sAPI_NullFuncPtr( void *ptr )
+bool_t sAPI_NullFuncPtr( void* ptr )
 {
    return 1;
 }

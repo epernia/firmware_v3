@@ -115,7 +115,7 @@ typedef void (*callBackFuncPtr_t)(void *);
 // --------------------------------------
 // param:  void * - Not used
 // return: bool_t - Return always true
-bool_t sAPI_NullFuncPtr( void* );
+bool_t sAPI_NullFuncPtr( void* ptr );
 
 //==================[c++]======================================================
 #ifdef __cplusplus
