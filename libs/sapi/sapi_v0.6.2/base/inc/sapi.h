@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* Date: 2015-09-23 */
+// File creation date: 2015-09-23
 
 #ifndef _SAPI_H_
 #define _SAPI_H_

@@ -35,100 +35,67 @@
 //==================[inclusions]===============================================
 
 #include "sapi.h"     // <= sAPI header
+#include "string.h"
 
-//==================[macros and definitions]===================================
-
-//==================[internal data declaration]================================
-
-//==================[internal functions declaration]===========================
-
-//==================[internal data definition]=================================
-
-//==================[external data definition]=================================
-
-//==================[internal functions definition]============================
-
-//==================[external functions definition]============================
-
-// C++ version 0.4 char* style "itoa":
-// Written by Lukás Chmela
-// Released under GPLv3.
-char* itoa(int value, char* result, int base)
-{
-    // check that the base if valid
-    if (base < 2 || base > 36) {
-        *result = '\0';
-        return result;
-    }
-
-    char* ptr = result, *ptr1 = result, tmp_char;
-    int tmp_value;
-
-    do {
-        tmp_value = value;
-        value /= base;
-        *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
-    } while ( value );
-
-    // Apply negative sign
-    if (tmp_value < 0) *ptr++ = '-';
-    *ptr-- = '\0';
-    while(ptr1 < ptr) {
-        tmp_char = *ptr;
-        *ptr--= *ptr1;
-        *ptr1++ = tmp_char;
-    }
-    return result;
-}
-
-
-// FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET.
+// FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE RESET. ============
 int main(void)
 {
-
     // ------------- INICIALIZACIONES -------------
 
     // Inicializar la placa
-    boardConfig();
+    boardInit();
 
     // Inicializar UART_USB a 115200 baudios
-    uartConfig( UART_USB, 115200 );
+    uartInit( UART_USB, 115200 );
 
     char miTexto[] = "todo bien";
 
-    waitForReceiveStringOrTimeout_t waitText;
-    waitForReceiveStringOrTimeoutState_t waitTextState;
+    parser_t parser;
+    parserStatus_t parserStatus;
 
     uartWriteString( UART_USB, "Se espera a que el usuario escriba \"todo bien\",\r\n" );
     uartWriteString( UART_USB, "o sale por timeout (10 segundos) y vuelve a esperar\r\n" );
     uartWriteString( UART_USB, "a que se escriba el mensaje.\r\n" );
 
+    parserInit( &parser,         // Instance 
+                UART_USB,        // UART
+                miTexto,         // String
+                strlen(miTexto), // String lenght
+                10000 );         // Timeout
+
+    parserStart( &parser ); 
+    uartWriteString( UART_USB, "\r\nParser running\r\n" );
+
     // ------------- REPETIR POR SIEMPRE -------------
-    while(1) {
+    while( true ) {
 
-        waitTextState = PARSER_RECEIVE_STRING_CONFIG;
-
-        waitText.state = PARSER_RECEIVE_STRING_CONFIG;
-        waitText.string =  miTexto;
-        waitText.stringSize = sizeof(miTexto);
-        waitText.timeout = 10000;
-
-        while( waitTextState != PARSER_RECEIVE_STRING_RECEIVED_OK &&
-               waitTextState != PARSER_RECEIVE_STRING_TIMEOUT ) {
-            waitTextState = waitForReceiveStringOrTimeout( UART_USB, &waitText );
-        }
+        parserStatus = parserPatternMatchOrTimeout( &parser );
 
         // Si no lo recibe indica que salio de la funcion
         // waitForReceiveStringOrTimeoutBlocking  por timeout.
-        if( waitTextState == PARSER_RECEIVE_STRING_TIMEOUT ) {
+        if( parserStatus == PARSER_TIMEOUT ) {
             uartWriteString( UART_USB, "\r\nSalio por timeout\r\n" );
+            parserStart( &parser ); // Relanzo el parser
         }
 
         // Si recibe el string almacenado en miTexto indica que llego el
         // mensaje esperado.
-        if( waitTextState == PARSER_RECEIVE_STRING_RECEIVED_OK ) {
+        if( parserStatus == PARSER_RECEIVED_OK ) {
             uartWriteString( UART_USB, "\r\nLlego el mensaje esperado\r\n" );
+            parserStart( &parser ); // Relanzo el parser
         }
+
+        if( !gpioRead(TEC1) ) {
+            parserStart( &parser );
+            uartWriteString( UART_USB, "\r\nParser running\r\n" );
+            delay(500);
+        } 
+
+        if( !gpioRead(TEC2) ) {
+            parserStop( &parser );
+            uartWriteString( UART_USB, "\r\nParser stop\r\n" );
+            delay(500);
+        } 
 
     }
 

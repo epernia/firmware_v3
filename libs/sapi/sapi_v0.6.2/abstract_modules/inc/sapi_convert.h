@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* Date: 2017-04-17 */
+// File creation date: 2017-04-17
 
 #ifndef _SAPI_CONVERT_H_
 #define _SAPI_CONVERT_H_

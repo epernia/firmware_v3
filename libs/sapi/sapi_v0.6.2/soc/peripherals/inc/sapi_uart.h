@@ -82,10 +82,16 @@ typedef enum{
 
 // Return TRUE if have unread data in RX FIFO
 bool_t uartRxReady( uartMap_t uart );
+
 // Return TRUE if have space in TX FIFO
 bool_t uartTxReady( uartMap_t uart );
+
 // Read from RX FIFO
 uint8_t uartRxRead( uartMap_t uart );
+
+// Read all bytes from RX FIFO and discards
+void uartRxFlush( uartMap_t uart );
+
 // Write in TX FIFO
 void uartTxWrite( uartMap_t uart, uint8_t value );
 

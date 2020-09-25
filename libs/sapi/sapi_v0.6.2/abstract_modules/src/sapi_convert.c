@@ -28,10 +28,9 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
-/* Date: 2017-04-17 */
+// File creation date: 2017-04-17
 
 /*==================[inclusions]=============================================*/
 
@@ -334,7 +333,6 @@ char* uintToAsciiHexGlobal( uint64_t value, uint8_t bitSize )
 {
    return uintToAsciiHex( value, globalStrConvertBuff, bitSize );
 }
-
 //-----------------------------------------------------------------------------
 
 char* hourMinSecToStringHHMMSS( uint8_t hour, 
@@ -376,7 +374,6 @@ char* dayHourToStringDH( uint32_t day, uint8_t hour, char* result )
 }
 //-----------------------------------------------------------------------------
 
-
 char* uintToAsciiHex( uint64_t value, char* result, uint8_t bitSize )
 {
    uint8_t i = 0;
@@ -390,6 +387,5 @@ char* uintToAsciiHex( uint64_t value, char* result, uint8_t bitSize )
 
    return result;
 }
-
 
 /*==================[end of file]============================================*/

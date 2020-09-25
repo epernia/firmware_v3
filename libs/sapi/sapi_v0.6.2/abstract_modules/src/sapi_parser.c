@@ -35,48 +35,65 @@
 //==================[inclusions]===============================================
 
 #include "sapi_parser.h"
-
 #include "string.h"
-#include "sapi_circularBuffer.h"
 
 //==================[external functions declaration]===========================
 
+void parserInit( parser_t* instance, uartMap_t uart,
+                 char* stringPattern, uint16_t stringPatternLen, 
+                 tick_t timeout )
+{
+    instance->state = PARSER_STOPPED;
+    instance->uart = uart;
+    instance->stringPattern =  stringPattern;
+    instance->stringPatternLen = stringPatternLen;
+    instance->timeout = timeout;
+}
+
+void parserStart( parser_t* instance )
+{
+    instance->state = PARSER_START;
+}
+
+void parserStop( parser_t* instance )
+{
+    instance->state = PARSER_STOPPED;
+}
+
 // Check for Receive a given pattern
 
-waitForReceiveStringOrTimeoutState_t waitForReceiveStringOrTimeout(
-   uartMap_t uart, waitForReceiveStringOrTimeout_t* instance )
+parserStatus_t parserPatternMatchOrTimeout( parser_t* instance )
 {
-
    uint8_t receiveByte;
    //char receiveBuffer[100];
 
    switch( instance->state ) {
 
-   case PARSER_RECEIVE_STRING_CONFIG:
-
-      delayInit( &(instance->delay), instance->timeout );
-
-      instance->stringIndex = 0;
-
-      instance->state = PARSER_RECEIVE_STRING_RECEIVING;
-
+   case PARSER_STOPPED:
       break;
 
-   case PARSER_RECEIVE_STRING_RECEIVING:
+   case PARSER_START:
+      uartRxFlush( instance->uart );
+      delayInit( &(instance->delay), instance->timeout );
+      instance->stringIndex = 0;
+      instance->state = PARSER_RECEIVING;
+      break;
 
-      if( uartReadByte( uart, &receiveByte ) ) {
+   case PARSER_RECEIVING:
+
+      if( uartReadByte( instance->uart, &receiveByte ) ) {
 
          //uartWriteByte( UART_DEBUG, receiveByte ); // TODO: DEBUG
          /*            if( (instance->stringIndex) <= 100 ){
                         receiveBuffer[instance->stringIndex] = receiveByte;
                      }
          */
-         if( (instance->string)[(instance->stringIndex)] == receiveByte ) {
+         if( (instance->stringPattern)[(instance->stringIndex)] == receiveByte ) {
 
             (instance->stringIndex)++;
 
-            if( (instance->stringIndex) == (instance->stringSize - 1) ) {
-               instance->state = PARSER_RECEIVE_STRING_RECEIVED_OK;
+            if( (instance->stringIndex) == (instance->stringPatternLen - 1) ) {
+               instance->state = PARSER_RECEIVED_OK;
 
 //                  receiveBuffer[instance->stringIndex] = '\0';
 
@@ -89,22 +106,19 @@ waitForReceiveStringOrTimeoutState_t waitForReceiveStringOrTimeout(
       }
 
       if( delayRead( &(instance->delay) ) ) {
-         instance->state = PARSER_RECEIVE_STRING_TIMEOUT;
+         instance->state = PARSER_TIMEOUT;
          //uartWriteString( UART_DEBUG, "\r\n" ); // TODO: DEBUG
       }
 
       break;
 
-   case PARSER_RECEIVE_STRING_RECEIVED_OK:
-      instance->state = PARSER_RECEIVE_STRING_CONFIG;
-      break;
-
-   case PARSER_RECEIVE_STRING_TIMEOUT:
-      instance->state = PARSER_RECEIVE_STRING_CONFIG;
+   case PARSER_RECEIVED_OK:
+   case PARSER_TIMEOUT:
+      //instance->state = PARSER_START; // Eso hacia que se autolance el parser
       break;
 
    default:
-      instance->state = PARSER_RECEIVE_STRING_CONFIG;
+      instance->state = PARSER_STOPPED;
       break;
    }
 
@@ -116,28 +130,31 @@ waitForReceiveStringOrTimeoutState_t waitForReceiveStringOrTimeout(
 // Devuelve TRUE cuando recibio la cadena patron, si paso el tiempo timeout
 // en milisegundos antes de recibir el patron devuelve FALSE.
 // No almacena los datos recibidos!! Simplemente espera a recibir cierto patron.
-bool_t waitForReceiveStringOrTimeoutBlocking(
-   uartMap_t uart, char* string, uint16_t stringSize, tick_t timeout )
+bool_t waitForReceiveStringOrTimeoutBlocking( uartMap_t uart, 
+                                              char* stringPattern, 
+                                              uint16_t stringPatternLen, 
+                                              tick_t timeout )
 {
 
    bool_t retVal = TRUE; // True if OK
 
-   waitForReceiveStringOrTimeout_t waitText;
-   waitForReceiveStringOrTimeoutState_t waitTextState;
+   parser_t parser;
+   parserStatus_t parserStatus = PARSER_START;
 
-   waitTextState = PARSER_RECEIVE_STRING_CONFIG;
+   parserInit( &parser,          // Instance 
+               uart,             // UART
+               stringPattern,    // String
+               stringPatternLen, // String lenght
+               timeout );        // Timeout
 
-   waitText.state = PARSER_RECEIVE_STRING_CONFIG;
-   waitText.string =  string;
-   waitText.stringSize = stringSize;
-   waitText.timeout = timeout;
-
-   while( waitTextState != PARSER_RECEIVE_STRING_RECEIVED_OK &&
-          waitTextState != PARSER_RECEIVE_STRING_TIMEOUT ) {
-      waitTextState = waitForReceiveStringOrTimeout( uart, &waitText );
+   parserStart( &parser ); 
+                
+   while( parserStatus != PARSER_RECEIVED_OK &&
+          parserStatus != PARSER_TIMEOUT ) {
+      parserStatus = waitForReceiveStringOrTimeout( uart, &parser );
    }
 
-   if( waitTextState == PARSER_RECEIVE_STRING_TIMEOUT ) {
+   if( parserStatus == PARSER_TIMEOUT ) {
       retVal = FALSE;
    }
 
@@ -145,10 +162,11 @@ bool_t waitForReceiveStringOrTimeoutBlocking(
 }
 
 
+
 // Store bytes until receive a given pattern
-waitForReceiveStringOrTimeoutState_t receiveBytesUntilReceiveStringOrTimeout(
-   uartMap_t uart, waitForReceiveStringOrTimeout_t* instance,
-   char* receiveBuffer, uint32_t* receiveBufferSize )
+parserStatus_t parserSaveBytesUntilPatternMatchOrTimeout( parser_t* instance,
+                                                          char* receiveBuffer,
+                                                          uint32_t* receiveBufferSize )
 {
 
    uint8_t receiveByte;
@@ -158,38 +176,38 @@ waitForReceiveStringOrTimeoutState_t receiveBytesUntilReceiveStringOrTimeout(
 
    switch( instance->state ) {
 
-   case PARSER_RECEIVE_STRING_CONFIG:
-
-      delayInit( &(instance->delay), instance->timeout );
-
-      instance->stringIndex = 0;
-      i = 0;
-
-      instance->state = PARSER_RECEIVE_STRING_RECEIVING;
-
+   case PARSER_STOPPED:
       break;
 
-   case PARSER_RECEIVE_STRING_RECEIVING:
+   case PARSER_START:
+      uartRxFlush( instance->uart );
+      delayInit( &(instance->delay), instance->timeout );
+      instance->stringIndex = 0;
+      i = 0;
+      instance->state = PARSER_RECEIVING;
+      break;
 
-      if( uartReadByte( uart, &receiveByte ) ) {
+   case PARSER_RECEIVING:
+
+      if( uartReadByte( instance->uart, &receiveByte ) ) {
 
          //uartWriteByte( UART_DEBUG, receiveByte ); // TODO: DEBUG
          if( i < *receiveBufferSize ) {
             receiveBuffer[i] = receiveByte;
             i++;
          } else {
-            instance->state = PARSER_RECEIVE_STRING_FULL_BUFFER;
+            instance->state = PARSER_FULL_BUFFER;
             *receiveBufferSize = i;
             i = 0;
             return instance->state;
          }
 
-         if( (instance->string)[(instance->stringIndex)] == receiveByte ) {
+         if( (instance->stringPattern)[(instance->stringIndex)] == receiveByte ) {
 
             (instance->stringIndex)++;
 
-            if( (instance->stringIndex) == (instance->stringSize - 1) ) {
-               instance->state = PARSER_RECEIVE_STRING_RECEIVED_OK;
+            if( (instance->stringIndex) == (instance->stringPatternLen - 1) ) {
+               instance->state = PARSER_RECEIVED_OK;
                *receiveBufferSize = i;
                /*
                // TODO: For debug purposes
@@ -206,7 +224,7 @@ waitForReceiveStringOrTimeoutState_t receiveBytesUntilReceiveStringOrTimeout(
       }
 
       if( delayRead( &(instance->delay) ) ) {
-         instance->state = PARSER_RECEIVE_STRING_TIMEOUT;
+         instance->state = PARSER_TIMEOUT;
          //uartWriteString( UART_DEBUG, "\r\n" ); // TODO: DEBUG
          *receiveBufferSize = i;
          i = 0;
@@ -214,20 +232,14 @@ waitForReceiveStringOrTimeoutState_t receiveBytesUntilReceiveStringOrTimeout(
 
       break;
 
-   case PARSER_RECEIVE_STRING_RECEIVED_OK:
-      instance->state = PARSER_RECEIVE_STRING_CONFIG;
-      break;
-
-   case PARSER_RECEIVE_STRING_TIMEOUT:
-      instance->state = PARSER_RECEIVE_STRING_CONFIG;
-      break;
-
-   case PARSER_RECEIVE_STRING_FULL_BUFFER:
-      instance->state = PARSER_RECEIVE_STRING_CONFIG;
+   case PARSER_RECEIVED_OK:
+   case PARSER_TIMEOUT:
+   case PARSER_FULL_BUFFER:
+      //instance->state = PARSER_START; // Eso hacia que se autolance el parser
       break;
 
    default:
-      instance->state = PARSER_RECEIVE_STRING_CONFIG;
+      instance->state = PARSER_STOPPED;
       break;
    }
 
@@ -242,31 +254,32 @@ waitForReceiveStringOrTimeoutState_t receiveBytesUntilReceiveStringOrTimeout(
 // Devuelve TRUE cuando recibio la cadena patron, si paso el tiempo timeout
 // en milisegundos antes de recibir el patron devuelve FALSE.
 bool_t receiveBytesUntilReceiveStringOrTimeoutBlocking(
-   uartMap_t uart, char* string, uint16_t stringSize,
+   uartMap_t uart, char* stringPattern, uint16_t stringPatternLen,
    char* receiveBuffer, uint32_t* receiveBufferSize,
    tick_t timeout )
 {
 
    bool_t retVal = TRUE; // True if OK
 
-   waitForReceiveStringOrTimeout_t waitText;
-   waitForReceiveStringOrTimeoutState_t waitTextState;
+   parser_t parser;
+   parserStatus_t parserStatus = PARSER_START;
 
-   waitTextState = PARSER_RECEIVE_STRING_CONFIG;
+   parserInit( &parser,          // Instance 
+               uart,             // UART
+               stringPattern,    // String
+               stringPatternLen, // String lenght
+               timeout );        // Timeout
 
-   waitText.state = PARSER_RECEIVE_STRING_CONFIG;
-   waitText.string =  string;
-   waitText.stringSize = stringSize;
-   waitText.timeout = timeout;
+   parserStart( &parser ); 
 
-   while( waitTextState != PARSER_RECEIVE_STRING_RECEIVED_OK &&
-          waitTextState != PARSER_RECEIVE_STRING_TIMEOUT ) {
-      waitTextState = receiveBytesUntilReceiveStringOrTimeout(
-                         uart, &waitText,
+   while( parserStatus != PARSER_RECEIVED_OK &&
+          parserStatus != PARSER_TIMEOUT ) {
+      parserStatus = receiveBytesUntilReceiveStringOrTimeout(
+                         uart, &parser,
                          receiveBuffer, receiveBufferSize );
    }
 
-   if( waitTextState == PARSER_RECEIVE_STRING_TIMEOUT ) {
+   if( parserStatus == PARSER_TIMEOUT ) {
       retVal = FALSE;
    }
 

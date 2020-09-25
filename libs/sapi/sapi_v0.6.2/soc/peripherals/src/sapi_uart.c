@@ -306,16 +306,27 @@ bool_t uartRxReady( uartMap_t uart )
 {
    return Chip_UART_ReadLineStatus( lpcUarts[uart].uartAddr ) & UART_LSR_RDR;
 }
+
 // Return TRUE if have space in TX FIFO
 bool_t uartTxReady( uartMap_t uart )
 {
    return Chip_UART_ReadLineStatus( lpcUarts[uart].uartAddr ) & UART_LSR_THRE;
 }
+
 // Read from RX FIFO
 uint8_t uartRxRead( uartMap_t uart )
 {
    return Chip_UART_ReadByte( lpcUarts[uart].uartAddr );
 }
+
+// Read all bytes from RX FIFO and discards
+void uartRxFlush( uartMap_t uart )
+{
+   while ( uartRxReady(uart) ) {
+      uartRxRead(uart);
+   }
+}
+
 // Write in TX FIFO
 void uartTxWrite( uartMap_t uart, const uint8_t value )
 {
