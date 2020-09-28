@@ -35,6 +35,8 @@
  * Date: 2016-11-06
  */
 
+/*==================[inclusions]=============================================*/
+
 #include "sapi.h"         /* <= sAPI header */
 
 void checkForPressedKeys( void* unused )
@@ -69,6 +71,7 @@ int main(void){
    /* ------------- REPETIR POR SIEMPRE ------------- */
 
    while(1) {
+
       /* Do Keyboard tasks */      
       usbDeviceKeyboardTasks();
       
@@ -80,3 +83,5 @@ int main(void){
       por ningun S.O. */
    return 0 ;
 }
+
+/*==================[end of file]============================================*/

@@ -92,12 +92,13 @@ int main(void){
    usbDeviceKeyboardCheckKeysCallbackSet( checkForPressedKeys );
    
    /* ------------- REPETIR POR SIEMPRE ------------- */
+
    while(1) {
 
       /* Do Keyboard tasks */      
       usbDeviceKeyboardTasks();
       
-      /* Sleep until next IRQ happens */
+      /* Sleep until next Interrupt happens */
       sleepUntilNextInterrupt();
    }
 
