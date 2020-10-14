@@ -387,5 +387,12 @@ char* uintToAsciiHex( uint64_t value, char* result, uint8_t bitSize )
 
    return result;
 }
+//-----------------------------------------------------------------------------
+
+// Aswer true if char c is an ASCII digit (ASCII between '0' and '9')
+bool charIsDigit( char c )
+{
+    return ( (c >= '0') && (c <= '9') );
+}
 
 /*==================[end of file]============================================*/

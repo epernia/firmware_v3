@@ -37,90 +37,37 @@
 
 /*==================[inclusions]=============================================*/
 
-#include "sapi_delay.h"
-#include "sapi_datatypes.h"
-#include "sapi_uart.h"
-
-/*==================[c++]====================================================*/
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <sapi_datatypes.h>
+#include <sapi_delay.h>
 
 /*==================[macros]=================================================*/
 
-#define waitForReceiveStringOrTimeout_t         parser_t
-#define waitForReceiveStringOrTimeoutState_t    parserStatus_t
-#define waitForReceiveStringOrTimeout(param1,param2)   parserPatternMatchOrTimeout(param2)
-#define receiveBytesUntilReceiveStringOrTimeout(param1,param2,param3,param4)   parserSaveBytesUntilPatternMatchOrTimeout(param2,param3,param4)
-    
 /*==================[typedef]================================================*/
 
 typedef enum{
-   PARSER_RECEIVING   =  3,
-   PARSER_STOPPED     =  2,
-   PARSER_START       =  1,
-   PARSER_RECEIVED_OK =  0,
-   PARSER_TIMEOUT     = -1,
-   PARSER_FULL_BUFFER = -2,
+   PARSER_PATTERN_MATCH,
+   PARSER_TIMEOUT,
+   PARSER_RECEIVING,
 } parserStatus_t;
 
 typedef struct{
    parserStatus_t state;
-   char*     stringPattern;
-   uint16_t  stringPatternLen;
-   uint16_t  stringIndex;
-   tick_t    timeout;
-   delay_t   delay;
-   uartMap_t uart;
+   char const*    stringPattern;
+   uint16_t       stringPatternLen;
+   uint16_t       stringIndex;
+   tick_t         timeout;
+   delay_t        delay;
 } parser_t;
 
 /*==================[external functions declaration]=========================*/
 
-void parserInit( parser_t* instance, uartMap_t uart,
-                 char* stringPattern, uint16_t stringPatternLen, 
+// Initialize parser
+void parserInit( parser_t* instance,
+                 char const* stringPattern, uint16_t stringPatternLen, 
                  tick_t timeout );
 
-void parserStart( parser_t* instance );
-
-void parserStop( parser_t* instance );
-
 // Check for Receive a given pattern
-
-parserStatus_t parserPatternMatchOrTimeout( parser_t* instance );
-
-// Recibe bytes hasta que llegue el string patron que se le manda en el
-// parametro string, stringSize es la cantidad de caracteres del string.
-// Devuelve TRUE cuando recibio la cadena patron, si paso el tiempo timeout
-// en milisegundos antes de recibir el patron devuelve FALSE.
-// No almacena los datos recibidos!! Simplemente espera a recibir cierto patron.
-
-bool_t waitForReceiveStringOrTimeoutBlocking( uartMap_t uart, 
-                                              char* stringPattern, 
-                                              uint16_t stringPatternLen, 
-                                              tick_t timeout );
-
-// Store bytes until receive a given pattern
-
-parserStatus_t parserSaveBytesUntilPatternMatchOrTimeout( parser_t* instance,
-   char* receiveBuffer, uint32_t* receiveBufferSize );
-
-// Guarda todos los bytes que va recibiendo hasta que llegue el string
-// patron que se le manda en el parametro string, stringSize es la cantidad
-// de caracteres del string.
-// receiveBuffer es donde va almacenando los caracteres recibidos y
-// receiveBufferSize es el tamaño de buffer receiveBuffer.
-// Devuelve TRUE cuando recibio la cadena patron, si paso el tiempo timeout
-// en milisegundos antes de recibir el patron devuelve FALSE.
-
-bool_t receiveBytesUntilReceiveStringOrTimeoutBlocking(
-   uartMap_t uart, char* stringPattern, uint16_t stringPatternLen,
-   char* receiveBuffer, uint32_t* receiveBufferSize,
-   tick_t timeout );
-
-/*==================[c++]====================================================*/
-#ifdef __cplusplus
-}
-#endif
+parserStatus_t parserUpdate( parser_t* instance, char const receivedChar );
 
 /*==================[end of file]============================================*/
 #endif

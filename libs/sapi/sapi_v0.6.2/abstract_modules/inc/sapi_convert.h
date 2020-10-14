@@ -56,6 +56,11 @@ char* uintToAsciiHex( uint64_t value, uint8_t bitSize );
 extern "C" {
 #endif
 
+/*==================[Macros]=================================================*/
+
+#define charDigitToIntDigit(c)   ((c)-'0')
+#define intDigitToCharDigit(n)   ((n)+'0')
+
 /*==================[typedef]================================================*/
 
 typedef enum {
@@ -97,6 +102,9 @@ char* floatToStringGlobal( double value, uint32_t decDigits );
    
 // Funcion no reentrante. Cuidado con el RTOS!!!
 char* uintToAsciiHexGlobal( uint64_t value, uint8_t bitSize );
+
+// Aswer true if char c is an ASCII digit (ASCII between '0' and '9')
+bool charIsDigit( char c );
 
 /*==================[c++]====================================================*/
 #ifdef __cplusplus

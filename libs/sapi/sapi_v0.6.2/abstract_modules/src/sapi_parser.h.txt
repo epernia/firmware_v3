@@ -104,7 +104,6 @@ bool_t waitForReceiveStringOrTimeoutBlocking( uartMap_t uart,
 parserStatus_t parserSaveBytesUntilPatternMatchOrTimeout( parser_t* instance,
    char* receiveBuffer, uint32_t* receiveBufferSize );
 
-
 // Guarda todos los bytes que va recibiendo hasta que llegue el string
 // patron que se le manda en el parametro string, stringSize es la cantidad
 // de caracteres del string.
