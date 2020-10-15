@@ -16,6 +16,7 @@ typedef enum{
     WIFI_STATE_MODULE_NOT_DETECTED,
     WIFI_STATE_MODULE_INIT,
     WIFI_STATE_MODULE_CHECK_AP_CONNECTION,
+    WIFI_STATE_OBTAIN_SATION_IP.
     WIFI_STATE_MODULE_NOT_CONNECTED,
     WIFI_STATE_COMMUNICATION,
 } wifiFsmComState_t;
@@ -38,7 +39,11 @@ static void runStateWifiModuleNotDetected();
 static void runStateWifiModuleInit();
 
 static void runStateWifiModuleCheckAPConnection();
+static void runStateWifiModuleObtainSationIP();
+
 static void runStateWifiModuleNotConnected();
+
+static void runStateWifiCommunication();
 
 //=====[Implementations of public functions]===================================
 
@@ -64,6 +69,9 @@ void wifiComUpdate()
         break;
         case WIFI_STATE_MODULE_CHECK_AP_CONNECTION:
             runStateWifiModuleCheckAPConnection();
+        break;
+        case WIFI_STATE_OBTAIN_SATION_IP:
+            runStateWifiModuleObtainSationIP();
         break;
         case WIFI_STATE_MODULE_NOT_CONNECTED:
             runStateWifiModuleNotConnected();
@@ -193,10 +201,48 @@ static void runStateWifiModuleInit()
     }
 }
 
-// Chequea si esta conectado y tiene IP.
-// Si esta conectado y tiene IP pasa al estado WIFI_STATE_COMMUNICATIONS_INIT
+// Chequea si esta conectado.
+// Si esta conectadopasa al estado: WIFI_STATE_OBTAIN_SATION_IP
 // Si no esta conectado pasa al estado: WIFI_STATE_MODULE_NOT_CONNECTED
 static void runStateWifiModuleCheckAPConnection()
+{
+    static bool stateEntryFlag = false;
+    // ENTRY ----------------------------------------
+    if( stateEntryFlag == false ){
+        if( wifiModuleStartIsConnectedWithAP() != WIFI_MODULE_INIT_STARTED ){
+            return;
+        }
+        stateEntryFlag = true;
+    }
+
+    // CHECK TRANSITION CONDITIONS ------------------
+    switch( wifiModuleIsConnectedWithAPResponse() ) {
+        case WIFI_MODULE_IS_CONNECTED:
+            pcSerialComStringWrite( "Wi-Fi module is connected.\r\n" );
+            wifiComFsmState = WIFI_STATE_OBTAIN_SATION_IP;
+        break;
+        case WIFI_MODULE_IS_NOT_CONNECTED:
+            pcSerialComStringWrite( "Wi-Fi module is not connected.\r\n" );
+            wifiComFsmState = WIFI_STATE_MODULE_NOT_CONNECTED;
+        break;
+        case WIFI_MODULE_NOT_DETECTED:
+            wifiComFsmState = WIFI_STATE_MODULE_NOT_DETECTED;
+        break;
+        case WIFI_MODULE_BUSY: // Module busy, not do anything
+        default:
+        break;
+    }
+
+    // EXIT ------------------------------------------
+    if( wifiComFsmState != WIFI_STATE_MODULE_CHECK_AP_CONNECTION ){
+        stateEntryFlag = false;
+    }
+}
+
+// Obtiene y muestra la IP de Station del módulo.
+// Si esta conectado y tiene IP pasa al estado WIFI_STATE_COMMUNICATIONS_INIT
+// Si no esta conectado pasa al estado: WIFI_STATE_MODULE_NOT_CONNECTED
+static void runStateWifiModuleObtainSationIP();
 {
     static bool stateEntryFlag = false;
     char ip[20] = ""; 
@@ -287,7 +333,7 @@ static void runStateWifiModuleNotConnected()
             case WIFI_MODULE_CONNECT_AP_ERR_CONN_FAIL:
                 pcSerialComStringWrite( "\r\nERROR: Connection failed. " );
                 isWaitingForNextTry = true;
-            break;            
+            break;
             // Module busy, not do anything
             case WIFI_MODULE_BUSY:
             default:

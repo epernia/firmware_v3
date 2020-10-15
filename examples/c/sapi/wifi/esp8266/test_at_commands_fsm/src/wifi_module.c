@@ -152,11 +152,18 @@ char const* wifiModuleGetAP_Password()
 // WIFI_MODULE_DETECTION_STARTED
 // WIFI_MODULE_BUSY
 wifiModuleRequestResult_t wifiModuleStartDetection()
-{
-    return esp8266SendCommandWithResponse(
-              "AT\r\n", "OK\r\n", 
-              WIFI_MODULE_DETECTION_STARTED,
-              ESP8266_MOST_COMMON_AT_CMD_TIMEOUT );
+{/*
+    char receivedChar = '\0';
+    pcSerialComStringWrite( "wifiModuleStartDetection()\r\n" );
+    printf("Type:\r\n");
+    printf("  '1' for WIFI_MODULE_DETECTION_STARTED\r\n");
+    printf("  Other for WIFI_MODULE_BUSY\r\n");
+    while( receivedChar == '\0' ) receivedChar = pcSerialComCharRead();
+    switch ( receivedChar ) {
+        case '1': return WIFI_MODULE_DETECTION_STARTED; break;
+        default:  return WIFI_MODULE_BUSY; break;
+    }*/
+    return WIFI_MODULE_DETECTION_STARTED;
 }
 
 // Responses:
@@ -165,7 +172,19 @@ wifiModuleRequestResult_t wifiModuleStartDetection()
 // WIFI_MODULE_BUSY
 wifiModuleRequestResult_t wifiModuleDetectionResponse()
 {
-    return esp8266CheckCommandResponse( WIFI_MODULE_DETECTED );
+    char receivedChar = '\0';
+    pcSerialComStringWrite( "wifiModuleDetectionResponse()\r\n" );
+    printf("Type:\r\n");
+    printf("  '1' for WIFI_MODULE_DETECTED\r\n");
+    printf("  '2' for WIFI_MODULE_NOT_DETECTED\r\n");
+    printf("  Other for WIFI_MODULE_BUSY\r\n");
+    while( receivedChar == '\0' ) receivedChar = pcSerialComCharRead();
+    switch ( receivedChar ) {
+        case '1': return WIFI_MODULE_DETECTED; break;
+        case '2': return WIFI_MODULE_NOT_DETECTED; break;
+        default:  return WIFI_MODULE_BUSY; break;
+    }
+    //return WIFI_MODULE_DETECTED;
 }
 
 // Reset module ---------------------------------------------------------------
@@ -174,10 +193,18 @@ wifiModuleRequestResult_t wifiModuleDetectionResponse()
 // WIFI_MODULE_RESET_STARTED
 // WIFI_MODULE_BUSY
 wifiModuleRequestResult_t wifiModuleStartReset()
-{
-    return esp8266SendCommandWithResponse( "AT+RST\r\n", "OK\r\n\r\nready\r\n", 
-                                           WIFI_MODULE_RESET_STARTED,
-                                           ESP8266_AT_RST_CMD_TIMEOUT );
+{/*
+    char receivedChar = '\0';
+    pcSerialComStringWrite( "wifiModuleStartReset()\r\n" );
+    printf("Type:\r\n");
+    printf("  '1' for WIFI_MODULE_RESET_STARTED\r\n");
+    printf("  Other for WIFI_MODULE_BUSY\r\n");
+    while( receivedChar == '\0' ) receivedChar = pcSerialComCharRead();
+    switch ( receivedChar ) {
+        case '1': return WIFI_MODULE_RESET_STARTED; break;
+        default:  return WIFI_MODULE_BUSY; break;
+    }*/
+    return WIFI_MODULE_RESET_STARTED;
 }
 
 // Responses:
@@ -186,7 +213,19 @@ wifiModuleRequestResult_t wifiModuleStartReset()
 // WIFI_MODULE_BUSY
 wifiModuleRequestResult_t wifiModuleResetResponse()
 {
-    return esp8266CheckCommandResponse( WIFI_MODULE_RESET_COMPLETE );
+    char receivedChar = '\0';
+    pcSerialComStringWrite( "wifiModuleResetResponse()\r\n" );
+    printf("Type:\r\n");
+    printf("  '1' for WIFI_MODULE_RESET_COMPLETE\r\n");
+    printf("  '2' for WIFI_MODULE_NOT_DETECTED\r\n");
+    printf("  Other for WIFI_MODULE_BUSY\r\n");
+    while( receivedChar == '\0' ) receivedChar = pcSerialComCharRead();
+    switch ( receivedChar ) {
+        case '1': return WIFI_MODULE_RESET_COMPLETE; break;
+        case '2': return WIFI_MODULE_NOT_DETECTED; break;
+        default:  return WIFI_MODULE_BUSY; break;
+    }
+    //return WIFI_MODULE_RESET_COMPLETE;
 }
 
 // Initialize module ----------------------------------------------------------
@@ -195,11 +234,18 @@ wifiModuleRequestResult_t wifiModuleResetResponse()
 // WIFI_MODULE_INIT_STARTED
 // WIFI_MODULE_BUSY
 wifiModuleRequestResult_t wifiModuleStartInit()
-{
-    return esp8266SendCommandWithResponse(
-              "AT+CWMODE=1\r\n", "OK\r\n", 
-              WIFI_MODULE_INIT_STARTED,
-              ESP8266_MOST_COMMON_AT_CMD_TIMEOUT );
+{/*
+    char receivedChar = '\0';
+    pcSerialComStringWrite( "wifiModuleStartInit()\r\n" );
+    printf("Type:\r\n");
+    printf("  '1' for WIFI_MODULE_INIT_STARTED\r\n");
+    printf("  Other for WIFI_MODULE_BUSY\r\n");
+    while( receivedChar == '\0' ) receivedChar = pcSerialComCharRead();
+    switch ( receivedChar ) {
+        case '1': return WIFI_MODULE_INIT_STARTED; break;
+        default:  return WIFI_MODULE_BUSY; break;
+    }*/
+    return WIFI_MODULE_INIT_STARTED;
 }
 
 // Responses:
@@ -208,7 +254,19 @@ wifiModuleRequestResult_t wifiModuleStartInit()
 // WIFI_MODULE_BUSY
 wifiModuleRequestResult_t wifiModuleInitResponse()
 {
-    return esp8266CheckCommandResponse( WIFI_MODULE_INIT_COMPLETE );
+    char receivedChar = '\0';
+    pcSerialComStringWrite( "wifiModuleInitResponse()\r\n" );
+    printf("Type:\r\n");
+    printf("  '1' for WIFI_MODULE_INIT_COMPLETE\r\n");
+    printf("  '2' for WIFI_MODULE_NOT_DETECTED\r\n");
+    printf("  Other for WIFI_MODULE_BUSY\r\n");
+    while( receivedChar == '\0' ) receivedChar = pcSerialComCharRead();
+    switch ( receivedChar ) {
+        case '1': return WIFI_MODULE_INIT_COMPLETE; break;
+        case '2': return WIFI_MODULE_NOT_DETECTED; break;
+        default:  return WIFI_MODULE_BUSY; break;
+    }
+    //return WIFI_MODULE_INIT_COMPLETE;
 }
 
 // AP connection --------------------------------------------------------------
@@ -219,11 +277,18 @@ wifiModuleRequestResult_t wifiModuleInitResponse()
 // WIFI_MODULE_IS_CONNECTED_AP_STARTED
 // WIFI_MODULE_BUSY
 wifiModuleRequestResult_t wifiModuleStartIsConnectedWithAP()
-{
-    return esp8266SendCommandWithResponse(
-              "AT+CIPSTATUS\r\n", "STATUS:\r\n\r\nOK\r\n", 
-              WIFI_MODULE_IS_CONNECTED_AP_STARTED,
-              ESP8266_MOST_COMMON_AT_CMD_TIMEOUT );
+{/*
+    char receivedChar = '\0';
+    pcSerialComStringWrite( "wifiModuleStartIsConnectedWithAP()\r\n" );
+    printf("Type:\r\n");
+    printf("  '1' for WIFI_MODULE_IS_CONNECTED_AP_STARTED\r\n");
+    printf("  Other for WIFI_MODULE_BUSY\r\n");
+    while( receivedChar == '\0' ) receivedChar = pcSerialComCharRead();
+    switch ( receivedChar ) {
+        case '1': return WIFI_MODULE_IS_CONNECTED_AP_STARTED; break;
+        default:  return WIFI_MODULE_BUSY; break;
+    }*/
+    return WIFI_MODULE_IS_CONNECTED_AP_STARTED;
 }
 
 // Responses:
@@ -233,36 +298,21 @@ wifiModuleRequestResult_t wifiModuleStartIsConnectedWithAP()
 // WIFI_MODULE_BUSY
 wifiModuleRequestResult_t wifiModuleIsConnectedWithAPResponse()
 {
-    static esp8266StationStatus_t status = ESP8266_STATUS_AP_NOT_CONNECTED;
     char receivedChar = '\0';
-    // Leo un caracter desde la UART, si no hay nada para leer receivedChar queda en NULL como estaba inicializada
-    esp8266UartByteRead( &receivedChar );
-    // Si el caracter recibido es digito me lo guardo 
-    if( charIsDigit(receivedChar) ) {
-        status = (esp8266StationStatus_t) charDigitToIntDigit(receivedChar);
+    pcSerialComStringWrite( "wifiModuleIsConnectedWithAPResponse()\r\n" );
+    printf("Type:\r\n");
+    printf("  '1' for WIFI_MODULE_IS_CONNECTED\r\n");
+    printf("  '2' for WIFI_MODULE_IS_NOT_CONNECTED\r\n");
+    printf("  '3' for WIFI_MODULE_NOT_DETECTED\r\n");
+    printf("  Other for WIFI_MODULE_BUSY\r\n");
+    while( receivedChar == '\0' ) receivedChar = pcSerialComCharRead();
+    switch ( receivedChar ) {
+        case '1': return WIFI_MODULE_IS_CONNECTED; break;
+        case '2': return WIFI_MODULE_IS_NOT_CONNECTED; break;
+        case '3': return WIFI_MODULE_NOT_DETECTED; break;
+        default:  return WIFI_MODULE_BUSY; break;
     }
-    // Actualizao el parser pasandole el caracter recibido
-    parserStatus = parserUpdate( &parser, receivedChar );
-    // Actuo segun el estado del parser
-    switch( parserStatus ) {
-        case PARSER_PATTERN_MATCH:
-            esp8266State = ESP8266_IDLE;
-            if( status == ESP8266_STATUS_AP_NOT_CONNECTED ) {
-                status = ESP8266_STATUS_AP_NOT_CONNECTED;
-                return WIFI_MODULE_IS_NOT_CONNECTED;
-            } else {
-                status = ESP8266_STATUS_AP_NOT_CONNECTED;
-                return WIFI_MODULE_IS_CONNECTED;
-            }
-        break;
-        case PARSER_TIMEOUT:
-            esp8266State = ESP8266_IDLE;
-            return WIFI_MODULE_NOT_DETECTED;
-        break;
-        default:
-            return WIFI_MODULE_BUSY;
-        break;
-    }
+    //return WIFI_MODULE_IS_CONNECTED;
 }
 
 // Connect with AP
@@ -271,21 +321,18 @@ wifiModuleRequestResult_t wifiModuleIsConnectedWithAPResponse()
 // WIFI_MODULE_CONNECT_AP_STARTED
 // WIFI_MODULE_BUSY
 wifiModuleRequestResult_t wifiModuleStartConnectWithAP()
-{
-    char cmd[100] = "AT+CWJAP=\"";
-    strcat( cmd, credential_ssid );
-    strcat( cmd, "\",\"" );
-    strcat( cmd, credential_password );
-    strcat( cmd, "\"\r\n" );    
-    // Estas lineas forman cmd = AT+CWJAP="userSSID","userPassword"\r\n
-    
-    status = WIFI_MODULE_IS_NOT_CONNECTED; // Status default initial value
- 
-    return esp8266SendCommandWithTwoResponses(
-              cmd, "WIFI CONNECTED\r\nWIFI GOT IP\r\n",
-              "+CWJAP:\r\n\r\nFAIL\r\n",
-              WIFI_MODULE_CONNECT_AP_STARTED,
-              ESP8266_AT_CWJAP_CMD_TIMEOUT );
+{/*
+    char receivedChar = '\0';
+    pcSerialComStringWrite( "wifiModuleStartConnectWithAP()\r\n" );
+    printf("Type:\r\n");
+    printf("  '1' for WIFI_MODULE_CONNECT_AP_STARTED\r\n");
+    printf("  Other for WIFI_MODULE_BUSY\r\n");
+    while( receivedChar == '\0' ) receivedChar = pcSerialComCharRead();
+    switch ( receivedChar ) {
+        case '1': return WIFI_MODULE_CONNECT_AP_STARTED; break;
+        default:  return WIFI_MODULE_BUSY; break;
+    }*/
+    return WIFI_MODULE_CONNECT_AP_STARTED;
 }
 
 // Responses:
@@ -298,43 +345,30 @@ wifiModuleRequestResult_t wifiModuleStartConnectWithAP()
 // WIFI_MODULE_NOT_DETECTED
 // WIFI_MODULE_BUSY
 wifiModuleRequestResult_t wifiModuleConnectWithAPResponse()
-{    
+{
     char receivedChar = '\0';
-    // Leo un caracter desde la UART, si no hay nada para leer receivedChar queda en NULL como estaba inicializada
-    esp8266UartByteRead( &receivedChar );
-    // Si el caracter recibido es digito me lo guardo 
-    if( charIsDigit(receivedChar) ) {
-        status = (wifiModuleRequestResult_t) charDigitToIntDigit(receivedChar);
+    pcSerialComStringWrite( "wifiModuleConnectWithAPResponse()\r\n" );
+    printf("Type:\r\n");
+    printf("  '1' for WIFI_MODULE_IS_CONNECTED\r\n");
+    printf("  '2' for WIFI_MODULE_IS_NOT_CONNECTED\r\n");
+    printf("  '3' for WIFI_MODULE_CONNECT_AP_ERR_TIMEOUT\r\n");
+    printf("  '4' for WIFI_MODULE_CONNECT_AP_ERR_WRONG_PASS\r\n");
+    printf("  '5' for WIFI_MODULE_CONNECT_AP_ERR_AP_NOT_FOUND\r\n");
+    printf("  '6' for WIFI_MODULE_CONNECT_AP_ERR_CONN_FAIL\r\n");
+    printf("  '7' for WIFI_MODULE_NOT_DETECTED\r\n");
+    printf("  Other for WIFI_MODULE_BUSY\r\n");
+    while( receivedChar == '\0' ) receivedChar = pcSerialComCharRead();
+    switch ( receivedChar ) {
+        case '1': return WIFI_MODULE_IS_CONNECTED; break;
+        case '2': return WIFI_MODULE_IS_NOT_CONNECTED; break;
+        case '3': return WIFI_MODULE_CONNECT_AP_ERR_TIMEOUT; break;
+        case '4': return WIFI_MODULE_CONNECT_AP_ERR_WRONG_PASS; break;
+        case '5': return WIFI_MODULE_CONNECT_AP_ERR_AP_NOT_FOUND; break;
+        case '6': return WIFI_MODULE_CONNECT_AP_ERR_CONN_FAIL; break;
+        case '7': return WIFI_MODULE_NOT_DETECTED; break;
+        default:  return WIFI_MODULE_BUSY; break;
     }
-    // Actualizo los 2 parsers pasándole a cada uno el mismo caracter que llego, por esto decimos que actua en paralelo
-    parserStatus = parserUpdate( &parser, receivedChar );
-    parser2Status = parserUpdate( &parser2, receivedChar );
-    // Actuo segun los resultados de ambos parsers
-    // Matcheo parser 1, entonces se conecto bien
-    if( parserStatus == PARSER_PATTERN_MATCH ) {
-        esp8266State = ESP8266_IDLE;
-        return WIFI_MODULE_IS_CONNECTED;
-    } else 
-    // Matcheo parser 2, entonces fallo al intentar conectar al AP, retorno la causa de falla
-    if( parser2Status == PARSER_PATTERN_MATCH ) {
-        esp8266State = ESP8266_IDLE;
-        //printf("Satatus: %d\r\n", status); // Debug
-        if( status >= WIFI_MODULE_CONNECT_AP_ERR_TIMEOUT &&
-                status <= WIFI_MODULE_CONNECT_AP_ERR_CONN_FAIL ) {
-            return status;
-        } else {
-            return WIFI_MODULE_IS_NOT_CONNECTED;
-        }
-     } else 
-     // Alguno de los 2 parser salio por timeout
-     if ( parserStatus == PARSER_TIMEOUT || parser2Status == PARSER_TIMEOUT ) {
-         esp8266State = ESP8266_IDLE;
-         return WIFI_MODULE_NOT_DETECTED;
-     } 
-     // Por defecto si ninguno de los parsers termino retorno que el modulo esta ocupado
-     else {
-         return WIFI_MODULE_BUSY; 
-     }
+    //return WIFI_MODULE_IS_CONNECTED;
 }
 
 
@@ -344,11 +378,18 @@ wifiModuleRequestResult_t wifiModuleConnectWithAPResponse()
 // WIFI_MODULE_IP_GET_STARTED
 // WIFI_MODULE_BUSY
 wifiModuleRequestResult_t wifiModuleStartIpGet()
-{
-    return esp8266SendCommandWithResponse(
-              "AT+CIFSR\r\n", "+CIFSR:STAIP,\"\"\r\n\r\nOK\r\n", 
-              WIFI_MODULE_IP_GET_STARTED,
-              ESP8266_MOST_COMMON_AT_CMD_TIMEOUT );
+{/*
+    char receivedChar = '\0';
+    pcSerialComStringWrite( "wifiModuleStartIpGet()\r\n" );
+    printf("Type:\r\n");
+    printf("  '1' for WIFI_MODULE_IP_GET_STARTED\r\n");
+    printf("  Other for WIFI_MODULE_BUSY\r\n");
+    while( receivedChar == '\0' ) receivedChar = pcSerialComCharRead();
+    switch ( receivedChar ) {
+        case '1': return WIFI_MODULE_IP_GET_STARTED; break;
+        default:  return WIFI_MODULE_BUSY; break;
+    }*/
+    return WIFI_MODULE_IP_GET_STARTED;
 }
 
 // Responses:
@@ -357,42 +398,19 @@ wifiModuleRequestResult_t wifiModuleStartIpGet()
 // WIFI_MODULE_BUSY
 wifiModuleRequestResult_t wifiModuleIpGetResponse( char* ip )
 {
-    static int i = 0;
-    static int quotationMarksCounter = 0;
     char receivedChar = '\0';
-    // Leo un caracter desde la UART, si no hay nada para leer receivedChar queda en NULL como estaba inicializada
-    esp8266UartByteRead( &receivedChar );
-    // Si el caracter recibido es " aumento el contrador de comillas
-    if( receivedChar == '"' ) {
-        quotationMarksCounter++;
+    pcSerialComStringWrite( "wifiModuleIpGetResponse()\r\n" );
+    printf("Type:\r\n");
+    printf("  '1' for WIFI_MODULE_IP_GET_COMPLETE\r\n");
+    printf("  '2' for WIFI_MODULE_NOT_DETECTED\r\n");
+    printf("  Other for WIFI_MODULE_BUSY\r\n");
+    while( receivedChar == '\0' ) receivedChar = pcSerialComCharRead();
+    switch ( receivedChar ) {
+        case '1': return WIFI_MODULE_IS_CONNECTED; break;
+        case '2': return WIFI_MODULE_NOT_DETECTED; break;
+        default:  return WIFI_MODULE_BUSY; break;
     }
-    // Si el caracter recibido es digito o un punto ('.') me lo guardo 
-    if( (charIsDigit(receivedChar) || receivedChar == '.') && 
-            quotationMarksCounter <= 2 ) {
-        ip[i] = receivedChar;
-        i++;
-    }
-    // Actualizao el parser pasandole el caracter recibido
-    parserStatus = parserUpdate( &parser, receivedChar );
-    // Actuo segun el estado del parser
-    switch( parserStatus ) {
-        case PARSER_PATTERN_MATCH:
-            esp8266State = ESP8266_IDLE;
-            ip[i] = '\0'; // Agrego el null para que la IP sea un string valido
-            i = 0;
-            quotationMarksCounter = 0;
-            return WIFI_MODULE_IP_GET_COMPLETE;
-        break;
-        case PARSER_TIMEOUT:
-            esp8266State = ESP8266_IDLE;
-            i = 0;
-            quotationMarksCounter = 0;
-            return WIFI_MODULE_NOT_DETECTED;
-        break;
-        default:
-            return WIFI_MODULE_BUSY;
-        break;
-    }
+    //return WIFI_MODULE_IP_GET_COMPLETE;
 }
 
 //=====[Implementations of private functions]==================================
