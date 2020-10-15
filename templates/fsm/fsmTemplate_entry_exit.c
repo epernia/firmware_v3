@@ -45,7 +45,7 @@ void fsmError( void );
 void fsmInit( void );
 void fsmUpdate( void );
 
-
+static void runStateNFunction( void );
 
 // FSM IMPLEMENTATIONS ========================================================
 
@@ -70,37 +70,9 @@ void fsmInit( void )
 // FSM Update Sate Function
 void fsmUpdate( void )
 {
-   static bool_t flagStateN = false;
-   // ...
-
    switch( fsmState ){
-
-      // ----------------------------------------------------------------------
-      // STATE
-      // ----------------------------------------------------------------------
       case STATE_N:
-      
-         // ENTRY ----------------------------------------
-         if( flagStateN == false ){
-            flagStateN = true;
-            // Code for entry into this state... 
-            
-         }
-         
-         // UPDATE OUTPUTS -------------------------------
-         // Code for update outputs in this state... 
-         
-
-         // CHECK TRANSITION CONDITIONS ------------------
-         // Code for check transitions from this state to others (some ifs)... 
-         
-
-         // EXIT ------------------------------------------
-         if( fsmState != STATE_N ){
-            flagStateN = false;
-            // Code for exit from this state...  
-            
-         }
+        runStateNFunction();
       break;
 
       // ...
@@ -110,3 +82,9 @@ void fsmUpdate( void )
       break;
    }
 }
+
+static void runStateNFunction( void )
+{
+    
+}
+

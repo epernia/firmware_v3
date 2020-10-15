@@ -77,8 +77,10 @@ ESP01 (ESP8266) connections:
 
 #define ESP01_RX_BUFF_SIZE         1024
 
-#define WIFI_SSID                  "miWifi"     // Setear Red Wi-Fi
-#define WIFI_PASSWORD              "miPassWifi" // Setear password
+//#define WIFI_SSID                  "miWifi"     // Setear Red Wi-Fi
+//#define WIFI_PASSWORD              "miPassWifi" // Setear password
+#define WIFI_SSID                  "Wifi SweetHome"
+#define WIFI_PASSWORD              "CeMaThBe09241727"
 
 #define THINGSPEAK_SERVER_URL      "api.thingspeak.com"
 #define THINGSPEAK_SERVER_PORT     80

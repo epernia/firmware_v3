@@ -10,7 +10,6 @@
 #define ESP8266_BAUD_RATE                    115200
 #define ESP8266_MOST_COMMON_AT_CMD_TIMEOUT   50
 #define ESP8266_AT_RST_CMD_TIMEOUT           10000
-#define ESP8266_AT_CIPSTATUS_CMD_TIMEOUT     20000
 #define ESP8266_AT_CWJAP_CMD_TIMEOUT         20000
 
 //=====[Declaration of private data types]=====================================
@@ -54,6 +53,8 @@ static parser_t parser2;
 static parserStatus_t parser2Status;
 
 static esp8266State_t esp8266State;
+
+static wifiModuleRequestResult_t status = WIFI_MODULE_IS_NOT_CONNECTED;
 
 //=====[Declarations (prototypes) of private functions]========================
 
@@ -175,8 +176,8 @@ wifiModuleRequestResult_t wifiModuleDetectionResponse()
 wifiModuleRequestResult_t wifiModuleStartReset()
 {
     return esp8266SendCommandWithResponse( "AT+RST\r\n", "OK\r\n\r\nready\r\n", 
-                                              WIFI_MODULE_RESET_STARTED,
-                                              ESP8266_AT_RST_CMD_TIMEOUT );
+                                           WIFI_MODULE_RESET_STARTED,
+                                           ESP8266_AT_RST_CMD_TIMEOUT );
 }
 
 // Responses:
@@ -222,7 +223,7 @@ wifiModuleRequestResult_t wifiModuleStartIsConnectedWithAP()
     return esp8266SendCommandWithResponse(
               "AT+CIPSTATUS\r\n", "STATUS:\r\n\r\nOK\r\n", 
               WIFI_MODULE_IS_CONNECTED_AP_STARTED,
-              ESP8266_AT_CIPSTATUS_CMD_TIMEOUT );
+              ESP8266_MOST_COMMON_AT_CMD_TIMEOUT );
 }
 
 // Responses:
@@ -276,7 +277,9 @@ wifiModuleRequestResult_t wifiModuleStartConnectWithAP()
     strcat( cmd, "\",\"" );
     strcat( cmd, credential_password );
     strcat( cmd, "\"\r\n" );    
-    // Form cmd = AT+CWJAP="userSSID","userPassword"
+    // Estas lineas forman cmd = AT+CWJAP="userSSID","userPassword"\r\n
+    
+    status = WIFI_MODULE_IS_NOT_CONNECTED; // Status default initial value
  
     return esp8266SendCommandWithTwoResponses(
               cmd, "WIFI CONNECTED\r\nWIFI GOT IP\r\n",
@@ -295,8 +298,7 @@ wifiModuleRequestResult_t wifiModuleStartConnectWithAP()
 // WIFI_MODULE_NOT_DETECTED
 // WIFI_MODULE_BUSY
 wifiModuleRequestResult_t wifiModuleConnectWithAPResponse()
-{
-    wifiModuleRequestResult_t status = WIFI_MODULE_IS_NOT_CONNECTED;
+{    
     char receivedChar = '\0';
     // Leo un caracter desde la UART, si no hay nada para leer receivedChar queda en NULL como estaba inicializada
     esp8266UartByteRead( &receivedChar );
@@ -316,6 +318,7 @@ wifiModuleRequestResult_t wifiModuleConnectWithAPResponse()
     // Matcheo parser 2, entonces fallo al intentar conectar al AP, retorno la causa de falla
     if( parser2Status == PARSER_PATTERN_MATCH ) {
         esp8266State = ESP8266_IDLE;
+        //printf("Satatus: %d\r\n", status); // Debug
         if( status >= WIFI_MODULE_CONNECT_AP_ERR_TIMEOUT &&
                 status <= WIFI_MODULE_CONNECT_AP_ERR_CONN_FAIL ) {
             return status;
@@ -364,7 +367,8 @@ wifiModuleRequestResult_t wifiModuleIpGetResponse( char* ip )
         quotationMarksCounter++;
     }
     // Si el caracter recibido es digito o un punto ('.') me lo guardo 
-    if( (charIsDigit(receivedChar) || receivedChar == '.') && quotationMarksCounter <= 2 ) {
+    if( (charIsDigit(receivedChar) || receivedChar == '.') && 
+            quotationMarksCounter <= 2 ) {
         ip[i] = receivedChar;
         i++;
     }

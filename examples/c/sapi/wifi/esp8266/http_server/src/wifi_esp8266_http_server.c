@@ -68,8 +68,10 @@ ESP01 (ESP8266) connections:
 /*==================[macros and definitions]=================================*/
 
 // Se deben definir los datos del nombre de la red y la contrasenia.
-#define WIFI_SSID                  "miWifi"     // Setear Red Wi-Fi
-#define WIFI_PASSWORD              "miPassWifi" // Setear password
+//#define WIFI_SSID                  "miWifi"     // Setear Red Wi-Fi
+//#define WIFI_PASSWORD              "miPassWifi" // Setear password
+#define WIFI_SSID                  "Wifi SweetHome"
+#define WIFI_PASSWORD              "CeMaThBe09241727"
 
 // El maximo tiempo que se espera una respuesta del modulo ESP8266
 #define WIFI_MAX_DELAY    60000
