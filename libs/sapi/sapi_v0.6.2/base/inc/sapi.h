@@ -94,6 +94,8 @@
 
 #include "sapi_bmp280.h"
 
+#include "mcp23017.h"			// Use sapi_i2c module
+
 /*==================[c++]====================================================*/
 #ifdef __cplusplus
 extern "C" {
