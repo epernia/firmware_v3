@@ -123,30 +123,31 @@ int main( void )
     //tickConfig( 1, 0 );
 
    /* Inicializar ADC128D818 */
-    adc128d818_init_t init;
+    adc128d818_init_t init_U12;
 
-    init.address = ADC128D818_ADDRESS_LOW_LOW;
-    init.op_mode = ADC128D818_OPERATION_MODE_1;
-    init.rate = ADC128D818_RATE_ONE_SHOT;
-    init.ref_mode = ADC128D818_VREF_INT;
-    init.ref_voltage = 0;
-    init.enabled_mask = 0;
+    init_U12.address = ADC128D818_ADDRESS_LOW_LOW;
+    init_U12.op_mode = ADC128D818_OPERATION_MODE_1;
+    init_U12.rate = ADC128D818_RATE_ONE_SHOT;
+    init_U12.ref_mode = ADC128D818_VREF_INT;
+    init_U12.ref_voltage = 0;
+    init_U12.enabled_mask = 0;
 
-    result = adc128d818_init(&init);
+    result = adc128d818_init(&init_U12);
 
     if (!result) {
         logError("No device ADC128D818 or device busy");
         return 0;
     }
 
-    init.address = ADC128D818_ADDRESS_HIGH_HIGH;
-    init.op_mode = ADC128D818_OPERATION_MODE_1;
-    init.rate = ADC128D818_RATE_ONE_SHOT;
-    init.ref_mode = ADC128D818_VREF_INT;
-    init.ref_voltage = 0;
-    init.enabled_mask = 0;
+    adc128d818_init_t init_U14;
+    init_U14.address = ADC128D818_ADDRESS_HIGH_HIGH;
+    init_U14.op_mode = ADC128D818_OPERATION_MODE_1;
+    init_U14.rate = ADC128D818_RATE_ONE_SHOT;
+    init_U14.ref_mode = ADC128D818_VREF_INT;
+    init_U14.ref_voltage = 0;
+    init_U14.enabled_mask = 0;
 
-    result = adc128d818_init(&init);
+    result = adc128d818_init(&init_U14);
 
     if (!result) {
         logError("No device ADC128D818 or device busy");
@@ -178,12 +179,12 @@ int main( void )
     while( TRUE ) {
       
         for (i=0; i<8; i++) {
-            int16_t v = adc128d818_readChannel(ADC128D818_ADDRESS_HIGH_HIGH, i);
+            int16_t v = adc128d818_readChannel(init_U14.address, i);
             printf("Chip U15. AN#0%u: %u     \r\n", i, v);
         }
 
         for (i=0; i<8; i++) {
-            p=adc128d818_readChannel(ADC128D818_ADDRESS_LOW_LOW, i);
+            p=adc128d818_readChannel(init_U12.address, i);
             if (i+8<10) {
                 printf("Chip U13. AN#0%u: %u     \r\n", i+8, p);
             } else {
