@@ -126,7 +126,7 @@ int main( void )
     char k;
     uint32_t p;
     bool_t wait_key;
-    uint8_t count;
+    uint32_t count;
     uint8_t v;
     // ---------- CONFIGURACIONES ------------------------------
 
@@ -207,7 +207,7 @@ int main( void )
 #endif
 
     printf("\e[2J"); // Clear Screen
-    
+    count = 0;
     // ---------- REPETIR POR SIEMPRE --------------------------
     while( TRUE ) {
         /*
@@ -241,16 +241,18 @@ int main( void )
         printf("\e[100D");   // Escape command: go left 100 (line start)
         printf("\e[18A");    // Escape command: go up 18
         */
+        printf("%u;", count);
         for (i=0; i<8; i++) {
             int16_t v = adc128d818_readChannel(init_U14.address, i);
-            printf("%u ", v);
+            printf("%u;", v);
         }
 
         for (i=0; i<8; i++) {
             int16_t v = adc128d818_readChannel(init_U12.address, i);
-            printf("%u ", v);
+            printf("%u;", v);
         }
         printf("\r\n");
+        count++;
     }
 
     // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa se ejecuta
