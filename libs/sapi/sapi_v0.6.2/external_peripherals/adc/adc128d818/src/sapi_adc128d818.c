@@ -118,6 +118,8 @@ uint8_t adc128d818_readRegister(uint8_t address, uint8_t reg_addr)
 uint16_t adc128d818_readChannel(uint8_t address, uint8_t channel)
 {
     
+    uint8_t busy_reg;
+    uint16_t count;
     uint8_t buff[2];
     uint8_t adr_channel = ADC128D818_REG_Channel_Readings_Registers + channel;
     uint16_t result;
@@ -126,6 +128,17 @@ uint16_t adc128d818_readChannel(uint8_t address, uint8_t channel)
         return 0;
     }
     
+    busy_reg = adc128d818_readRegister(address, ADC128D818_REG_Busy_Status_Register);
+    count = 0;
+    while (busy_reg&( ADC128D818_STATUS_BUSY_BIT ))
+    {
+        count++;
+        if (count>MAX_MS_WAIT_FOR_READY) {
+            return 0xffff; // Error!
+        }
+        delay(1);
+        busy_reg = adc128d818_readRegister(address, ADC128D818_REG_Busy_Status_Register);
+    }
     i2cWriteRead(I2C0, address, &adr_channel, 1, 0, buff, 2, 1);
     
     result = buff[0];

@@ -69,6 +69,7 @@ extern "C" {
 
 #define DEBUG 0
 #define MAX_ITER_NOT_READY 10
+#define MAX_MS_WAIT_FOR_READY 100 // 33ms x 3
 
 /*==================[typedef]================================================*/
 
