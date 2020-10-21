@@ -1,5 +1,4 @@
 /* Copyright 2019, Gustavo Ramoscelli.
- * Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -33,7 +32,7 @@
  */
 
 /*
- * Date: 2019-02-04
+ * Date: 2020-10-19
  */
 
 // ----------------------------------------------------------
@@ -67,6 +66,9 @@ extern "C" {
 #endif
 
 /*==================[macros]=================================================*/
+
+#define DEBUG 0
+#define MAX_ITER_NOT_READY 10
 
 /*==================[typedef]================================================*/
 

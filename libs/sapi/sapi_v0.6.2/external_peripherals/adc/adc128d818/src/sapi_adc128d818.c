@@ -1,5 +1,4 @@
 /* Copyright 2019, Gustavo Ramoscelli.
- * Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -33,7 +32,7 @@
  */
 
 /*
- * Date: 2020-10-19. Author: Gustavo Ramoscelli
+ * Date: 2020-10-19
  */
 
 /*==================[inclusions]=============================================*/
@@ -42,9 +41,6 @@
 #include "sapi.h"            /* <= sAPI header */
 #include <string.h>
 /*==================[macros and definitions]=================================*/
-
-#define DEBUG 1
-#define MAX_ITER_NOT_READY 10
 
 /*==================[internal data declaration]==============================*/
 
@@ -106,11 +102,7 @@ bool_t adc128d818_setRegister(uint8_t address, uint8_t reg_addr, uint8_t value)
     return i2cWrite(I2C0, address, data, 2, 1);
 }
 
-/** @brief read the channel in "raw" format
-*	@return none
-*/
-
-/** @brief read the channel in "raw" format
+/** @brief read one register
 *	@return none
 */
 uint8_t adc128d818_readRegister(uint8_t address, uint8_t reg_addr) 
@@ -120,6 +112,9 @@ uint8_t adc128d818_readRegister(uint8_t address, uint8_t reg_addr)
     return val;
 }
 
+/** @brief read the channel in "raw" format
+*	@return none
+*/
 uint16_t adc128d818_readChannel(uint8_t address, uint8_t channel)
 {
     
