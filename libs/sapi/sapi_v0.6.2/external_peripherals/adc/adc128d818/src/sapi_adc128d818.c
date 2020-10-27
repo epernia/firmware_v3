@@ -133,7 +133,7 @@ bool_t adc128d818_readChannel(uint8_t address, uint8_t channel, uint16_t * value
     while (busy_reg&( ADC128D818_STATUS_BUSY_BIT ))
     {
         count++;
-        if (count>MAX_MS_WAIT_FOR_READY) {
+        if (count>MAX_MS_WAIT_FOR_NOT_BUSY) {
             return FALSE; // Error!
         }
         delay(1);

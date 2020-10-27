@@ -154,7 +154,7 @@ int main( void )
 
     init_U12.address = ADC128D818_ADDRESS_LOW_LOW;
     init_U12.op_mode = ADC128D818_OPERATION_MODE_1;
-    init_U12.rate = ADC128D818_RATE_ONE_SHOT;
+    init_U12.rate = ADC128D818_RATE_CONTINUOUS;
     init_U12.ref_mode = ADC128D818_VREF_INT;
     init_U12.ref_voltage = 0;
     init_U12.enabled_mask = 0;
