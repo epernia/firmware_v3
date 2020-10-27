@@ -112,22 +112,83 @@ uint8_t adc128d818_readRegister(uint8_t address, uint8_t reg_addr)
     return val;
 }
 
-/** @brief read the channel in "raw" format
-*	@return none
+/** @brief read the channel in "raw" format and continuous mode
+*	@return success
 */
 bool_t adc128d818_readChannel(uint8_t address, uint8_t channel, uint16_t * value)
 {
     
     uint8_t busy_reg;
     uint16_t count;
+    bool_t shutdown_mode;
     uint8_t buff[2];
-    uint8_t adr_channel = ADC128D818_REG_Channel_Readings_Registers + channel;
+    uint8_t adr_channel;
     uint16_t result;
     
-    if (channel>7) { 
-        return 0;
+    if (channel>7) { // there are only 7 channels
+        return FALSE;
+    }
+    adr_channel = ADC128D818_REG_Channel_Readings_Registers + channel;
+
+    // test shutdown mode
+    if ((adc128d818_readRegister(address, ADC128D818_REG_Configuration_Register)&ADC128D818_CONFIGURATION_BIT_Start) == 0)
+    {
+        shutdown_mode = TRUE;
+    } else {
+        shutdown_mode = FALSE;
+    }
+
+    if (shutdown_mode  == TRUE) {
+#if DEBUG == 1
+        printf("\r\nError: device in shutdown mode\r\n");
+#endif
+        return FALSE; // Error! Continuous mode needs that the device is nos in shutdown mode (or deep shutdown mode)
     }
     
+    i2cWriteRead(I2C0, address, &adr_channel, 1, 0, buff, 2, 1);
+    
+    result = buff[0];
+    result = (result << 8) | buff[1];
+    *value = (result >> 4);
+    return TRUE;
+}
+
+/** @brief read the channel in "raw" format
+*	@return success
+*/
+bool_t adc128d818_readOneShotChannel(uint8_t address, uint8_t channel, uint16_t * value)
+{
+    
+    uint8_t busy_reg;
+    uint16_t count;
+    uint8_t buff[2];
+    uint8_t adr_channel;
+    uint16_t result;
+    bool_t shutdown_mode;
+    
+    if (channel>7) { // there are only 7 channels
+        return FALSE;
+    }
+    adr_channel = ADC128D818_REG_Channel_Readings_Registers + channel;
+    
+    // test shutdown mode
+    if ((adc128d818_readRegister(address, ADC128D818_REG_Configuration_Register)&ADC128D818_CONFIGURATION_BIT_Start) == 0)
+    {
+        shutdown_mode = TRUE;
+    } else {
+        shutdown_mode = FALSE;
+    }
+
+    if (shutdown_mode  == FALSE) {
+        return FALSE; // Error! One shot only works when device is in shutdown mode (or deep shutdown mode)
+    }
+
+
+    // shot to start conversion
+    adc128d818_setRegister(address, ADC128D818_REG_One_Shot_Register, 0x01);
+
+    // Wait for conversion ready ...
+    delay(13); // 12.2 ms is the reate time by channel in continuous mode
     busy_reg = adc128d818_readRegister(address, ADC128D818_REG_Busy_Status_Register);
     count = 0;
     while (busy_reg&( ADC128D818_STATUS_BUSY_BIT ))
@@ -194,7 +255,7 @@ bool_t adc128d818_init(adc128d818_init_t *init)
         }
         
 #if DEBUG==1
-        printf("> Wait for device not busy. Trial #%u\r\n", cont);
+        printf("> Wait for device ready. Trial #%u\r\n", cont);
 #endif
 
         delay(33);
@@ -224,16 +285,33 @@ bool_t adc128d818_init(adc128d818_init_t *init)
     adc128d818_setRegister(init->address, ADC128D818_REG_Advanced_Configuration_Register, init->ref_mode | (init->op_mode << 1));
 
     // program conversion rate regster
-#if DEBUG==1
-    printf("> Setting Convertion Rate\r\n");
+    printf("> Setting Conversion Rate\r\n");
     switch (init->rate) {
-        case ADC128D818_RATE_LOW_POWER:  printf("    Low Power\r\n"); break;
-        case ADC128D818_RATE_CONTINUOUS: printf("    Continuous\r\n"); break;
-        case ADC128D818_RATE_ONE_SHOT:   printf("    One Shot\r\n"); break;
-    }
+        case ADC128D818_RATE_LOW_POWER:              
+#if DEBUG==1
+            printf("    Low Power\r\n"); 
 #endif
-
-    adc128d818_setRegister(init->address, ADC128D818_REG_Conversion_Rate_Register, init->rate);
+            adc128d818_setRegister(init->address, ADC128D818_REG_Conversion_Rate_Register, ADC128D818_RATE_LOW_POWER);
+            break;
+        case ADC128D818_RATE_CONTINUOUS:             
+#if DEBUG==1
+            printf("    Continuous\r\n"); break;
+#endif
+            adc128d818_setRegister(init->address, ADC128D818_REG_Conversion_Rate_Register, ADC128D818_RATE_CONTINUOUS);
+            break;
+        case ADC128D818_RATE_ONE_SHOT_SHUTDOWN:      
+#if DEBUG==1
+            printf("    One Shot\r\n"); 
+#endif
+            adc128d818_setRegister(init->address, ADC128D818_REG_Conversion_Rate_Register, ADC128D818_RATE_CONTINUOUS);
+            break;
+        case ADC128D818_RATE_ONE_SHOT_DEEP_SHUTDOWN: 
+#if DEBUG==1
+            printf("    One Shot w/deep shutdown\r\n"); 
+#endif
+            adc128d818_setRegister(init->address, ADC128D818_REG_Conversion_Rate_Register, ADC128D818_RATE_LOW_POWER);
+            break;
+    }
 
     // program enabled channels
     adc128d818_setRegister(init->address, ADC128D818_REG_Channel_Disable_Register, init->enabled_mask);
@@ -242,8 +320,10 @@ bool_t adc128d818_init(adc128d818_init_t *init)
     // currently noop!
 
     // set start bit in configuration (interrupts disabled)
-    adc128d818_setRegister(init->address, ADC128D818_REG_Configuration_Register, 1);
-    
+    if ((init->rate == ADC128D818_RATE_CONTINUOUS) || (init->rate == ADC128D818_RATE_ONE_SHOT_SHUTDOWN))
+    {
+        adc128d818_setRegister(init->address, ADC128D818_REG_Configuration_Register, 1);
+    }    
     return TRUE;
 }
 

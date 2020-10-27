@@ -99,9 +99,10 @@ typedef enum {
 }  adc128d818_vref_t;
 
 typedef enum {
-    ADC128D818_RATE_LOW_POWER   = 0x00,
-    ADC128D818_RATE_CONTINUOUS  = 0x01,
-    ADC128D818_RATE_ONE_SHOT    = 0x03
+    ADC128D818_RATE_LOW_POWER              = 0x00,
+    ADC128D818_RATE_CONTINUOUS             = 0x01,
+    ADC128D818_RATE_ONE_SHOT_SHUTDOWN      = 0x20, // virtual mode, not setup on register 0x07!!
+    ADC128D818_RATE_ONE_SHOT_DEEP_SHUTDOWN = 0x40, // virtual mode, not setup on register 0x07!!
 } adc128d818_rate_t;
 
 typedef enum {
@@ -161,8 +162,26 @@ typedef enum {
     ADC128D818_REG_Temperature_Register             = 0x27, // in mode 0, CH7 is not external, is the internal temperature sensor
     ADC128D818_REG_Limit_Registers                  = 0x2A,
     ADC128D818_REG_Manufacturer_ID_Register         = 0x3E,
-    ADC128D818_REG_Revision_ID_Register             = 0x3F
+    REG_Revision_ID_Register             = 0x3F
 } adc128d818_reg_address_t;
+
+typedef enum {
+    ADC128D818_CONFIGURATION_BIT_Start          = 0x01, // Start, 0: ADC128D818 in shutdown mode,
+                                                        // 1: Enable startup of monitoring operations
+    
+    ADC128D818_CONFIGURATION_BIT_int_enable     = 0x02, // ~INT Enable, 1: Enable the interrupt output pin, ~INT
+
+    ADC128D818_CONFIGURATION_BIT_int_clear      = 0x08, // 1: Clear the interrupt output pin, INT, without affecting 
+                                                        // the contents of Interrupt Status Registers. When this bit 
+                                                        // is set high, the device stops the round-robin monitoring loop.
+
+    ADC128D818_CONFIGURATION_BIT_Initialization = 0x80  // 1: Restore default values to the following registers: 
+                                                        // Configuration, Interrupt Status, Interrupt Mask, Conversion Rate, 
+                                                        // Channel Disable, One-Shot, Deep Shutdown, Advanced Configuration, 
+                                                        // Busy Status, Channel Readings, Limit, Manufacturer ID, Revision ID. 
+                                                        // This bit clears itself
+}  adc128d818_bit_configuration_t;
+
 
 // Busy Status Register: Address 0x0C (see above)
 #define ADC128D818_STATUS_BUSY_BIT       0x01  // e.g. STAUS = "Reading"
