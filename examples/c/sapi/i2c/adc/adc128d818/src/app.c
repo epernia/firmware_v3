@@ -271,7 +271,7 @@ int main( void )
                 }
             }
         }
-        printf("\r\n");
+        printf("\n");
         count++;
     }
 

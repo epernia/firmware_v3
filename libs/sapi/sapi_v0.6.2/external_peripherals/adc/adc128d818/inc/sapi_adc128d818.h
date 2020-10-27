@@ -230,6 +230,8 @@ uint8_t adc128d818_readRegister(uint8_t address, uint8_t reg_addr);
 bool_t adc128d818_readChannel(uint8_t address, uint8_t channel, uint16_t * value);
 
 
+bool_t adc128d818_readOneShotChannel(uint8_t address, uint8_t channel, uint16_t * value);
+
 /**
 *   @brief read temperature in Celsius
 *
