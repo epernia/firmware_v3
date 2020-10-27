@@ -115,7 +115,7 @@ uint8_t adc128d818_readRegister(uint8_t address, uint8_t reg_addr)
 /** @brief read the channel in "raw" format
 *	@return none
 */
-uint16_t adc128d818_readChannel(uint8_t address, uint8_t channel)
+bool_t adc128d818_readChannel(uint8_t address, uint8_t channel, uint16_t * value)
 {
     
     uint8_t busy_reg;
@@ -134,7 +134,7 @@ uint16_t adc128d818_readChannel(uint8_t address, uint8_t channel)
     {
         count++;
         if (count>MAX_MS_WAIT_FOR_READY) {
-            return 0xffff; // Error!
+            return FALSE; // Error!
         }
         delay(1);
         busy_reg = adc128d818_readRegister(address, ADC128D818_REG_Busy_Status_Register);
@@ -143,7 +143,8 @@ uint16_t adc128d818_readChannel(uint8_t address, uint8_t channel)
     
     result = buff[0];
     result = (result << 8) | buff[1];
-    return (result >> 4);
+    *value = (result >> 4);
+    return TRUE;
 }
 
 /** @brief add new ADC128D818 device

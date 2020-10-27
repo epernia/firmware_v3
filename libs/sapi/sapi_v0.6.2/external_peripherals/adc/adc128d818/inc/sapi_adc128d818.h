@@ -67,7 +67,7 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-#define DEBUG 0
+#define DEBUG 1
 #define MAX_ITER_NOT_READY 10
 #define MAX_MS_WAIT_FOR_READY 100 // 33ms x 3
 
@@ -165,8 +165,8 @@ typedef enum {
 } adc128d818_reg_address_t;
 
 // Busy Status Register: Address 0x0C (see above)
-#define ADC128D818_STATUS_NOT_READY_BIT  0x01  // e.g. while power up chip
-#define ADC128D818_STATUS_BUSY_BIT       0x02  // e.g. STAUS = "Reading"
+#define ADC128D818_STATUS_BUSY_BIT       0x01  // e.g. STAUS = "Reading"
+#define ADC128D818_STATUS_NOT_READY_BIT  0x02  // e.g. while power up chip
 
 typedef struct {
     adc128d818_address_t address;
@@ -183,43 +183,43 @@ typedef struct {
 
 /** @brief Init new ADC128D818 device
 *
-*   @param adc128d818_init_t
-*
+*   @param adc128d818_init_t init
+
 *	@return true = success
 */
 bool_t adc128d818_init(adc128d818_init_t *init);
 
+/**
+*   @brief read the register
+*
+*   @param address   i2c address, it depends of of A1, A0 tristate values 
+*   @param channel   the channel to read
+*
+*	@return value of the register
+*/
+uint8_t adc128d818_readRegister(uint8_t address, uint8_t reg_addr);
+
 /** 
 *   @brief read the channel in "raw" format
 *
-*   @param address  I2C address of A1, A0 tristate values
-*   @param channel  The channel to read
+*   @param address  i2c address, it depends of of A1, A0 tristate values 
+*   @param channel  the channel to read
+*   @param value    the value converted by the channel
 *
-*	@return none
+*	@return TRUE = succes, FALSE = fail
 */
-uint16_t adc128d818_readChannel(uint8_t address, uint8_t channel);
-
-
-/**
-*   @brief read the channel 
-*
-*   @param address   I2C address of A1, A0 tristate values
-*   @param channel   The channel to read
-*
-*	@return none
-*/
-uint8_t adc128d818_readRegister(uint8_t address, uint8_t reg_addr);
+bool_t adc128d818_readChannel(uint8_t address, uint8_t channel, uint16_t * value);
 
 
 /**
 *   @brief read temperature in Celsius
 *
-*   @param address   I2C address of A1, A0 tristate values
-*   @param channel   The channel to read from 0 to 7
+*   @param address     i2c address, it depends of of A1, A0 tristate values 
+*	@param temperature value of temperature (channel 7) converted to Celsius
 *
-*	@return none
+*	@return TRUE = succes, FALSE = fail
 */
-double adc128d818_readTemperatureConverted(int id);
+bool_t adc128d818_readTemperatureConverted(uint8_t address, float32_t * temperature);
 
 /*==================[cplusplus]==============================================*/
 

@@ -154,7 +154,7 @@ int main( void )
 
     init_U12.address = ADC128D818_ADDRESS_LOW_LOW;
     init_U12.op_mode = ADC128D818_OPERATION_MODE_1;
-    init_U12.rate = ADC128D818_RATE_CONTINUOUS;
+    init_U12.rate = ADC128D818_RATE_ONE_SHOT;
     init_U12.ref_mode = ADC128D818_VREF_INT;
     init_U12.ref_voltage = 0;
     init_U12.enabled_mask = 0;
@@ -243,19 +243,35 @@ int main( void )
         */
         printf("%u;", count);
         for (i=0; i<8; i++) {
-            int16_t v = adc128d818_readChannel(init_U14.address, i);
-            printf("%u;", v);
+            int16_t value;
+            bool_t success;
+            success = adc128d818_readChannel(init_U12.address, i, &value);
+            if (success) {
+                printf("%u;", v);
+            } else {
+                printf("FAIL;");
+            }
         }
 
         for (i=0; i<8; i++) {
-            int16_t v = adc128d818_readChannel(init_U12.address, i);
-            if (i<7) {
-                printf("%u;", v);
+            int16_t value;
+            bool_t success;
+            success = adc128d818_readChannel(init_U12.address, i, &value);
+            if (success) {
+                if (i<7) {
+                    printf("%u;", value);
+                } else {
+                    printf("%u", value);
+                }
             } else {
-                printf("%u", v);
+                if (i<7) {
+                    printf("FAIL;");
+                } else {
+                    printf("FAIL");
+                }
             }
         }
-        printf("\n");
+        printf("\r\n");
         count++;
     }
 
