@@ -138,4 +138,9 @@
 #define malloc pvPortMalloc
 #define free vPortFree
 
+/* Enable DNS client */
+#define LWIP_DNS                        1
+
+ #define DNS_SERVER_ADDRESS(a) ip_addr_set_ip4_u32(a, ipaddr_addr("8.8.8.8")) /* google-public-dns-a.google.com */ 
+
 #endif /* __LWIPOPTS_H_ */

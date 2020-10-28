@@ -36,7 +36,7 @@
 #include "lwip/tcpip.h"
 #include "lwip/ip_addr.h"
 #include "lwip/netif.h"
-#include "lwip/timers.h"
+//#include "lwip/timers.h"
 #include "netif/etharp.h"
 
 #if LWIP_DHCP
@@ -54,7 +54,7 @@
 #include "arch/lpc_arch.h"
 #include "arch/sys_arch.h"
 #include "lpc_phy.h"/* For the PHY monitor support */
-#include "tcpecho.h"
+#include "mqtt_app.h"
 
 #if defined(lpc4337_m4)
 #include "ciaaIO.h"
@@ -142,8 +142,11 @@ static void vSetupIFTask (void *pvParameters) {
 	dhcp_start(&lpc_netif);
 #endif
 
+    /* Init DNS resolver */
+    dns_init();
+
 	/* Initialize and start application */
-	tcpecho_init();
+	mqtt_app_init();
 
 	/* This loop monitors the PHY link and will handle cable events
 	   via the PHY driver. */
@@ -165,7 +168,7 @@ static void vSetupIFTask (void *pvParameters) {
 #else
 					Chip_ENET_SetSpeed(LPC_ETHERNET, 1);
 #endif
-					NETIF_INIT_SNMP(&lpc_netif, snmp_ifType_ethernet_csmacd, 100000000);
+					//NETIF_INIT_SNMP(&lpc_netif, snmp_ifType_ethernet_csmacd, 100000000);
 				}
 				else {
 #ifdef lpc1769
@@ -173,7 +176,7 @@ static void vSetupIFTask (void *pvParameters) {
 #else
 					Chip_ENET_SetSpeed(LPC_ETHERNET, 0);
 #endif
-					NETIF_INIT_SNMP(&lpc_netif, snmp_ifType_ethernet_csmacd, 10000000);
+					//NETIF_INIT_SNMP(&lpc_netif, snmp_ifType_ethernet_csmacd, 10000000);
 				}
 				if (physts & PHY_LINK_FULLDUPLX) {
 #ifdef lpc1769

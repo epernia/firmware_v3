@@ -29,7 +29,7 @@
  * Author: Adam Dunkels <adam@sics.se>
  *
  */
-#include "tcpecho.h"
+#include "tcpecho_app.h"
 
 #include "lwip/opt.h"
 
