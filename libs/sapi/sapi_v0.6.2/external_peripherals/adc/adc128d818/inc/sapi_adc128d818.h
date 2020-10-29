@@ -1,5 +1,4 @@
 /* Copyright 2019, Gustavo Ramoscelli.
- * Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
  * This file is part sAPI library for microcontrollers.
@@ -33,7 +32,7 @@
  */
 
 /*
- * Date: 2019-02-04
+ * Date: 2020-10-19
  */
 
 // ----------------------------------------------------------
@@ -68,6 +67,10 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
+#define DEBUG 0
+#define MAX_ITER_NOT_READY 10
+#define MAX_MS_WAIT_FOR_NOT_BUSY  200 // ~ 2 x 8 (channels) x 12.2 ms ( convertion time for each channel - see 9.2.2.2.6)
+
 /*==================[typedef]================================================*/
 
 typedef enum {
@@ -96,9 +99,10 @@ typedef enum {
 }  adc128d818_vref_t;
 
 typedef enum {
-    ADC128D818_RATE_LOW_POWER   = 0x00,
-    ADC128D818_RATE_CONTINUOUS  = 0x01,
-    ADC128D818_RATE_ONE_SHOT    = 0x03
+    ADC128D818_RATE_LOW_POWER              = 0x00,
+    ADC128D818_RATE_CONTINUOUS             = 0x01,
+    ADC128D818_RATE_ONE_SHOT_SHUTDOWN      = 0x20, // virtual mode, not setup on register 0x07!!
+    ADC128D818_RATE_ONE_SHOT_DEEP_SHUTDOWN = 0x40, // virtual mode, not setup on register 0x07!!
 } adc128d818_rate_t;
 
 typedef enum {
@@ -158,12 +162,30 @@ typedef enum {
     ADC128D818_REG_Temperature_Register             = 0x27, // in mode 0, CH7 is not external, is the internal temperature sensor
     ADC128D818_REG_Limit_Registers                  = 0x2A,
     ADC128D818_REG_Manufacturer_ID_Register         = 0x3E,
-    ADC128D818_REG_Revision_ID_Register             = 0x3F
+    REG_Revision_ID_Register             = 0x3F
 } adc128d818_reg_address_t;
 
+typedef enum {
+    ADC128D818_CONFIGURATION_BIT_Start          = 0x01, // Start, 0: ADC128D818 in shutdown mode,
+                                                        // 1: Enable startup of monitoring operations
+    
+    ADC128D818_CONFIGURATION_BIT_int_enable     = 0x02, // ~INT Enable, 1: Enable the interrupt output pin, ~INT
+
+    ADC128D818_CONFIGURATION_BIT_int_clear      = 0x08, // 1: Clear the interrupt output pin, INT, without affecting 
+                                                        // the contents of Interrupt Status Registers. When this bit 
+                                                        // is set high, the device stops the round-robin monitoring loop.
+
+    ADC128D818_CONFIGURATION_BIT_Initialization = 0x80  // 1: Restore default values to the following registers: 
+                                                        // Configuration, Interrupt Status, Interrupt Mask, Conversion Rate, 
+                                                        // Channel Disable, One-Shot, Deep Shutdown, Advanced Configuration, 
+                                                        // Busy Status, Channel Readings, Limit, Manufacturer ID, Revision ID. 
+                                                        // This bit clears itself
+}  adc128d818_bit_configuration_t;
+
+
 // Busy Status Register: Address 0x0C (see above)
-#define ADC128D818_STATUS_NOT_READY_BIT  0x01  // e.g. while power up chip
-#define ADC128D818_STATUS_BUSY_BIT       0x02  // e.g. STAUS = "Reading"
+#define ADC128D818_STATUS_BUSY_BIT       0x01  // e.g. STAUS = "Reading"
+#define ADC128D818_STATUS_NOT_READY_BIT  0x02  // e.g. while power up chip
 
 typedef struct {
     adc128d818_address_t address;
@@ -180,43 +202,45 @@ typedef struct {
 
 /** @brief Init new ADC128D818 device
 *
-*   @param adc128d818_init_t
-*
+*   @param adc128d818_init_t init
+
 *	@return true = success
 */
 bool_t adc128d818_init(adc128d818_init_t *init);
 
-/** 
-*   @brief read the channel in "raw" format
-*
-*   @param address  I2C address of A1, A0 tristate values
-*   @param channel  The channel to read
-*
-*	@return none
-*/
-uint16_t adc128d818_readChannel(uint8_t address, uint8_t channel);
-
-
 /**
-*   @brief read the channel 
+*   @brief read the register
 *
-*   @param address   I2C address of A1, A0 tristate values
-*   @param channel   The channel to read
+*   @param address   i2c address, it depends of of A1, A0 tristate values 
+*   @param channel   the channel to read
 *
-*	@return none
+*	@return value of the register
 */
 uint8_t adc128d818_readRegister(uint8_t address, uint8_t reg_addr);
 
+/** 
+*   @brief read the channel in "raw" format
+*
+*   @param address  i2c address, it depends of of A1, A0 tristate values 
+*   @param channel  the channel to read
+*   @param value    the value converted by the channel
+*
+*	@return TRUE = succes, FALSE = fail
+*/
+bool_t adc128d818_readChannel(uint8_t address, uint8_t channel, uint16_t * value);
+
+
+bool_t adc128d818_readOneShotChannel(uint8_t address, uint8_t channel, uint16_t * value);
 
 /**
 *   @brief read temperature in Celsius
 *
-*   @param address   I2C address of A1, A0 tristate values
-*   @param channel   The channel to read from 0 to 7
+*   @param address     i2c address, it depends of of A1, A0 tristate values 
+*	@param temperature value of temperature (channel 7) converted to Celsius
 *
-*	@return none
+*	@return TRUE = succes, FALSE = fail
 */
-double adc128d818_readTemperatureConverted(int id);
+bool_t adc128d818_readTemperatureConverted(uint8_t address, float32_t * temperature);
 
 /*==================[cplusplus]==============================================*/
 

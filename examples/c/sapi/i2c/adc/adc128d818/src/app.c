@@ -1,9 +1,39 @@
-/*============================================================================
- * Autor:
- * Licencia:
- * Fecha:
- *===========================================================================*/
+/* Copyright 2019-2020, Gustavo Ramoscelli.
+ * All rights reserved.
+ *
+ * This file is part sAPI library for microcontrollers.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
+ *    software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
 
+/*
+ * Date: 2020-10-19
+ */
 // Inlcusiones
 
 #include "sapi.h"               // <= Biblioteca sAPI
@@ -11,6 +41,8 @@
 
 #define BAUD_RATE 115200
 #define BF_L      1024          // Uart's string buffer length
+#define SHOW      0
+#define CSV       1
 
 /*==================[internal data declaration]==============================*/
 
@@ -88,7 +120,6 @@ void goodbye() {
     printf("System Halt\r\n");
 }
 
-
 // FUNCION PRINCIPAL, PUNTO DE ENTRADA AL PROGRAMA LUEGO DE ENCENDIDO O RESET.
 int main( void )
 {
@@ -97,7 +128,7 @@ int main( void )
     char k;
     uint32_t p;
     bool_t wait_key;
-    uint8_t count;
+    uint32_t count;
     uint8_t v;
     // ---------- CONFIGURACIONES ------------------------------
 
@@ -106,14 +137,12 @@ int main( void )
     
     /* Inicializar Uart */
     uartConfig( UART_USB, BAUD_RATE );
-    printf("\e[2J");  // Escape command: Clear screen
-    printf("\r\n");
-    printf("\r\n");
-    printf("\r\n");
-    printf("New boot...\r\n");
-    printf("\r\n");
-    
+
+#if DEBUG == 1
+    printf("\e[2J"); // Clear Screen
     printf("I2C bus start\r\n");
+#endif
+
     i2cInit(I2C0, 100000);
 
     // Set the LED to the state of "Off"
@@ -127,11 +156,12 @@ int main( void )
 
     init_U12.address = ADC128D818_ADDRESS_LOW_LOW;
     init_U12.op_mode = ADC128D818_OPERATION_MODE_1;
-    init_U12.rate = ADC128D818_RATE_ONE_SHOT;
+    init_U12.rate = ADC128D818_RATE_CONTINUOUS;
     init_U12.ref_mode = ADC128D818_VREF_INT;
     init_U12.ref_voltage = 0;
     init_U12.enabled_mask = 0;
 
+    // to get full print of initialization, set DUBUG flag in sapi_adc128d818.h
     result = adc128d818_init(&init_U12);
 
     if (!result) {
@@ -142,22 +172,24 @@ int main( void )
     adc128d818_init_t init_U14;
     init_U14.address = ADC128D818_ADDRESS_HIGH_HIGH;
     init_U14.op_mode = ADC128D818_OPERATION_MODE_1;
-    init_U14.rate = ADC128D818_RATE_ONE_SHOT;
+    init_U14.rate = ADC128D818_RATE_CONTINUOUS;
     init_U14.ref_mode = ADC128D818_VREF_INT;
     init_U14.ref_voltage = 0;
     init_U14.enabled_mask = 0;
 
+    // to get full print of initialization, set DUBUG flag in sapi_adc128d818.h
     result = adc128d818_init(&init_U14);
 
     if (!result) {
         logError("No device ADC128D818 or device busy");
         return 0;
     }
+#if DEBUG == 1
+
     printf("\r\n");
     printf("\r\n");
     printf("=============================================\r\n");
     printf(" Start: press space or wait 5 seconds...\r\n");
-    printf("\e[2J");
 
     uint16_t time_count = 0;
     while (TRUE) {
@@ -173,22 +205,41 @@ int main( void )
         }
 
     }
+
+#endif
+
+    printf("\e[2J"); // Clear Screen
     count = 0;
-    
     // ---------- REPETIR POR SIEMPRE --------------------------
     while( TRUE ) {
-      
+#if SHOW == 1
         for (i=0; i<8; i++) {
-            int16_t v = adc128d818_readChannel(init_U14.address, i);
-            printf("Chip U15. AN#0%u: %u     \r\n", i, v);
+            int16_t v;
+            bool_t succ;
+            succ = adc128d818_readChannel(init_U14.address, i, &v);
+            if (succ) {
+                printf("Chip U15. AN#0%u: %u     \r\n", i, v);
+            } else {
+                printf("Chip U15. AN#0%u: FAIL     \r\n", i);
+            }
         }
 
         for (i=0; i<8; i++) {
-            p=adc128d818_readChannel(init_U12.address, i);
-            if (i+8<10) {
-                printf("Chip U13. AN#0%u: %u     \r\n", i+8, p);
+            int16_t v;
+            bool_t succ;
+            succ = adc128d818_readChannel(init_U12.address, i, &v);
+            if (succ) {
+                if (i+8<10) {
+                    printf("Chip U13. AN#0%u: %u     \r\n", i+8, v);
+                } else {
+                    printf("Chip U13. AN#%u: %u     \r\n", i+8, v);
+                }
             } else {
-                printf("Chip U13. AN#%u: %u     \r\n", i+8, p);
+                if (i+8<10) {
+                    printf("Chip U13. AN#0%u: FAIL     \r\n", i+8);
+                } else {
+                    printf("Chip U13. AN#%u: FAIL     \r\n", i+8);
+                }
             }
         }
         printf("=============================================\r\n");
@@ -204,10 +255,45 @@ int main( void )
                 }
             }
         }
-        delay(150);
+        delay(50);
         printf("\e[100D");   // Escape command: go left 100 (line start)
         printf("\e[18A");    // Escape command: go up 18
-        if (count>=4) count = 0;
+#endif
+
+#if CSV == 1
+        printf("%u;", count);
+        for (i=0; i<8; i++) {
+            int16_t value;
+            bool_t success;
+            success = adc128d818_readChannel(init_U12.address, i, &value);
+            if (success) {
+                printf("%u;", v);
+            } else {
+                printf("FAIL;");
+            }
+        }
+
+        for (i=0; i<8; i++) {
+            int16_t value;
+            bool_t success;
+            success = adc128d818_readChannel(init_U12.address, i, &value);
+            if (success) {
+                if (i<7) {
+                    printf("%u;", value);
+                } else {
+                    printf("%u", value);
+                }
+            } else {
+                if (i<7) {
+                    printf("FAIL;");
+                } else {
+                    printf("FAIL");
+                }
+            }
+        }
+        printf("\n");
+#endif
+        count++;
     }
 
     // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa se ejecuta
