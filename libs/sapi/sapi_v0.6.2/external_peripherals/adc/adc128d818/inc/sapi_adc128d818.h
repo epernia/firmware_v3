@@ -67,7 +67,7 @@ extern "C" {
 
 /*==================[macros]=================================================*/
 
-#define DEBUG 1
+#define DEBUG 0
 #define MAX_ITER_NOT_READY 10
 #define MAX_MS_WAIT_FOR_NOT_BUSY  200 // ~ 2 x 8 (channels) x 12.2 ms ( convertion time for each channel - see 9.2.2.2.6)
 

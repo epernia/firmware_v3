@@ -41,6 +41,8 @@
 
 #define BAUD_RATE 115200
 #define BF_L      1024          // Uart's string buffer length
+#define SHOW      0
+#define CSV       1
 
 /*==================[internal data declaration]==============================*/
 
@@ -210,18 +212,34 @@ int main( void )
     count = 0;
     // ---------- REPETIR POR SIEMPRE --------------------------
     while( TRUE ) {
-        /*
+#if SHOW == 1
         for (i=0; i<8; i++) {
-            int16_t v = adc128d818_readChannel(init_U14.address, i);
-            printf("Chip U15. AN#0%u: %u     \r\n", i, v);
+            int16_t v;
+            bool_t succ;
+            succ = adc128d818_readChannel(init_U14.address, i, &v);
+            if (succ) {
+                printf("Chip U15. AN#0%u: %u     \r\n", i, v);
+            } else {
+                printf("Chip U15. AN#0%u: FAIL     \r\n", i);
+            }
         }
 
         for (i=0; i<8; i++) {
-            p=adc128d818_readChannel(init_U12.address, i);
-            if (i+8<10) {
-                printf("Chip U13. AN#0%u: %u     \r\n", i+8, p);
+            int16_t v;
+            bool_t succ;
+            succ = adc128d818_readChannel(init_U12.address, i, &v);
+            if (succ) {
+                if (i+8<10) {
+                    printf("Chip U13. AN#0%u: %u     \r\n", i+8, v);
+                } else {
+                    printf("Chip U13. AN#%u: %u     \r\n", i+8, v);
+                }
             } else {
-                printf("Chip U13. AN#%u: %u     \r\n", i+8, p);
+                if (i+8<10) {
+                    printf("Chip U13. AN#0%u: FAIL     \r\n", i+8);
+                } else {
+                    printf("Chip U13. AN#%u: FAIL     \r\n", i+8);
+                }
             }
         }
         printf("=============================================\r\n");
@@ -240,7 +258,9 @@ int main( void )
         delay(50);
         printf("\e[100D");   // Escape command: go left 100 (line start)
         printf("\e[18A");    // Escape command: go up 18
-        */
+#endif
+
+#if CSV == 1
         printf("%u;", count);
         for (i=0; i<8; i++) {
             int16_t value;
@@ -272,6 +292,7 @@ int main( void )
             }
         }
         printf("\n");
+#endif
         count++;
     }
 
