@@ -60,8 +60,12 @@ SRC += $(wildcard $(EXTERNAL_PERIPH_BASE)/wifi/esp8266_at/src/*.c)
 INCLUDES += -I$(EXTERNAL_PERIPH_BASE)/pressure_temperature/bmp280/inc
 SRC += $(wildcard $(EXTERNAL_PERIPH_BASE)/pressure_temperature/bmp280/src/*.c)
 
+# mcp23017 --------------------------------------------------------------------
+
+INCLUDES += -I$(EXTERNAL_PERIPH_BASE)/mcp23017/inc
+SRC += $(wildcard $(EXTERNAL_PERIPH_BASE)/mcp23017/src/*.c)
+
 # Adc Texas -------------------------------------------------------------------
 
 INCLUDES += -I$(EXTERNAL_PERIPH_BASE)/adc/adc128d818/inc
 SRC += $(wildcard $(EXTERNAL_PERIPH_BASE)/adc/adc128d818/src/*.c)
-
