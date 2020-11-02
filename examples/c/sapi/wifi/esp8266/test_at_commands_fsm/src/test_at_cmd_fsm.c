@@ -128,6 +128,7 @@ bool sentIsConnected = false;
 bool sentConnectWithAp = false;
 bool sentGetIp = false;
 
+bool modeBridge = true;
 bool pruebaComandos = false;
 
 void pruebaComandos1( void );
@@ -147,11 +148,22 @@ int main(void){
 
    uint8_t dato  = 0;
    
-   imprimirMensajeDeBienvenida();
+   //imprimirMensajeDeBienvenida();
+   printf("TEC1 cambia entre modo bridge para comandos AT\r\n");
+   printf("y modo mandar comandos con las otras teclas\r\n");
+   
+   printf("Si está en modo bridge AT, TEC2 intercambia entre 2 juegos de comandos.\r\n");
+   printf("Juego de comandos 1:\r\n");
+   printf(" - \r\n");
+   printf(" - \r\n");
+   printf(" - \r\n");
+   printf("Juego de comandos 2:\r\n");
+   printf(" - \r\n");
+   printf(" - \r\n");
+   printf(" - \r\n");
 
-   bool modeBridge = true;
    gpioWrite( LEDB, modeBridge );
-   gpioWrite( LEDR, modeBridge );
+   gpioWrite( LEDR, pruebaComandos );
 
    /* ------------- REPETIR POR SIEMPRE ------------- */
    while(1) {
