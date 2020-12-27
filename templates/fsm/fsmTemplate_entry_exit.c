@@ -84,7 +84,17 @@ void fsmUpdate( void )
 }
 
 static void runStateNFunction( void )
-{
+{         
+     /* Entry */
+     // Code thats is executed ... 
+    
+     /* UPDATE OUTPUTS */
+     // Code for update outputs... 
+     
+     /* CHECK TRANSITION CONDITIONS */
+     // Code for check transitions (some ifs)...
+    
+     /* Exit */
     
 }
 

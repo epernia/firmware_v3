@@ -40,6 +40,9 @@ static void runStateWifiModuleInit();
 static void runStateWifiModuleCheckAPConnection();
 static void runStateWifiModuleNotConnected();
 
+
+static void runStateWifiCommunication();
+
 //=====[Implementations of public functions]===================================
 
 // Wi-Fi FSM ------------------------------------------------------------------
