@@ -251,14 +251,6 @@ void lcdInit( uint16_t lineWidth, uint16_t amountOfLines,
    lcdPinSet( LCD_HD44780_RS, OFF );     // RS = 0
    lcdPinSet( LCD_HD44780_EN, OFF );     // EN = 0
 
-        lcdPinSet( LCD_HD44780_RST, ON );     // RST = 1
-        lcdDelay_us(100);                     // Wait
-        
-        lcdPinSet( LCD_HD44780_RST, OFF );    // RST = 0
-        lcdDelay_ms(10);
-        lcdPinSet( LCD_HD44780_RST, ON );     // RST = 1
-        lcdDelay_ms(50);
-
         //lcdCommand( 0x20 );                   // Command 0x20 for 4-bit mode
         lcdCommand( 0x30 );                   // Command 0x20 for 4-bit mode
         lcdCommandDelay();                    // Wait
