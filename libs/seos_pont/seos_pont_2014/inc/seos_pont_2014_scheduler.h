@@ -1,8 +1,8 @@
-/* Copyright 2012-2015, Eric Nicol√°s Pernia
- * Copyright 2015, Leandro Kollenberger
+/* Copyright 2013, Michael J. Pont.
+ * Copyright 2016, Eric Pernia.
  * All rights reserved.
  *
- * This file is part of IDE4PLC and CIAA Firmware.
+ * This file is part sAPI library for microcontrollers.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -32,65 +32,76 @@
  *
  */
 
-#ifndef PLC_OPERATING_SYSTEM_H_
-#define PLC_OPERATING_SYSTEM_H_
-/** \brief Operating System interaction layer
- **
- ** Operating System interaction layer
- **
- **/
+/* Date: 2016-08-16 */
 
-/** \addtogroup CIAA_Firmware CIAA Firmware
- ** @{ */
-/** \addtogroup PLC PLC Module
- ** @{ */
-
-/*
- * Initials     Name
- * ---------------------------
- * ErPe         Eric Pernia
- * LeKo         Leandro Kollenberger
- */
-
-/*
- * modification history (new versions first)
- * -----------------------------------------------------------
- * 20150428 v0.0.1 ErPe & LeKo CIAA Firmware porting
- * 20120204 v0.0.1 ErPe initial version (for LPCXpresso 1768/9)
- */
+#ifndef _COOPERATIVE_OS_SCHEDULER_H_
+#define _COOPERATIVE_OS_SCHEDULER_H_
 
 /*==================[inclusions]=============================================*/
-//#include "os.h"               /* <= operating system header */
-//#include "ciaak.h"            /* <= ciaa kernel header */
 
-// The maximum number of tasks required at any one time during the execution
-// of the program. MUST BE ADJUSTED FOR EACH NEW PROJECT
-#define SCHEDULER_MAX_TASKS   (10)
-
-#include "sapi.h"      // <= sAPI
-#include "seos_pont.h" // <= Simple Embedded Operating Sistem (cooperative)
-
+#ifdef USE_SAPI
+    #include "sapi.h"
+#endif
 
 /*==================[cplusplus]==============================================*/
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /*==================[macros]=================================================*/
 
+/* The maximum number of tasks required at any one time during the execution
+   of the program. MUST BE ADJUSTED FOR EACH NEW PROJECT */
+#ifndef SCHEDULER_MAX_TASKS
+   #define SCHEDULER_MAX_TASKS   (10)
+#endif
+
 /*==================[typedef]================================================*/
+
+/* Store in DATA area, if possible, for rapid access.
+   Total memory per task is 7 bytes. */
+typedef struct{
+   // Pointer to the task (must be a 'void (void)' function)
+   callBackFuncPtr_t pTask;  // void (* pTask)(void);
+   // Delay (ticks) until the function will (next) be run
+   // - see schedulerAddTask() for further details
+   void* taskParam; // Parametro de tarea
+   // Delay (ticks) until the function will (next) be run
+   // - see schedulerAddTask() for further details
+   int32_t delay;
+   // Interval (ticks) between subsequent runs.
+   // - see schedulerAddTask() for further details
+   int32_t period;
+   // Incremented (by scheduler) when task is due to execute
+   int32_t runMe;
+} sTask_t;
 
 /*==================[external data declaration]==============================*/
 
 /*==================[external functions declaration]=========================*/
-/** \brief PLC GetTimersTime Function */
-uint64_t PLC_GetTimersTime(void);
+
+// FUNCION que contiene el despachador de tareas.
+void schedulerDispatchTasks( void );
+
+// FUNCION que aÒade una tarea al planificador.
+int32_t schedulerAddTask( callBackFuncPtr_t pFunction, //void (* pFunction)(void),
+                          void* TASKPARAM,
+                          const int32_t DELAY,
+                          const int32_t PERIOD
+                        );
+
+// FUNCION que remueve una tarea del planificador.
+int8_t schedulerDeleteTask( int32_t taskIndex );
+
+// FUNCION que reporta el estado del sistema.
+void schedulerReportStatus( void );
+
 /*==================[cplusplus]==============================================*/
+
 #ifdef __cplusplus
 }
 #endif
-/** @} doxygen end group definition */
-/** @} doxygen end group definition */
-/*==================[end of file]============================================*/
-#endif /* PLC_OPERATING_SYSTEM_H_ */
 
+/*==================[end of file]============================================*/
+#endif /* #ifndef _COOPERATIVE_OS_SCHEDULER_H_ */
