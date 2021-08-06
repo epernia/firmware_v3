@@ -3,7 +3,10 @@ ifeq ($(USE_FREERTOS),y)
 BOARD ?= edu_ciaa_nxp
 
 FREERTOS_BASE=libs/freertos
+ifneq ("$(wildcard $(FREERTOS_BASE)/MemMang/heap_$(FREERTOS_HEAP_TYPE).c)","")
 SRC+=$(FREERTOS_BASE)/MemMang/heap_$(FREERTOS_HEAP_TYPE).c
+endif
+
 
 INCLUDES += -I$(FREERTOS_BASE)/include/private
 INCLUDES += -I$(FREERTOS_BASE)/include
