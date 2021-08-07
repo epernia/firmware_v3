@@ -1,3 +1,5 @@
+#include <board.h>
+
 #define WEAK __attribute__ ((__used__, weak))
 #define ALIAS(f) __attribute__ ((__used__, weak, alias (#f)))
 
