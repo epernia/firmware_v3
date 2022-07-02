@@ -203,6 +203,11 @@ $(OUT)/%.o: %.s
 	@mkdir -p $(dir $@)
 	$(Q)$(CC) -MMD $(CFLAGS) -c -o $@ $<
 
+$(OUT)/%.o: %.sx
+	@echo AS $(notdir $<)
+	@mkdir -p $(dir $@)
+	$(Q)$(CC) -MMD $(CFLAGS) -c -o $@ $<
+
 $(OUT)/%.o: %.S
 	@echo AS $<
 	@mkdir -p $(dir $@)
