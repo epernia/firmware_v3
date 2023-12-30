@@ -69,6 +69,9 @@ ASRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.s))
 ASSRC+=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.sx)
 ASSRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.sx))
 
+ASSSRC+=$(wildcard $(PROGRAM_PATH_AND_NAME)/src/*.S)
+ASSSRC+=$(foreach m, $(MODULES), $(wildcard $(m)/src/*.S))
+
 OUT=$(PROGRAM_PATH_AND_NAME)/out
 
 OBJECTS=$(INOSRC:%.ino=$(OUT)/%.o)
@@ -76,6 +79,7 @@ OBJECTS+=$(CXXSRC:%.cpp=$(OUT)/%.o)
 OBJECTS+=$(SRC:%.c=$(OUT)/%.o)
 OBJECTS+=$(ASRC:%.s=$(OUT)/%.o)
 OBJECTS+=$(ASSRC:%.sx=$(OUT)/%.o)
+OBJECTS+=$(ASSSRC:%.S=$(OUT)/%.o)
 
 $(info $(OBJECTS))
 
@@ -199,6 +203,11 @@ $(OUT)/%.o: %.ino
 	$(Q)$(CXX) -MMD $(INOFLAGS) -c -o $@ $<
 
 $(OUT)/%.o: %.s
+	@echo AS $(notdir $<)
+	@mkdir -p $(dir $@)
+	$(Q)$(CC) -MMD $(CFLAGS) -c -o $@ $<
+
+$(OUT)/%.o: %.sx
 	@echo AS $(notdir $<)
 	@mkdir -p $(dir $@)
 	$(Q)$(CC) -MMD $(CFLAGS) -c -o $@ $<
